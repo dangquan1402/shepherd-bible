@@ -59,6 +59,7 @@ def gen_tokens():
         ),
         ("Colour: meadow illustration", r"^--color-meadow"),
         ("Colour: lamb", r"^--color-mascot"),
+        ("Colour: app icon (light = default appearance, dark = dark appearance)", r"^--color-icon"),
         ("Colour: design notes (not shipped UI)", r"^--color-note"),
         ("Type", r"^--(font|text|weight)"),
         ("Radius and spacing", r"^--(radius|space)"),
@@ -96,7 +97,7 @@ PURPOSE = {
     "Nav/TabBarMin/": "minimized tab bar (single glass circle) after scroll-down",
     "Nav/Accessory/Expanded": "tabViewBottomAccessory, expanded placement",
     "Nav/Accessory/Inline": "tabViewBottomAccessory, inline placement",
-    "Button/Prominent": "primary action (.glassProminent tinted amber)",
+    "Button/Prominent": "primary action (.glassProminent tinted ultramarine)",
     "Button/ProminentDisabled": "primary action, disabled",
     "Button/Glass": "secondary action (.glass)",
     "Button/Text": "plain text action",
@@ -113,6 +114,11 @@ PURPOSE = {
     "Avatar/": "lamb head-and-shoulders avatar (56 pt, pre-cut to the circle)",
     "Icon/LambGlyph": "24 pt lamb template glyph for the Lamb tab",
     "Mascot/CharacterSheet": "all 30 lamb variants with stage labels",
+    "Brand/Mark": "logo mark: the lamb face on an ultramarine chip",
+    "Brand/Wordmark": "lowercase wordmark, outlined Baloo 2 ExtraBold (SIL OFL 1.1)",
+    "Brand/Lockup/Compact": "mark + wordmark, paywall header size",
+    "Brand/Lockup": "mark + wordmark, onboarding welcome size",
+    "Brand/AppIcon": "app icon artwork at 180 px (60 pt @3x); theme picks default / dark",
 }
 
 
