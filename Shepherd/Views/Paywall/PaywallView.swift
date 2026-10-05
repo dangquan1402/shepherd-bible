@@ -7,11 +7,13 @@ public struct PaywallView: View {
 
     @ObservedObject private var store = StoreKitManager.shared
     @State private var selectedPlanIsYearly: Bool = true
+    @State private var forcedState: PaywallPurchaseState? = nil
     @Environment(\.dismiss) private var dismiss
 
-    public init(onContinueFree: @escaping () -> Void, onPurchased: @escaping () -> Void) {
+    public init(forcedState: PaywallPurchaseState? = nil, onContinueFree: @escaping () -> Void, onPurchased: @escaping () -> Void) {
         self.onContinueFree = onContinueFree
         self.onPurchased = onPurchased
+        _forcedState = State(initialValue: forcedState)
     }
 
     private var selectedProduct: Product? {
@@ -170,7 +172,7 @@ public struct PaywallView: View {
                 }
 
                 // Overlay dialogs for purchasing states
-                if store.purchaseState != .idle {
+                if (forcedState ?? store.purchaseState) != .idle {
                     paywallStateOverlay
                 }
             }
@@ -246,7 +248,7 @@ public struct PaywallView: View {
             ShepherdTheme.scrim.ignoresSafeArea()
 
             VStack(spacing: 16) {
-                switch store.purchaseState {
+                switch forcedState ?? store.purchaseState {
                 case .purchasing:
                     ProgressView()
                         .scaleEffect(1.2)

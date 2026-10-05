@@ -27,9 +27,36 @@ public struct QuizView: View {
         public let verseText: String
     }
 
-    public init(lesson: Lesson, onFinished: @escaping (Int) -> Void) {
+    public var autoCheck: Bool = false
+
+    public init(
+        lesson: Lesson,
+        initialQuestionIndex: Int = 0,
+        initialSelectedChoiceIndex: Int? = nil,
+        initialIsChecked: Bool = false,
+        initialIsAnswerCorrect: Bool = false,
+        autoCheck: Bool = false,
+        onFinished: @escaping (Int) -> Void
+    ) {
         self.lesson = lesson
+        self.autoCheck = autoCheck
         self.onFinished = onFinished
+        _questionIndex = State(initialValue: initialQuestionIndex)
+        _selectedChoiceIndex = State(initialValue: initialSelectedChoiceIndex)
+        _isChecked = State(initialValue: initialIsChecked)
+        _isAnswerCorrect = State(initialValue: initialIsAnswerCorrect)
+        if initialIsChecked, initialSelectedChoiceIndex != nil, initialQuestionIndex < lesson.quiz.count {
+            let q = lesson.quiz[initialQuestionIndex]
+            let correctChoice = q.choices[q.correctIndex]
+            _feedbackResult = State(initialValue: QuizFeedbackData(
+                isCorrect: initialIsAnswerCorrect,
+                title: initialIsAnswerCorrect ? "Correct!" : "Keep going! You're learning.",
+                explain: q.explain,
+                correctChoice: correctChoice,
+                verseRef: "GEN.1.3",
+                verseText: "God said, “Let there be light,” and there was light."
+            ))
+        }
     }
 
     private var currentQuestion: QuizQuestion {
@@ -154,6 +181,14 @@ public struct QuizView: View {
             }
             .sensoryFeedback(.success, trigger: isChecked && isAnswerCorrect)
             .sensoryFeedback(.warning, trigger: isChecked && !isAnswerCorrect)
+            .task {
+                if autoCheck {
+                    try? await Task.sleep(nanoseconds: 800_000_000)
+                    withAnimation(ShepherdTheme.morphSpring) {
+                        evaluateAnswer()
+                    }
+                }
+            }
         }
     }
 

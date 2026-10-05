@@ -6,7 +6,9 @@ public struct SettingsView: View {
     @State private var restoreToastMessage: String? = nil
     @State private var isRestoring: Bool = false
 
-    public init() {}
+    public init(initialToastMessage: String? = nil) {
+        _restoreToastMessage = State(initialValue: initialToastMessage)
+    }
 
     public var body: some View {
         NavigationStack {

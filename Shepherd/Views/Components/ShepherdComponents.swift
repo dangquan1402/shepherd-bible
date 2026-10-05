@@ -135,57 +135,59 @@ public struct PathNodeView: View {
                 action()
             }
         }) {
-            ZStack {
-                // Soft glow for current node
-                if state == .current {
-                    Circle()
-                        .fill(ShepherdTheme.nodeGlow)
-                        .frame(width: 96, height: 96)
-                        .blur(radius: 8)
-                }
-
-                // Node Base / 3D Lip
-                Circle()
-                    .fill(baseColor)
-                    .frame(width: 84, height: 84)
-                    .offset(y: 6)
-
-                // Node Face
-                Circle()
-                    .fill(faceColor)
-                    .frame(width: 84, height: 84)
-                    .overlay(
+            VStack(spacing: 8) {
+                ZStack {
+                    // Soft glow for current node
+                    if state == .current {
                         Circle()
-                            .stroke(ringColor, lineWidth: state == .current ? 6 : 1.5)
-                    )
-
-                // Icon / Content
-                switch state {
-                case .current:
-                    VStack(spacing: 2) {
-                        Image(systemName: "star.fill")
-                            .font(.system(size: 24, weight: .bold))
-                            .foregroundStyle(.white)
-                        Text("Day \(dayNumber)")
-                            .font(.system(size: 11, weight: .bold))
-                            .foregroundStyle(.white)
+                            .fill(ShepherdTheme.nodeGlow)
+                            .frame(width: 96, height: 96)
+                            .blur(radius: 8)
                     }
-                case .done:
-                    Image(systemName: "checkmark")
-                        .font(.system(size: 28, weight: .bold))
-                        .foregroundStyle(ShepherdTheme.accentFill)
-                case .locked:
-                    Image(systemName: "lock.fill")
-                        .font(.system(size: 22, weight: .semibold))
-                        .foregroundStyle(ShepherdTheme.textTertiary)
-                case .milestoneLocked:
-                    Image(systemName: "flag.fill")
-                        .font(.system(size: 22, weight: .semibold))
-                        .foregroundStyle(ShepherdTheme.textTertiary)
+
+                    // Node Base / 3D Lip
+                    Circle()
+                        .fill(baseColor)
+                        .frame(width: 84, height: 84)
+                        .offset(y: 6)
+
+                    // Node Face
+                    Circle()
+                        .fill(faceColor)
+                        .frame(width: 84, height: 84)
+                        .overlay(
+                            Circle()
+                                .stroke(ringColor, lineWidth: state == .current ? 6 : 1.5)
+                        )
+
+                    // Icon
+                    switch state {
+                    case .current:
+                        Image(systemName: "book.fill")
+                            .font(.system(size: 30, weight: .bold))
+                            .foregroundStyle(.white)
+                    case .done:
+                        Image(systemName: "checkmark")
+                            .font(.system(size: 28, weight: .bold))
+                            .foregroundStyle(ShepherdTheme.accentFill)
+                    case .locked:
+                        Image(systemName: "lock.fill")
+                            .font(.system(size: 26, weight: .semibold))
+                            .foregroundStyle(ShepherdTheme.textTertiary)
+                    case .milestoneLocked:
+                        Image(systemName: "flag.fill")
+                            .font(.system(size: 26, weight: .semibold))
+                            .foregroundStyle(ShepherdTheme.textTertiary)
+                    }
                 }
+                .frame(width: 84, height: 90)
+
+                Text("Day \(dayNumber)")
+                    .font(.system(size: 13, weight: .bold))
+                    .foregroundStyle(state == .current ? ShepherdTheme.textPrimary : ShepherdTheme.textSecondary)
             }
-            .frame(width: 84, height: 92)
-            .opacity(state == .locked || state == .milestoneLocked ? 0.65 : 1.0)
+            .frame(width: 96)
+            .opacity(state == .locked || state == .milestoneLocked ? 0.75 : 1.0)
         }
         .buttonStyle(.plain)
     }

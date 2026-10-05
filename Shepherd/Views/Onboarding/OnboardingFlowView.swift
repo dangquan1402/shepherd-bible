@@ -10,7 +10,9 @@ public struct OnboardingFlowView: View {
     @State private var lambName: String = "Barnaby"
     @State private var showPaywall: Bool = false
 
-    public init() {}
+    public init(initialStep: Int = 0) {
+        _step = State(initialValue: initialStep)
+    }
 
     public var body: some View {
         NavigationStack {

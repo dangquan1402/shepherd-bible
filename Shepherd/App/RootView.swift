@@ -102,28 +102,10 @@ public struct RootView: View {
         )
 
         switch screenName {
-        case "Home_DailyPath":
+        case "Home_DailyPath", "Home_Scrolled":
             MainTabView()
         case "Home_Day1Done":
             MainTabView()
-        case "Lesson_Reading":
-            NavigationStack {
-                LessonView(lesson: firstLesson)
-            }
-        case "Quiz_Unanswered", "Quiz_Selected", "Quiz_Correct", "Quiz_Wrong":
-            QuizView(lesson: firstLesson) { _ in }
-        case "Lesson_Complete":
-            LessonCompleteView(score: 2, totalQuestions: 2, streakCount: 1, oldXP: 0) {}
-        case "Companion_Detail":
-            NavigationStack {
-                CompanionView()
-            }
-        case "Bible_Reader":
-            BibleReaderView()
-        case "Settings":
-            SettingsView()
-        case "Paywall_Trial":
-            PaywallView(onContinueFree: {}, onPurchased: {})
         case "Path_Overview":
             NavigationStack {
                 PathOverviewView()
@@ -134,10 +116,64 @@ public struct RootView: View {
                     PathLessonsListView(path: path)
                 }
             } else {
-                Text("No path")
+                MainTabView()
             }
+        case "Lesson_Reading":
+            NavigationStack {
+                LessonView(lesson: firstLesson)
+            }
+        case "Quiz_Unanswered":
+            QuizView(lesson: firstLesson, initialQuestionIndex: 0, initialSelectedChoiceIndex: nil) { _ in }
+        case "Quiz_Selected":
+            QuizView(lesson: firstLesson, initialQuestionIndex: 0, initialSelectedChoiceIndex: 1) { _ in }
+        case "Quiz_Correct":
+            QuizView(lesson: firstLesson, initialQuestionIndex: 0, initialSelectedChoiceIndex: 1, initialIsChecked: true, initialIsAnswerCorrect: true) { _ in }
+        case "Quiz_Wrong":
+            QuizView(lesson: firstLesson, initialQuestionIndex: 0, initialSelectedChoiceIndex: 0, initialIsChecked: true, initialIsAnswerCorrect: false) { _ in }
+        case "Quiz_Q2_Wrong":
+            QuizView(lesson: firstLesson, initialQuestionIndex: 1, initialSelectedChoiceIndex: 0, initialIsChecked: true, initialIsAnswerCorrect: false) { _ in }
+        case "Lesson_Complete":
+            LessonCompleteView(score: 2, totalQuestions: 2, streakCount: 1, oldXP: 0) {}
+        case "Companion_Detail":
+            NavigationStack {
+                CompanionView()
+            }
+        case "Motion_LambHop":
+            NavigationStack {
+                CompanionView(autoHop: true)
+            }
+        case "Motion_CheckMorph":
+            QuizView(lesson: firstLesson, initialQuestionIndex: 0, initialSelectedChoiceIndex: 1, autoCheck: true) { _ in }
+        case "Bible_Reader":
+            BibleReaderView()
+        case "Bible_Picker":
+            BiblePickerSheet(selectedBook: .constant("GEN"), selectedChapter: .constant(1))
+        case "Settings":
+            SettingsView()
+        case "Settings_RestoreResult":
+            SettingsView(initialToastMessage: "Purchases successfully restored")
         case "Onboarding_Welcome":
-            OnboardingFlowView()
+            OnboardingFlowView(initialStep: 0)
+        case "Onboarding_Goal":
+            OnboardingFlowView(initialStep: 1)
+        case "Onboarding_Experience":
+            OnboardingFlowView(initialStep: 2)
+        case "Onboarding_Pace":
+            OnboardingFlowView(initialStep: 3)
+        case "Onboarding_NameLamb":
+            OnboardingFlowView(initialStep: 4)
+        case "Onboarding_BuildingPlan":
+            OnboardingFlowView(initialStep: 5)
+        case "Paywall_Trial":
+            PaywallView(onContinueFree: {}, onPurchased: {})
+        case "Paywall_Purchasing":
+            PaywallView(forcedState: .purchasing, onContinueFree: {}, onPurchased: {})
+        case "Paywall_Pending":
+            PaywallView(forcedState: .pending, onContinueFree: {}, onPurchased: {})
+        case "Paywall_Failed":
+            PaywallView(forcedState: .failed("Payment failed. Please try again."), onContinueFree: {}, onPurchased: {})
+        case "Paywall_Restored":
+            PaywallView(forcedState: .restored, onContinueFree: {}, onPurchased: {})
         default:
             MainTabView()
         }

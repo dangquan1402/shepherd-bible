@@ -170,13 +170,11 @@ struct PathTrailView: View {
                     // Lamb mascot beside current node
                     if isCurrent {
                         let isLeft = xPos > screenWidth / 2.0
-                        let lambX = isLeft ? xPos - 84 : xPos + 84
-                        let lambY = yPos - 12
+                        let lambX = isLeft ? xPos - 150 : xPos + 150
+                        let lambY = yPos
 
-                        HStack(spacing: 8) {
-                            if !isLeft {
-                                speechBubble(dayDone: completedIDs.count > 0)
-                            }
+                        VStack(spacing: 8) {
+                            speechBubble(dayDone: completedIDs.count > 0)
 
                             AnimatedLambView(
                                 stage: 1,
@@ -184,12 +182,8 @@ struct PathTrailView: View {
                                 displayHeight: 88,
                                 isBreathing: true
                             )
-
-                            if isLeft {
-                                speechBubble(dayDone: completedIDs.count > 0)
-                            }
                         }
-                        .position(x: lambX, y: lambY)
+                        .position(x: lambX, y: lambY - 20)
                     }
                 }
 

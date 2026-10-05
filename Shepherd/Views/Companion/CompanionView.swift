@@ -7,10 +7,15 @@ public struct CompanionView: View {
 
     @State private var showRenameSheet: Bool = false
     @State private var newName: String = ""
+    @State private var hopTrigger: Int = 0
+
+    public var autoHop: Bool = false
 
     private var companion: Companion? { companions.first }
 
-    public init() {}
+    public init(autoHop: Bool = false) {
+        self.autoHop = autoHop
+    }
 
     private var currentStage: Int {
         companion?.stage ?? 1
@@ -42,8 +47,12 @@ public struct CompanionView: View {
                             stage: currentStage,
                             expression: .idle,
                             displayHeight: 140,
-                            isBreathing: true
+                            isBreathing: true,
+                            hopTrigger: hopTrigger
                         )
+                        .onTapGesture {
+                            hopTrigger += 1
+                        }
                     }
                     .padding(.top, 16)
 
@@ -192,6 +201,14 @@ public struct CompanionView: View {
                     }
                 }
                 .presentationDetents([.fraction(0.35)])
+            }
+            .task {
+                if autoHop {
+                    try? await Task.sleep(nanoseconds: 800_000_000)
+                    withAnimation {
+                        hopTrigger += 1
+                    }
+                }
             }
         }
     }

@@ -40,11 +40,11 @@ public struct ContinueLessonAccessory: View {
                     }
 
                     VStack(alignment: .leading, spacing: 2) {
-                        Text("CONTINUE PATH · DAY \(lesson.dayIndex)")
+                        Text("TODAY'S LESSON")
                             .font(.system(size: 11, weight: .bold))
                             .foregroundStyle(ShepherdTheme.accent)
 
-                        Text(lesson.title)
+                        Text("Day \(lesson.dayIndex) · \(lesson.title)")
                             .font(.system(size: 16, weight: .semibold))
                             .foregroundStyle(ShepherdTheme.textPrimary)
                             .lineLimit(1)

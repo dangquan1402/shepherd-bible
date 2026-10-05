@@ -27,14 +27,8 @@ public struct MainTabView: View {
                 BibleReaderView()
             }
 
-            Tab(value: 2) {
+            Tab("Lamb", image: "TabLamb", value: 2) {
                 CompanionView()
-            } label: {
-                Label {
-                    Text("Lamb")
-                } icon: {
-                    LambGlyph(size: 24)
-                }
             }
 
             Tab("Settings", systemImage: "gearshape", value: 3) {
