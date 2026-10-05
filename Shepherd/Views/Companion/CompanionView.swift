@@ -45,6 +45,7 @@ public struct CompanionView: View {
                             isBreathing: true,
                             hopTrigger: hopTrigger
                         )
+                        .accessibilityIdentifier("CompanionLamb")
                         .onTapGesture {
                             hopTrigger += 1
                         }

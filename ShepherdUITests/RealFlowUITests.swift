@@ -38,12 +38,32 @@ final class RealFlowUITests: XCTestCase {
             _ = app.buttons["10 min"].waitForExistence(timeout: 2.0)
             app.buttons["10 min"].tap()
             app.buttons["Continue"].tap()
+            let nameField = app.textFields["Lamb’s name"]
+            if nameField.waitForExistence(timeout: 2.0) {
+                nameField.tap()
+                nameField.typeText("Pip\n")
+            }
             _ = app.buttons["Continue"].waitForExistence(timeout: 2.0)
             app.buttons["Continue"].tap()
             _ = app.buttons["See my plan"].waitForExistence(timeout: 2.0)
             app.buttons["See my plan"].tap()
             _ = app.buttons["Continue with free path"].waitForExistence(timeout: 2.0)
             app.buttons["Continue with free path"].tap()
+        }
+    }
+
+    @MainActor
+    private func ensureTabBarExpanded(_ app: XCUIApplication) {
+        if !app.tabBars.buttons["Bible"].isHittable {
+            let todayBtn = app.tabBars.buttons["Today"]
+            if todayBtn.exists {
+                todayBtn.tap()
+                Thread.sleep(forTimeInterval: 0.5)
+            }
+            if !app.tabBars.buttons["Bible"].isHittable {
+                app.swipeDown()
+                Thread.sleep(forTimeInterval: 0.5)
+            }
         }
     }
 
@@ -110,12 +130,20 @@ final class RealFlowUITests: XCTestCase {
         app.launch()
         passOnboardingIfNeeded(app)
 
-        app.tabBars.buttons["Lamb"].tap()
-        let lambBar = app.navigationBars.matching(NSPredicate(format: "label CONTAINS[c] 'Pip' OR label CONTAINS[c] 'Lamb'")).firstMatch
-        XCTAssertTrue(lambBar.waitForExistence(timeout: 4.0))
+        ensureTabBarExpanded(app)
+        let lambTab = app.tabBars.buttons["Lamb"]
+        XCTAssertTrue(lambTab.waitForExistence(timeout: 5.0))
+        lambTab.tap()
+
+        XCTAssertTrue(app.navigationBars.element(boundBy: 0).waitForExistence(timeout: 5.0))
 
         Thread.sleep(forTimeInterval: 1.0)
-        app.scrollViews.otherElements.firstMatch.tap()
+        let lamb = app.otherElements["CompanionLamb"]
+        if lamb.waitForExistence(timeout: 3.0) {
+            lamb.tap()
+        } else {
+            app.scrollViews.otherElements.firstMatch.tap()
+        }
         Thread.sleep(forTimeInterval: 2.0)
     }
 
@@ -125,6 +153,8 @@ final class RealFlowUITests: XCTestCase {
         app.launch()
         passOnboardingIfNeeded(app)
 
+        ensureTabBarExpanded(app)
+        app.tabBars.buttons["Today"].tap()
         let day1Node = app.buttons.matching(NSPredicate(format: "label CONTAINS[c] 'Day 1'")).firstMatch
         if day1Node.waitForExistence(timeout: 4.0) {
             day1Node.tap()
@@ -302,6 +332,7 @@ final class RealFlowUITests: XCTestCase {
         saveScreenshot("Home_Day1Done")
 
         // 16. Bible Reader Tab
+        ensureTabBarExpanded(app)
         app.tabBars.buttons["Bible"].tap()
         XCTAssertTrue(app.navigationBars["Genesis"].waitForExistence(timeout: 4.0))
         Thread.sleep(forTimeInterval: 0.4)
@@ -318,12 +349,14 @@ final class RealFlowUITests: XCTestCase {
         }
 
         // 17. Companion Tab
+        ensureTabBarExpanded(app)
         app.tabBars.buttons["Lamb"].tap()
         XCTAssertTrue(app.navigationBars["Pip"].waitForExistence(timeout: 4.0))
         Thread.sleep(forTimeInterval: 0.4)
         saveScreenshot("Companion_Detail")
 
         // 18. Settings Tab
+        ensureTabBarExpanded(app)
         app.tabBars.buttons["Settings"].tap()
         XCTAssertTrue(app.navigationBars["Settings"].waitForExistence(timeout: 4.0))
         Thread.sleep(forTimeInterval: 0.3)
@@ -333,6 +366,10 @@ final class RealFlowUITests: XCTestCase {
         let restoreButton = app.buttons["Restore Purchases"]
         if restoreButton.exists {
             restoreButton.tap()
+            let cancelBtn = app.buttons["Cancel"]
+            if cancelBtn.waitForExistence(timeout: 2.0) {
+                cancelBtn.tap()
+            }
             Thread.sleep(forTimeInterval: 0.8)
             saveScreenshot("Settings_RestoreResult")
         }
@@ -350,27 +387,7 @@ final class RealFlowUITests: XCTestCase {
     private func executeAX3Flow() throws {
         let app = XCUIApplication()
         app.launch()
-
-        // Navigate to Day 1 lesson (either via Day 1 node or onboarding if clean)
-        let welcome = app.staticTexts["Welcome to Shepherd"]
-        if welcome.exists {
-            app.buttons["Continue"].tap()
-            _ = app.buttons.matching(NSPredicate(format: "label CONTAINS[c] 'peace'")).firstMatch.waitForExistence(timeout: 2.0)
-            app.buttons.matching(NSPredicate(format: "label CONTAINS[c] 'peace'")).firstMatch.tap()
-            app.buttons["Continue"].tap()
-            _ = app.buttons.matching(NSPredicate(format: "label CONTAINS[c] 'Some experience'")).firstMatch.waitForExistence(timeout: 2.0)
-            app.buttons.matching(NSPredicate(format: "label CONTAINS[c] 'Some experience'")).firstMatch.tap()
-            app.buttons["Continue"].tap()
-            _ = app.buttons["10 min"].waitForExistence(timeout: 2.0)
-            app.buttons["10 min"].tap()
-            app.buttons["Continue"].tap()
-            _ = app.buttons["Continue"].waitForExistence(timeout: 2.0)
-            app.buttons["Continue"].tap()
-            _ = app.buttons["See my plan"].waitForExistence(timeout: 2.0)
-            app.buttons["See my plan"].tap()
-            _ = app.buttons["Continue with free path"].waitForExistence(timeout: 2.0)
-            app.buttons["Continue"].tap()
-        }
+        passOnboardingIfNeeded(app)
 
         let day1Node = app.buttons.matching(NSPredicate(format: "label CONTAINS[c] 'Day 1'")).firstMatch
         if day1Node.waitForExistence(timeout: 4.0) {

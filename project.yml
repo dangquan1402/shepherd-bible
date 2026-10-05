@@ -36,6 +36,10 @@ targets:
       testTargets:
         - ShepherdTests
         - ShepherdUITests
+      environmentVariables:
+        - variable: SHOT_DIR
+          value: $(SRCROOT)/docs/screenshots
+          isEnabled: true
 
     info:
       path: Shepherd/Info.plist
