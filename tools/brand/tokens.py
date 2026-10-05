@@ -345,7 +345,36 @@ def check(direction, verbose=False):
     return rows, fails
 
 
+def from_assets(xcassets):
+    """Read the shipped colour sets back into a token dict, so the gate checks what the app ships."""
+    import json
+    import os
+
+    def hexa(c):
+        k = c["components"]
+        r, g, b, a = (round(float(k[x]) * 255) for x in ("red", "green", "blue", "alpha"))
+        return f"#{r:02X}{g:02X}{b:02X}" + ("" if a == 255 else f"{a:02X}")
+
+    out = {}
+    for token in tokens("flock"):
+        name = "AccentColor" if token == "--color-accent" else "".join(
+            p.capitalize() for p in token.removeprefix("--color-").split("-"))
+        path = os.path.join(xcassets, f"{name}.colorset", "Contents.json")
+        if not os.path.exists(path):
+            continue
+        with open(path) as f:
+            colors = json.load(f)["colors"]
+        light = next(c for c in colors if "appearances" not in c)["color"]
+        dark = next(c for c in colors if "appearances" in c)["color"]
+        out[token] = (hexa(light), hexa(dark))
+    return out
+
+
 if __name__ == "__main__":
+    if sys.argv[1:2] == ["check-assets"]:
+        # python3 tools/brand/tokens.py check-assets Shepherd/Resources/Assets.xcassets
+        DIRECTIONS["assets"] = {"name": "Shipped colour sets", "tokens": from_assets(sys.argv[2])}
+        sys.argv[2:] = ["assets"]
     which = sys.argv[2:] or list(DIRECTIONS)
     total = 0
     for d in which:

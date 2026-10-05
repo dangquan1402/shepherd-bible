@@ -123,8 +123,10 @@ def main():
         y = 90 + 2 * 350 + 10
         dr.text((20, y), "Simulator home screen (real system rendering)", font=font(28), fill="#111")
         x = 20
-        for s in shot_imgs:
+        for path, s in zip(shots, shot_imgs):
             sheet.paste(s, (x, y + 50))
+            label = os.path.splitext(os.path.basename(path))[0].removeprefix("home_")
+            dr.text((x + s.width / 2, y + 50 + s.height - 30), label, font=font(26), fill="#FFFFFF", anchor="mm")
             x += s.width + 20
     sheet.save(out, optimize=True)
     print(out)

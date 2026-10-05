@@ -6,6 +6,7 @@ This file is the project's committed home for project-intrinsic agent knowledge:
 - Edit `.pen` files only through Pencil (app, MCP, or headless `pen interactive` with a safe-save that checks `list_libraries()` is ok). Never hand-edit the JSON; a broken library link or a renamed variable silently flattens token bindings.
 - Every top-level screen frame must set `theme: {"I:mode": "light"|"dark"}`, or library bindings render black.
 - Scripture, lesson and quiz text in designs must come verbatim from `Shepherd/Resources/Content/*.json` (WEB). Green/red are reserved for quiz correctness.
+- Brand (Flock) source of truth is `tools/brand/`: colours in `tokens.py` (`python3 tools/brand/tokens.py check flock` is the AA gate), the lamb in `lambgen.py` (generated, never hand-drawn). `apply_design.py` writes both into the `.pen` files and `apply_app.py` writes colour sets, `lamb_variants.json`, AppIcon, TabLamb and wordmark. Change a colour or the lamb there, then re-apply to both sides. The scripts need shapely and resvg_py.
 
 ## Maintaining this file
 
