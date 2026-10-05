@@ -8,6 +8,7 @@ tab glyph from tools/brand/lambgen.py, keeping every component id so instances s
 screens: re-sizes each lamb/avatar instance to the new aspect ratio (descendant overrides keyed by
 the new, unique layer names).
 """
+
 from __future__ import annotations
 
 import json
@@ -15,8 +16,13 @@ import re
 import sys
 
 sys.path.insert(0, __import__("os").path.dirname(__file__))
-import lambgen  # noqa: E402
-import tokens as T  # noqa: E402
+import lambgen
+import tokens as T
+
+
+def read_json(path):
+    with open(path) as f:
+        return json.load(f)
 
 
 def var(key):
@@ -46,16 +52,27 @@ def set_variables(direction):
     tk = T.tokens(direction)
     vs = {}
     for k, (lt, dk) in tk.items():
-        vs[k] = {"type": "color", "value": [{"value": lt, "theme": {"mode": "light"}},
-                                             {"value": dk, "theme": {"mode": "dark"}}]}
+        vs[k] = {
+            "type": "color",
+            "value": [{"value": lt, "theme": {"mode": "light"}}, {"value": dk, "theme": {"mode": "dark"}}],
+        }
     return ex("SetVariables(" + json.dumps(vs) + ")")
 
 
 def path_nodes(layers, vb, w, h, prefix=""):
     nodes = []
     for l in layers:
-        n = {"type": "path", "name": l["name"], "x": 0, "y": 0, "geometry": l["geometry"], "viewBox": vb,
-             "fill": f"${prefix}{var(l['fill'])}", "width": w, "height": h}
+        n = {
+            "type": "path",
+            "name": l["name"],
+            "x": 0,
+            "y": 0,
+            "geometry": l["geometry"],
+            "viewBox": vb,
+            "fill": f"${prefix}{var(l['fill'])}",
+            "width": w,
+            "height": h,
+        }
         if l.get("opacity", 1) != 1:
             n["opacity"] = l["opacity"]
         nodes.append(n)
@@ -71,7 +88,7 @@ def rebuild(cid, nodes, w, h):
 
 
 def lib_cmds(direction, lib_path):
-    lib = json.load(open(lib_path))
+    lib = read_json(lib_path)
     ids = comp_ids(lib)
     data = lambgen.build_all(direction)
     out = [set_variables(direction)]
@@ -82,26 +99,34 @@ def lib_cmds(direction, lib_path):
     for key, av in data["avatars"].items():
         out.append(rebuild(ids[f"Avatar/{key}"], path_nodes(av["layers"], av["viewBox"], 56, 56), 56, 56))
     g = data["glyph"]
-    vx, vy, vw, vh = g["viewBox"]
+    _, _, vw, vh = g["viewBox"]
     k = 24 / max(vw, vh)
     gw, gh = round(vw * k, 2), round(vh * k, 2)
-    node = {"type": "path", "name": "Glyph", "x": round((24 - gw) / 2, 2), "y": round((24 - gh) / 2, 2),
-            "geometry": g["geometry"], "viewBox": g["viewBox"], "fill": "$--color-text-tertiary",
-            "width": gw, "height": gh}
+    node = {
+        "type": "path",
+        "name": "Glyph",
+        "x": round((24 - gw) / 2, 2),
+        "y": round((24 - gh) / 2, 2),
+        "geometry": g["geometry"],
+        "viewBox": g["viewBox"],
+        "fill": "$--color-text-tertiary",
+        "width": gw,
+        "height": gh,
+    }
     # keep the glyph child's id: tab bars override its fill by id
     upd = {k: v for k, v in node.items() if k not in ("type", "name", "fill")}
-    out.append(ex(f"c={json.dumps(ids['Icon/LambGlyph'])};ch=Get(c,{{depth:1}}).children[0];"
-                  f"Update(ch.id,{json.dumps(upd)})"))
+    out.append(
+        ex(f"c={json.dumps(ids['Icon/LambGlyph'])};ch=Get(c,{{depth:1}}).children[0];Update(ch.id,{json.dumps(upd)})")
+    )
     return out, data
 
 
 def screens_cmds(direction, lib_path, screens_path, frames):
-    lib = json.load(open(lib_path))
+    lib = read_json(lib_path)
     ids = comp_ids(lib)
     names = {v: k for k, v in ids.items()}
     data = lambgen.build_all(direction)
-    doc = json.load(open(screens_path))
-    alias = next(iter(doc.get("imports", {"I": ""})))
+    doc = read_json(screens_path)
     out = []
     for top in doc["children"]:
         if frames and top["name"] not in frames:

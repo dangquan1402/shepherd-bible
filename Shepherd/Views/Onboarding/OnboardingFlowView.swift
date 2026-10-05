@@ -80,6 +80,9 @@ public struct OnboardingFlowView: View {
         VStack(spacing: 24) {
             Spacer()
 
+            BrandLockup(.regular)
+                .padding(.bottom, 24)
+
             ZStack {
                 HillVignetteView(width: 320, height: 70)
                     .offset(y: 45)

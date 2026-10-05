@@ -247,6 +247,33 @@ final class ShepherdTests: XCTestCase {
         XCTAssertEqual(path.boundingRect, CGRect(x: 10, y: 10, width: 6, height: 1))
     }
 
+    // MARK: - 7b. Lamb geometry: every variant loads and every fill resolves to a theme colour
+    func testLambVariantsLoadAndEveryFillResolves() {
+        let store = LambVariantStore.shared
+        var fillKeys = Set<String>()
+        for stage in 1...5 {
+            for expression in LambExpression.allCases {
+                guard let variant = store.variant(stage: stage, expression: expression) else {
+                    return XCTFail("missing lamb S\(stage)/\(expression.rawValue)")
+                }
+                XCTAssertEqual(variant.expression, expression.rawValue, "S\(stage) fell back instead of loading \(expression.rawValue)")
+                XCTAssertFalse(variant.layers.isEmpty)
+                XCTAssertTrue(variant.layers.contains { $0.name == "Eyes" }, "S\(stage)/\(expression.rawValue) has no Eyes layer")
+                fillKeys.formUnion(variant.layers.map(\.fillKey))
+            }
+        }
+        for key in ["S1/Happy", "S1/Encouraging", "S1/Idle", "S2/Idle", "S3/Idle", "S4/Idle", "S5/Idle"] {
+            guard let avatar = store.avatar(key: key) else { return XCTFail("missing avatar \(key)") }
+            fillKeys.formUnion(avatar.layers.map(\.fillKey))
+        }
+        XCTAssertNotNil(store.glyphPath, "tab glyph missing")
+        for key in fillKeys.sorted() {
+            XCTAssertNotNil(LambVariantStore.color(forKey: key), "lamb fill key '\(key)' has no theme colour (it would render in the accent)")
+        }
+        // The eye whites blink with the pupils (Flock lamb: white sclera on a dark face)
+        XCTAssertTrue(LambVariantStore.blinkLayerNames.isSuperset(of: ["EyeWhites", "Eyes", "Catchlights"]))
+    }
+
     // MARK: - 8. No XP Farming on Retaking Completed Lesson (M7)
     @MainActor
     func testNoXPFarmingOnRetake() throws {

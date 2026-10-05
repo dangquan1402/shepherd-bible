@@ -43,7 +43,8 @@ public struct PaywallView: View {
                     VStack(spacing: 24) {
                         // Header with Title and Mascot Avatar
                         HStack(alignment: .center, spacing: 16) {
-                            VStack(alignment: .leading, spacing: 6) {
+                            VStack(alignment: .leading, spacing: 12) {
+                                BrandLockup(.compact)
                                 Text("Start your 7-day free trial")
                                     .font(ShepherdTheme.title1Serif())
                                     .foregroundStyle(ShepherdTheme.textPrimary)

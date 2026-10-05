@@ -4,6 +4,7 @@ Needs: shapely, fonttools, uharfbuzz, resvg_py, pillow. Fonts (all SIL OFL 1.1) 
 
     python3 tools/brand/brandart.py <direction> --fonts <dir> --out <dir>
 """
+
 from __future__ import annotations
 
 import argparse
@@ -14,22 +15,36 @@ import os
 import sys
 
 sys.path.insert(0, os.path.dirname(__file__))
-import lambgen  # noqa: E402
-import tokens as T  # noqa: E402
+import lambgen
+import tokens as T
 
 # ------------------------------------------------------------------ wordmarks
 
 WORDMARKS = {
     # Fraunces: soft, slightly wonky old-style serif. SOFT 100 rounds every terminal.
-    "dayspring": dict(font="fraunces_Fraunces[SOFT,WONK,opsz,wght].ttf", text="Shepherd",
-                      axes={"wght": 640, "opsz": 72, "SOFT": 100, "WONK": 1}, tracking=-0.012,
-                      licence="Fraunces, SIL Open Font License 1.1 (Undercase Type)"),
+    "dayspring": {
+        "font": "fraunces_Fraunces[SOFT,WONK,opsz,wght].ttf",
+        "text": "Shepherd",
+        "axes": {"wght": 640, "opsz": 72, "SOFT": 100, "WONK": 1},
+        "tracking": -0.012,
+        "licence": "Fraunces, SIL Open Font License 1.1 (Undercase Type)",
+    },
     # Baloo 2 ExtraBold: chunky, rounded, lowercase; the mascot-brand voice.
-    "flock": dict(font="baloo2_Baloo2[wght].ttf", text="shepherd", axes={"wght": 800}, tracking=-0.018,
-                  licence="Baloo 2, SIL Open Font License 1.1 (Ek Type)"),
+    "flock": {
+        "font": "baloo2_Baloo2[wght].ttf",
+        "text": "shepherd",
+        "axes": {"wght": 800},
+        "tracking": -0.018,
+        "licence": "Baloo 2, SIL Open Font License 1.1 (Ek Type)",
+    },
     # Cormorant Garamond SemiBold, spaced capitals: a quiet psalter title.
-    "still": dict(font="cormorantgaramond_CormorantGaramond[wght].ttf", text="SHEPHERD", axes={"wght": 600},
-                  tracking=0.16, licence="Cormorant Garamond, SIL Open Font License 1.1 (Christian Thalmann)"),
+    "still": {
+        "font": "cormorantgaramond_CormorantGaramond[wght].ttf",
+        "text": "SHEPHERD",
+        "axes": {"wght": 600},
+        "tracking": 0.16,
+        "licence": "Cormorant Garamond, SIL Open Font License 1.1 (Christian Thalmann)",
+    },
 }
 
 
@@ -74,6 +89,7 @@ def wordmark(direction, fonts_dir):
 
 def var(key):
     import re
+
     return "--color-" + re.sub(r"(?<!^)([A-Z])", r"-\1", key).lower()
 
 
@@ -84,15 +100,16 @@ def pal(direction, mode="light"):
     class P(dict):
         def __missing__(self, key):
             return t[var(key)][i]
+
     return P()
 
 
 def gray(hexv):
     h = hexv.lstrip("#")
-    r, g, b = (int(h[i:i + 2], 16) for i in (0, 2, 4))
+    r, g, b = (int(h[i : i + 2], 16) for i in (0, 2, 4))
     a = h[6:8] if len(h) == 8 else ""
     y = round(0.2126 * r + 0.7152 * g + 0.0722 * b)
-    return "#%02X%02X%02X%s" % (y, y, y, a)
+    return f"#{y:02X}{y:02X}{y:02X}{a}"
 
 
 def layers_svg(layers, palette, mono=None):
@@ -111,12 +128,28 @@ def layers_svg(layers, palette, mono=None):
 # ------------------------------------------------------------------ app icon
 
 ICON = {
-    "dayspring": dict(bg=("#F59A45", "#D4461A"), dark=("#173A35", "#0B1F1C"), face_scale=0.86, face_dy=40, sun="#FFD08A"),
-    "flock": dict(bg=(T.tokens("flock")["--color-icon-top"][0], T.tokens("flock")["--color-icon-bottom"][0]),
-                  dark=(T.tokens("flock")["--color-icon-top"][1], T.tokens("flock")["--color-icon-bottom"][1]),
-                  face_scale=0.9, face_dy=46, sun=None),
-    "still": dict(bg=("#3E80B5", "#1B4468"), dark=("#18344C", "#0A1620"), face_scale=0.8, face_dy=50, sun="#E9C46A",
-                  scene=True),
+    "dayspring": {
+        "bg": ("#F59A45", "#D4461A"),
+        "dark": ("#173A35", "#0B1F1C"),
+        "face_scale": 0.86,
+        "face_dy": 40,
+        "sun": "#FFD08A",
+    },
+    "flock": {
+        "bg": (T.tokens("flock")["--color-icon-top"][0], T.tokens("flock")["--color-icon-bottom"][0]),
+        "dark": (T.tokens("flock")["--color-icon-top"][1], T.tokens("flock")["--color-icon-bottom"][1]),
+        "face_scale": 0.9,
+        "face_dy": 46,
+        "sun": None,
+    },
+    "still": {
+        "bg": ("#3E80B5", "#1B4468"),
+        "dark": ("#18344C", "#0A1620"),
+        "face_scale": 0.8,
+        "face_dy": 50,
+        "sun": "#E9C46A",
+        "scene": True,
+    },
 }
 
 
@@ -136,10 +169,12 @@ def icon_svg(direction, appearance="default", size=1024):
         top, bot = spec["dark"]
     else:
         top = bot = "#000000"
-    defs = (f'<defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="{top}"/>'
-            f'<stop offset="1" stop-color="{bot}"/></linearGradient>'
-            f'<radialGradient id="sun" cx="0.5" cy="0.5" r="0.5"><stop offset="0" stop-color="{spec["sun"] or top}" stop-opacity="0.9"/>'
-            f'<stop offset="1" stop-color="{spec["sun"] or top}" stop-opacity="0"/></radialGradient></defs>')
+    defs = (
+        f'<defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="{top}"/>'
+        f'<stop offset="1" stop-color="{bot}"/></linearGradient>'
+        f'<radialGradient id="sun" cx="0.5" cy="0.5" r="0.5"><stop offset="0" stop-color="{spec["sun"] or top}" stop-opacity="0.9"/>'
+        f'<stop offset="1" stop-color="{spec["sun"] or top}" stop-opacity="0"/></radialGradient></defs>'
+    )
     bg = f'<rect width="{size}" height="{size}" fill="url(#g)"/>'
     glow = ""
     if spec["sun"] and appearance in ("default", "dark"):
@@ -150,13 +185,15 @@ def icon_svg(direction, appearance="default", size=1024):
     if appearance == "tinted":
         tp = pal(direction, "light")
         if direction == "flock":
-            tp = dict((k, tp[k]) for k in set(l["fill"] for l in face["layers"]))
+            tp = {k: tp[k] for k in {l["fill"] for l in face["layers"]}}
             tp["mascotFace"] = "#6E6E6E"
         art = layers_svg(face["layers"], tp, mono="gray")
     elif appearance == "clear":
         art = f'<path d="{face["silhouette"]}" fill="#FFFFFF" fill-opacity="0.92"/>' + layers_svg(
-            [l for l in face["layers"] if l["name"] in ("Eyes", "EyeWhites", "Nose", "Mouth", "Catchlights")], p,
-            mono="#000000")
+            [l for l in face["layers"] if l["name"] in ("Eyes", "EyeWhites", "Nose", "Mouth", "Catchlights")],
+            p,
+            mono="#000000",
+        )
     else:
         art = layers_svg(face["layers"], p)
     g = f'<g transform="translate({tx:.2f},{ty:.2f}) scale({s:.4f})">{art}</g>'
@@ -183,13 +220,15 @@ def scene_icon_svg(direction, appearance="default", size=1024):
         hill, sun = "#FFFFFF55", "#FFFFFFAA"
     else:
         art = layers_svg(layers, p)
-    return (f'<svg xmlns="http://www.w3.org/2000/svg" width="{size}" height="{size}" viewBox="0 0 {size} {size}">'
-            f'<defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="{top}"/>'
-            f'<stop offset="1" stop-color="{bot}"/></linearGradient></defs>'
-            f'<rect width="{size}" height="{size}" fill="url(#g)"/>'
-            f'<circle cx="{size * 0.76}" cy="{size * 0.2}" r="{size * 0.085}" fill="{sun}"/>'
-            f'<ellipse cx="{size * 0.5}" cy="{size * 1.02}" rx="{size * 0.85}" ry="{size * 0.33}" fill="{hill}"/>'
-            f'<g transform="translate({tx:.2f},{ty:.2f}) scale({k:.4f})">{art}</g></svg>')
+    return (
+        f'<svg xmlns="http://www.w3.org/2000/svg" width="{size}" height="{size}" viewBox="0 0 {size} {size}">'
+        f'<defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="{top}"/>'
+        f'<stop offset="1" stop-color="{bot}"/></linearGradient></defs>'
+        f'<rect width="{size}" height="{size}" fill="url(#g)"/>'
+        f'<circle cx="{size * 0.76}" cy="{size * 0.2}" r="{size * 0.085}" fill="{sun}"/>'
+        f'<ellipse cx="{size * 0.5}" cy="{size * 1.02}" rx="{size * 0.85}" ry="{size * 0.33}" fill="{hill}"/>'
+        f'<g transform="translate({tx:.2f},{ty:.2f}) scale({k:.4f})">{art}</g></svg>'
+    )
 
 
 def mark_svg(direction, size=100, chip=True, mode="light"):
@@ -201,15 +240,21 @@ def mark_svg(direction, size=100, chip=True, mode="light"):
     k = (0.78 if chip else 0.98) * size / max(fw, fh)
     tx = size / 2 - (minx + fw / 2) * k
     ty = size / 2 - (miny + fh / 2) * k + (size * 0.04 if chip else 0)
-    chip_svg = f'<circle cx="{size / 2}" cy="{size / 2}" r="{size / 2}" fill="{ICON[direction]["bg"][1]}"/>' if chip else ""
+    chip_svg = (
+        f'<circle cx="{size / 2}" cy="{size / 2}" r="{size / 2}" fill="{ICON[direction]["bg"][1]}"/>' if chip else ""
+    )
     return chip_svg + f'<g transform="translate({tx:.2f},{ty:.2f}) scale({k:.4f})">{layers_svg(face["layers"], p)}</g>'
 
 
 def render(svg, path=None, scale=1.0):
     import resvg_py
-    png = bytes(resvg_py.svg_to_bytes(svg_string=svg, zoom=scale) if scale != 1 else resvg_py.svg_to_bytes(svg_string=svg))
+
+    png = bytes(
+        resvg_py.svg_to_bytes(svg_string=svg, zoom=scale) if scale != 1 else resvg_py.svg_to_bytes(svg_string=svg)
+    )
     if path:
-        open(path, "wb").write(png)
+        with open(path, "wb") as f:
+            f.write(png)
     return png
 
 
@@ -227,6 +272,6 @@ if __name__ == "__main__":
     for app in ("default", "dark", "tinted", "clear"):
         render(icon_svg(a.direction, app), os.path.join(a.out, f"icon_{app}.png"))
     d, bb = wordmark(a.direction, a.fonts)
-    json.dump({"d": d, "bbox": bb, "licence": WORDMARKS[a.direction]["licence"]},
-              open(os.path.join(a.out, "wordmark.json"), "w"))
+    with open(os.path.join(a.out, "wordmark.json"), "w") as f:
+        json.dump({"d": d, "bbox": bb, "licence": WORDMARKS[a.direction]["licence"]}, f)
     print("ok", a.direction, bb)

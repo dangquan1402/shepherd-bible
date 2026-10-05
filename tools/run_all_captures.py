@@ -5,7 +5,7 @@ import time
 import subprocess
 import signal
 
-UDID = "674D368F-D51A-4CB9-A861-790F9BAEB18E"
+UDID = os.environ["SIM_UDID"]  # your own simulator (e.g. an `xcrun simctl clone`)
 BUNDLE_ID = "com.dangvietquan.shepherd"
 PROJECT_DIR = "/Users/quandang_1/.treehouse/shepherd-bible-c19586/2/shepherd-bible"
 DOCS_DIR = os.path.join(PROJECT_DIR, "docs/screenshots")
@@ -41,6 +41,8 @@ def run_test(test_name, appearance, content_size="large", uninstall_first=True):
         f"-destination 'platform=iOS Simulator,id={UDID}' "
         f"-only-testing:ShepherdUITests/RealFlowUITests/{test_name}"
     )
+    if os.environ.get("DERIVED_DATA"):  # the build-for-testing products to run (default: Xcode's DerivedData)
+        cmd += f" -derivedDataPath {os.environ['DERIVED_DATA']}"
     res = run(cmd, env=test_env, check=True)
     print(f"PASSED: {test_name}")
 

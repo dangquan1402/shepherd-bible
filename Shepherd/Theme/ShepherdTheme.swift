@@ -75,6 +75,11 @@ public enum ShepherdTheme {
     public static let mascotBell = Color("MascotBell")
     public static let mascotHoof = Color("MascotHoof")
     public static let mascotCatchlight = Color("MascotCatchlight")
+    public static let mascotLegs = Color("MascotLegs")
+    public static let mascotEyeWhite = Color("MascotEyeWhite")
+    public static let mascotMouth = Color("MascotMouth")
+    public static let mascotFlower = Color("MascotFlower")
+    public static let mascotZz = Color("MascotZz")
 
     // MARK: - Spacing Tokens
     public static let space1: CGFloat = 4

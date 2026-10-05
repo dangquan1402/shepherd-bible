@@ -6,6 +6,7 @@ Every colour variable in design/shepherd.lib.pen is defined here per direction a
     python3 tools/brand/tokens.py check            # AA gate for all three directions
     python3 tools/brand/tokens.py check flock      # one direction
 """
+
 from __future__ import annotations
 
 import sys
@@ -250,14 +251,14 @@ def tokens(direction):
 
 def _rgba(h):
     h = h.lstrip("#")
-    c = [int(h[i:i + 2], 16) / 255 for i in (0, 2, 4)]
+    c = [int(h[i : i + 2], 16) / 255 for i in (0, 2, 4)]
     a = int(h[6:8], 16) / 255 if len(h) == 8 else 1.0
     return c, a
 
 
 def over(fg, bg):
     (f, a), (b, _) = _rgba(fg), _rgba(bg)
-    return "#%02X%02X%02X" % tuple(round((f[i] * a + b[i] * (1 - a)) * 255) for i in range(3))
+    return "#{:02X}{:02X}{:02X}".format(*tuple(round((f[i] * a + b[i] * (1 - a)) * 255) for i in range(3)))
 
 
 def lum(h):
@@ -276,18 +277,43 @@ TEXT = 4.5
 UI = 3.0
 _SURF = ["--color-canvas-bg", "--color-card-surface", "--color-surface-sunken"]
 PAIRS = (
-    [(fg, bg, TEXT, "body text") for fg in ("--color-text-primary", "--color-text-secondary", "--color-text-tertiary")
-     for bg in _SURF + ["GLASS"]]
-    + [("--color-text-primary", bg, TEXT, "path labels / bubble") for bg in
-       ("--color-meadow-sky", "--color-meadow-sky-bottom", "--color-meadow-hill-distant", "--color-meadow-hill-mid",
-        "--color-meadow-hill-near", "--color-accent-subtle", "--color-gold-subtle")]
-    + [("--color-text-secondary", bg, TEXT, "path labels") for bg in
-       ("--color-meadow-sky", "--color-meadow-sky-bottom", "--color-meadow-hill-mid", "--color-meadow-hill-near")]
+    [
+        (fg, bg, TEXT, "body text")
+        for fg in ("--color-text-primary", "--color-text-secondary", "--color-text-tertiary")
+        for bg in _SURF + ["GLASS"]
+    ]
+    + [
+        ("--color-text-primary", bg, TEXT, "path labels / bubble")
+        for bg in (
+            "--color-meadow-sky",
+            "--color-meadow-sky-bottom",
+            "--color-meadow-hill-distant",
+            "--color-meadow-hill-mid",
+            "--color-meadow-hill-near",
+            "--color-accent-subtle",
+            "--color-gold-subtle",
+        )
+    ]
+    + [
+        ("--color-text-secondary", bg, TEXT, "path labels")
+        for bg in (
+            "--color-meadow-sky",
+            "--color-meadow-sky-bottom",
+            "--color-meadow-hill-mid",
+            "--color-meadow-hill-near",
+        )
+    ]
     + [("--color-accent", bg, TEXT, "accent text") for bg in _SURF + ["--color-accent-subtle", "GLASS"]]
     + [("--color-on-accent", "--color-accent-fill", TEXT, "button label")]
     + [("--color-gold", bg, TEXT, "reward text") for bg in _SURF + ["--color-gold-subtle"]]
-    + [("--color-success", bg, TEXT, "quiz correct") for bg in ("--color-card-surface", "--color-success-subtle", "--color-canvas-bg")]
-    + [("--color-error", bg, TEXT, "quiz wrong") for bg in ("--color-card-surface", "--color-error-subtle", "--color-canvas-bg")]
+    + [
+        ("--color-success", bg, TEXT, "quiz correct")
+        for bg in ("--color-card-surface", "--color-success-subtle", "--color-canvas-bg")
+    ]
+    + [
+        ("--color-error", bg, TEXT, "quiz wrong")
+        for bg in ("--color-card-surface", "--color-error-subtle", "--color-canvas-bg")
+    ]
     + [("--color-on-accent", "--color-success-fill", TEXT, "correct button label")]
     + [("--color-note", "--color-note-subtle", TEXT, "design note")]
     + [("--color-accent-fill", bg, UI, "icon tint (non-text)") for bg in ("--color-canvas-bg", "--color-card-surface")]
@@ -326,8 +352,12 @@ if __name__ == "__main__":
         rows, f = check(d)
         total += f
         n_text = sum(1 for r in rows if r[6] == TEXT)
-        print(f"{DIRECTIONS[d]['name']}: {len(rows)} pairs ({n_text} text, {len(rows) - n_text} non-text), {f} failures")
+        print(
+            f"{DIRECTIONS[d]['name']}: {len(rows)} pairs ({n_text} text, {len(rows) - n_text} non-text), {f} failures"
+        )
         for r in rows:
             if not r[8] or "-v" in sys.argv[1:2]:
-                print(f"   {'FAIL' if not r[8] else 'ok  '} {r[0]:5} {r[1]} on {r[2]}: {r[3]} / {r[4]} = {r[5]:.2f} (need {r[6]})")
+                print(
+                    f"   {'FAIL' if not r[8] else 'ok  '} {r[0]:5} {r[1]} on {r[2]}: {r[3]} / {r[4]} = {r[5]:.2f} (need {r[6]})"
+                )
     sys.exit(1 if total else 0)

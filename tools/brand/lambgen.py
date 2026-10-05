@@ -8,6 +8,7 @@ LambView's SVGPathParser reads. Fills are colour-token keys, resolved by the app
 Usage (needs shapely):
     python3 tools/brand/lambgen.py --style flock --out Shepherd/Resources/Content/lamb_variants.json
 """
+
 from __future__ import annotations
 
 import argparse
@@ -16,7 +17,7 @@ import math
 from dataclasses import dataclass, field
 
 from shapely import affinity
-from shapely.geometry import LineString, MultiPolygon, Point, Polygon, box
+from shapely.geometry import LineString, Point, Polygon, box
 from shapely.geometry.polygon import orient
 from shapely.ops import unary_union
 
@@ -44,8 +45,10 @@ def stroke(pts, w):
 
 def arc_pts(cx, cy, rx, ry, a0, a1, n=20):
     return [
-        (cx + rx * math.cos(math.radians(a0 + (a1 - a0) * i / n)),
-         cy + ry * math.sin(math.radians(a0 + (a1 - a0) * i / n)))
+        (
+            cx + rx * math.cos(math.radians(a0 + (a1 - a0) * i / n)),
+            cy + ry * math.sin(math.radians(a0 + (a1 - a0) * i / n)),
+        )
         for i in range(n + 1)
     ]
 
@@ -54,8 +57,12 @@ def quad_pts(p0, p1, p2, n=20):
     out = []
     for i in range(n + 1):
         t = i / n
-        out.append(((1 - t) ** 2 * p0[0] + 2 * (1 - t) * t * p1[0] + t * t * p2[0],
-                    (1 - t) ** 2 * p0[1] + 2 * (1 - t) * t * p1[1] + t * t * p2[1]))
+        out.append(
+            (
+                (1 - t) ** 2 * p0[0] + 2 * (1 - t) * t * p1[0] + t * t * p2[0],
+                (1 - t) ** 2 * p0[1] + 2 * (1 - t) * t * p1[1] + t * t * p2[1],
+            )
+        )
     return out
 
 
@@ -100,14 +107,14 @@ def move(g, dx, dy):
 @dataclass
 class Style:
     key: str
-    head_scale: float = 1.0          # head radius multiplier
-    body: str = "lobes"              # lobes | bun | pebble
+    head_scale: float = 1.0  # head radius multiplier
+    body: str = "lobes"  # lobes | bun | pebble
     lobes: int = 5
-    tuft: str = "three"              # three | cap | soft | none
+    tuft: str = "three"  # three | cap | soft | none
     tuft_s1: bool = False
-    eyes: str = "dot"                # dot | white | bead
+    eyes: str = "dot"  # dot | white | bead
     eye_scale: float = 1.0
-    outline: float = 0.0             # 0 = none; else rim width in units
+    outline: float = 0.0  # 0 = none; else rim width in units
     curls: bool = False
     cheeks: bool = True
     leg_w: float = 7.0
@@ -118,31 +125,105 @@ class Style:
     nose_key: str = "mascotFeatures"
     leg_key: str = "mascotLegs"
     sparkle_key: str = "accentFill"
-    collar: str = "ribbon"           # ribbon | bandana
+    collar: str = "ribbon"  # ribbon | bandana
     extras: dict = field(default_factory=dict)
 
 
 STYLES = {
     # A: the current warm lamb, refined: tone rim, five soft lobes, cream face
-    "dayspring": Style("dayspring", head_scale=1.05, body="lobes", lobes=5, tuft="three",
-                       ear_len=1.0, eyes="dot", eye_scale=1.12, outline=1.5, cheeks=True, leg_w=6.6),
+    "dayspring": Style(
+        "dayspring",
+        head_scale=1.05,
+        body="lobes",
+        lobes=5,
+        tuft="three",
+        ear_len=1.0,
+        eyes="dot",
+        eye_scale=1.12,
+        outline=1.5,
+        cheeks=True,
+        leg_w=6.6,
+    ),
     # B: a black-faced lamb with big bright eyes and a fleece cap
-    "flock": Style("flock", head_scale=1.16, body="bun", tuft="cap", tuft_s1=True, eyes="white",
-                   eye_scale=1.0, outline=0.0, curls=True, cheeks=True, leg_w=7.4,
-                   ear_len=1.0, ear_w=0.5, ear_tip=0.7, mouth_key="mascotEyeWhite", nose_key="mascotBlush", sparkle_key="goldFill", collar="bandana"),
+    "flock": Style(
+        "flock",
+        head_scale=1.16,
+        body="bun",
+        tuft="cap",
+        tuft_s1=True,
+        eyes="white",
+        eye_scale=1.0,
+        outline=0.0,
+        curls=True,
+        cheeks=True,
+        leg_w=7.4,
+        ear_len=1.0,
+        ear_w=0.5,
+        ear_tip=0.7,
+        mouth_key="mascotEyeWhite",
+        nose_key="mascotBlush",
+        sparkle_key="goldFill",
+        collar="bandana",
+    ),
     # C: a quiet pebble lamb: one smooth shape, bead eyes, no blush
-    "still": Style("still", head_scale=1.0, body="pebble", tuft="soft", tuft_s1=True, eyes="bead",
-                   eye_scale=1.25, outline=0.0, cheeks=True, leg_w=5.4, ear_len=0.98, ear_w=0.46, ear_tip=0.86,
-                   sparkle_key="goldFill"),
+    "still": Style(
+        "still",
+        head_scale=1.0,
+        body="pebble",
+        tuft="soft",
+        tuft_s1=True,
+        eyes="bead",
+        eye_scale=1.25,
+        outline=0.0,
+        cheeks=True,
+        leg_w=5.4,
+        ear_len=0.98,
+        ear_w=0.46,
+        ear_tip=0.86,
+        sparkle_key="goldFill",
+    ),
 }
 
 # Stage geometry in a ~120-unit box; the lamb faces three-quarters left.
 STAGES = {
-    1: dict(pose="lying", bx=64, by=76, rx=35, ry=19, hx=31, hy=62, hr=19.5, ground=95),
-    2: dict(pose="sitting", bx=66, by=66, rx=26, ry=24, hx=43, hy=40, hr=18.5, ground=92),
-    3: dict(pose="standing", bx=67, by=57, rx=32, ry=21, hx=33, hy=40, hr=17.5, ground=93, legs=(66, 92)),
-    4: dict(pose="standing", bx=69, by=55, rx=36, ry=23, hx=33, hy=36, hr=18, ground=97, legs=(66, 96)),
-    5: dict(pose="standing", bx=71, by=55, rx=40, ry=25.5, hx=33, hy=34, hr=18.5, ground=99, legs=(68, 98)),
+    1: {"pose": "lying", "bx": 64, "by": 76, "rx": 35, "ry": 19, "hx": 31, "hy": 62, "hr": 19.5, "ground": 95},
+    2: {"pose": "sitting", "bx": 66, "by": 66, "rx": 26, "ry": 24, "hx": 43, "hy": 40, "hr": 18.5, "ground": 92},
+    3: {
+        "pose": "standing",
+        "bx": 67,
+        "by": 57,
+        "rx": 32,
+        "ry": 21,
+        "hx": 33,
+        "hy": 40,
+        "hr": 17.5,
+        "ground": 93,
+        "legs": (66, 92),
+    },
+    4: {
+        "pose": "standing",
+        "bx": 69,
+        "by": 55,
+        "rx": 36,
+        "ry": 23,
+        "hx": 33,
+        "hy": 36,
+        "hr": 18,
+        "ground": 97,
+        "legs": (66, 96),
+    },
+    5: {
+        "pose": "standing",
+        "bx": 71,
+        "by": 55,
+        "rx": 40,
+        "ry": 25.5,
+        "hx": 33,
+        "hy": 34,
+        "hr": 18.5,
+        "ground": 99,
+        "legs": (68, 98),
+    },
 }
 
 
@@ -158,8 +239,14 @@ class Lamb:
         if expr == "Sleepy" and p["pose"] != "lying":
             # every stage sleeps lying down, sized to its stage
             k = p["rx"] / 32.0
-            p.update(pose="lying", by=p["ground"] - 18 * k, ry=18 * k + 1.5, rx=p["rx"] + 2,
-                     hx=p["bx"] - p["rx"] - 1, hy=p["ground"] - 32 * k)
+            p.update(
+                pose="lying",
+                by=p["ground"] - 18 * k,
+                ry=18 * k + 1.5,
+                rx=p["rx"] + 2,
+                hx=p["bx"] - p["rx"] - 1,
+                hy=p["ground"] - 32 * k,
+            )
         p["hr"] *= style.head_scale
         if stage == 1:
             p["hr"] *= 1.04
@@ -203,8 +290,11 @@ class Lamb:
         elif s.body == "bun":
             cr = ry * 0.82
             core = box(bx - rx + cr, by - ry + cr, bx + rx - cr, by + ry - cr).buffer(cr, resolution=RES)
-            bumps = [circ(bx - rx * 0.3, by - ry * 0.78, ry * 0.42), circ(bx + rx * 0.12, by - ry * 0.86, ry * 0.44),
-                     circ(bx + rx * 0.52, by - ry * 0.7, ry * 0.4)]
+            bumps = [
+                circ(bx - rx * 0.3, by - ry * 0.78, ry * 0.42),
+                circ(bx + rx * 0.12, by - ry * 0.86, ry * 0.44),
+                circ(bx + rx * 0.52, by - ry * 0.7, ry * 0.4),
+            ]
             fleece = smooth(unary_union([core] + bumps), 2.2)
             tail = circ(bx + rx * 0.97, by - ry * 0.3, ry * 0.3)
         else:  # pebble
@@ -255,7 +345,7 @@ class Lamb:
             near_legs.append(stroke([(bx - rx * 0.5, y), (bx - rx * 0.3, y)], lw))
             far_legs.append(stroke([(bx - rx * 0.22, y - 0.6), (bx - rx * 0.02, y - 0.6)], lw))
         for g in near_legs + far_legs:
-            minx, miny, maxx, maxy = g.bounds
+            minx, _, maxx, maxy = g.bounds
             hooves.append(g.intersection(box(minx - 1, maxy - lw * 0.75, maxx + 1, maxy + 1)))
         if p["pose"] == "lying":
             hooves = []
@@ -263,8 +353,14 @@ class Lamb:
         # ---- head group (rotates for Encouraging)
         hy_l = hy + lift
         head = hull2(circ(hx, hy_l, hr), circ(hx - hr * 0.1, hy_l + hr * 0.5, hr * 0.66))
-        ear_near_a, ear_far_a = {"Idle": (164, 16), "Happy": (182, 0), "Encouraging": (172, -10),
-                                 "Celebrating": (186, -6), "Sleepy": (140, 42), "Hello": (190, -8)}[e]
+        ear_near_a, ear_far_a = {
+            "Idle": (164, 16),
+            "Happy": (182, 0),
+            "Encouraging": (172, -10),
+            "Celebrating": (186, -6),
+            "Sleepy": (140, 42),
+            "Hello": (190, -8),
+        }[e]
         if self.stage == 1:
             ear_near_a -= 10 if e not in ("Happy", "Celebrating", "Hello") else 0
             ear_far_a += 10 if e not in ("Happy", "Celebrating", "Hello") else 0
@@ -273,8 +369,14 @@ class Lamb:
         ear_far = leaf(hx + hr * 0.62, hy_l - hr * 0.28, el * 0.92, ew * 0.94, ear_far_a, s.ear_tip)
 
         def inner(ear_root, a, L, W):
-            return leaf(ear_root[0] + math.cos(math.radians(a)) * W * 0.35,
-                        ear_root[1] + math.sin(math.radians(a)) * W * 0.4, L * 0.55, W * 0.46, a, s.ear_tip)
+            return leaf(
+                ear_root[0] + math.cos(math.radians(a)) * W * 0.35,
+                ear_root[1] + math.sin(math.radians(a)) * W * 0.4,
+                L * 0.55,
+                W * 0.46,
+                a,
+                s.ear_tip,
+            )
 
         ear_near_in = inner((hx - hr * 0.78, hy_l - hr * 0.1), ear_near_a, el, ew)
         ear_far_in = inner((hx + hr * 0.62, hy_l - hr * 0.28), ear_far_a, el * 0.92, ew * 0.94)
@@ -287,8 +389,13 @@ class Lamb:
                 tuft = unary_union([circ(x, hy_l - hr * 0.86, hr * 0.27) for x in xs])
             elif s.tuft == "cap":
                 k = 0.92 if self.stage == 1 else 1.0
-                pts = [(-0.52, -0.6, 0.34), (-0.18, -0.86, 0.38), (0.2, -0.86, 0.37), (0.52, -0.6, 0.32),
-                       (0.0, -0.62, 0.42)]
+                pts = [
+                    (-0.52, -0.6, 0.34),
+                    (-0.18, -0.86, 0.38),
+                    (0.2, -0.86, 0.37),
+                    (0.52, -0.6, 0.32),
+                    (0.0, -0.62, 0.42),
+                ]
                 if self.stage >= 3:
                     pts.append((-0.02, -1.08, 0.3))
                 tuft = unary_union([circ(hx + dx * hr, hy_l + dy * hr, r * hr * k) for dx, dy, r in pts])
@@ -308,7 +415,6 @@ class Lamb:
         er = hr * s.eye_scale * big
         eyes, whites, catch = [], [], []
         ew_key = "mascotEyeWhite"
-        closed_line_key = "mascotFeatures" if s.eyes != "white" else ew_key
         look = (-0.05, 0.0) if e != "Encouraging" else (-0.07, -0.07)
         if e in ("Idle", "Encouraging", "Hello"):
             for x in ex:
@@ -342,7 +448,8 @@ class Lamb:
         nx, ny = nose_c
         nw = hr * (0.13 if s.eyes != "bead" else 0.1)
         nose = Polygon([(nx - nw, ny - nw * 0.55), (nx + nw, ny - nw * 0.55), (nx, ny + nw * 0.6)]).buffer(
-            nw * 0.28, resolution=RES)
+            nw * 0.28, resolution=RES
+        )
         my = ny + nw * 0.85
         mouth, tongue = None, None
         mw = hr * 0.075
@@ -351,12 +458,17 @@ class Lamb:
             if s.eyes == "bead":
                 mouth = stroke(arc_pts(nx, my - mw * 0.6, mw * 1.3, mw * 0.8, 30, 150, 12), lwm)
             else:
-                mouth = unary_union([stroke(arc_pts(nx - mw, my, mw, mw * 0.9, 10, 170, 10), lwm),
-                                     stroke(arc_pts(nx + mw, my, mw, mw * 0.9, 10, 170, 10), lwm)])
+                mouth = unary_union(
+                    [
+                        stroke(arc_pts(nx - mw, my, mw, mw * 0.9, 10, 170, 10), lwm),
+                        stroke(arc_pts(nx + mw, my, mw, mw * 0.9, 10, 170, 10), lwm),
+                    ]
+                )
         elif e in ("Happy", "Celebrating"):
             big_m = 1.25 if e == "Celebrating" else 1.0
             m = ell(nx, my + mw * 0.1, mw * 2.1 * big_m, mw * 2.0 * big_m).intersection(
-                box(nx - 50, my, nx + 50, my + 50))
+                box(nx - 50, my, nx + 50, my + 50)
+            )
             mouth = m.buffer(lwm * 0.15, resolution=RES)
             tongue = ell(nx, my + mw * 1.55 * big_m, mw * 1.1 * big_m, mw * 0.75 * big_m).intersection(m)
         elif e == "Encouraging":
@@ -369,8 +481,9 @@ class Lamb:
         cheeks = None
         if s.cheeks:
             cy = eye_y + hr * (0.3 if s.eyes != "white" else 0.36)
-            cheeks = unary_union([ell(ex[0] - hr * 0.12, cy, hr * 0.15, hr * 0.095),
-                                  ell(ex[1] + hr * 0.17, cy, hr * 0.13, hr * 0.09)])
+            cheeks = unary_union(
+                [ell(ex[0] - hr * 0.12, cy, hr * 0.15, hr * 0.095), ell(ex[1] + hr * 0.17, cy, hr * 0.13, hr * 0.09)]
+            )
 
         # ---- accessories
         collar, bell, petals, centres = None, None, None, None
@@ -385,31 +498,58 @@ class Lamb:
                 c2 = (hx + hr * 0.92, hy_l + hr * 0.38)
                 c1 = (hx + hr * 0.2, hy_l + hr * 1.3)
                 band = stroke(quad_pts(c0, c1, c2), hr * 0.26)
-                tri = Polygon([(hx - hr * 0.25, hy_l + hr * 1.0), (hx + hr * 0.5, hy_l + hr * 0.95),
-                               (hx + hr * 0.02, hy_l + hr * 1.62)]).buffer(hr * 0.06, resolution=RES)
+                tri = Polygon(
+                    [
+                        (hx - hr * 0.25, hy_l + hr * 1.0),
+                        (hx + hr * 0.5, hy_l + hr * 0.95),
+                        (hx + hr * 0.02, hy_l + hr * 1.62),
+                    ]
+                ).buffer(hr * 0.06, resolution=RES)
                 collar = unary_union([band, tri])
             if self.stage >= 4:
                 bc = (hx + hr * 0.2, hy_l + hr * (1.42 if s.collar == "ribbon" else 1.5))
                 if s.collar == "bandana":
                     bc = (hx + hr * 0.62, hy_l + hr * 1.08)
                 bell = circ(bc[0], bc[1], hr * 0.2).difference(
-                    stroke([(bc[0] - hr * 0.1, bc[1] + hr * 0.06), (bc[0] + hr * 0.1, bc[1] + hr * 0.06)], hr * 0.04))
+                    stroke([(bc[0] - hr * 0.1, bc[1] + hr * 0.06), (bc[0] + hr * 0.1, bc[1] + hr * 0.06)], hr * 0.04)
+                )
         if self.stage == 5:
             fl, fc = [], []
             for i, (dx, dy) in enumerate([(-0.8, -0.6), (-0.44, -0.98), (0.0, -1.12), (0.44, -0.98), (0.8, -0.6)]):
                 cx, cy = hx + dx * hr, hy_l + dy * hr
                 r0 = hr * (0.15 if i == 2 else 0.13)
-                fl.append(unary_union([circ(cx + r0 * 1.15 * math.cos(math.radians(a + i * 17)),
-                                            cy + r0 * 1.15 * math.sin(math.radians(a + i * 17)), r0)
-                                       for a in range(0, 360, 72)]))
+                fl.append(
+                    unary_union(
+                        [
+                            circ(
+                                cx + r0 * 1.15 * math.cos(math.radians(a + i * 17)),
+                                cy + r0 * 1.15 * math.sin(math.radians(a + i * 17)),
+                                r0,
+                            )
+                            for a in range(0, 360, 72)
+                        ]
+                    )
+                )
                 fc.append(circ(cx, cy, r0 * 0.8))
             petals, centres = unary_union(fl), unary_union(fc)
 
-        head_parts = dict(ear_far=ear_far, ear_far_in=ear_far_in, head=head, tuft=tuft, ear_near=ear_near,
-                          ear_near_in=ear_near_in, cheeks=cheeks, eyes=unary_union(eyes) if eyes else None,
-                          whites=unary_union(whites) if whites else None,
-                          catch=unary_union(catch) if catch else None, nose=nose, mouth=mouth, tongue=tongue,
-                          petals=petals, centres=centres)
+        head_parts = {
+            "ear_far": ear_far,
+            "ear_far_in": ear_far_in,
+            "head": head,
+            "tuft": tuft,
+            "ear_near": ear_near,
+            "ear_near_in": ear_near_in,
+            "cheeks": cheeks,
+            "eyes": unary_union(eyes) if eyes else None,
+            "whites": unary_union(whites) if whites else None,
+            "catch": unary_union(catch) if catch else None,
+            "nose": nose,
+            "mouth": mouth,
+            "tongue": tongue,
+            "petals": petals,
+            "centres": centres,
+        }
         if e == "Encouraging":
             pivot = (hx + hr * 0.3, hy_l + hr * 0.8)
             head_parts = {k: (rot(v, 10, pivot) if v is not None else None) for k, v in head_parts.items()}
@@ -422,30 +562,47 @@ class Lamb:
             hoof = (hx - hr * 1.36, hy_l + hr * 0.42)
             wave = unary_union([stroke([chest, elbow], lw * 1.05), stroke([elbow, hoof], lw * 1.05)])
             wave_hoof = wave.intersection(circ(hoof[0], hoof[1], lw * 0.98)).intersection(
-                box(-1e3, -1e3, 1e3, hoof[1] + lw * 0.15))
-            wave_arcs = unary_union([
-                stroke(arc_pts(hoof[0], hoof[1], hr * 0.42, hr * 0.42, 200, 250, 10), hr * 0.06),
-                stroke(arc_pts(hoof[0], hoof[1], hr * 0.62, hr * 0.62, 205, 245, 10), hr * 0.06)])
+                box(-1e3, -1e3, 1e3, hoof[1] + lw * 0.15)
+            )
+            wave_arcs = unary_union(
+                [
+                    stroke(arc_pts(hoof[0], hoof[1], hr * 0.42, hr * 0.42, 200, 250, 10), hr * 0.06),
+                    stroke(arc_pts(hoof[0], hoof[1], hr * 0.62, hr * 0.62, 205, 245, 10), hr * 0.06),
+                ]
+            )
 
         # ---- extras
         sparkles, zz = None, None
         if e == "Celebrating":
-            sparkles = unary_union([star4(hx - hr * 1.15, hy_l - hr * 0.95, hr * 0.3),
-                                    star4(hx + hr * 1.25, hy_l - hr * 1.2, hr * 0.24),
-                                    star4(hx - hr * 1.35, hy_l + hr * 0.35, hr * 0.17)])
+            sparkles = unary_union(
+                [
+                    star4(hx - hr * 1.15, hy_l - hr * 0.95, hr * 0.3),
+                    star4(hx + hr * 1.25, hy_l - hr * 1.2, hr * 0.24),
+                    star4(hx - hr * 1.35, hy_l + hr * 0.35, hr * 0.17),
+                ]
+            )
         if e == "Sleepy":
+
             def zed(x, y, h, w):
                 return stroke([(x, y), (x + h, y), (x, y + h), (x + h, y + h)], w)
-            zz = unary_union([zed(hx + hr * 0.7, hy_l - hr * 1.15, hr * 0.32, hr * 0.07),
-                              zed(hx + hr * 1.15, hy_l - hr * 1.6, hr * 0.24, hr * 0.06)])
+
+            zz = unary_union(
+                [
+                    zed(hx + hr * 0.7, hy_l - hr * 1.15, hr * 0.32, hr * 0.07),
+                    zed(hx + hr * 1.15, hy_l - hr * 1.6, hr * 0.24, hr * 0.06),
+                ]
+            )
 
         # ---- shading
         shade = fleece.difference(move(fleece, -ry * 0.1, -ry * 0.3))
         curls = None
         if s.curls:
             cs = []
-            for cx, cy, r in [(bx + rx * 0.12, by - ry * 0.18, ry * 0.2), (bx + rx * 0.55, by + ry * 0.12, ry * 0.17),
-                              (bx - rx * 0.18, by + ry * 0.3, ry * 0.16)]:
+            for cx, cy, r in [
+                (bx + rx * 0.12, by - ry * 0.18, ry * 0.2),
+                (bx + rx * 0.55, by + ry * 0.12, ry * 0.17),
+                (bx - rx * 0.18, by + ry * 0.3, ry * 0.16),
+            ]:
                 cs.append(stroke(arc_pts(cx, cy + lift, r, r, 150, 400, 18), ry * 0.07))
             curls = unary_union(cs).intersection(fleece.buffer(-1.5))
 
@@ -515,11 +672,25 @@ def face_front(style_key: str, expr: str = "Idle"):
         a = ear_a if side < 0 else 180 - ear_a
         rx_, ry_ = cx + side * hr * 0.8, hy - hr * 0.12
         ears.append(leaf(rx_, ry_, el, ew, a, s.ear_tip))
-        inners.append(leaf(rx_ + math.cos(math.radians(a)) * ew * 0.42, ry_ + math.sin(math.radians(a)) * ew * 0.42,
-                           el * 0.55, ew * 0.46, a, s.ear_tip))
+        inners.append(
+            leaf(
+                rx_ + math.cos(math.radians(a)) * ew * 0.42,
+                ry_ + math.sin(math.radians(a)) * ew * 0.42,
+                el * 0.55,
+                ew * 0.46,
+                a,
+                s.ear_tip,
+            )
+        )
     if s.tuft == "cap":
-        pts = [(-0.56, -0.58, 0.33), (-0.24, -0.84, 0.38), (0.24, -0.84, 0.38), (0.56, -0.58, 0.33), (0, -0.62, 0.42),
-               (0, -1.06, 0.3)]
+        pts = [
+            (-0.56, -0.58, 0.33),
+            (-0.24, -0.84, 0.38),
+            (0.24, -0.84, 0.38),
+            (0.56, -0.58, 0.33),
+            (0, -0.62, 0.42),
+            (0, -1.06, 0.3),
+        ]
         tuft = smooth(unary_union([circ(cx + dx * hr, hy + dy * hr, r * hr) for dx, dy, r in pts]), 1.2)
     elif s.tuft == "three":
         tuft = unary_union([circ(cx + dx * hr, hy - hr * 0.88, hr * 0.27) for dx in (-0.3, 0, 0.3)])
@@ -545,38 +716,60 @@ def face_front(style_key: str, expr: str = "Idle"):
             catch.append(circ(x + er * 0.03, ey - er * 0.03, er * 0.026))
     nx, ny = cx, hy + hr * (0.6 if s.eyes == "white" else 0.54)
     nw = hr * 0.13
-    nose = Polygon([(nx - nw, ny - nw * 0.55), (nx + nw, ny - nw * 0.55), (nx, ny + nw * 0.6)]).buffer(nw * 0.28,
-                                                                                                         resolution=RES)
+    nose = Polygon([(nx - nw, ny - nw * 0.55), (nx + nw, ny - nw * 0.55), (nx, ny + nw * 0.6)]).buffer(
+        nw * 0.28, resolution=RES
+    )
     my, mw, lwm = ny + nw * 0.85, hr * 0.075, hr * 0.055
     if expr == "Happy":
         m = ell(nx, my, mw * 2.1, mw * 2.0).intersection(box(nx - 50, my, nx + 50, my + 50))
         mouth = m.buffer(lwm * 0.15, resolution=RES)
         tongue = ell(nx, my + mw * 1.55, mw * 1.1, mw * 0.75).intersection(m)
     else:
-        mouth = unary_union([stroke(arc_pts(nx - mw, my, mw, mw * 0.9, 10, 170, 10), lwm),
-                             stroke(arc_pts(nx + mw, my, mw, mw * 0.9, 10, 170, 10), lwm)])
+        mouth = unary_union(
+            [
+                stroke(arc_pts(nx - mw, my, mw, mw * 0.9, 10, 170, 10), lwm),
+                stroke(arc_pts(nx + mw, my, mw, mw * 0.9, 10, 170, 10), lwm),
+            ]
+        )
         tongue = None
     cheeks = None
     if s.cheeks:
         cy = ey + hr * (0.34 if s.eyes == "white" else 0.3)
         cheeks = unary_union([ell(x + side * hr * 0.1, cy, hr * 0.15, hr * 0.095) for x, side in zip(exs, (-1, 1))])
     mouth_key = s.mouth_key if not (expr == "Happy" and s.eyes == "white") else "mascotMouth"
-    L = [("EarFar", "mascotFace", unary_union(ears), 1.0), ("EarInner", "mascotBlush", unary_union(inners), 1.0),
-         ("Head", "mascotFace", head, 1.0), ("Tuft", "mascotFleece", tuft, 1.0),
-         ("Cheeks", "mascotBlush", cheeks, 0.45 if s.eyes != "white" else 0.7),
-         ("EyeWhites", "mascotEyeWhite", unary_union(whites) if whites else None, 1.0),
-         ("Eyes", "mascotEyeWhite" if (s.eyes == "white" and expr == "Happy") else "mascotFeatures",
-          unary_union(eyes), 1.0),
-         ("Catchlights", "mascotCatchlight", unary_union(catch) if catch else None, 1.0),
-         ("Nose", s.nose_key, nose, 1.0), ("Mouth", mouth_key, mouth, 1.0), ("Tongue", "mascotTongue", tongue, 1.0)]
+    L = [
+        ("EarFar", "mascotFace", unary_union(ears), 1.0),
+        ("EarInner", "mascotBlush", unary_union(inners), 1.0),
+        ("Head", "mascotFace", head, 1.0),
+        ("Tuft", "mascotFleece", tuft, 1.0),
+        ("Cheeks", "mascotBlush", cheeks, 0.45 if s.eyes != "white" else 0.7),
+        ("EyeWhites", "mascotEyeWhite", unary_union(whites) if whites else None, 1.0),
+        (
+            "Eyes",
+            "mascotEyeWhite" if (s.eyes == "white" and expr == "Happy") else "mascotFeatures",
+            unary_union(eyes),
+            1.0,
+        ),
+        ("Catchlights", "mascotCatchlight", unary_union(catch) if catch else None, 1.0),
+        ("Nose", s.nose_key, nose, 1.0),
+        ("Mouth", mouth_key, mouth, 1.0),
+        ("Tongue", "mascotTongue", tongue, 1.0),
+    ]
     if s.outline:
         sil = unary_union([g for _, _, g, _ in L[:4]]).buffer(s.outline * 1.2, resolution=RES)
         L.insert(0, ("Outline", "mascotOutline", sil, 1.0))
-    layers = [dict(name=n, fill=k, geometry=geom_to_path(g), **({"opacity": o} if o != 1 else {}))
-              for n, k, g, o in L if g is not None and not g.is_empty]
+    layers = [
+        dict(name=n, fill=k, geometry=geom_to_path(g), **({"opacity": o} if o != 1 else {}))
+        for n, k, g, o in L
+        if g is not None and not g.is_empty
+    ]
     sil = unary_union([g for n, _, g, _ in L if n in ("EarFar", "Head", "Tuft")])
-    return {"viewBox": [0, 0, 100, 100], "layers": layers, "silhouette": geom_to_path(sil),
-            "bounds": [round(v, 2) for v in sil.bounds]}
+    return {
+        "viewBox": [0, 0, 100, 100],
+        "layers": layers,
+        "silhouette": geom_to_path(sil),
+        "bounds": [round(v, 2) for v in sil.bounds],
+    }
 
 
 # ---------------------------------------------------------------- output
@@ -621,8 +814,12 @@ def _sep(v):
 def union_bounds(geoms, pad=2.0):
     u = unary_union([g for g in geoms if g is not None and not g.is_empty])
     minx, miny, maxx, maxy = u.bounds
-    return [math.floor(minx - pad), math.floor(miny - pad), math.ceil(maxx - minx + 2 * pad),
-            math.ceil(maxy - miny + 2 * pad)]
+    return [
+        math.floor(minx - pad),
+        math.floor(miny - pad),
+        math.ceil(maxx - minx + 2 * pad),
+        math.ceil(maxy - miny + 2 * pad),
+    ]
 
 
 PT_PER_UNIT = 1.1
@@ -632,11 +829,19 @@ def build_stage(style: Style, stage: int):
     variants = {e: Lamb(style, stage, e).build() for e in EXPRESSIONS}
     # one shared viewBox per stage so instances swap without jumping
     vb = union_bounds([g for v in variants.values() for (_, _, g, _) in v.layers], pad=2.5)
-    out = {"stage": stage, "name": STAGE_NAMES[stage], "width": round(vb[2] * PT_PER_UNIT, 1),
-           "height": round(vb[3] * PT_PER_UNIT, 1), "viewBox": vb, "expressions": {}}
+    out = {
+        "stage": stage,
+        "name": STAGE_NAMES[stage],
+        "width": round(vb[2] * PT_PER_UNIT, 1),
+        "height": round(vb[3] * PT_PER_UNIT, 1),
+        "viewBox": vb,
+        "expressions": {},
+    }
     for e, v in variants.items():
-        out["expressions"][e] = [dict(name=n, fill=k, geometry=geom_to_path(g), **({"opacity": o} if o != 1 else {}))
-                                 for (n, k, g, o) in v.layers]
+        out["expressions"][e] = [
+            dict(name=n, fill=k, geometry=geom_to_path(g), **({"opacity": o} if o != 1 else {}))
+            for (n, k, g, o) in v.layers
+        ]
     return out, variants
 
 
@@ -652,14 +857,14 @@ def build_avatar(style: Style, stage: int, expr: str):
     cx, cy = p["hx"] + hr * 0.25, p["hy"] + hr * 0.25 + (-3 if expr == "Happy" else 0)
     clip = circ(28, 28, 28)
     layers = []
-    for (n, key, g, o) in lamb.layers:
+    for n, key, g, o in lamb.layers:
         if n in ("Shadow", "Zz", "Sparkles"):
             continue
         t = affinity.translate(affinity.scale(g, k, k, origin=(cx, cy)), 28 - cx, 30 - cy)
         t = t.intersection(clip)
         if t.is_empty:
             continue
-        d = dict(name=n, fill=key, geometry=geom_to_path(t))
+        d = {"name": n, "fill": key, "geometry": geom_to_path(t)}
         if o != 1:
             d["opacity"] = o
         layers.append(d)
@@ -678,8 +883,13 @@ def build_glyph(style: Style):
         sil = sil.difference(unary_union(holes).buffer(0.9, resolution=RES))
     sil = smooth(sil, 0.6)
     vb = union_bounds([sil], pad=0.2)
-    return {"width": 24, "height": 24, "viewBox": [float(v) for v in vb], "fill": "accent",
-            "geometry": geom_to_path(sil)}
+    return {
+        "width": 24,
+        "height": 24,
+        "viewBox": [float(v) for v in vb],
+        "fill": "accent",
+        "geometry": geom_to_path(sil),
+    }
 
 
 def build_all(style_key: str):
@@ -723,5 +933,7 @@ if __name__ == "__main__":
     d = build_all(a.style)
     with open(a.out, "w") as f:
         json.dump(d, f, separators=(",", ":"))
-    print(f"wrote {a.out}: {sum(len(v['expressions']) for v in d['stages'].values())} variants, "
-          f"{len(d['avatars'])} avatars, glyph")
+    print(
+        f"wrote {a.out}: {sum(len(v['expressions']) for v in d['stages'].values())} variants, "
+        f"{len(d['avatars'])} avatars, glyph"
+    )

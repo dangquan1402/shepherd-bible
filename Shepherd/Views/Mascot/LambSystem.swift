@@ -109,7 +109,11 @@ public final class LambVariantStore: @unchecked Sendable {
         public let name: String
         public let fillKey: String
         public let path: Path
+        public var opacity: Double = 1
     }
+
+    /// Layers drawn on the blink canvas (scaled closed on the blink keyframes).
+    public static let blinkLayerNames: Set<String> = ["EyeWhites", "Eyes", "Catchlights"]
 
     public struct ParsedVariant: Sendable {
         public let stage: Int
@@ -164,7 +168,8 @@ public final class LambVariantStore: @unchecked Sendable {
                               let lFill = layerDict["fill"] as? String,
                               let lGeom = layerDict["geometry"] as? String else { continue }
                         let path = SVGPathParser.parse(geometry: lGeom)
-                        parsedLayers.append(ParsedLayer(name: lName, fillKey: lFill, path: path))
+                        let opacity = layerDict["opacity"] as? Double ?? 1
+                        parsedLayers.append(ParsedLayer(name: lName, fillKey: lFill, path: path, opacity: opacity))
                     }
                     let key = "\(sInt)_\(eKey)"
                     variantCache[key] = ParsedVariant(
@@ -191,7 +196,8 @@ public final class LambVariantStore: @unchecked Sendable {
                           let lFill = layerDict["fill"] as? String,
                           let lGeom = layerDict["geometry"] as? String else { continue }
                     let path = SVGPathParser.parse(geometry: lGeom)
-                    parsedLayers.append(ParsedLayer(name: lName, fillKey: lFill, path: path))
+                    let opacity = layerDict["opacity"] as? Double ?? 1
+                    parsedLayers.append(ParsedLayer(name: lName, fillKey: lFill, path: path, opacity: opacity))
                 }
                 avatarCache[aKey] = ParsedAvatar(
                     key: aKey,
@@ -235,23 +241,34 @@ public final class LambVariantStore: @unchecked Sendable {
         cachedGlyphViewBox
     }
 
-    public static func resolveColor(key: String) -> Color {
+    /// The theme colour for a lamb layer's fill key, or nil when the key is unknown.
+    public static func color(forKey key: String) -> Color? {
         switch key {
         case "mascotShadow": return ShepherdTheme.mascotShadow
         case "mascotOutline": return ShepherdTheme.mascotOutline
         case "mascotFarLegs": return ShepherdTheme.mascotFarLegs
+        case "mascotLegs": return ShepherdTheme.mascotLegs
         case "mascotFeatures": return ShepherdTheme.mascotFeatures
         case "mascotHoof": return ShepherdTheme.mascotHoof
         case "mascotFleece": return ShepherdTheme.mascotFleece
         case "mascotFleeceShade": return ShepherdTheme.mascotFleeceShade
-        case "accentFill": return ShepherdTheme.accentFill
-        case "mascotBell": return ShepherdTheme.mascotBell
         case "mascotFace": return ShepherdTheme.mascotFace
         case "mascotBlush": return ShepherdTheme.mascotBlush
         case "mascotCatchlight": return ShepherdTheme.mascotCatchlight
+        case "mascotEyeWhite": return ShepherdTheme.mascotEyeWhite
+        case "mascotMouth": return ShepherdTheme.mascotMouth
         case "mascotTongue": return ShepherdTheme.mascotTongue
-        default: return ShepherdTheme.accent
+        case "mascotBell": return ShepherdTheme.mascotBell
+        case "mascotFlower": return ShepherdTheme.mascotFlower
+        case "mascotZz": return ShepherdTheme.mascotZz
+        case "accentFill": return ShepherdTheme.accentFill
+        case "goldFill": return ShepherdTheme.goldFill
+        default: return nil
         }
+    }
+
+    public static func resolveColor(key: String) -> Color {
+        color(forKey: key) ?? ShepherdTheme.accent
     }
 }
 
@@ -289,25 +306,25 @@ public struct LambView: View {
                 let eyeAnchor = UnitPoint(x: 0.5, y: max(0.1, min(0.9, eyeCenterY / max(1, geo.size.height))))
 
                 ZStack {
-                    // Base Canvas: all layers except Eyes and Catchlights
+                    // Base Canvas: every layer except the blink layers
                     Canvas { context, _ in
-                        for layer in variant.layers where layer.name != "Eyes" && layer.name != "Catchlights" {
+                        for layer in variant.layers where !LambVariantStore.blinkLayerNames.contains(layer.name) {
                             let scaledPath = layer.path
                                 .applying(CGAffineTransform(scaleX: scale, y: scale))
                                 .offsetBy(dx: offsetX, dy: offsetY)
                             let color = LambVariantStore.resolveColor(key: layer.fillKey)
-                            context.fill(scaledPath, with: .color(color))
+                            context.fill(scaledPath, with: .color(color.opacity(layer.opacity)))
                         }
                     }
 
-                    // Eye Overlay Canvas: Eyes and Catchlights with blink keyframes
+                    // Eye Overlay Canvas: eye whites, pupils and catchlights blink together
                     Canvas { context, _ in
-                        for layer in variant.layers where layer.name == "Eyes" || layer.name == "Catchlights" {
+                        for layer in variant.layers where LambVariantStore.blinkLayerNames.contains(layer.name) {
                             let scaledPath = layer.path
                                 .applying(CGAffineTransform(scaleX: scale, y: scale))
                                 .offsetBy(dx: offsetX, dy: offsetY)
                             let color = LambVariantStore.resolveColor(key: layer.fillKey)
-                            context.fill(scaledPath, with: .color(color))
+                            context.fill(scaledPath, with: .color(color.opacity(layer.opacity)))
                         }
                     }
                     .keyframeAnimator(initialValue: 1.0, trigger: blinkTick) { content, blink in
@@ -362,7 +379,7 @@ public struct LambAvatarView: View {
                     let scaledPath = layer.path
                         .applying(CGAffineTransform(scaleX: scale, y: scale))
                     let color = LambVariantStore.resolveColor(key: layer.fillKey)
-                    context.fill(scaledPath, with: .color(color))
+                    context.fill(scaledPath, with: .color(color.opacity(layer.opacity)))
                 }
             }
             .frame(width: size, height: size)
