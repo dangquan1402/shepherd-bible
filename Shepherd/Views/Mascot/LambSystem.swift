@@ -382,50 +382,84 @@ public struct AnimatedLambView: View {
     public var displayHeight: CGFloat?
     public var isBreathing: Bool = true
     public var hopTrigger: Int = 0
+    public var isTilted: Bool = false
 
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
-    @State private var blinkScaleY: CGFloat = 1.0
+    @State private var blinkEyeScale: CGFloat = 1.0
 
     public init(
         stage: Int = 1,
         expression: LambExpression = .idle,
         displayHeight: CGFloat? = nil,
         isBreathing: Bool = true,
-        hopTrigger: Int = 0
+        hopTrigger: Int = 0,
+        isTilted: Bool = false
     ) {
         self.stage = stage
         self.expression = expression
         self.displayHeight = displayHeight
         self.isBreathing = isBreathing
         self.hopTrigger = hopTrigger
+        self.isTilted = isTilted
     }
 
     public var body: some View {
         if reduceMotion {
             LambView(stage: stage, expression: expression, displayHeight: displayHeight)
         } else {
-            LambView(stage: stage, expression: expression, displayHeight: displayHeight)
-                // Row 1: Idle breathe loop (3.2s loop, easeInOut duration 1.6s per phase)
-                .phaseAnimator([0.0, 1.0]) { lamb, phase in
-                    lamb.scaleEffect(x: 1.0, y: isBreathing ? 1.0 + 0.02 * phase : 1.0, anchor: .bottom)
-                } animation: { _ in
-                    .easeInOut(duration: 1.6)
-                }
-                // Row 3: Happy hop
-                .keyframeAnimator(initialValue: HopState(), trigger: hopTrigger) { lamb, hop in
-                    lamb.offset(y: hop.y)
-                        .scaleEffect(x: 1.0, y: hop.squash, anchor: .bottom)
-                } keyframes: { _ in
-                    KeyframeTrack(\.y) {
-                        CubicKeyframe(-12, duration: 0.15)
-                        SpringKeyframe(0, duration: 0.2, spring: .snappy)
+            ZStack {
+                LambView(stage: stage, expression: expression, displayHeight: displayHeight)
+                    // Row 4: Encouraging tilt (.rotationEffect 0 -> 10° with .spring(duration: 0.4, bounce: 0.2))
+                    .rotationEffect(isTilted ? .degrees(10) : .zero)
+                    .animation(.spring(duration: 0.4, bounce: 0.2), value: isTilted)
+                    // Row 1: Idle breathe loop (3.2s loop, easeInOut duration 1.6s per phase)
+                    .phaseAnimator([0.0, 1.0]) { lamb, phase in
+                        lamb.scaleEffect(x: 1.0, y: isBreathing ? 1.0 + 0.02 * phase : 1.0, anchor: .bottom)
+                    } animation: { _ in
+                        .easeInOut(duration: 1.6)
                     }
-                    KeyframeTrack(\.squash) {
-                        LinearKeyframe(1.0, duration: 0.33)
-                        LinearKeyframe(0.94, duration: 0.06)
-                        LinearKeyframe(1.0, duration: 0.10)
+                    // Row 3: Happy hop
+                    .keyframeAnimator(initialValue: HopState(), trigger: hopTrigger) { lamb, hop in
+                        lamb.offset(y: hop.y)
+                            .scaleEffect(x: 1.0, y: hop.squash, anchor: .bottom)
+                    } keyframes: { _ in
+                        KeyframeTrack(\.y) {
+                            CubicKeyframe(-12, duration: 0.15)
+                            SpringKeyframe(0, duration: 0.2, spring: .snappy)
+                        }
+                        KeyframeTrack(\.squash) {
+                            LinearKeyframe(1.0, duration: 0.33)
+                            LinearKeyframe(0.94, duration: 0.06)
+                            LinearKeyframe(1.0, duration: 0.10)
+                        }
                     }
+
+                // Row 5: Celebrate sparkles
+                if expression == .celebrating {
+                    sparklesOverlay
                 }
+            }
+        }
+    }
+
+    @ViewBuilder
+    private var sparklesOverlay: some View {
+        let h = displayHeight ?? 140
+        ZStack {
+            Image(systemName: "sparkle")
+                .font(.system(size: h * 0.12, weight: .bold))
+                .foregroundStyle(ShepherdTheme.accentFill)
+                .offset(x: -h * 0.45, y: -h * 0.35)
+
+            Image(systemName: "sparkle")
+                .font(.system(size: h * 0.16, weight: .bold))
+                .foregroundStyle(ShepherdTheme.accentFill)
+                .offset(x: 0, y: -h * 0.5)
+
+            Image(systemName: "sparkle")
+                .font(.system(size: h * 0.13, weight: .bold))
+                .foregroundStyle(ShepherdTheme.accentFill)
+                .offset(x: h * 0.45, y: -h * 0.38)
         }
     }
 
