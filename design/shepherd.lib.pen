@@ -801,7 +801,7 @@
                   "fontFamily": "$--font-sans",
                   "fontSize": "$--text-headline",
                   "fontWeight": "$--weight-semibold",
-                  "fill": "#FFFFFF"
+                  "fill": "569X-color-on-accent"
                 }
               ]
             }
@@ -1024,7 +1024,7 @@
                   "width": 8,
                   "height": 8,
                   "cornerRadius": 4,
-                  "fill": "#FFFFFF"
+                  "fill": "569X-color-on-accent"
                 }
               ]
             }
@@ -1058,7 +1058,7 @@
                   "width": 54,
                   "height": 50,
                   "cornerRadius": 25,
-                  "fill": "#FFFFFF",
+                  "fill": "$--color-mascot-wool",
                   "stroke": "$--color-surface-border",
                   "strokeWidth": 1,
                   "justifyContent": "center",
@@ -1071,7 +1071,7 @@
                       "width": 38,
                       "height": 34,
                       "cornerRadius": 17,
-                      "fill": "#FFF8F0",
+                      "fill": "$--color-mascot-skin",
                       "layout": "vertical",
                       "justifyContent": "center",
                       "alignItems": "center",
@@ -1091,7 +1091,7 @@
                               "width": 4,
                               "height": 2,
                               "cornerRadius": 2,
-                              "fill": "#2D3430"
+                              "fill": "$--color-mascot-feature"
                             },
                             {
                               "type": "frame",
@@ -1100,7 +1100,7 @@
                               "width": 4,
                               "height": 2,
                               "cornerRadius": 2,
-                              "fill": "#2D3430"
+                              "fill": "$--color-mascot-feature"
                             }
                           ]
                         },
@@ -1111,7 +1111,7 @@
                           "width": 8,
                           "height": 5,
                           "cornerRadius": 3,
-                          "fill": "#E8B4A2"
+                          "fill": "$--color-mascot-snout"
                         }
                       ]
                     }
@@ -1149,7 +1149,7 @@
                   "width": 54,
                   "height": 50,
                   "cornerRadius": 25,
-                  "fill": "#FFFFFF",
+                  "fill": "$--color-mascot-wool",
                   "stroke": "$--color-surface-border",
                   "strokeWidth": 1,
                   "justifyContent": "center",
@@ -1162,7 +1162,7 @@
                       "width": 38,
                       "height": 34,
                       "cornerRadius": 17,
-                      "fill": "#FFF8F0",
+                      "fill": "$--color-mascot-skin",
                       "layout": "vertical",
                       "justifyContent": "center",
                       "alignItems": "center",
@@ -1182,7 +1182,7 @@
                               "width": 4,
                               "height": 4,
                               "cornerRadius": 2,
-                              "fill": "#2D3430"
+                              "fill": "$--color-mascot-feature"
                             },
                             {
                               "type": "frame",
@@ -1191,7 +1191,7 @@
                               "width": 4,
                               "height": 4,
                               "cornerRadius": 2,
-                              "fill": "#2D3430"
+                              "fill": "$--color-mascot-feature"
                             }
                           ]
                         },
@@ -1202,7 +1202,7 @@
                           "width": 8,
                           "height": 5,
                           "cornerRadius": 3,
-                          "fill": "#E8B4A2"
+                          "fill": "$--color-mascot-snout"
                         }
                       ]
                     }
@@ -1240,7 +1240,7 @@
                   "width": 54,
                   "height": 50,
                   "cornerRadius": 25,
-                  "fill": "#FFFFFF",
+                  "fill": "$--color-mascot-wool",
                   "stroke": "$--color-surface-border",
                   "strokeWidth": 1,
                   "justifyContent": "center",
@@ -1253,7 +1253,7 @@
                       "width": 38,
                       "height": 34,
                       "cornerRadius": 17,
-                      "fill": "#FFF8F0",
+                      "fill": "$--color-mascot-skin",
                       "layout": "vertical",
                       "justifyContent": "center",
                       "alignItems": "center",
@@ -1273,7 +1273,7 @@
                               "width": 4,
                               "height": 4,
                               "cornerRadius": 2,
-                              "fill": "#2D3430"
+                              "fill": "$--color-mascot-feature"
                             },
                             {
                               "type": "frame",
@@ -1282,7 +1282,7 @@
                               "width": 4,
                               "height": 4,
                               "cornerRadius": 2,
-                              "fill": "#2D3430"
+                              "fill": "$--color-mascot-feature"
                             }
                           ]
                         },
@@ -1293,7 +1293,7 @@
                           "width": 8,
                           "height": 5,
                           "cornerRadius": 3,
-                          "fill": "#E8B4A2"
+                          "fill": "$--color-mascot-snout"
                         }
                       ]
                     }
@@ -1331,7 +1331,7 @@
                   "width": 54,
                   "height": 50,
                   "cornerRadius": 25,
-                  "fill": "#FFFFFF",
+                  "fill": "$--color-mascot-wool",
                   "stroke": "$--color-surface-border",
                   "strokeWidth": 1,
                   "justifyContent": "center",
@@ -1344,7 +1344,7 @@
                       "width": 38,
                       "height": 34,
                       "cornerRadius": 17,
-                      "fill": "#FFF8F0",
+                      "fill": "$--color-mascot-skin",
                       "layout": "vertical",
                       "justifyContent": "center",
                       "alignItems": "center",
@@ -1364,7 +1364,7 @@
                               "width": 4,
                               "height": 4,
                               "cornerRadius": 2,
-                              "fill": "#2D3430"
+                              "fill": "$--color-mascot-feature"
                             },
                             {
                               "type": "frame",
@@ -1373,7 +1373,7 @@
                               "width": 4,
                               "height": 4,
                               "cornerRadius": 2,
-                              "fill": "#2D3430"
+                              "fill": "$--color-mascot-feature"
                             }
                           ]
                         },
@@ -1384,7 +1384,7 @@
                           "width": 8,
                           "height": 5,
                           "cornerRadius": 3,
-                          "fill": "#E8B4A2"
+                          "fill": "$--color-mascot-snout"
                         }
                       ]
                     }
@@ -1422,7 +1422,7 @@
                   "width": 54,
                   "height": 50,
                   "cornerRadius": 25,
-                  "fill": "#FFFFFF",
+                  "fill": "$--color-mascot-wool",
                   "stroke": "$--color-surface-border",
                   "strokeWidth": 1,
                   "justifyContent": "center",
@@ -1435,7 +1435,7 @@
                       "width": 38,
                       "height": 34,
                       "cornerRadius": 17,
-                      "fill": "#FFF8F0",
+                      "fill": "$--color-mascot-skin",
                       "layout": "vertical",
                       "justifyContent": "center",
                       "alignItems": "center",
@@ -1455,7 +1455,7 @@
                               "width": 4,
                               "height": 4,
                               "cornerRadius": 2,
-                              "fill": "#2D3430"
+                              "fill": "$--color-mascot-feature"
                             },
                             {
                               "type": "frame",
@@ -1464,7 +1464,7 @@
                               "width": 4,
                               "height": 4,
                               "cornerRadius": 2,
-                              "fill": "#2D3430"
+                              "fill": "$--color-mascot-feature"
                             }
                           ]
                         },
@@ -1475,11 +1475,787 @@
                           "width": 8,
                           "height": 5,
                           "cornerRadius": 3,
-                          "fill": "#E8B4A2"
+                          "fill": "$--color-mascot-snout"
                         }
                       ]
                     }
                   ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "mascot_expr_idle",
+          "name": "Mascot/Expression/Idle",
+          "reusable": true,
+          "width": 80,
+          "height": 80,
+          "justifyContent": "center",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "mascot_expr_idle_halo",
+              "name": "HaloAura",
+              "width": 72,
+              "height": 72,
+              "cornerRadius": "$--radius-pill",
+              "fill": "$--color-mascot-halo",
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "mascot_expr_idle_wool",
+                  "name": "WoolFleece",
+                  "width": 54,
+                  "height": 50,
+                  "cornerRadius": 25,
+                  "fill": "$--color-mascot-wool",
+                  "stroke": "$--color-surface-border",
+                  "strokeWidth": 1,
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "mascot_expr_idle_face",
+                      "name": "Face",
+                      "width": 36,
+                      "height": 32,
+                      "cornerRadius": 16,
+                      "fill": "$--color-mascot-skin",
+                      "layout": "vertical",
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "gap": 2,
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "mascot_expr_idle_eyes",
+                          "name": "EyesRow",
+                          "layout": "horizontal",
+                          "gap": 12,
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "mascot_expr_idle_el",
+                              "name": "EyeL",
+                              "width": 4,
+                              "height": 4,
+                              "cornerRadius": 2,
+                              "fill": "$--color-mascot-feature"
+                            },
+                            {
+                              "type": "frame",
+                              "id": "mascot_expr_idle_er",
+                              "name": "EyeR",
+                              "width": 4,
+                              "height": 4,
+                              "cornerRadius": 2,
+                              "fill": "$--color-mascot-feature"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "mascot_expr_idle_snout",
+                          "name": "Snout",
+                          "width": 6,
+                          "height": 4,
+                          "cornerRadius": 2,
+                          "fill": "$--color-mascot-snout"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "mascot_expr_happy",
+          "name": "Mascot/Expression/Happy",
+          "reusable": true,
+          "width": 80,
+          "height": 80,
+          "justifyContent": "center",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "mascot_expr_happy_halo",
+              "name": "HaloAura",
+              "width": 72,
+              "height": 72,
+              "cornerRadius": "$--radius-pill",
+              "fill": "$--color-mascot-halo",
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "mascot_expr_happy_wool",
+                  "name": "WoolFleece",
+                  "width": 54,
+                  "height": 50,
+                  "cornerRadius": 25,
+                  "fill": "$--color-mascot-wool",
+                  "stroke": "$--color-surface-border",
+                  "strokeWidth": 1,
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "mascot_expr_happy_face",
+                      "name": "Face",
+                      "width": 36,
+                      "height": 32,
+                      "cornerRadius": 16,
+                      "fill": "$--color-mascot-skin",
+                      "layout": "vertical",
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "gap": 2,
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "mascot_expr_happy_eyes",
+                          "name": "EyesRow",
+                          "layout": "horizontal",
+                          "gap": 12,
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "mascot_expr_happy_el",
+                              "name": "EyeL",
+                              "width": 6,
+                              "height": 3,
+                              "cornerRadius": 2,
+                              "stroke": "$--color-mascot-feature",
+                              "strokeWidth": 1.5
+                            },
+                            {
+                              "type": "frame",
+                              "id": "mascot_expr_happy_er",
+                              "name": "EyeR",
+                              "width": 6,
+                              "height": 3,
+                              "cornerRadius": 2,
+                              "stroke": "$--color-mascot-feature",
+                              "strokeWidth": 1.5
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "mascot_expr_happy_snout",
+                          "name": "Snout",
+                          "width": 6,
+                          "height": 4,
+                          "cornerRadius": 2,
+                          "fill": "$--color-mascot-snout"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "mascot_expr_happy_cheeks",
+                          "layout": "horizontal",
+                          "gap": 22,
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "mascot_expr_happy_chk_l",
+                              "width": 4,
+                              "height": 3,
+                              "cornerRadius": 2,
+                              "fill": "$--color-mascot-snout",
+                              "opacity": 0.6
+                            },
+                            {
+                              "type": "frame",
+                              "id": "mascot_expr_happy_chk_r",
+                              "width": 4,
+                              "height": 3,
+                              "cornerRadius": 2,
+                              "fill": "$--color-mascot-snout",
+                              "opacity": 0.6
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "mascot_expr_encouraging",
+          "name": "Mascot/Expression/Encouraging",
+          "reusable": true,
+          "width": 80,
+          "height": 80,
+          "justifyContent": "center",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "mascot_expr_encouraging_halo",
+              "name": "HaloAura",
+              "width": 72,
+              "height": 72,
+              "cornerRadius": "$--radius-pill",
+              "fill": "$--color-mascot-halo",
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "mascot_expr_encouraging_wool",
+                  "name": "WoolFleece",
+                  "width": 54,
+                  "height": 50,
+                  "cornerRadius": 25,
+                  "fill": "$--color-mascot-wool",
+                  "stroke": "$--color-surface-border",
+                  "strokeWidth": 1,
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "mascot_expr_encouraging_face",
+                      "name": "Face",
+                      "width": 36,
+                      "height": 32,
+                      "cornerRadius": 16,
+                      "fill": "$--color-mascot-skin",
+                      "layout": "vertical",
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "gap": 2,
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "mascot_expr_encouraging_eyes",
+                          "name": "EyesRow",
+                          "layout": "horizontal",
+                          "gap": 12,
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "mascot_expr_encouraging_el",
+                              "name": "EyeL",
+                              "width": 5,
+                              "height": 5,
+                              "cornerRadius": 2.5,
+                              "fill": "$--color-mascot-feature",
+                              "stroke": "$--color-accent",
+                              "strokeWidth": 0.5
+                            },
+                            {
+                              "type": "frame",
+                              "id": "mascot_expr_encouraging_er",
+                              "name": "EyeR",
+                              "width": 5,
+                              "height": 5,
+                              "cornerRadius": 2.5,
+                              "fill": "$--color-mascot-feature",
+                              "stroke": "$--color-accent",
+                              "strokeWidth": 0.5
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "mascot_expr_encouraging_snout",
+                          "name": "Snout",
+                          "width": 6,
+                          "height": 4,
+                          "cornerRadius": 2,
+                          "fill": "$--color-mascot-snout"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "mascot_expr_celebrating",
+          "name": "Mascot/Expression/Celebrating",
+          "reusable": true,
+          "width": 80,
+          "height": 80,
+          "justifyContent": "center",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "mascot_expr_celebrating_halo",
+              "name": "HaloAura",
+              "width": 72,
+              "height": 72,
+              "cornerRadius": "$--radius-pill",
+              "fill": "$--color-mascot-halo",
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "mascot_expr_celebrating_wool",
+                  "name": "WoolFleece",
+                  "width": 54,
+                  "height": 50,
+                  "cornerRadius": 25,
+                  "fill": "$--color-mascot-wool",
+                  "stroke": "$--color-surface-border",
+                  "strokeWidth": 1,
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "mascot_expr_celebrating_face",
+                      "name": "Face",
+                      "width": 36,
+                      "height": 32,
+                      "cornerRadius": 16,
+                      "fill": "$--color-mascot-skin",
+                      "layout": "vertical",
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "gap": 2,
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "mascot_expr_celebrating_eyes",
+                          "name": "EyesRow",
+                          "layout": "horizontal",
+                          "gap": 12,
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "mascot_expr_celebrating_el",
+                              "name": "EyeL",
+                              "width": 5,
+                              "height": 5,
+                              "cornerRadius": 1,
+                              "fill": "$--color-mascot-gold"
+                            },
+                            {
+                              "type": "frame",
+                              "id": "mascot_expr_celebrating_er",
+                              "name": "EyeR",
+                              "width": 5,
+                              "height": 5,
+                              "cornerRadius": 1,
+                              "fill": "$--color-mascot-gold"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "mascot_expr_celebrating_snout",
+                          "name": "Snout",
+                          "width": 6,
+                          "height": 4,
+                          "cornerRadius": 2,
+                          "fill": "$--color-mascot-snout"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "mascot_expr_celebrating_cheeks",
+                          "layout": "horizontal",
+                          "gap": 22,
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "mascot_expr_celebrating_chk_l",
+                              "width": 4,
+                              "height": 3,
+                              "cornerRadius": 2,
+                              "fill": "$--color-mascot-snout",
+                              "opacity": 0.6
+                            },
+                            {
+                              "type": "frame",
+                              "id": "mascot_expr_celebrating_chk_r",
+                              "width": 4,
+                              "height": 3,
+                              "cornerRadius": 2,
+                              "fill": "$--color-mascot-snout",
+                              "opacity": 0.6
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "mascot_expr_sleepy",
+          "name": "Mascot/Expression/Sleepy",
+          "reusable": true,
+          "width": 80,
+          "height": 80,
+          "justifyContent": "center",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "mascot_expr_sleepy_halo",
+              "name": "HaloAura",
+              "width": 72,
+              "height": 72,
+              "cornerRadius": "$--radius-pill",
+              "fill": "$--color-mascot-halo",
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "mascot_expr_sleepy_wool",
+                  "name": "WoolFleece",
+                  "width": 54,
+                  "height": 50,
+                  "cornerRadius": 25,
+                  "fill": "$--color-mascot-wool",
+                  "stroke": "$--color-surface-border",
+                  "strokeWidth": 1,
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "mascot_expr_sleepy_face",
+                      "name": "Face",
+                      "width": 36,
+                      "height": 32,
+                      "cornerRadius": 16,
+                      "fill": "$--color-mascot-skin",
+                      "layout": "vertical",
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "gap": 2,
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "mascot_expr_sleepy_eyes",
+                          "name": "EyesRow",
+                          "layout": "horizontal",
+                          "gap": 12,
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "mascot_expr_sleepy_el",
+                              "name": "EyeL",
+                              "width": 5,
+                              "height": 2,
+                              "cornerRadius": 1,
+                              "fill": "$--color-mascot-feature"
+                            },
+                            {
+                              "type": "frame",
+                              "id": "mascot_expr_sleepy_er",
+                              "name": "EyeR",
+                              "width": 5,
+                              "height": 2,
+                              "cornerRadius": 1,
+                              "fill": "$--color-mascot-feature"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "mascot_expr_sleepy_snout",
+                          "name": "Snout",
+                          "width": 6,
+                          "height": 4,
+                          "cornerRadius": 2,
+                          "fill": "$--color-mascot-snout"
+                        },
+                        {
+                          "type": "text",
+                          "id": "mascot_expr_sleepy_zz",
+                          "name": "ZZ",
+                          "content": "zZ",
+                          "fill": "$--color-accent",
+                          "fontFamily": "$--font-sans",
+                          "fontSize": "$--text-xs",
+                          "fontWeight": "$--weight-bold"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "mascot_expr_hello",
+          "name": "Mascot/Expression/Hello",
+          "reusable": true,
+          "width": 80,
+          "height": 80,
+          "justifyContent": "center",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "mascot_expr_hello_halo",
+              "name": "HaloAura",
+              "width": 72,
+              "height": 72,
+              "cornerRadius": "$--radius-pill",
+              "fill": "$--color-mascot-halo",
+              "justifyContent": "center",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "mascot_expr_hello_wool",
+                  "name": "WoolFleece",
+                  "width": 54,
+                  "height": 50,
+                  "cornerRadius": 25,
+                  "fill": "$--color-mascot-wool",
+                  "stroke": "$--color-surface-border",
+                  "strokeWidth": 1,
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "mascot_expr_hello_face",
+                      "name": "Face",
+                      "width": 36,
+                      "height": 32,
+                      "cornerRadius": 16,
+                      "fill": "$--color-mascot-skin",
+                      "layout": "vertical",
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "gap": 2,
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "mascot_expr_hello_eyes",
+                          "name": "EyesRow",
+                          "layout": "horizontal",
+                          "gap": 12,
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "mascot_expr_hello_el",
+                              "name": "EyeL",
+                              "width": 4,
+                              "height": 4,
+                              "cornerRadius": 2,
+                              "fill": "$--color-mascot-feature"
+                            },
+                            {
+                              "type": "frame",
+                              "id": "mascot_expr_hello_er",
+                              "name": "EyeR",
+                              "width": 4,
+                              "height": 4,
+                              "cornerRadius": 2,
+                              "fill": "$--color-mascot-feature"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "mascot_expr_hello_snout",
+                          "name": "Snout",
+                          "width": 6,
+                          "height": 4,
+                          "cornerRadius": 2,
+                          "fill": "$--color-mascot-snout"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "mascot_master_sheet",
+          "name": "Mascot/CharacterSheet",
+          "reusable": true,
+          "layout": "vertical",
+          "width": 370,
+          "fill": "$--color-card-surface",
+          "stroke": "$--color-surface-border",
+          "strokeWidth": 1,
+          "cornerRadius": "$--radius-lg",
+          "padding": [
+            16,
+            16
+          ],
+          "gap": 14,
+          "children": [
+            {
+              "type": "frame",
+              "id": "mcs_top",
+              "name": "HeaderRow",
+              "justifyContent": "space_between",
+              "alignItems": "center",
+              "width": 338,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "mcs_title",
+                  "fill": "$--color-text-primary",
+                  "content": "Barnaby the Lamb \u00b7 Character Sheet",
+                  "fontFamily": "$--font-sans",
+                  "fontSize": "$--text-headline",
+                  "fontWeight": "$--weight-bold"
+                },
+                {
+                  "type": "frame",
+                  "id": "mcs_badge",
+                  "fill": "$--color-accent-subtle",
+                  "cornerRadius": 6,
+                  "padding": [
+                    2,
+                    6
+                  ],
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "mcs_badge_t",
+                      "fill": "$--color-accent",
+                      "content": "5 STAGES \u00b7 6 POSES",
+                      "fontFamily": "$--font-sans",
+                      "fontSize": "$--text-xs",
+                      "fontWeight": "$--weight-bold"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "id": "mcs_desc",
+              "fill": "$--color-text-secondary",
+              "content": "Living companion vector system designed for Apple iOS 26 Liquid Glass.",
+              "fontFamily": "$--font-sans",
+              "fontSize": "$--text-caption"
+            },
+            {
+              "type": "frame",
+              "id": "mcs_stages_row",
+              "name": "StagesRow",
+              "justifyContent": "space_between",
+              "width": 338,
+              "children": [
+                {
+                  "type": "ref",
+                  "id": "mcs_ref_s1",
+                  "ref": "lamb_stage1",
+                  "width": 50,
+                  "height": 50
+                },
+                {
+                  "type": "ref",
+                  "id": "mcs_ref_s2",
+                  "ref": "lamb_stage2",
+                  "width": 50,
+                  "height": 50
+                },
+                {
+                  "type": "ref",
+                  "id": "mcs_ref_s3",
+                  "ref": "lamb_stage3",
+                  "width": 50,
+                  "height": 50
+                },
+                {
+                  "type": "ref",
+                  "id": "mcs_ref_s4",
+                  "ref": "lamb_stage4",
+                  "width": 50,
+                  "height": 50
+                },
+                {
+                  "type": "ref",
+                  "id": "mcs_ref_s5",
+                  "ref": "lamb_stage5",
+                  "width": 50,
+                  "height": 50
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "mcs_expr_row",
+              "name": "ExpressionsRow",
+              "justifyContent": "space_between",
+              "width": 338,
+              "children": [
+                {
+                  "type": "ref",
+                  "id": "mcs_ref_e1",
+                  "ref": "mascot_expr_idle",
+                  "width": 48,
+                  "height": 48
+                },
+                {
+                  "type": "ref",
+                  "id": "mcs_ref_e2",
+                  "ref": "mascot_expr_happy",
+                  "width": 48,
+                  "height": 48
+                },
+                {
+                  "type": "ref",
+                  "id": "mcs_ref_e3",
+                  "ref": "mascot_expr_encouraging",
+                  "width": 48,
+                  "height": 48
+                },
+                {
+                  "type": "ref",
+                  "id": "mcs_ref_e4",
+                  "ref": "mascot_expr_celebrating",
+                  "width": 48,
+                  "height": 48
+                },
+                {
+                  "type": "ref",
+                  "id": "mcs_ref_e5",
+                  "ref": "mascot_expr_sleepy",
+                  "width": 48,
+                  "height": 48
+                },
+                {
+                  "type": "ref",
+                  "id": "mcs_ref_e6",
+                  "ref": "mascot_expr_hello",
+                  "width": 48,
+                  "height": 48
                 }
               ]
             }
@@ -2031,6 +2807,108 @@
     "--weight-bold": {
       "type": "string",
       "value": "700"
+    },
+    "--color-mascot-wool": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#FFFFFF",
+          "theme": {
+            "mode": "light"
+          }
+        },
+        {
+          "value": "#E8E4DA",
+          "theme": {
+            "mode": "dark"
+          }
+        }
+      ]
+    },
+    "--color-mascot-skin": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#FFF8F0",
+          "theme": {
+            "mode": "light"
+          }
+        },
+        {
+          "value": "#2C2621",
+          "theme": {
+            "mode": "dark"
+          }
+        }
+      ]
+    },
+    "--color-mascot-feature": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#2D3430",
+          "theme": {
+            "mode": "light"
+          }
+        },
+        {
+          "value": "#F4F5F4",
+          "theme": {
+            "mode": "dark"
+          }
+        }
+      ]
+    },
+    "--color-mascot-snout": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#E8B4A2",
+          "theme": {
+            "mode": "light"
+          }
+        },
+        {
+          "value": "#C48D7D",
+          "theme": {
+            "mode": "dark"
+          }
+        }
+      ]
+    },
+    "--color-mascot-halo": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#EBF2FC",
+          "theme": {
+            "mode": "light"
+          }
+        },
+        {
+          "value": "#1B2A3D",
+          "theme": {
+            "mode": "dark"
+          }
+        }
+      ]
+    },
+    "--color-mascot-gold": {
+      "type": "color",
+      "value": [
+        {
+          "value": "#D98200",
+          "theme": {
+            "mode": "light"
+          }
+        },
+        {
+          "value": "#F5A623",
+          "theme": {
+            "mode": "dark"
+          }
+        }
+      ]
     }
   },
   "fileToken": "shepherd-lib-v1-tokens"
