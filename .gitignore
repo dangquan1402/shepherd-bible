@@ -1,0 +1,31 @@
+# Xcode
+DerivedData/
+build/
+*.xcuserstate
+*.xcuserdata/
+*.xccheckout
+*.moved-aside
+*.hmap
+*.ipa
+*.dSYM.zip
+*.dSYM
+timeline.xctimeline
+playground.xcworkspace
+.swiftpm/xcode/package.xcuserdata/
+
+# macOS
+.DS_Store
+**/.DS_Store
+
+# CocoaPods / SPM
+Pods/
+Carthage/Build/
+.build/
+Package.resolved
+
+# Secrets
+*.p8
+AuthKey_*.p8
+.env
+.env.*
+Secrets.xcconfig

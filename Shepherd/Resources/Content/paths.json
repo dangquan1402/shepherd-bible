@@ -1,0 +1,285 @@
+{
+  "paths": [
+    {
+      "id": "beginner-7",
+      "title": "Beginner: 7 Days with God",
+      "level": "beginner",
+      "estimatedDays": 7,
+      "lessons": [
+        {
+          "id": "day1",
+          "dayIndex": 1,
+          "title": "In the beginning",
+          "verseRefs": [
+            "GEN.1.1",
+            "GEN.1.3"
+          ],
+          "bodyMarkdown": "God speaks creation into being. Light comes first — order from chaos.\n\n**Reflection:** Where do you need God to bring light today?",
+          "prayerPrompt": "Thank you, God, for creating all things and for bringing light into darkness.",
+          "quiz": [
+            {
+              "id": "day1-q1",
+              "prompt": "Who created the heavens and the earth?",
+              "choices": [
+                "God",
+                "Angels",
+                "Chance",
+                "Kings"
+              ],
+              "correctIndex": 0,
+              "explain": "Genesis 1:1 — God is the Creator."
+            },
+            {
+              "id": "day1-q2",
+              "prompt": "What did God say first?",
+              "choices": [
+                "Let there be light",
+                "Let there be land",
+                "It is finished",
+                "Follow me"
+              ],
+              "correctIndex": 0,
+              "explain": null
+            }
+          ]
+        },
+        {
+          "id": "day2",
+          "dayIndex": 2,
+          "title": "Made in God's image",
+          "verseRefs": [
+            "GEN.1.26",
+            "GEN.1.27"
+          ],
+          "bodyMarkdown": "People are not accidents. We carry God's image — dignity, purpose, relationship.\n\n**Reflection:** How does this change how you see yourself and others?",
+          "prayerPrompt": "Lord, help me honor your image in myself and in every person I meet.",
+          "quiz": [
+            {
+              "id": "day2-q1",
+              "prompt": "Humans are made in whose image?",
+              "choices": [
+                "God's",
+                "Animals'",
+                "Kings'",
+                "Angels'"
+              ],
+              "correctIndex": 0,
+              "explain": null
+            },
+            {
+              "id": "day2-q2",
+              "prompt": "Genesis says God created them…",
+              "choices": [
+                "Male and female",
+                "Only male",
+                "Only spirits",
+                "As gods"
+              ],
+              "correctIndex": 0,
+              "explain": null
+            }
+          ]
+        },
+        {
+          "id": "day3",
+          "dayIndex": 3,
+          "title": "The Word became flesh",
+          "verseRefs": [
+            "JHN.1.1",
+            "JHN.1.14"
+          ],
+          "bodyMarkdown": "John opens like Genesis: the Word was with God and was God — then entered our world.\n\n**Reflection:** Jesus is not just a teacher; He is God with us.",
+          "prayerPrompt": "Jesus, thank you for coming near. Help me receive your grace and truth.",
+          "quiz": [
+            {
+              "id": "day3-q1",
+              "prompt": "In the beginning was the…",
+              "choices": [
+                "Word",
+                "Law",
+                "Temple",
+                "King"
+              ],
+              "correctIndex": 0,
+              "explain": null
+            },
+            {
+              "id": "day3-q2",
+              "prompt": "The Word became…",
+              "choices": [
+                "Flesh",
+                "Stone",
+                "Wind",
+                "A book"
+              ],
+              "correctIndex": 0,
+              "explain": null
+            }
+          ]
+        },
+        {
+          "id": "day4",
+          "dayIndex": 4,
+          "title": "God so loved",
+          "verseRefs": [
+            "JHN.3.16",
+            "JHN.3.17"
+          ],
+          "bodyMarkdown": "The heart of the gospel: love that gives, belief that receives life.\n\n**Reflection:** Love is God's motive; rescue is His mission.",
+          "prayerPrompt": "Father, thank you for loving the world — and for loving me.",
+          "quiz": [
+            {
+              "id": "day4-q1",
+              "prompt": "God so loved the…",
+              "choices": [
+                "World",
+                "Angels",
+                "Temple",
+                "Rich"
+              ],
+              "correctIndex": 0,
+              "explain": null
+            },
+            {
+              "id": "day4-q2",
+              "prompt": "God sent His Son so the world would be…",
+              "choices": [
+                "Saved",
+                "Judged only",
+                "Ignored",
+                "Destroyed"
+              ],
+              "correctIndex": 0,
+              "explain": null
+            }
+          ]
+        },
+        {
+          "id": "day5",
+          "dayIndex": 5,
+          "title": "The Lord is my shepherd",
+          "verseRefs": [
+            "PSA.23.1",
+            "PSA.23.4"
+          ],
+          "bodyMarkdown": "Shepherd imagery: guidance, rest, courage in dark valleys.\n\n**Reflection:** You are not alone in hard places.",
+          "prayerPrompt": "Shepherd me today. Lead me beside still waters and calm my fear.",
+          "quiz": [
+            {
+              "id": "day5-q1",
+              "prompt": "Yahweh is my…",
+              "choices": [
+                "Shepherd",
+                "Judge only",
+                "Enemy",
+                "Stranger"
+              ],
+              "correctIndex": 0,
+              "explain": null
+            },
+            {
+              "id": "day5-q2",
+              "prompt": "In the valley, the writer says…",
+              "choices": [
+                "I will fear no evil",
+                "I am abandoned",
+                "I run away",
+                "I fight alone"
+              ],
+              "correctIndex": 0,
+              "explain": null
+            }
+          ]
+        },
+        {
+          "id": "day6",
+          "dayIndex": 6,
+          "title": "Light of the world",
+          "verseRefs": [
+            "MAT.5.14",
+            "MAT.5.16"
+          ],
+          "bodyMarkdown": "Jesus calls His people light — visible goodness that points to the Father.\n\n**Reflection:** Small faithful acts can shine.",
+          "prayerPrompt": "Help my life point others to you, not to myself.",
+          "quiz": [
+            {
+              "id": "day6-q1",
+              "prompt": "You are the light of the…",
+              "choices": [
+                "World",
+                "Moon",
+                "Past only",
+                "Temple"
+              ],
+              "correctIndex": 0,
+              "explain": null
+            },
+            {
+              "id": "day6-q2",
+              "prompt": "Let your light shine so others…",
+              "choices": [
+                "Glorify your Father",
+                "Praise you alone",
+                "Fear you",
+                "Ignore God"
+              ],
+              "correctIndex": 0,
+              "explain": null
+            }
+          ]
+        },
+        {
+          "id": "day7",
+          "dayIndex": 7,
+          "title": "Pray like this",
+          "verseRefs": [
+            "MAT.6.9",
+            "MAT.6.11",
+            "PHP.4.6",
+            "PHP.4.7"
+          ],
+          "bodyMarkdown": "Jesus teaches prayer; Paul invites anxious hearts to ask with thanksgiving.\n\n**Reflection:** Prayer is relationship, not performance.",
+          "prayerPrompt": "Our Father in heaven — give us today what we need, and guard our hearts with your peace.",
+          "quiz": [
+            {
+              "id": "day7-q1",
+              "prompt": "Jesus begins prayer with…",
+              "choices": [
+                "Our Father",
+                "O King only",
+                "Listen to me",
+                "Forgive them first"
+              ],
+              "correctIndex": 0,
+              "explain": null
+            },
+            {
+              "id": "day7-q2",
+              "prompt": "Paul says: in nothing be…",
+              "choices": [
+                "Anxious",
+                "Thankful",
+                "Silent",
+                "Busy"
+              ],
+              "correctIndex": 0,
+              "explain": null
+            },
+            {
+              "id": "day7-q3",
+              "prompt": "God's peace will guard your…",
+              "choices": [
+                "Hearts and thoughts",
+                "Wallet",
+                "Reputation",
+                "House only"
+              ],
+              "correctIndex": 0,
+              "explain": null
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
