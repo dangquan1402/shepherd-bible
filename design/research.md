@@ -33,6 +33,26 @@ This document establishes the empirical research foundation for the Shepherd iOS
 
 ---
 
+
+### 1.4 Mascot & Companion Systems (Refero & Industry Analysis)
+
+| Companion | Source / App | What We Take | What We Reject |
+|:---|:---|:---|:---|
+| **Finch (Self-Care Pet)** | Finch (iOS) | Deep emotional bonding via naming ritual; developmental life stages driven by daily habit completion; soothing non-judgmental affirmations; patient presence when a streak lapses. | Extensive cosmetic wardrobe gamification; complex fantasy micro-currencies; cluttered bedroom UI. |
+| **Headspace Characters** | Headspace (iOS) | Soft organic shapes; calm, grounded breathing rhythm; warm earthly tones; expressive eyes communicating mindfulness without speaking loud words. | Abstract amorphous blob geometry that lacks animal relatability. |
+| **Duo (Duolingo)** | Duolingo (iOS) | Instantaneous emotional feedback on quiz events (glee on correct, sympathetic reaction on error); iconic silhouette recognizable at 24pt and 200pt. | Aggressive streak-threat guilt tactics; weeping/shaming mascot states; pushy high-pressure notifications. |
+| **Calm (Breathing Companion)** | Calm (iOS) | Unhurried, reverent tempo; visual quietude; deliberate absence during deep meditation/reading sessions. | Pure inanimate gradient bubbles with zero narrative character connection. |
+
+### 1.5 Fluid Motion & Material Dynamics (iOS 26 Liquid Glass)
+
+| Interaction Pattern | Source / Spec | Implementation Mechanism | Purpose & Polish |
+|:---|:---|:---|:---|
+| **Glass Morphing Transitions** | Apple iOS 26 Specification & Cheatsheet | `GlassEffectContainer` + `glassEffectID` + `@Namespace` | Seamlessly transforms an inline action button into a rich feedback drawer without jarring layout pop. |
+| **Interactive Glass Touch** | Apple HIG Materials | `.glassEffect(.regular.interactive())` | Real-time optical deflection and specular shimmer under user touch points and drag gestures. |
+| **Living Companion Physics** | SwiftUI `KeyframeAnimator` & `PhaseAnimator` | Native 2D vector coordinate transforms | Gentle breathing squash-and-stretch (3.2s cycle); soft celebratory vertical hop (0.35s, 8pt apex); zero third-party Lottie runtime overhead. |
+
+---
+
 ## 2. Reference Lock
 
 ```text
@@ -58,6 +78,22 @@ Explicit Rejects:
 - No glass-on-glass stacking; no glass behind dense multi-line reading text.
 - No fake or hand-typed scripture.
 
+
+Mascot & Character Rules:
+1. Defined vector silhouette: Head-to-body 1:1 for newborn lamb, shifting gracefully to 1:1.4 in mature flock leader. Soft cloud fleece perimeter.
+2. Fixed pastoral palette: Fleece (#FFFFFF light / #E8E4DA dark), Skin/face (#F5E5D5 light / #CDB9A4 dark), Features (#1A1D1B light / #F4F5F4 dark), Still Waters bandana/halo (#2860A8 light / #4A88D9 dark), Sunrise Gold wreath/stars (#D98200 light / #F5A623 dark).
+3. Exact 5-stage progression matching `Companion.stage = 1 + xp/50`: Newborn (0-49 XP), Sprout (50-99 XP), Lamb (100-149 XP), Yearling (150-199 XP), Flock Leader (200+ XP).
+4. Expression set: Idle/Calm, Happy (correct), Encouraging (mistake - never shaming), Celebrating (lesson complete / streak), Sleepy (evening reminder), and Hello (onboarding greeting).
+5. Sacred Sanctuary Rule: The lamb is prominently featured during Onboarding, Path Hub, Quiz Feedback, Celebration, and Companion Detail, but is DELIBERATELY ABSENT during Scripture Reading and Bible Reader. God's Word must remain quiet, reverent, and free of cartoon distraction.
+
+Motion & Dynamics Rules:
+1. All animations use native SwiftUI spring curves (`.spring(duration: 0.35, bounce: 0.15)`); zero external animation dependencies.
+2. Liquid Glass morphs coordinate via `GlassEffectContainer(spacing:)` and `@Namespace`:
+   - Morph A: Quiz Check Button -> FeedbackSheet.
+   - Morph B: TabView bottom accessory compact inline -> expanded lesson preview.
+   - Morph C: Active path node -> lesson reading header.
+3. Every animation has strict `accessibilityReduceMotion` (instant cut/crossfade) and `accessibilityReduceTransparency` (solid surface fallback).
+
 Media Strategy:
 - Mascot: High-craft vector illustration drawn in Pencil components for each of the 5 companion stages.
 - Icons: Native SF Symbols / Lucide standard glyphs with verified rendering names (e.g. circle-check-big, flame, book-open, map-pin, sparkler).
@@ -79,6 +115,10 @@ Media Strategy:
 | **Verbatim Content Grounding** | Truthfulness | Repo `paths.json` & `sample_bible.json` | Every verse text, reference, lesson title, quiz prompt, and choice is extracted verbatim from the repo files. |
 | **StoreKit 2 Soft Paywall Specs** | Monetization | `StoreKitManager.swift` & Drops `188237cf` | 7-day free trial timeline, Annual primary ($39.99/yr placeholder) + Monthly ($4.99/mo placeholder), auto-renew disclosure, restore purchases, terms, privacy. |
 | **Vector Lamb Companion Stages** | Mascot | `UserModels.swift` (`Companion.stage = 1 + xp/50`) | Stage 1 (0-49 XP): Newborn, Stage 2 (50-99 XP): Sprout, Stage 3 (100-149 XP): Lamb, Stage 4 (150-199 XP): Yearling, Stage 5 (200+ XP): Flock Leader. |
+| **Mascot Sanctuary Policy** | Mascot / UX | Reverent scripture reading | The lamb never appears alongside Scripture text in Lesson Reading or Bible Reader; preserves devotional reverence. |
+| **Non-Shaming Mistake Pose** | Mascot / Ethics | Refero Finch & Headspace | When a quiz answer is wrong, the lamb shows an encouraging head-tilt with a warm smile, never crying or scolding. |
+| **Glass Morphing Container** | Motion / Glass | iOS 26 Cheatsheet §5.2 | `GlassEffectContainer` shares the material buffer during button-to-sheet expansion, eliminating flickering. |
+| **Native Vector PhaseAnimator** | Motion / Mascot | SwiftUI iOS 17+ / iOS 26 | Vector layers oscillate via `PhaseAnimator` (idle breathing, hop, ear tilt); 100% offline, 0 bytes network, 0 CPU lag. |
 
 ---
 
