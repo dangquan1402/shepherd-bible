@@ -2,6 +2,8 @@ import XCTest
 
 final class RealFlowUITests: XCTestCase {
 
+    private var modeOverride: String? = nil
+
     override func setUpWithError() throws {
         continueAfterFailure = false
     }
@@ -9,7 +11,7 @@ final class RealFlowUITests: XCTestCase {
     private func saveScreenshot(_ baseName: String) {
         let shot = XCUIScreen.main.screenshot()
         let shotDir = ProcessInfo.processInfo.environment["SHOT_DIR"] ?? "/Users/quandang_1/.treehouse/shepherd-bible-c19586/2/shepherd-bible/docs/screenshots"
-        let mode = ProcessInfo.processInfo.environment["SHOT_MODE"] ?? "Light"
+        let mode = modeOverride ?? ProcessInfo.processInfo.environment["SHOT_MODE"] ?? "Light"
         let fileManager = FileManager.default
         try? fileManager.createDirectory(atPath: shotDir, withIntermediateDirectories: true)
         let filename: String
@@ -23,7 +25,106 @@ final class RealFlowUITests: XCTestCase {
     }
 
     @MainActor
-    func testRealAppFullFlow() throws {
+    func testRealAppFullFlowLight() throws {
+        modeOverride = "Light"
+        try executeRealAppFlow()
+    }
+
+    @MainActor
+    func testRealAppFullFlowDark() throws {
+        modeOverride = "Dark"
+        try executeRealAppFlow()
+    }
+
+    @MainActor
+    func testAccessibilityAX3Light() throws {
+        modeOverride = "Light"
+        try executeAX3Flow()
+    }
+
+    @MainActor
+    func testAccessibilityAX3Dark() throws {
+        modeOverride = "Dark"
+        try executeAX3Flow()
+    }
+
+    @MainActor
+    func testRecordLambHop() throws {
+        let app = XCUIApplication()
+        app.launch()
+
+        if app.staticTexts["Welcome to Shepherd"].exists {
+            app.buttons["Continue"].tap()
+            _ = app.buttons.matching(NSPredicate(format: "label CONTAINS[c] 'peace'")).firstMatch.waitForExistence(timeout: 2.0)
+            app.buttons.matching(NSPredicate(format: "label CONTAINS[c] 'peace'")).firstMatch.tap()
+            app.buttons["Continue"].tap()
+            _ = app.buttons.matching(NSPredicate(format: "label CONTAINS[c] 'Some experience'")).firstMatch.waitForExistence(timeout: 2.0)
+            app.buttons.matching(NSPredicate(format: "label CONTAINS[c] 'Some experience'")).firstMatch.tap()
+            app.buttons["Continue"].tap()
+            _ = app.buttons["10 min"].waitForExistence(timeout: 2.0)
+            app.buttons["10 min"].tap()
+            app.buttons["Continue"].tap()
+            _ = app.buttons["Continue"].waitForExistence(timeout: 2.0)
+            app.buttons["Continue"].tap()
+            _ = app.buttons["See my plan"].waitForExistence(timeout: 2.0)
+            app.buttons["See my plan"].tap()
+            _ = app.buttons["Continue with free path"].waitForExistence(timeout: 2.0)
+            app.buttons["Continue with free path"].tap()
+        }
+
+        app.tabBars.buttons["Lamb"].tap()
+        _ = app.navigationBars.matching(NSPredicate(format: "label CONTAINS[c] 'Pip' OR label CONTAINS[c] 'Lamb'")).firstMatch.waitForExistence(timeout: 4.0)
+
+        Thread.sleep(forTimeInterval: 1.0)
+        app.scrollViews.otherElements.firstMatch.tap()
+        Thread.sleep(forTimeInterval: 2.0)
+    }
+
+    @MainActor
+    func testRecordCheckMorph() throws {
+        let app = XCUIApplication()
+        app.launch()
+
+        if app.staticTexts["Welcome to Shepherd"].exists {
+            app.buttons["Continue"].tap()
+            _ = app.buttons.matching(NSPredicate(format: "label CONTAINS[c] 'peace'")).firstMatch.waitForExistence(timeout: 2.0)
+            app.buttons.matching(NSPredicate(format: "label CONTAINS[c] 'peace'")).firstMatch.tap()
+            app.buttons["Continue"].tap()
+            _ = app.buttons.matching(NSPredicate(format: "label CONTAINS[c] 'Some experience'")).firstMatch.waitForExistence(timeout: 2.0)
+            app.buttons.matching(NSPredicate(format: "label CONTAINS[c] 'Some experience'")).firstMatch.tap()
+            app.buttons["Continue"].tap()
+            _ = app.buttons["10 min"].waitForExistence(timeout: 2.0)
+            app.buttons["10 min"].tap()
+            app.buttons["Continue"].tap()
+            _ = app.buttons["Continue"].waitForExistence(timeout: 2.0)
+            app.buttons["Continue"].tap()
+            _ = app.buttons["See my plan"].waitForExistence(timeout: 2.0)
+            app.buttons["See my plan"].tap()
+            _ = app.buttons["Continue with free path"].waitForExistence(timeout: 2.0)
+            app.buttons["Continue with free path"].tap()
+        }
+
+        let day1Node = app.buttons.matching(NSPredicate(format: "label CONTAINS[c] 'Day 1'")).firstMatch
+        if day1Node.waitForExistence(timeout: 4.0) {
+            day1Node.tap()
+        }
+        app.swipeUp()
+        let quizBtn = app.buttons["Take the quiz"]
+        if quizBtn.waitForExistence(timeout: 3.0) {
+            quizBtn.tap()
+            _ = app.staticTexts["DAY 1"].waitForExistence(timeout: 4.0)
+            let wrongChoice = app.buttons.matching(NSPredicate(format: "label CONTAINS[c] 'Angels'")).firstMatch
+            if wrongChoice.waitForExistence(timeout: 4.0) {
+                wrongChoice.tap()
+            }
+            Thread.sleep(forTimeInterval: 1.0)
+            app.buttons["Check"].tap()
+            Thread.sleep(forTimeInterval: 2.0)
+        }
+    }
+
+    @MainActor
+    private func executeRealAppFlow() throws {
         let app = XCUIApplication()
         app.launch()
 
@@ -222,7 +323,7 @@ final class RealFlowUITests: XCTestCase {
     }
 
     @MainActor
-    func testAccessibilityAX3Flow() throws {
+    private func executeAX3Flow() throws {
         let app = XCUIApplication()
         app.launch()
 
