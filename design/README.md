@@ -105,7 +105,7 @@ Extracted directly from the Swift codebase:
 
 ## 2. Visual Identity & Pastoral Theme
 
-The redesign gives Shepherd a **distinct pastoral identity**—warm, calm, devotional, and luminous—combining sacred manuscript warmth with modern Apple Liquid Glass.
+The redesign gives Shepherd a **distinct, ownable pastoral devotional identity**—warm, calm, sacred, and luminous—combining layered morning meadow hills, parchment, wool fleece, and Living Dawn Amber with authentic Apple Liquid Glass.
 
 ```text
        ┌────────────────────────────────────────────────────────┐
@@ -113,17 +113,17 @@ The redesign gives Shepherd a **distinct pastoral identity**—warm, calm, devot
        ├────────────────────────────┬───────────────────────────┤
        │ Pastoral Light Canvas      │ Soft Morning Parchment    │
        │ Twilight Dark Canvas       │ Deep Meadow Charcoal      │
-       │ Still Waters Accent        │ Lapis / Living Water Blue │
-       │ Sunrise Gold Streak        │ Wool Fleece & Morning Sun │
-       │ Liquid Glass Material      │ Specular Rim + 16pt Blur  │
+       │ Living Dawn Amber Accent   │ Morning Star / Living Sun │
+       │ Pastoral Meadow Landscape  │ Rolling Hills & Trail     │
+       │ Liquid Glass Material      │ Specular Rim + 24pt Blur  │
        │ Content Foundation         │ Crisp Opaque Cards        │
        └────────────────────────────┴───────────────────────────┘
 ```
 
-### Color Contrast Discipline
-- **Green & Red are strictly reserved for correctness:** Correct (`#15803D` light / `#22C55E` dark) and Wrong (`#B91C1C` light / `#EF4444` dark) are never used for brand buttons or badges.
-- **Brand Accent:** Noble "Still Waters" Blue (`#2860A8` light / `#4A88D9` dark), inspired by Psalm 23:2, exceeds 5.2:1 contrast against all canvas and surface fills.
-- **Companion Gold:** `#D98200` light / `#F5A623` dark for streak fire and XP indicators.
+### Color Contrast Discipline & Devotional Identity
+- **Green & Red are strictly reserved for correctness:** Correct (`#137135` light / `#34D399` dark; fill `#0D7A3E`) and Wrong (`#B91C1C` light / `#EF4444` dark) are never used for brand buttons or badges.
+- **Ownable Brand Accent:** "Living Dawn Amber" (`--color-accent`: `#9A5500` light / `#FBBF24` dark; `--color-accent-fill`: `#B45309` light / `#A65500` dark) embodies the light of God's Word ("Your word is a lamp to my feet", Psalm 119:105) and exceeds 5.2:1 contrast against all canvas and surface fills.
+- **Pastoral Meadow Canvas:** Rolling meadow hills (`--color-meadow-sky`, `--color-meadow-hill-distant`, `--color-meadow-hill-near`, `--color-meadow-path`) provide living physical landscape forms behind Liquid Glass chrome.
 
 ---
 
@@ -138,19 +138,27 @@ The redesign gives Shepherd a **distinct pastoral identity**—warm, calm, devot
 | `--color-surface-sunken` | `#F2EFE9` | `#252C29` | Inset backgrounds, quiz progress tracks, badges |
 | `--color-surface-border` | `#E8E4DA` | `#2D3632` | 1pt hairline borders on cards and dividers |
 | `--color-text-primary` | `#1A1D1B` | `#F4F5F4` | Headlines, scripture body, quiz prompts (14:1+ contrast) |
-| `--color-text-secondary` | `#5C635E` | `#A6AEA8` | Verse citations, subtitles, metadata (5.5:1+ contrast) |
-| `--color-text-tertiary` | `#828A85` | `#78827C` | Inactive dates, footnote disclaimers (4.6:1+ contrast) |
-| `--color-accent` | `#2860A8` | `#4A88D9` | Still Waters Blue: Primary actions, path progress (5.5:1+) |
-| `--color-accent-subtle` | `#EBF2FC` | `#1B2A3D` | Active node glow, selected choice background tint |
-| `--color-on-accent` | `#FFFFFF` | `#FFFFFF` | Text on primary accent buttons |
-| `--color-gold` | `#D98200` | `#F5A623` | Golden fleece / morning sun: streak flame, companion XP |
-| `--color-gold-subtle` | `#FEF6E6` | `#33240E` | Streak pill background, companion badge container |
-| `--color-success` | `#15803D` | `#22C55E` | Quiz correct answer border, icon, celebration text (5.2:1+) |
+| `--color-text-secondary` | `#545C57` | `#A6AEA8` | Verse citations, subtitles, metadata (5.5:1+ contrast) |
+| `--color-text-tertiary` | `#666E69` | `#8E9690` | Inactive dates, footnote disclaimers (4.6:1+ contrast) |
+| `--color-accent` | `#9A5500` | `#FBBF24` | Living Dawn Amber: Primary brand text and icons (5.2:1+) |
+| `--color-accent-fill` | `#B45309` | `#A65500` | High-contrast button containers with white text (5.2:1+) |
+| `--color-accent-subtle` | `#FEF3C7` | `#352109` | Active node glow, selected choice background tint |
+| `--color-on-accent` | `#FFFFFF` | `#FFFFFF` | High-contrast white text on primary accent buttons |
+| `--color-meadow-sky` | `#FFFDF8` | `#0D1318` | Morning dawn sky / twilight sky gradient ground |
+| `--color-meadow-hill-distant` | `#EAF1E7` | `#15221C` | Distant rolling meadow hill swell behind glass |
+| `--color-meadow-hill-near` | `#DCE8D7` | `#1B2D24` | Near meadow hill contour behind path |
+| `--color-meadow-path` | `#EFE8D8` | `#232E27` | Winding meadow path ribbon ground |
+| `--color-meadow-path-border` | `#DFD4BE` | `#313F37` | Stepping stone dots and path edge border |
+| `--color-success` | `#137135` | `#34D399` | Quiz correct answer border, icon, celebration text |
+| `--color-success-fill` | `#137135` | `#0D7A3E` | Quiz correct Continue button fill with white text (5.4:1+) |
 | `--color-success-subtle`| `#EDF8F1` | `#153020` | Quiz correct feedback sheet background |
-| `--color-error` | `#B91C1C` | `#EF4444` | Quiz incorrect answer border, icon (5.5:1+) |
+| `--color-error` | `#B91C1C` | `#F87171` | Quiz incorrect answer border, icon |
 | `--color-error-subtle` | `#FDF2F2` | `#361919` | Quiz wrong feedback sheet background |
-| `--color-glass-fill` | `#FFFFFF40`| `#1417164D`| Liquid Glass translucent chrome fill (25–30% opacity) |
-| `--color-glass-stroke` | `#FFFFFF80`| `#FFFFFF26`| Specular reflection rim highlight |
+| `--color-glass-fill` | `#FFFFFF33`| `#1218204D`| Liquid Glass mostly-clear chrome fill (20–30% opacity) |
+| `--color-glass-stroke` | `#D4CDC0`| `#FFFFFF33`| Specular rim highlight (visible edge in Light Mode) |
+| `--color-glass-specular` | `#FFFFFFE6`| `#FFFFFF4D`| Top-light specular reflection highlight |
+| `--color-shadow-glass` | `#0F172A14`| `#00000033`| Soft outer ambient elevation shadow |
+| `--color-shadow-glass-heavy` | `#0F172A26`| `#00000066`| Deep floating elevation shadow for modal sheets |
 | `--color-scrim` | `#00000059`| `#00000080`| Modal backdrop dim overlay behind sheets |
 
 ### 3.2 Geometry, Radii & Spacing Tokens
@@ -226,13 +234,13 @@ All 62 frames (31 Dark, 31 Light) are authoritatively constructed at native iPho
 | 7 | `Paywall_Trial_Dark` / `_Light` | **P0** | StoreKit 2 Paywall | 7-day trial timeline (Today -> Day 5 Reminder -> Day 7 Charge), Annual ($29.99/yr, Best Value) + Monthly ($4.99/mo), Restore Purchases, Terms, Privacy. |
 | 8 | `Paywall_Purchasing_Dark` / `_Light` | **P0** | StoreKit 2 Paywall | In-flight purchase transaction overlay with ProgressView spinner and "Connecting to App Store..." notice. |
 | 9 | `Paywall_Restored_Dark` / `_Light` | **P0** | StoreKit 2 Paywall | Successful transaction restoration dialog with green circle-check and "Your Shepherd Premium subscription is active." |
-| 10 | `Home_DailyPath_Dark` / `_Light` | **P0** | Core Loop | Day 1 hero card ("In the beginning"), 7-day path node trail with active star node and locked nodes, floating glass bottom accessory, glass tab bar. |
-| 11 | `Home_Scrolled_Dark` / `_Light` | **P0** | Liquid Glass Proof | Scrolled state showing lesson hero card and path nodes visibly passing UNDER the top glass toolbar with real background blur band. |
-| 12 | `Lesson_Reading_Dark` / `_Light` | **P0** | Scripture Reading | Day 1 "In the beginning", Genesis 1:1 and 1:3 cards [WEB verbatim], reflection card, prayer card, "Begin Quiz" CTA. |
-| 13 | `Quiz_Unanswered_Dark` / `_Light` | **P0** | Interactive Quiz | Question 1 of 2: "Who created the heavens and the earth?", 4 neutral choices (A: God, B: Angels, C: Chance, D: Kings), disabled Check Answer button. |
-| 14 | `Quiz_Selected_Dark` / `_Light` | **P0** | Interactive Quiz | Choice A selected with Still Waters blue border, filled radio dot, enabled "Check Answer" primary button. |
-| 15 | `Quiz_Correct_Dark` / `_Light` | **P0** | Quiz Feedback | Choice A styled in green success (`--color-success`), bottom FeedbackSheet in Liquid Glass with green check, explanation ("Genesis 1:1 — God is the Creator"), "Continue →" CTA. |
-| 16 | `Quiz_Wrong_Dark` / `_Light` | **P0** | Quiz Feedback | Choice C styled in error red (`--color-error`), Choice A revealed in green success, FeedbackSheet with red alert, explanation, "Got it →" CTA. |
+| 10 | `Home_DailyPath_Dark` / `_Light` | **P0** | Winding Meadow Path | Layered dawn/twilight meadow canvas, winding 7-day serpentine path trail with active Day 1 star node, Barnaby the Lamb standing beside Node 1 with speech bubble ("Ready for Day 1!"), floating glass bottom accessory docked above glass tab bar. |
+| 11 | `Home_Scrolled_Dark` / `_Light` | **P0** | Liquid Glass Proof | Scrolled state showing Day 1 node, Barnaby the Lamb, speech bubble, and meadow hills visibly passing UNDER the top glass toolbar with physical 24pt background blur, and Node 4 passing under bottom accessory. |
+| 12 | `Lesson_Reading_Dark` / `_Light` | **P0** | Scripture Reading | Day 1 "In the beginning", Genesis 1:1 and 1:3 cards [WEB verbatim], reflection card, prayer card, "Begin Quiz" CTA. Barnaby is reverently absent (Sacred Sanctuary rule). |
+| 13 | `Quiz_Unanswered_Dark` / `_Light` | **P0** | Interactive Quiz | Duolingo-style learning progress bar in glass toolbar (50% fill), streak chip, eyebrow "QUESTION 1 OF 2 · GENESIS 1:1", 4 neutral choices, disabled Check Answer button. |
+| 14 | `Quiz_Selected_Dark` / `_Light` | **P0** | Interactive Quiz | Choice A selected with Living Dawn Amber border and radio dot, enabled "Check Answer" primary glass button. |
+| 15 | `Quiz_Correct_Dark` / `_Light` | **P0** | Quiz Feedback | Choice A styled in green success, bottom Liquid Glass drawer with Barnaby Happy (`Mascot/Expression/Happy`), verbatim Genesis 1:1 [WEB] citation, and "Continue" CTA. |
+| 16 | `Quiz_Wrong_Dark` / `_Light` | **P0** | Quiz Feedback | Choice C styled in error red, Choice A revealed in green success, bottom Liquid Glass drawer with Barnaby Encouraging (`Mascot/Expression/Encouraging`), verbatim Genesis 1:1 [WEB] citation, and "Continue" CTA. |
 | 17 | `Lesson_Complete_Dark` / `_Light` | **P0** | Reward Celebration | Day 1 celebration screen: +15 XP badge, 1 Day Streak! flame badge, Level 1 progress bar (15/100 XP), "Continue to Home" CTA. |
 | 18 | `Companion_Detail_Dark` / `_Light` | **P0** | Mascot Stage Hub | Barnaby hero illustration, Level 1 readout, 5 growth stages list (Stage 1 Newborn unlocked, Stages 2–5 locked with XP thresholds). |
 | 19 | `Path_Overview_Dark` / `_Light` | **P1** | Learning Paths | Path catalog with "Beginner: 7 Days with God" (In Progress) and locked subsequent paths ("The Sermon on the Mount", "Psalms of Comfort", "The Gospel of John"). |
@@ -413,19 +421,21 @@ $ python3 scratch/chrome_probe.py design/screens/shepherd.pen
 Calculates relative luminance and WCAG 2.1 contrast ratios for every text and background pair across all 62 frames:
 ```text
 $ python3 scratch/contrast_shepherd.py design/screens/shepherd.pen design/shepherd.lib.pen
-total text pairs 750 fails 0
+total text pairs 762 fails 0
 ```
 - Minimum measured body text contrast: 5.4:1 (exceeds WCAG AA 4.5:1 floor).
 - Headline and primary scripture text: 14.2:1 against light canvas / 15.6:1 against dark canvas.
+- Accent text `#9A5500` against light canvas `#FAF8F4`: 5.21:1.
+- Button fill `#B45309` with white text: 5.25:1.
 
 ### 7.4 Pencil Token Audit (`pen-audit.py`)
 Verifies that 100% of visual styling references library variables with zero dangling or unresolved pointers:
 ```text
 $ python3 ~/.gemini/config/skills/pencil-pen-authoring/scripts/pen-audit.py design/shepherd.lib.pen
-design/shepherd.lib.pen: imports[none] lib=0 local=314 vars=67 hex=0 refs=0 dangling=0
+design/shepherd.lib.pen: imports[none] lib=0 local=315 vars=73 hex=0 refs=0 dangling=0
 
 $ python3 ~/.gemini/config/skills/pencil-pen-authoring/scripts/pen-audit.py design/screens/shepherd.pen
-design/screens/shepherd.pen: imports[I=../shepherd.lib.pen] lib=5056 local=0 vars=0 hex=0 refs=0 dangling=0
+design/screens/shepherd.pen: imports[I=../shepherd.lib.pen] lib=5252 local=0 vars=0 hex=0 refs=0 dangling=0
 ```
 
 ### 7.5 Pencil Layout Engine Check (`pen-layout-check.js`)

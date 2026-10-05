@@ -119,6 +119,13 @@ Media Strategy:
 | **Non-Shaming Mistake Pose** | Mascot / Ethics | Refero Finch & Headspace | When a quiz answer is wrong, the lamb shows an encouraging head-tilt with a warm smile, never crying or scolding. |
 | **Glass Morphing Container** | Motion / Glass | iOS 26 Cheatsheet §5.2 | `GlassEffectContainer` shares the material buffer during button-to-sheet expansion, eliminating flickering. |
 | **Native Vector PhaseAnimator** | Motion / Mascot | SwiftUI iOS 17+ / iOS 26 | Vector layers oscillate via `PhaseAnimator` (idle breathing, hop, ear tilt); 100% offline, 0 bytes network, 0 CPU lag. |
+| **Living Dawn Amber Accent** | Palette | Psalm 119:105 ("Your word is a lamp") & Refero `Abide` | Replaces generic system blue with warm, ownable Living Dawn Amber (`#9A5500` light / `#FBBF24` dark; fill `#B45309` / `#A65500`); distinct from quiz correctness (green) and quiz error (red). |
+| **Pastoral Meadow Landscape Canvas** | Canvas / Glass | Refero `Mindllama` & Open Pool §6.3 | Layered rolling meadow hills (`--color-meadow-sky`, `--color-meadow-hill-*`, `--color-meadow-path`) provide physical shapes and pastoral hues for Liquid Glass chrome to blur and refract. |
+| **Winding Serpentine Path & Mascot Placement** | Layout / Mascot | Refero `Duolingo` & Captain Mascot Steer | Path nodes follow an organic S-curve through the meadow; Barnaby the Lamb (Stage 1 Newborn) stands proudly beside Node 1 with an encouraging speech bubble ("Ready for Day 1!"). |
+| **Home Hero vs Bottom Accessory Resolution** | Architecture | iOS 26 `.tabViewBottomAccessory` spec | Retains the persistent thumb-friendly bottom accessory docked above the glass tab bar; eliminates duplicate in-page hero card to open full vertical space for the meadow trail. |
+| **Scrolled-Under-Glass Visual Proof** | Liquid Glass | GROL Review B2 & Open Pool §6.3 | Scrolled state (`Home_Scrolled_*`) brings Node 1, Barnaby, and meadow hills directly under the top navigation bar (`y: 54`), demonstrating physical 24pt background blur and specular rim highlights. |
+| **Pedagogical Quiz Progress & Feedback** | Quiz / Learning | Duolingo & Refero `Finch` | Replaces redundant "Question 1 of 2" text with an elegant learning progress bar in the toolbar; wrong-state feedback sheet is a true Liquid Glass drawer morphing from the check button, featuring Barnaby Encouraging, verbatim Genesis 1:1 [WEB] citation, and "Continue" CTA. |
+| **Pruned Human-Readable Exports** | Build Hygiene | GROL Review m1 & fix-round-1 #6 | Eliminates redundant duplicate `frame_*.png` files (saving 50% repo weight); retains 62 canonical human-readable `<Screen_State>.png` exports cataloged in `index.tsv`. |
 
 ---
 
