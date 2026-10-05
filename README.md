@@ -8,32 +8,33 @@ Inspired by market research on Bible Study – Manna (habit UX + mascot onboardi
 ## Product lock
 
 - **Direction:** Manna-style + privacy (`manna-clone-privacy`)
-- **Platform:** iOS 17+ first (SwiftUI + SwiftData + StoreKit 2 + WidgetKit)
+- **Platform:** iOS 26+ (SwiftUI Liquid Glass + SwiftData + StoreKit 2)
 - **Bible text (v1):** public-domain **World English Bible (WEB)** or **KJV** bundled offline
 - **Monetization:** free daily path + reader; Premium via soft paywall (7-day trial, annual primary + monthly)
 
 ## Repo layout
 
 ```
-Shepherd/           # Add these sources into a new Xcode iOS App target
+Shepherd/           # Swift sources, theme, views, resources
   App/
   Models/
   Views/
   Services/
-  Resources/Content/
+  Resources/
+    Assets.xcassets/
+    Content/
   Theme/
 docs/PLAN.md        # Build plan & milestones
-scripts/            # Content helpers
+scripts/            # Content & asset helpers
+project.yml         # XcodeGen project definition
+Shepherd.storekit   # StoreKit test configuration
 ```
 
-## Quick start (Xcode)
+## Quick start
 
-1. Open Xcode → **File → New → Project → App**
-2. Product Name: `Shepherd`, Interface: SwiftUI, Storage: None (we use SwiftData in code), Language: Swift, iOS 17+
-3. Replace the generated app file with `Shepherd/App/ShepherdApp.swift`
-4. Drag the `Shepherd/` folders into the project (Create groups, copy if needed)
-5. Ensure `Resources/Content/*.json` are in **Copy Bundle Resources**
-6. Add capabilities later: In-App Purchase, App Groups (for widgets)
+```bash
+xcodegen && open Shepherd.xcodeproj
+```
 
 Bundle ID suggestion: `com.dangvietquan.shepherd` (change to yours).
 
