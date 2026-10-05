@@ -7,12 +7,10 @@ public struct OnboardingFlowView: View {
     @State private var goal: String = "grow_daily"
     @State private var experienceLevel: String = "beginner"
     @State private var dailyMinutes: Int = 5
-    @State private var lambName: String = "Barnaby"
+    @State private var lambName: String = ""
     @State private var showPaywall: Bool = false
 
-    public init(initialStep: Int = 0) {
-        _step = State(initialValue: initialStep)
-    }
+    public init() {}
 
     public var body: some View {
         NavigationStack {
@@ -20,11 +18,17 @@ public struct OnboardingFlowView: View {
                 ShepherdTheme.canvasBg.ignoresSafeArea()
 
                 VStack(spacing: 20) {
-                    // 6-step progress indicator
-                    ProgressView(value: Double(step + 1), total: 6)
-                        .tint(ShepherdTheme.accent)
-                        .padding(.horizontal, 20)
-                        .padding(.top, 8)
+                    // Segmented step progress
+                    HStack(spacing: 6) {
+                        ForEach(0..<6) { i in
+                            Capsule()
+                                .fill(i <= step ? ShepherdTheme.accentFill : ShepherdTheme.surfaceSunken)
+                                .frame(height: 4)
+                                .animation(.easeInOut(duration: 0.25), value: step)
+                        }
+                    }
+                    .padding(.horizontal, 20)
+                    .padding(.top, 8)
 
                     Group {
                         switch step {
@@ -47,6 +51,21 @@ public struct OnboardingFlowView: View {
                     .padding(.bottom, 24)
                 }
             }
+            .toolbar {
+                if step > 0 {
+                    ToolbarItem(placement: .topBarLeading) {
+                        Button {
+                            withAnimation(.spring(duration: 0.35, bounce: 0.15)) {
+                                step -= 1
+                            }
+                        } label: {
+                            Image(systemName: "chevron.left")
+                                .font(.body.weight(.semibold))
+                        }
+                        .accessibilityLabel("Back")
+                    }
+                }
+            }
             .fullScreenCover(isPresented: $showPaywall) {
                 PaywallView(
                     onContinueFree: finishOnboarding,
@@ -62,9 +81,8 @@ public struct OnboardingFlowView: View {
             Spacer()
 
             ZStack {
-                Circle()
-                    .fill(ShepherdTheme.accentSubtle.opacity(0.4))
-                    .frame(width: 220, height: 220)
+                HillVignetteView(width: 320, height: 70)
+                    .offset(y: 45)
 
                 LambView(stage: 1, expression: .hello, displayHeight: 140)
             }
@@ -98,13 +116,11 @@ public struct OnboardingFlowView: View {
                 optionButton(id: "grow_daily", label: "Grow a daily habit", selection: $goal)
                 optionButton(id: "understand", label: "Understand the Bible better", selection: $goal)
                 optionButton(id: "peace", label: "Find peace & prayer", selection: $goal)
-                optionButton(id: "new", label: "I’m new to faith", selection: $goal)
             }
             .padding(.horizontal, 20)
 
             Spacer()
 
-            // Lamb peeking at bottom-left
             HStack {
                 LambView(stage: 1, expression: .idle, displayHeight: 72)
                     .padding(.leading, 24)
@@ -113,40 +129,40 @@ public struct OnboardingFlowView: View {
         }
     }
 
-    // MARK: - Step 2: Experience / Familiarity
+    // MARK: - Step 2: Experience
     private var experienceStep: some View {
         VStack(alignment: .leading, spacing: 16) {
-            Text("How familiar are you?")
+            Text("How familiar are you with the Bible?")
                 .font(ShepherdTheme.title1Serif())
                 .foregroundStyle(ShepherdTheme.textPrimary)
                 .padding(.horizontal, 20)
 
             VStack(spacing: 12) {
-                optionButton(id: "beginner", label: "Beginner", selection: $experienceLevel)
+                optionButton(id: "beginner", label: "Brand new", selection: $experienceLevel)
                 optionButton(id: "some", label: "Some experience", selection: $experienceLevel)
-                optionButton(id: "regular", label: "I read regularly", selection: $experienceLevel)
+                optionButton(id: "deep", label: "Read it regularly", selection: $experienceLevel)
             }
             .padding(.horizontal, 20)
 
             Spacer()
 
             HStack {
-                LambView(stage: 1, expression: .idle, displayHeight: 72)
-                    .padding(.leading, 24)
                 Spacer()
+                LambView(stage: 1, expression: .idle, displayHeight: 72)
+                    .padding(.trailing, 24)
             }
         }
     }
 
     // MARK: - Step 3: Pace
     private var paceStep: some View {
-        VStack(alignment: .leading, spacing: 20) {
-            Text("How many minutes a day?")
+        VStack(alignment: .leading, spacing: 16) {
+            Text("How much time each day?")
                 .font(ShepherdTheme.title1Serif())
                 .foregroundStyle(ShepherdTheme.textPrimary)
                 .padding(.horizontal, 20)
 
-            Picker("Minutes", selection: $dailyMinutes) {
+            Picker("Daily Minutes", selection: $dailyMinutes) {
                 Text("5 min").tag(5)
                 Text("10 min").tag(10)
                 Text("15 min").tag(15)
@@ -175,9 +191,8 @@ public struct OnboardingFlowView: View {
             Spacer()
 
             ZStack {
-                Circle()
-                    .fill(ShepherdTheme.accentSubtle.opacity(0.4))
-                    .frame(width: 200, height: 200)
+                HillVignetteView(width: 320, height: 70)
+                    .offset(y: 45)
 
                 LambView(stage: 1, expression: .hello, displayHeight: 140)
             }
@@ -187,13 +202,13 @@ public struct OnboardingFlowView: View {
                     .font(ShepherdTheme.title1Serif())
                     .foregroundStyle(ShepherdTheme.textPrimary)
 
-                Text("He'll walk each day of the journey with you.")
+                Text("Your lamb grows as you learn.")
                     .font(.subheadline)
                     .foregroundStyle(ShepherdTheme.textSecondary)
             }
 
             TextField("Lamb’s name", text: $lambName)
-                .font(.system(size: 18, weight: .medium))
+                .font(.body)
                 .padding(14)
                 .background(ShepherdTheme.cardSurface)
                 .clipShape(RoundedRectangle(cornerRadius: ShepherdTheme.radiusMD))
@@ -201,72 +216,71 @@ public struct OnboardingFlowView: View {
                     RoundedRectangle(cornerRadius: ShepherdTheme.radiusMD)
                         .stroke(ShepherdTheme.surfaceBorder, lineWidth: 1)
                 )
-                .padding(.horizontal, 24)
+                .padding(.horizontal, 20)
 
             Spacer()
         }
     }
 
-    // MARK: - Step 5: Preparing Plan
+    // MARK: - Step 5: Building Plan
     private var buildingPlanStep: some View {
-        VStack(spacing: 24) {
+        VStack(spacing: 20) {
             Spacer()
 
-            ZStack {
-                Circle()
-                    .fill(ShepherdTheme.accentSubtle.opacity(0.4))
-                    .frame(width: 180, height: 180)
-
-                LambView(stage: 1, expression: .happy, displayHeight: 120)
-            }
+            AnimatedLambView(stage: 1, expression: .happy, displayHeight: 120, isBreathing: true)
 
             VStack(spacing: 8) {
                 Text("Preparing your path…")
                     .font(ShepherdTheme.title1Serif())
                     .foregroundStyle(ShepherdTheme.textPrimary)
 
-                Text("We've set up your 7-day walk with God.")
+                Text("A personalized 7-day start based on your answers.")
                     .font(.subheadline)
                     .foregroundStyle(ShepherdTheme.textSecondary)
             }
 
-            VStack(alignment: .leading, spacing: 12) {
-                HStack(spacing: 12) {
-                    Image(systemName: "checkmark.circle.fill")
-                        .foregroundStyle(ShepherdTheme.accentFill)
-                    Text("Goal: \(goalDisplayTitle)")
-                        .font(.system(size: 16, weight: .medium))
-                        .foregroundStyle(ShepherdTheme.textPrimary)
-                }
-
-                HStack(spacing: 12) {
-                    Image(systemName: "checkmark.circle.fill")
-                        .foregroundStyle(ShepherdTheme.accentFill)
-                    Text("Daily goal: \(dailyMinutes) min")
-                        .font(.system(size: 16, weight: .medium))
-                        .foregroundStyle(ShepherdTheme.textPrimary)
-                }
+            // Summary Card
+            VStack(alignment: .leading, spacing: 10) {
+                summaryRow(title: "Goal", value: goalLabel(goal))
+                summaryRow(title: "Level", value: levelLabel(experienceLevel))
+                summaryRow(title: "Pace", value: "\(dailyMinutes) minutes daily")
+                summaryRow(title: "Companion", value: lambName.trimmingCharacters(in: .whitespaces).isEmpty ? "Lamb" : lambName.trimmingCharacters(in: .whitespaces))
             }
-            .padding(18)
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .background(ShepherdTheme.cardSurface)
-            .clipShape(RoundedRectangle(cornerRadius: ShepherdTheme.radiusMD))
-            .overlay(
-                RoundedRectangle(cornerRadius: ShepherdTheme.radiusMD)
-                    .stroke(ShepherdTheme.surfaceBorder, lineWidth: 1)
-            )
-            .padding(.horizontal, 24)
+            .padding(16)
+            .shepherdGlassCard(cornerRadius: ShepherdTheme.radiusLG)
+            .padding(.horizontal, 20)
 
             Spacer()
         }
     }
 
-    private var goalDisplayTitle: String {
-        switch goal {
-        case "grow_daily": return "Grow a daily habit"
-        case "understand": return "Understand the Bible better"
-        case "peace": return "Find peace & prayer"
-        default: return "I'm new to faith"
+    private func summaryRow(title: String, value: String) -> some View {
+        HStack {
+            Text(title)
+                .font(.subheadline)
+                .foregroundStyle(ShepherdTheme.textSecondary)
+            Spacer()
+            Text(value)
+                .font(.subheadline.weight(.semibold))
+                .foregroundStyle(ShepherdTheme.textPrimary)
+        }
+    }
+
+    private func goalLabel(_ g: String) -> String {
+        switch g {
+        case "grow_daily": return "Daily habit"
+        case "understand": return "Understand Bible"
+        case "peace": return "Peace & prayer"
+        default: return g
+        }
+    }
+
+    private func levelLabel(_ l: String) -> String {
+        switch l {
+        case "beginner": return "Brand new"
+        case "some": return "Some experience"
+        case "deep": return "Regular reader"
+        default: return l
         }
     }
 
@@ -277,22 +291,16 @@ public struct OnboardingFlowView: View {
         } label: {
             HStack {
                 Text(label)
-                    .font(.system(size: 17, weight: .medium))
+                    .font(.body.weight(isSelected ? .semibold : .regular))
                     .foregroundStyle(ShepherdTheme.textPrimary)
                 Spacer()
                 if isSelected {
                     Image(systemName: "checkmark.circle.fill")
-                        .font(.system(size: 22))
                         .foregroundStyle(ShepherdTheme.accentFill)
-                } else {
-                    Circle()
-                        .strokeBorder(ShepherdTheme.surfaceBorder, lineWidth: 1.5)
-                        .frame(width: 22, height: 22)
                 }
             }
             .padding(.horizontal, 16)
-            .frame(maxWidth: .infinity)
-            .frame(height: 60)
+            .frame(minHeight: 56)
             .background(isSelected ? ShepherdTheme.accentSubtle.opacity(0.3) : ShepherdTheme.cardSurface)
             .clipShape(RoundedRectangle(cornerRadius: ShepherdTheme.radiusMD))
             .overlay(
@@ -314,23 +322,13 @@ public struct OnboardingFlowView: View {
     }
 
     private func finishOnboarding() {
-        let chosenName = lambName.trimmingCharacters(in: .whitespaces).isEmpty ? "Lamb" : lambName.trimmingCharacters(in: .whitespaces)
-
-        let profile = UserProfile(
+        OnboardingStore.complete(
             goal: goal,
-            experienceLevel: experienceLevel,
-            dailyMinutes: dailyMinutes,
-            hasCompletedOnboarding: true
+            experience: experienceLevel,
+            minutes: dailyMinutes,
+            name: lambName,
+            context: modelContext
         )
-        modelContext.insert(profile)
-
-        if let existing = try? modelContext.fetch(FetchDescriptor<Companion>()).first {
-            existing.name = chosenName
-        } else {
-            modelContext.insert(Companion(name: chosenName, stage: 1, xp: 0))
-        }
-
-        try? modelContext.save()
         showPaywall = false
     }
 }

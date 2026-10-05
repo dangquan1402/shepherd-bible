@@ -7,30 +7,29 @@ public struct PaywallView: View {
 
     @ObservedObject private var store = StoreKitManager.shared
     @State private var selectedPlanIsYearly: Bool = true
-    @State private var forcedState: PaywallPurchaseState? = nil
     @Environment(\.dismiss) private var dismiss
 
-    public init(forcedState: PaywallPurchaseState? = nil, onContinueFree: @escaping () -> Void, onPurchased: @escaping () -> Void) {
+    public init(onContinueFree: @escaping () -> Void, onPurchased: @escaping () -> Void) {
         self.onContinueFree = onContinueFree
         self.onPurchased = onPurchased
-        _forcedState = State(initialValue: forcedState)
     }
 
     private var selectedProduct: Product? {
         selectedPlanIsYearly ? store.yearlyProduct : store.monthlyProduct
     }
 
-    private var yearlyPriceString: String {
-        store.yearlyProduct?.displayPrice ?? "$29.99/year"
-    }
-
-    private var monthlyPriceString: String {
-        store.monthlyProduct?.displayPrice ?? "$4.99/month"
+    private var pricePeriodString: String? {
+        guard let p = selectedProduct else { return nil }
+        let period = selectedPlanIsYearly ? "year" : "month"
+        return "\(p.displayPrice)/\(period)"
     }
 
     private var disclosureText: String {
-        let price = selectedPlanIsYearly ? "\(yearlyPriceString)" : "\(monthlyPriceString)"
-        return "Free for 7 days, then \(price). Auto-renews until cancelled. Cancel anytime in Settings › Apple ID at least 24 hours before the trial ends."
+        if let price = pricePeriodString {
+            return "Free for 7 days, then \(price). Auto-renews until cancelled. Cancel anytime in Settings › Apple ID at least 24 hours before the trial ends."
+        } else {
+            return "Free for 7 days, then subscription starts unless cancelled. Auto-renews until cancelled. Cancel anytime in Settings › Apple ID at least 24 hours before the trial ends."
+        }
     }
 
     public var body: some View {
@@ -39,140 +38,136 @@ public struct PaywallView: View {
                 ShepherdTheme.canvasBg.ignoresSafeArea()
 
                 ScrollView {
-                    VStack(spacing: 20) {
-                        // Mascot Avatar
-                        ZStack {
-                            Circle()
-                                .fill(ShepherdTheme.accentSubtle.opacity(0.4))
-                                .frame(width: 90, height: 90)
-
+                    VStack(spacing: 24) {
+                        // Header with Title and Mascot Avatar
+                        HStack(alignment: .center, spacing: 16) {
+                            VStack(alignment: .leading, spacing: 6) {
+                                Text("Start your 7-day free trial")
+                                    .font(ShepherdTheme.title1Serif())
+                                    .foregroundStyle(ShepherdTheme.textPrimary)
+                            }
+                            Spacer()
                             LambAvatarView(stage: 1, expression: .happy, size: 72)
                         }
-                        .padding(.top, 12)
+                        .padding(.horizontal, 20)
+                        .padding(.top, 16)
 
-                        // Title
-                        VStack(spacing: 6) {
-                            Text("Grow with Shepherd Premium")
-                                .font(ShepherdTheme.title1Serif())
-                                .foregroundStyle(ShepherdTheme.textPrimary)
-                                .multilineTextAlignment(.center)
-
-                            Text("Deepen your reflection with full access")
-                                .font(.subheadline)
-                                .foregroundStyle(ShepherdTheme.textSecondary)
+                        // Timeline Rows per spec
+                        VStack(spacing: 14) {
+                            timelineRow(
+                                icon: "checkmark.circle.fill",
+                                iconColor: ShepherdTheme.accentFill,
+                                title: "Set your daily goal",
+                                subtitle: "Done"
+                            )
+                            timelineRow(
+                                icon: "lock.open.fill",
+                                iconColor: ShepherdTheme.accentFill,
+                                title: "Today",
+                                subtitle: "Premium unlocks: full learning paths, streak freezes, companion outfits, widgets & reminders"
+                            )
+                            timelineRow(
+                                icon: "bell.fill",
+                                iconColor: ShepherdTheme.textSecondary,
+                                title: "Day 5",
+                                subtitle: "Cancel anytime before Day 7"
+                            )
+                            timelineRow(
+                                icon: "star.fill",
+                                iconColor: ShepherdTheme.accentFill,
+                                title: "Day 7",
+                                subtitle: "Trial ends; \(store.yearlyProduct?.displayPrice ?? "subscription")/year starts unless you cancel"
+                            )
                         }
+                        .padding(18)
+                        .shepherdGlassCard(cornerRadius: ShepherdTheme.radiusLG)
+                        .padding(.horizontal, 20)
 
-                        // Feature List (Exactly the 4 from code)
-                        VStack(alignment: .leading, spacing: 12) {
-                            ForEach(ShepherdConstants.premiumFeatures, id: \.self) { feature in
-                                HStack(spacing: 12) {
-                                    Image(systemName: "checkmark.circle.fill")
-                                        .font(.system(size: 20))
-                                        .foregroundStyle(ShepherdTheme.accentFill)
-
-                                    Text(feature)
-                                        .font(.system(size: 16, weight: .medium))
-                                        .foregroundStyle(ShepherdTheme.textPrimary)
+                        // Plan Selector
+                        if store.products.isEmpty {
+                            VStack(spacing: 12) {
+                                if let error = store.lastErrorMessage {
+                                    Text("Couldn't load prices")
+                                        .font(.subheadline)
+                                        .foregroundStyle(ShepherdTheme.textSecondary)
+                                    SecondaryGlassButton("Retry") {
+                                        Task { await store.loadProducts() }
+                                    }
+                                } else {
+                                    ProgressView()
+                                        .padding(.vertical, 20)
                                 }
                             }
-                        }
-                        .padding(18)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .background(ShepherdTheme.cardSurface)
-                        .clipShape(RoundedRectangle(cornerRadius: ShepherdTheme.radiusMD))
-                        .overlay(
-                            RoundedRectangle(cornerRadius: ShepherdTheme.radiusMD)
-                                .stroke(ShepherdTheme.surfaceBorder, lineWidth: 1)
-                        )
+                            .frame(maxWidth: .infinity)
+                            .padding(.horizontal, 20)
+                        } else {
+                            VStack(spacing: 12) {
+                                if let yearly = store.yearlyProduct {
+                                    planCard(
+                                        title: "Annual · 7-day trial",
+                                        price: "\(yearly.displayPrice)/year",
+                                        badge: "Save 50%",
+                                        isSelected: selectedPlanIsYearly
+                                    ) {
+                                        selectedPlanIsYearly = true
+                                    }
+                                }
 
-                        // Plan Cards (Yearly & Monthly)
-                        VStack(spacing: 12) {
-                            PlanCard(
-                                title: "Yearly",
-                                subtitle: "7-day free trial · Best value",
-                                price: yearlyPriceString,
-                                badge: "Most popular",
-                                isSelected: selectedPlanIsYearly
-                            ) {
-                                selectedPlanIsYearly = true
+                                if let monthly = store.monthlyProduct {
+                                    planCard(
+                                        title: "Monthly · 7-day trial",
+                                        price: "\(monthly.displayPrice)/month",
+                                        badge: nil,
+                                        isSelected: !selectedPlanIsYearly
+                                    ) {
+                                        selectedPlanIsYearly = false
+                                    }
+                                }
                             }
-
-                            PlanCard(
-                                title: "Monthly",
-                                subtitle: "7-day free trial",
-                                price: monthlyPriceString,
-                                badge: nil,
-                                isSelected: !selectedPlanIsYearly
-                            ) {
-                                selectedPlanIsYearly = false
-                            }
+                            .padding(.horizontal, 20)
                         }
 
-                        // Trial Timeline
-                        VStack(alignment: .leading, spacing: 12) {
-                            timelineRow(
-                                day: "Today",
-                                title: "7-day free trial starts",
-                                subtitle: "Unlock all premium features"
-                            )
-                            timelineRow(
-                                day: "Day 5",
-                                title: "Cancel anytime before Day 7",
-                                subtitle: "No charges if cancelled"
-                            )
-                            timelineRow(
-                                day: "Day 7",
-                                title: "Subscription renews",
-                                subtitle: "Auto-renews until cancelled"
-                            )
-                        }
-                        .padding(18)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .background(ShepherdTheme.surfaceSunken)
-                        .clipShape(RoundedRectangle(cornerRadius: ShepherdTheme.radiusMD))
-
-                        // Legal disclosure
+                        // Disclosure Text
                         Text(disclosureText)
-                            .font(.system(size: 12))
+                            .font(.footnote)
                             .foregroundStyle(ShepherdTheme.textTertiary)
                             .multilineTextAlignment(.center)
-                            .padding(.horizontal, 10)
+                            .padding(.horizontal, 24)
 
-                        // Action Buttons
+                        // CTA Buttons
                         VStack(spacing: 12) {
-                            ProminentGlassButton("Start free trial") {
+                            ProminentGlassButton(selectedProduct == nil ? "Loading…" : "Start free trial") {
                                 startPurchase()
                             }
+                            .disabled(selectedProduct == nil)
 
                             Button("Continue with free path") {
                                 onContinueFree()
                                 dismiss()
                             }
-                            .font(.system(size: 16, weight: .medium))
+                            .font(.body.weight(.medium))
                             .foregroundStyle(ShepherdTheme.textSecondary)
-                            .padding(.vertical, 6)
                         }
-                        .padding(.top, 8)
+                        .padding(.horizontal, 20)
 
-                        // Footer links
-                        HStack(spacing: 16) {
+                        // Legal Footer
+                        HStack(spacing: 8) {
                             Button("Restore Purchases") {
                                 restore()
                             }
                             Text("·")
-                            Link("Terms of Service", destination: ShepherdConstants.termsOfServiceURL)
+                            Link("Terms", destination: ShepherdConstants.termsOfServiceURL)
                             Text("·")
-                            Link("Privacy Policy", destination: ShepherdConstants.privacyPolicyURL)
+                            Link("Privacy", destination: ShepherdConstants.privacyPolicyURL)
                         }
-                        .font(.caption2)
+                        .font(.footnote)
                         .foregroundStyle(ShepherdTheme.textTertiary)
                         .padding(.bottom, 24)
                     }
-                    .padding(.horizontal, 20)
                 }
 
                 // Overlay dialogs for purchasing states
-                if (forcedState ?? store.purchaseState) != .idle {
+                if store.purchaseState != .idle {
                     paywallStateOverlay
                 }
             }
@@ -184,51 +179,93 @@ public struct PaywallView: View {
                         dismiss()
                     } label: {
                         Image(systemName: "xmark")
-                            .font(.system(size: 13, weight: .bold))
+                            .font(.system(size: 16, weight: .semibold))
                             .foregroundStyle(ShepherdTheme.textSecondary)
-                            .frame(width: 32, height: 32)
-                            .background(ShepherdTheme.surfaceSunken)
-                            .clipShape(Circle())
                     }
                 }
             }
-            .task {
-                await store.loadProducts()
+            .onAppear {
+                store.purchaseState = .idle
+                if store.products.isEmpty {
+                    Task {
+                        await store.loadProducts()
+                    }
+                }
             }
         }
     }
 
-    private func timelineRow(day: String, title: String, subtitle: String) -> some View {
-        HStack(alignment: .top, spacing: 12) {
-            Text(day)
-                .font(.system(size: 12, weight: .bold))
-                .foregroundStyle(ShepherdTheme.accent)
-                .frame(width: 50, alignment: .leading)
+    private func timelineRow(icon: String, iconColor: Color, title: String, subtitle: String) -> some View {
+        HStack(alignment: .top, spacing: 14) {
+            Image(systemName: icon)
+                .font(.system(size: 18))
+                .foregroundStyle(iconColor)
+                .frame(width: 24, height: 24)
 
             VStack(alignment: .leading, spacing: 2) {
                 Text(title)
-                    .font(.system(size: 14, weight: .semibold))
+                    .font(.body.weight(.semibold))
                     .foregroundStyle(ShepherdTheme.textPrimary)
+
                 Text(subtitle)
-                    .font(.system(size: 12))
+                    .font(.subheadline)
                     .foregroundStyle(ShepherdTheme.textSecondary)
+                    .fixedSize(horizontal: false, vertical: true)
             }
+            Spacer()
         }
     }
 
-    private func startPurchase() {
-        if let product = selectedProduct {
-            Task {
-                let success = await store.purchase(product)
-                if success {
-                    onPurchased()
-                    dismiss()
+    private func planCard(title: String, price: String, badge: String?, isSelected: Bool, action: @escaping () -> Void) -> some View {
+        Button(action: action) {
+            HStack {
+                VStack(alignment: .leading, spacing: 4) {
+                    HStack(spacing: 8) {
+                        Text(title)
+                            .font(.body.weight(.semibold))
+                            .foregroundStyle(ShepherdTheme.textPrimary)
+
+                        if let badge = badge {
+                            Text(badge)
+                                .font(.caption.bold())
+                                .foregroundStyle(ShepherdTheme.accentFill)
+                                .padding(.horizontal, 6)
+                                .padding(.vertical, 2)
+                                .background(ShepherdTheme.accentSubtle)
+                                .clipShape(Capsule())
+                        }
+                    }
+
+                    Text(price)
+                        .font(.subheadline)
+                        .foregroundStyle(ShepherdTheme.textSecondary)
                 }
+
+                Spacer()
+
+                Image(systemName: isSelected ? "checkmark.circle.fill" : "circle")
+                    .font(.title3)
+                    .foregroundStyle(isSelected ? ShepherdTheme.accentFill : ShepherdTheme.textTertiary)
             }
-        } else {
-            // Local simulation fallback
-            onPurchased()
-            dismiss()
+            .padding(16)
+            .background(isSelected ? ShepherdTheme.accentSubtle.opacity(0.3) : ShepherdTheme.cardSurface)
+            .clipShape(RoundedRectangle(cornerRadius: ShepherdTheme.radiusMD))
+            .overlay(
+                RoundedRectangle(cornerRadius: ShepherdTheme.radiusMD)
+                    .stroke(isSelected ? ShepherdTheme.accent : ShepherdTheme.surfaceBorder, lineWidth: isSelected ? 2 : 1)
+            )
+        }
+        .buttonStyle(.plain)
+    }
+
+    private func startPurchase() {
+        guard let product = selectedProduct else { return }
+        Task {
+            let success = await store.purchase(product)
+            if success {
+                onPurchased()
+                dismiss()
+            }
         }
     }
 
@@ -248,7 +285,7 @@ public struct PaywallView: View {
             ShepherdTheme.scrim.ignoresSafeArea()
 
             VStack(spacing: 16) {
-                switch forcedState ?? store.purchaseState {
+                switch store.purchaseState {
                 case .purchasing:
                     ProgressView()
                         .scaleEffect(1.2)
@@ -277,7 +314,7 @@ public struct PaywallView: View {
                     Text("Purchase didn't go through")
                         .font(.headline)
                         .foregroundStyle(ShepherdTheme.textPrimary)
-                    Text(error)
+                    Text("You haven't been charged. \(error)")
                         .font(.subheadline)
                         .foregroundStyle(ShepherdTheme.textSecondary)
                         .multilineTextAlignment(.center)

@@ -5,7 +5,8 @@ public struct MainTabView: View {
     @EnvironmentObject private var content: ContentStore
     @Query private var progress: [LessonProgress]
     @State private var selectedTab: Int = 0
-    @State private var pushedLesson: Lesson? = nil
+    @State private var homeNavPath: [Lesson] = []
+    @Namespace private var pathZoomNamespace
 
     public init() {}
 
@@ -18,9 +19,13 @@ public struct MainTabView: View {
     public var body: some View {
         TabView(selection: $selectedTab) {
             Tab("Today", systemImage: "sun.max", value: 0) {
-                HomeView(onSelectLesson: { lesson in
-                    pushedLesson = lesson
-                })
+                HomeView(
+                    navPath: $homeNavPath,
+                    namespace: pathZoomNamespace,
+                    onSelectLesson: { lesson in
+                        homeNavPath.append(lesson)
+                    }
+                )
             }
 
             Tab("Bible", systemImage: "book", value: 1) {
@@ -37,17 +42,27 @@ public struct MainTabView: View {
         }
         .tint(ShepherdTheme.accent)
         .tabBarMinimizeBehavior(.onScrollDown)
-        .tabViewBottomAccessory {
-            if let lesson = currentLesson, selectedTab == 0 {
+        .modifier(ConditionalAccessoryModifier(isEnabled: selectedTab == 0 && currentLesson != nil && homeNavPath.isEmpty) {
+            if let lesson = currentLesson {
                 ContinueLessonAccessory(lesson: lesson) {
-                    pushedLesson = lesson
+                    homeNavPath.append(lesson)
                 }
             }
-        }
-        .sheet(item: $pushedLesson) { lesson in
-            NavigationStack {
-                LessonView(lesson: lesson)
+        })
+    }
+}
+
+private struct ConditionalAccessoryModifier<AccessoryContent: View>: ViewModifier {
+    let isEnabled: Bool
+    @ViewBuilder let accessory: () -> AccessoryContent
+
+    func body(content: Content) -> some View {
+        if isEnabled {
+            content.tabViewBottomAccessory {
+                accessory()
             }
+        } else {
+            content
         }
     }
 }

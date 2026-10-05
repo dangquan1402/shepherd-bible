@@ -64,18 +64,22 @@ public enum SVGPathParser {
     public static func parse(geometry: String) -> Path {
         var path = Path()
         let scanner = Scanner(string: geometry)
+        scanner.caseSensitive = true
         var cur = CGPoint.zero
+        var start = CGPoint.zero
 
         while !scanner.isAtEnd {
             if scanner.scanString("M") != nil {
                 if let x = scanner.scanDouble(), let y = scanner.scanDouble() {
                     cur = CGPoint(x: x, y: y)
                     path.move(to: cur)
+                    start = cur
                 }
             } else if scanner.scanString("m") != nil {
                 if let dx = scanner.scanDouble(), let dy = scanner.scanDouble() {
                     cur = CGPoint(x: cur.x + dx, y: cur.y + dy)
                     path.move(to: cur)
+                    start = cur
                 }
             } else if scanner.scanString("l") != nil {
                 if let dx = scanner.scanDouble(), let dy = scanner.scanDouble() {
@@ -84,6 +88,7 @@ public enum SVGPathParser {
                 }
             } else if scanner.scanString("z") != nil {
                 path.closeSubpath()
+                cur = start
             } else if let dx = scanner.scanDouble(), let dy = scanner.scanDouble() {
                 cur = CGPoint(x: cur.x + dx, y: cur.y + dy)
                 path.addLine(to: cur)
@@ -256,11 +261,16 @@ public struct LambView: View {
     public let stage: Int
     public let expression: LambExpression
     public var displayHeight: CGFloat?
+    public var enableBlink: Bool = true
 
-    public init(stage: Int = 1, expression: LambExpression = .idle, displayHeight: CGFloat? = nil) {
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
+    @State private var blinkTick: Int = 0
+
+    public init(stage: Int = 1, expression: LambExpression = .idle, displayHeight: CGFloat? = nil, enableBlink: Bool = true) {
         self.stage = max(1, min(5, stage))
         self.expression = expression
         self.displayHeight = displayHeight
+        self.enableBlink = enableBlink
     }
 
     public var body: some View {
@@ -273,13 +283,40 @@ public struct LambView: View {
                 let offsetX = (geo.size.width - targetW) / 2.0 - variant.viewBox.minX * scale
                 let offsetY = (geo.size.height - targetH) / 2.0 - variant.viewBox.minY * scale
 
-                Canvas { context, _ in
-                    for layer in variant.layers {
-                        let scaledPath = layer.path
-                            .applying(CGAffineTransform(scaleX: scale, y: scale))
-                            .offsetBy(dx: offsetX, dy: offsetY)
-                        let color = LambVariantStore.resolveColor(key: layer.fillKey)
-                        context.fill(scaledPath, with: .color(color))
+                let eyesPath = variant.layers.first(where: { $0.name == "Eyes" })?.path
+                let eyeMidY = eyesPath?.boundingRect.midY ?? (variant.viewBox.minY + variant.viewBox.height * 0.4)
+                let eyeCenterY = (eyeMidY * scale) + offsetY
+                let eyeAnchor = UnitPoint(x: 0.5, y: max(0.1, min(0.9, eyeCenterY / max(1, geo.size.height))))
+
+                ZStack {
+                    // Base Canvas: all layers except Eyes and Catchlights
+                    Canvas { context, _ in
+                        for layer in variant.layers where layer.name != "Eyes" && layer.name != "Catchlights" {
+                            let scaledPath = layer.path
+                                .applying(CGAffineTransform(scaleX: scale, y: scale))
+                                .offsetBy(dx: offsetX, dy: offsetY)
+                            let color = LambVariantStore.resolveColor(key: layer.fillKey)
+                            context.fill(scaledPath, with: .color(color))
+                        }
+                    }
+
+                    // Eye Overlay Canvas: Eyes and Catchlights with blink keyframes
+                    Canvas { context, _ in
+                        for layer in variant.layers where layer.name == "Eyes" || layer.name == "Catchlights" {
+                            let scaledPath = layer.path
+                                .applying(CGAffineTransform(scaleX: scale, y: scale))
+                                .offsetBy(dx: offsetX, dy: offsetY)
+                            let color = LambVariantStore.resolveColor(key: layer.fillKey)
+                            context.fill(scaledPath, with: .color(color))
+                        }
+                    }
+                    .keyframeAnimator(initialValue: 1.0, trigger: blinkTick) { content, blink in
+                        content.scaleEffect(y: blink, anchor: eyeAnchor)
+                    } keyframes: { _ in
+                        KeyframeTrack {
+                            LinearKeyframe(0.1, duration: 0.09)
+                            LinearKeyframe(1.0, duration: 0.09)
+                        }
                     }
                 }
             }
@@ -288,6 +325,13 @@ public struct LambView: View {
                 height: displayHeight
             )
             .aspectRatio(variant.viewBox.width / variant.viewBox.height, contentMode: .fit)
+            .task {
+                guard !reduceMotion && enableBlink && expression != .sleepy else { return }
+                while !Task.isCancelled {
+                    try? await Task.sleep(nanoseconds: UInt64(Double.random(in: 4.0...6.0) * 1_000_000_000))
+                    blinkTick += 1
+                }
+            }
         } else {
             // Fallback placeholder during cold loading
             Image(systemName: "sparkles")
@@ -385,7 +429,9 @@ public struct AnimatedLambView: View {
     public var isTilted: Bool = false
 
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
-    @State private var blinkEyeScale: CGFloat = 1.0
+    @State private var sparkle1Scale: CGFloat = 0.0
+    @State private var sparkle2Scale: CGFloat = 0.0
+    @State private var sparkle3Scale: CGFloat = 0.0
 
     public init(
         stage: Int = 1,
@@ -405,45 +451,74 @@ public struct AnimatedLambView: View {
 
     public var body: some View {
         if reduceMotion {
-            LambView(stage: stage, expression: expression, displayHeight: displayHeight)
+            ZStack {
+                LambView(stage: stage, expression: expression, displayHeight: displayHeight, enableBlink: false)
+                if expression == .celebrating {
+                    sparklesOverlayStatic
+                }
+            }
+            .transition(.opacity)
         } else {
             ZStack {
                 LambView(stage: stage, expression: expression, displayHeight: displayHeight)
                     // Row 4: Encouraging tilt (.rotationEffect 0 -> 10° with .spring(duration: 0.4, bounce: 0.2))
                     .rotationEffect(isTilted ? .degrees(10) : .zero)
-                    .animation(.spring(duration: 0.4, bounce: 0.2), value: isTilted)
+                    .animation(ShepherdTheme.tiltSpring, value: isTilted)
                     // Row 1: Idle breathe loop (3.2s loop, easeInOut duration 1.6s per phase)
                     .phaseAnimator([0.0, 1.0]) { lamb, phase in
                         lamb.scaleEffect(x: 1.0, y: isBreathing ? 1.0 + 0.02 * phase : 1.0, anchor: .bottom)
                     } animation: { _ in
                         .easeInOut(duration: 1.6)
                     }
-                    // Row 3: Happy hop
-                    .keyframeAnimator(initialValue: HopState(), trigger: hopTrigger) { lamb, hop in
-                        lamb.offset(y: hop.y)
-                            .scaleEffect(x: 1.0, y: hop.squash, anchor: .bottom)
-                    } keyframes: { _ in
-                        KeyframeTrack(\.y) {
-                            CubicKeyframe(-12, duration: 0.15)
-                            SpringKeyframe(0, duration: 0.2, spring: .snappy)
-                        }
-                        KeyframeTrack(\.squash) {
-                            LinearKeyframe(1.0, duration: 0.33)
-                            LinearKeyframe(0.94, duration: 0.06)
-                            LinearKeyframe(1.0, duration: 0.10)
-                        }
-                    }
+                    .modifier(HopAnimationModifier(expression: expression, hopTrigger: hopTrigger))
 
-                // Row 5: Celebrate sparkles
+                // Row 5: Celebrate sparkles overlay
                 if expression == .celebrating {
-                    sparklesOverlay
+                    sparklesOverlayAnimated
                 }
             }
         }
     }
 
     @ViewBuilder
-    private var sparklesOverlay: some View {
+    private var sparklesOverlayAnimated: some View {
+        let h = displayHeight ?? 140
+        ZStack {
+            Image(systemName: "sparkle")
+                .font(.system(size: h * 0.12, weight: .bold))
+                .foregroundStyle(ShepherdTheme.accentFill)
+                .scaleEffect(sparkle1Scale)
+                .offset(x: -h * 0.45, y: -h * 0.35)
+
+            Image(systemName: "sparkle")
+                .font(.system(size: h * 0.16, weight: .bold))
+                .foregroundStyle(ShepherdTheme.accentFill)
+                .scaleEffect(sparkle2Scale)
+                .offset(x: 0, y: -h * 0.5)
+
+            Image(systemName: "sparkle")
+                .font(.system(size: h * 0.13, weight: .bold))
+                .foregroundStyle(ShepherdTheme.accentFill)
+                .scaleEffect(sparkle3Scale)
+                .offset(x: h * 0.45, y: -h * 0.38)
+        }
+        .task {
+            withAnimation(.easeInOut(duration: 0.35)) { sparkle1Scale = 1.0 }
+            try? await Task.sleep(nanoseconds: 80_000_000)
+            withAnimation(.easeInOut(duration: 0.35)) { sparkle2Scale = 1.0 }
+            try? await Task.sleep(nanoseconds: 80_000_000)
+            withAnimation(.easeInOut(duration: 0.35)) { sparkle3Scale = 1.0 }
+            try? await Task.sleep(nanoseconds: 400_000_000)
+            withAnimation(.easeInOut(duration: 0.35)) { sparkle1Scale = 0.0 }
+            try? await Task.sleep(nanoseconds: 80_000_000)
+            withAnimation(.easeInOut(duration: 0.35)) { sparkle2Scale = 0.0 }
+            try? await Task.sleep(nanoseconds: 80_000_000)
+            withAnimation(.easeInOut(duration: 0.35)) { sparkle3Scale = 0.0 }
+        }
+    }
+
+    @ViewBuilder
+    private var sparklesOverlayStatic: some View {
         let h = displayHeight ?? 140
         ZStack {
             Image(systemName: "sparkle")
@@ -463,8 +538,53 @@ public struct AnimatedLambView: View {
         }
     }
 
-    private struct HopState {
+    struct HopState {
         var y: CGFloat = 0
         var squash: CGFloat = 1.0
     }
 }
+
+private struct HopAnimationModifier: ViewModifier {
+    let expression: LambExpression
+    let hopTrigger: Int
+
+    func body(content: Content) -> some View {
+        if expression == .celebrating {
+            content.keyframeAnimator(initialValue: AnimatedLambView.HopState(), trigger: hopTrigger) { lamb, hop in
+                lamb.offset(y: hop.y)
+                    .scaleEffect(x: 1.0, y: hop.squash, anchor: .bottom)
+            } keyframes: { _ in
+                KeyframeTrack(\.y) {
+                    CubicKeyframe(-12, duration: 0.15)
+                    SpringKeyframe(0, duration: 0.2, spring: .snappy)
+                    CubicKeyframe(-12, duration: 0.15)
+                    SpringKeyframe(0, duration: 0.2, spring: .snappy)
+                }
+                KeyframeTrack(\.squash) {
+                    LinearKeyframe(1.0, duration: 0.33)
+                    LinearKeyframe(0.94, duration: 0.06)
+                    LinearKeyframe(1.0, duration: 0.10)
+                    LinearKeyframe(1.0, duration: 0.21)
+                    LinearKeyframe(0.94, duration: 0.06)
+                    LinearKeyframe(1.0, duration: 0.10)
+                }
+            }
+        } else {
+            content.keyframeAnimator(initialValue: AnimatedLambView.HopState(), trigger: hopTrigger) { lamb, hop in
+                lamb.offset(y: hop.y)
+                    .scaleEffect(x: 1.0, y: hop.squash, anchor: .bottom)
+            } keyframes: { _ in
+                KeyframeTrack(\.y) {
+                    CubicKeyframe(-12, duration: 0.15)
+                    SpringKeyframe(0, duration: 0.2, spring: .snappy)
+                }
+                KeyframeTrack(\.squash) {
+                    LinearKeyframe(1.0, duration: 0.33)
+                    LinearKeyframe(0.94, duration: 0.06)
+                    LinearKeyframe(1.0, duration: 0.10)
+                }
+            }
+        }
+    }
+}
+

@@ -1,14 +1,16 @@
 import Foundation
 
 @MainActor
-final class ContentStore: ObservableObject {
-    static let shared = ContentStore()
+public final class ContentStore: ObservableObject {
+    public static let shared = ContentStore()
 
-    @Published private(set) var bible: BibleBundle?
-    @Published private(set) var paths: [StudyPath] = []
-    @Published private(set) var loadError: String?
+    @Published public private(set) var bible: BibleBundle?
+    @Published public private(set) var paths: [StudyPath] = []
+    @Published public private(set) var loadError: String?
 
-    func loadIfNeeded() {
+    public init() {}
+
+    public func loadIfNeeded() {
         guard bible == nil || paths.isEmpty else { return }
         do {
             bible = try loadJSON("sample_bible", as: BibleBundle.self)
@@ -19,8 +21,7 @@ final class ContentStore: ObservableObject {
         }
     }
 
-    func verse(ref: String) -> String? {
-        // refs like "JHN.1.1" or "GEN.1.1"
+    public func verse(ref: String) -> String? {
         let parts = ref.split(separator: ".")
         guard parts.count == 3,
               let chapterNum = Int(parts[1]),
@@ -30,6 +31,37 @@ final class ContentStore: ObservableObject {
               let verse = chapter.verses.first(where: { $0.number == verseNum })
         else { return nil }
         return verse.text
+    }
+
+    public static func displayRef(_ ref: String) -> String {
+        let parts = ref.split(separator: ".")
+        guard parts.count == 3,
+              let chapterNum = Int(parts[1]),
+              let verseNum = Int(parts[2]) else {
+            return ref
+        }
+        let abbrev = String(parts[0])
+        let bookName: String = {
+            switch abbrev {
+            case "GEN": return "Genesis"
+            case "EXO": return "Exodus"
+            case "LEV": return "Leviticus"
+            case "NUM": return "Numbers"
+            case "DEU": return "Deuteronomy"
+            case "PSA": return "Psalms"
+            case "PRO": return "Proverbs"
+            case "MAT": return "Matthew"
+            case "MRK": return "Mark"
+            case "LUK": return "Luke"
+            case "JHN": return "John"
+            case "ACT": return "Acts"
+            case "ROM": return "Romans"
+            case "PHP": return "Philippians"
+            case "REV": return "Revelation"
+            default: return abbrev
+            }
+        }()
+        return "\(bookName) \(chapterNum):\(verseNum)"
     }
 
     private func loadJSON<T: Decodable>(_ name: String, as type: T.Type) throws -> T {

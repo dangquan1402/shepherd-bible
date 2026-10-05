@@ -35,6 +35,7 @@ targets:
       storeKitConfiguration: Shepherd.storekit
       testTargets:
         - ShepherdTests
+        - ShepherdUITests
 
     info:
       path: Shepherd/Info.plist
@@ -72,6 +73,8 @@ targets:
     deploymentTarget: "26.0"
     sources:
       - path: ShepherdTests
+      - path: Shepherd.storekit
+        buildPhase: resources
     dependencies:
       - target: Shepherd
     settings:
@@ -79,3 +82,16 @@ targets:
         PRODUCT_BUNDLE_IDENTIFIER: com.dangvietquan.shepherdTests
         TARGETED_DEVICE_FAMILY: "1"
         GENERATE_INFOPLIST_FILE: YES
+
+  ShepherdUITests:
+    type: bundle.ui-testing
+    platform: iOS
+    deploymentTarget: "26.0"
+    sources: [ShepherdUITests]
+    dependencies: [{ target: Shepherd }]
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.dangvietquan.shepherdUITests
+        GENERATE_INFOPLIST_FILE: YES
+        TEST_TARGET_NAME: Shepherd
+

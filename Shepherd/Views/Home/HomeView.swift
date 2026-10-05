@@ -2,13 +2,14 @@ import SwiftUI
 import SwiftData
 
 public struct HomeView: View {
+    @Binding public var navPath: [Lesson]
+    public let namespace: Namespace.ID
     public var onSelectLesson: ((Lesson) -> Void)? = nil
 
     @EnvironmentObject private var content: ContentStore
     @Query private var streaks: [StreakState]
     @Query private var companions: [Companion]
     @Query private var progress: [LessonProgress]
-    @Namespace private var pathZoomNamespace
 
     private var streak: StreakState? { streaks.first }
     private var companion: Companion? { companions.first }
@@ -22,12 +23,18 @@ public struct HomeView: View {
         return path.lessons.first { !completedLessonIDs.contains($0.id) } ?? path.lessons.last
     }
 
-    public init(onSelectLesson: ((Lesson) -> Void)? = nil) {
+    public init(
+        navPath: Binding<[Lesson]>,
+        namespace: Namespace.ID,
+        onSelectLesson: ((Lesson) -> Void)? = nil
+    ) {
+        self._navPath = navPath
+        self.namespace = namespace
         self.onSelectLesson = onSelectLesson
     }
 
     public var body: some View {
-        NavigationStack {
+        NavigationStack(path: $navPath) {
             ScrollView {
                 ZStack(alignment: .top) {
                     // 1. Meadow Hills Background
@@ -40,7 +47,7 @@ public struct HomeView: View {
                             lessons: path.lessons,
                             completedIDs: completedLessonIDs,
                             currentLessonID: currentLesson?.id,
-                            namespace: pathZoomNamespace,
+                            namespace: namespace,
                             onSelect: { lesson in
                                 onSelectLesson?(lesson)
                             }
@@ -69,6 +76,10 @@ public struct HomeView: View {
                     StreakChip(streak: streak?.current ?? 0)
                 }
             }
+            .navigationDestination(for: Lesson.self) { lesson in
+                LessonView(lesson: lesson)
+                    .navigationTransition(.zoom(sourceID: lesson.id, in: namespace))
+            }
         }
     }
 }
@@ -78,7 +89,7 @@ public struct HomeView: View {
 struct MeadowBackgroundView: View {
     var body: some View {
         Canvas { context, size in
-            // Sky gradient: meadowSky to meadowSkyBottom
+            // Sky gradient
             let skyRect = CGRect(origin: .zero, size: size)
             let skyGrad = Gradient(colors: [ShepherdTheme.meadowSky, ShepherdTheme.meadowSkyBottom])
             context.fill(Path(skyRect), with: .linearGradient(skyGrad, startPoint: .zero, endPoint: CGPoint(x: 0, y: size.height * 0.4)))
@@ -122,8 +133,6 @@ struct PathTrailView: View {
     let namespace: Namespace.ID
     let onSelect: (Lesson) -> Void
 
-    // Standard positions per design spec (pitch: 112pt)
-    // Day 1: x 306, Day 2: x 201, Day 3: x 96, Day 4: x 201, Day 5: x 306, Day 6: x 201, Day 7: x 96
     private let nodeXCoordinates: [CGFloat] = [306, 201, 96, 201, 306, 201, 96]
     private let pitchY: CGFloat = 112
 
@@ -169,12 +178,20 @@ struct PathTrailView: View {
 
                     // Lamb mascot beside current node
                     if isCurrent {
-                        let isLeft = xPos > screenWidth / 2.0
-                        let lambX = isLeft ? xPos - 150 : xPos + 150
+                        let rawX: CGFloat = {
+                            if abs(xPos - screenWidth / 2.0) < 15 {
+                                return xPos - 120 * scaleX // Center node: put lamb on left
+                            } else if xPos > screenWidth / 2.0 {
+                                return xPos - 120 * scaleX
+                            } else {
+                                return xPos + 120 * scaleX
+                            }
+                        }()
+                        let clampedX = min(max(rawX, 60), screenWidth - 60)
                         let lambY = yPos
 
                         VStack(spacing: 8) {
-                            speechBubble(dayDone: completedIDs.count > 0)
+                            speechBubble(completedCount: completedIDs.count, dayNumber: lesson.dayIndex)
 
                             AnimatedLambView(
                                 stage: 1,
@@ -183,7 +200,7 @@ struct PathTrailView: View {
                                 isBreathing: true
                             )
                         }
-                        .position(x: lambX, y: lambY - 20)
+                        .position(x: clampedX, y: lambY - 20)
                     }
                 }
 
@@ -192,7 +209,7 @@ struct PathTrailView: View {
                     Text("Beginner: 7 Days with God")
                         .font(.headline)
                         .foregroundStyle(ShepherdTheme.textPrimary)
-                    Text("7 lessons · Genesis & Gospels")
+                    Text("7 lessons · Day 7 completes the path")
                         .font(.footnote)
                         .foregroundStyle(ShepherdTheme.textSecondary)
                 }
@@ -203,9 +220,18 @@ struct PathTrailView: View {
         .frame(height: CGFloat(lessons.count) * pitchY + 120)
     }
 
-    private func speechBubble(dayDone: Bool) -> some View {
-        Text(dayDone ? "1 day down!" : "Ready for Day 1?")
-            .font(.system(size: 14, weight: .semibold))
+    private func speechBubble(completedCount: Int, dayNumber: Int) -> some View {
+        let bubbleText: String = {
+            if completedCount == 0 {
+                return "Ready for Day \(dayNumber)?"
+            } else if completedCount == 1 {
+                return "1 day down!"
+            } else {
+                return "\(completedCount) days down!"
+            }
+        }()
+        return Text(bubbleText)
+            .font(.subheadline.weight(.semibold))
             .foregroundStyle(ShepherdTheme.textPrimary)
             .padding(.horizontal, 12)
             .padding(.vertical, 8)

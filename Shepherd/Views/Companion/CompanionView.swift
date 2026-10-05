@@ -9,13 +9,9 @@ public struct CompanionView: View {
     @State private var newName: String = ""
     @State private var hopTrigger: Int = 0
 
-    public var autoHop: Bool = false
-
     private var companion: Companion? { companions.first }
 
-    public init(autoHop: Bool = false) {
-        self.autoHop = autoHop
-    }
+    public init() {}
 
     private var currentStage: Int {
         companion?.stage ?? 1
@@ -37,16 +33,15 @@ public struct CompanionView: View {
         NavigationStack {
             ScrollView {
                 VStack(spacing: 24) {
-                    // Hero Mascot
+                    // Hero Mascot with Hill Vignette
                     ZStack {
-                        Circle()
-                            .fill(ShepherdTheme.accentSubtle.opacity(0.35))
-                            .frame(width: 240, height: 240)
+                        HillVignetteView(width: 320, height: 70)
+                            .offset(y: 45)
 
                         AnimatedLambView(
                             stage: currentStage,
                             expression: .idle,
-                            displayHeight: 140,
+                            displayHeight: 150,
                             isBreathing: true,
                             hopTrigger: hopTrigger
                         )
@@ -70,17 +65,17 @@ public struct CompanionView: View {
                     // XP Progress Card
                     VStack(spacing: 10) {
                         HStack {
-                            Text("\(stageXP) / 50 XP")
-                                .font(.system(size: 14, weight: .bold))
+                            Text("Stage \(currentStage) · \(LambStage(rawValue: currentStage)?.name ?? ""), \(stageXP) / 50 XP")
+                                .font(.body.weight(.semibold))
                                 .foregroundStyle(ShepherdTheme.textPrimary)
                             Spacer()
                             if currentStage < 5 {
                                 Text("\(neededXP) XP to Stage \(currentStage + 1)")
-                                    .font(.system(size: 13, weight: .medium))
+                                    .font(.subheadline)
                                     .foregroundStyle(ShepherdTheme.textSecondary)
                             } else {
                                 Text("Flock Elder")
-                                    .font(.system(size: 13, weight: .medium))
+                                    .font(.subheadline)
                                     .foregroundStyle(ShepherdTheme.textSecondary)
                             }
                         }
@@ -88,7 +83,7 @@ public struct CompanionView: View {
                         XPProgressBar(currentXP: currentXP)
 
                         Text("Keep studying daily — your companion grows every 50 XP.")
-                            .font(.caption)
+                            .font(.footnote)
                             .foregroundStyle(ShepherdTheme.textSecondary)
                             .frame(maxWidth: .infinity, alignment: .leading)
                             .padding(.top, 4)
@@ -102,51 +97,65 @@ public struct CompanionView: View {
                     )
                     .padding(.horizontal, 20)
 
-                    // Growth Stages Thumbnails
+                    // Growth List Rows
                     VStack(alignment: .leading, spacing: 14) {
-                        Text("GROWTH STAGES")
+                        Text("GROWTH")
                             .font(ShepherdTheme.scriptureEyebrow())
-                            .foregroundStyle(ShepherdTheme.accent)
+                            .foregroundStyle(ShepherdTheme.accentFill)
                             .padding(.horizontal, 20)
 
-                        ScrollView(.horizontal, showsIndicators: false) {
-                            HStack(spacing: 16) {
-                                ForEach(LambStage.allCases) { stage in
-                                    let isUnlocked = stage.rawValue <= currentStage
-                                    let isCurrent = stage.rawValue == currentStage
+                        VStack(spacing: 12) {
+                            ForEach(LambStage.allCases) { stage in
+                                let isUnlocked = stage.rawValue <= currentStage
+                                let isCurrent = stage.rawValue == currentStage
 
-                                    VStack(spacing: 8) {
-                                        ZStack {
-                                            LambAvatarView(stage: stage.rawValue, expression: .idle, size: 56)
-                                                .opacity(isUnlocked ? 1.0 : 0.4)
+                                HStack(spacing: 16) {
+                                    ZStack {
+                                        LambAvatarView(stage: stage.rawValue, expression: .idle, size: 52)
+                                            .opacity(isUnlocked ? 1.0 : 0.4)
 
-                                            if !isUnlocked {
-                                                Circle()
-                                                    .fill(Color.black.opacity(0.35))
-                                                    .frame(width: 56, height: 56)
-                                                Image(systemName: "lock.fill")
-                                                    .font(.system(size: 16))
-                                                    .foregroundStyle(.white)
-                                            }
-                                        }
-                                        .overlay(
+                                        if !isUnlocked {
                                             Circle()
-                                                .stroke(isCurrent ? ShepherdTheme.accent : Color.clear, lineWidth: 2)
-                                        )
+                                                .fill(Color.black.opacity(0.35))
+                                                .frame(width: 52, height: 52)
+                                            Image(systemName: "lock.fill")
+                                                .font(.system(size: 16))
+                                                .foregroundStyle(.white)
+                                        }
+                                    }
+                                    .overlay(
+                                        Circle()
+                                            .stroke(isCurrent ? ShepherdTheme.accentFill : Color.clear, lineWidth: 2)
+                                    )
 
-                                        Text(stage.name)
-                                            .font(.caption.bold())
+                                    VStack(alignment: .leading, spacing: 4) {
+                                        Text("Stage \(stage.rawValue) · \(stage.name)")
+                                            .font(.body.weight(.semibold))
                                             .foregroundStyle(isUnlocked ? ShepherdTheme.textPrimary : ShepherdTheme.textTertiary)
 
-                                        Text("\(stage.xpThreshold) XP")
-                                            .font(.caption2)
+                                        Text(stage.rawValue == 1 ? "Unlocked at the start" : "Unlocks at \(stage.xpThreshold) XP")
+                                            .font(.subheadline)
                                             .foregroundStyle(ShepherdTheme.textSecondary)
                                     }
-                                    .frame(width: 80)
+
+                                    Spacer()
+
+                                    if isUnlocked {
+                                        Image(systemName: "checkmark")
+                                            .font(.body.weight(.bold))
+                                            .foregroundStyle(ShepherdTheme.accentFill)
+                                    }
                                 }
+                                .padding(14)
+                                .background(ShepherdTheme.cardSurface)
+                                .clipShape(RoundedRectangle(cornerRadius: ShepherdTheme.radiusMD))
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: ShepherdTheme.radiusMD)
+                                        .stroke(ShepherdTheme.surfaceBorder, lineWidth: 1)
+                                )
                             }
-                            .padding(.horizontal, 20)
                         }
+                        .padding(.horizontal, 20)
                     }
                     .padding(.top, 8)
                 }
@@ -154,7 +163,7 @@ public struct CompanionView: View {
             }
             .background(ShepherdTheme.canvasBg.ignoresSafeArea())
             .scrollEdgeEffectStyle(.soft, for: .top)
-            .navigationTitle("Companion")
+            .navigationTitle(companion?.name ?? "Lamb")
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
                     Button {
@@ -201,14 +210,6 @@ public struct CompanionView: View {
                     }
                 }
                 .presentationDetents([.fraction(0.35)])
-            }
-            .task {
-                if autoHop {
-                    try? await Task.sleep(nanoseconds: 800_000_000)
-                    withAnimation {
-                        hopTrigger += 1
-                    }
-                }
             }
         }
     }

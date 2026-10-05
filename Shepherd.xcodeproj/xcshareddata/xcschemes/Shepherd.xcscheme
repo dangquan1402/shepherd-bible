@@ -50,6 +50,17 @@
                ReferencedContainer = "container:Shepherd.xcodeproj">
             </BuildableReference>
          </TestableReference>
+         <TestableReference
+            skipped = "NO"
+            parallelizable = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "D15B421335EE751B43D87C01"
+               BuildableName = "ShepherdUITests.xctest"
+               BlueprintName = "ShepherdUITests"
+               ReferencedContainer = "container:Shepherd.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
       <CommandLineArguments>
       </CommandLineArguments>

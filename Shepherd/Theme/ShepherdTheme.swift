@@ -76,10 +76,6 @@ public enum ShepherdTheme {
     public static let mascotHoof = Color("MascotHoof")
     public static let mascotCatchlight = Color("MascotCatchlight")
 
-    // Compatibility aliases for legacy scaffold views
-    public static let softBackground = canvasBg
-    public static let mascotYellow = gold
-
     // MARK: - Spacing Tokens
     public static let space1: CGFloat = 4
     public static let space2: CGFloat = 8
@@ -104,29 +100,29 @@ public enum ShepherdTheme {
     public static let stageUpSpring = Animation.spring(duration: 0.5, bounce: 0.25)
     public static let tiltSpring = Animation.spring(duration: 0.4, bounce: 0.2)
 
-    // MARK: - Typography (SF Pro for UI, New York Serif for Scripture & Titles)
+    // MARK: - Typography (Dynamic Type SF Pro for UI, Serif for Scripture & Titles)
     public static func largeTitleSerif() -> Font {
-        .system(size: 34, weight: .bold, design: .serif)
+        .system(.largeTitle, design: .serif, weight: .bold)
     }
 
     public static func title1Serif() -> Font {
-        .system(size: 28, weight: .bold, design: .serif)
+        .system(.title, design: .serif, weight: .bold)
     }
 
     public static func title2Serif() -> Font {
-        .system(size: 22, weight: .bold, design: .serif)
+        .system(.title2, design: .serif, weight: .bold)
     }
 
     public static func title3Serif() -> Font {
-        .system(size: 20, weight: .bold, design: .serif)
+        .system(.title3, design: .serif, weight: .bold)
     }
 
     public static func scriptureBody() -> Font {
-        .system(size: 19, weight: .regular, design: .serif)
+        .system(.title3, design: .serif, weight: .regular)
     }
 
     public static func scriptureEyebrow() -> Font {
-        .system(size: 13, weight: .bold, design: .default)
+        .footnote.weight(.bold)
     }
 }
 

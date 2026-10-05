@@ -1,25 +1,48 @@
 import SwiftUI
 import StoreKit
 
-// MARK: - Navigation Glass Toolbar Items
+// MARK: - Meadow Hill Vignette (Mascot pedestal per design spec)
 
-public struct GlassToolbarButton: View {
-    public let systemImage: String
-    public var action: () -> Void
+public struct HillVignetteShape: Shape {
+    public func path(in rect: CGRect) -> Path {
+        var path = Path()
+        let sx = rect.width / 320.0
+        let sy = rect.height / 70.0
+        path.move(to: CGPoint(x: 0, y: 70 * sy))
+        path.addCurve(
+            to: CGPoint(x: 160 * sx, y: 6 * sy),
+            control1: CGPoint(x: 40 * sx, y: 20 * sy),
+            control2: CGPoint(x: 110 * sx, y: 6 * sy)
+        )
+        path.addCurve(
+            to: CGPoint(x: 320 * sx, y: 70 * sy),
+            control1: CGPoint(x: 210 * sx, y: 6 * sy),
+            control2: CGPoint(x: 280 * sx, y: 20 * sy)
+        )
+        path.closeSubpath()
+        return path
+    }
+}
 
-    public init(systemImage: String, action: @escaping () -> Void) {
-        self.systemImage = systemImage
-        self.action = action
+public struct HillVignetteView: View {
+    public var width: CGFloat = 320
+    public var height: CGFloat = 70
+
+    public init(width: CGFloat = 320, height: CGFloat = 70) {
+        self.width = width
+        self.height = height
     }
 
     public var body: some View {
-        Button(action: action) {
-            Image(systemName: systemImage)
-                .font(.system(size: 16, weight: .semibold))
-                .frame(width: 44, height: 44)
-        }
-        .buttonStyle(.glass)
-        .accessibilityLabel(systemImage)
+        HillVignetteShape()
+            .fill(
+                LinearGradient(
+                    colors: [ShepherdTheme.meadowHillNear, ShepherdTheme.meadowHillMid],
+                    startPoint: .top,
+                    endPoint: .bottom
+                )
+            )
+            .frame(width: width, height: height)
     }
 }
 
@@ -32,19 +55,18 @@ public struct StreakChip: View {
     }
 
     public var body: some View {
-        HStack(spacing: 6) {
-            Image(systemName: "flame.fill")
-                .foregroundStyle(Color.shepherdAccentFill)
-                .font(.system(size: 16))
-                .symbolEffect(.bounce, value: streak)
-            Text("\(streak)")
-                .font(.system(size: 16, weight: .bold))
-                .contentTransition(.numericText())
-                .foregroundStyle(Color.shepherdTextPrimary)
+        Button {} label: {
+            HStack(spacing: 5) {
+                Image(systemName: "flame.fill")
+                    .foregroundStyle(Color.shepherdAccentFill)
+                    .symbolEffect(.bounce, value: reduceMotion ? 0 : streak)
+                Text("\(streak)")
+                    .font(.body.weight(.bold))
+                    .contentTransition(.numericText())
+                    .foregroundStyle(Color.shepherdTextPrimary)
+            }
         }
-        .padding(.horizontal, 14)
-        .frame(height: 44)
-        .shepherdGlassCard(cornerRadius: ShepherdTheme.radiusPill)
+        .buttonStyle(.glass)
         .sensoryFeedback(.impact(weight: .light), trigger: streak)
     }
 }
@@ -71,10 +93,10 @@ public struct ProminentGlassButton: View {
                     Image(systemName: icon)
                 }
                 Text(title)
-                    .font(.system(size: 17, weight: .bold))
+                    .font(.body.weight(.bold))
             }
             .frame(maxWidth: .infinity)
-            .frame(height: 56)
+            .frame(minHeight: 56)
         }
         .buttonStyle(.glassProminent)
         .tint(ShepherdTheme.accentFill)
@@ -100,10 +122,10 @@ public struct SecondaryGlassButton: View {
                     Image(systemName: icon)
                 }
                 Text(title)
-                    .font(.system(size: 17, weight: .semibold))
+                    .font(.body.weight(.semibold))
             }
             .frame(maxWidth: .infinity)
-            .frame(height: 56)
+            .frame(minHeight: 56)
         }
         .buttonStyle(.glass)
     }
@@ -111,7 +133,7 @@ public struct SecondaryGlassButton: View {
 
 // MARK: - 3D Path Node Component
 
-public enum PathNodeState {
+public enum PathNodeState: Equatable {
     case current
     case done
     case locked
@@ -122,6 +144,10 @@ public struct PathNodeView: View {
     public let dayNumber: Int
     public let state: PathNodeState
     public var action: () -> Void
+
+    @State private var unlockRingScale: CGFloat = 36
+    @State private var unlockRingOpacity: Double = 0.0
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     public init(dayNumber: Int, state: PathNodeState, action: @escaping () -> Void) {
         self.dayNumber = dayNumber
@@ -160,6 +186,12 @@ public struct PathNodeView: View {
                                 .stroke(ringColor, lineWidth: state == .current ? 6 : 1.5)
                         )
 
+                    // Row 13: Node unlock ring
+                    Circle()
+                        .stroke(ShepherdTheme.accentFill, lineWidth: 3)
+                        .frame(width: unlockRingScale, height: unlockRingScale)
+                        .opacity(unlockRingOpacity)
+
                     // Icon
                     switch state {
                     case .current:
@@ -174,6 +206,7 @@ public struct PathNodeView: View {
                         Image(systemName: "lock.fill")
                             .font(.system(size: 26, weight: .semibold))
                             .foregroundStyle(ShepherdTheme.textTertiary)
+                            .symbolEffect(.disappear, isActive: state != .locked)
                     case .milestoneLocked:
                         Image(systemName: "flag.fill")
                             .font(.system(size: 26, weight: .semibold))
@@ -183,13 +216,27 @@ public struct PathNodeView: View {
                 .frame(width: 84, height: 90)
 
                 Text("Day \(dayNumber)")
-                    .font(.system(size: 13, weight: .bold))
+                    .font(.caption.bold())
                     .foregroundStyle(state == .current ? ShepherdTheme.textPrimary : ShepherdTheme.textSecondary)
             }
             .frame(width: 96)
             .opacity(state == .locked || state == .milestoneLocked ? 0.75 : 1.0)
         }
         .buttonStyle(.plain)
+        .disabled(state == .locked || state == .milestoneLocked)
+        .accessibilityLabel("Day \(dayNumber)\(state == .locked || state == .milestoneLocked ? ", locked" : (state == .done ? ", completed" : ", current"))")
+        .onChange(of: state) { oldState, newState in
+            if oldState == .locked && newState == .current {
+                if !reduceMotion {
+                    unlockRingScale = 36
+                    unlockRingOpacity = 0.8
+                    withAnimation(.easeOut(duration: 0.6)) {
+                        unlockRingScale = 52
+                        unlockRingOpacity = 0.0
+                    }
+                }
+            }
+        }
     }
 
     private var faceColor: Color {
@@ -340,9 +387,9 @@ public struct VerseCard: View {
 
     public var body: some View {
         VStack(alignment: .leading, spacing: 10) {
-            Text("\(reference.uppercased()) · \(translation)")
+            Text("\(ContentStore.displayRef(reference)) · \(translation)")
                 .font(ShepherdTheme.scriptureEyebrow())
-                .foregroundStyle(ShepherdTheme.accent)
+                .foregroundStyle(ShepherdTheme.accentFill)
 
             Text(text)
                 .font(ShepherdTheme.scriptureBody())

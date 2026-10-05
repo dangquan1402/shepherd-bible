@@ -44,20 +44,26 @@ public struct BibleReaderView: View {
                                             .lineSpacing(7)
                                     }
 
-                                    // Gap marker for Genesis 1: verses 6-25 not in sample
-                                    if currentBook?.abbrev == "GEN" && verse.number == 5 {
-                                        HStack {
-                                            Spacer()
-                                            Text("Verses 6–25 aren't in this sample")
-                                                .font(.footnote)
-                                                .foregroundStyle(ShepherdTheme.textTertiary)
-                                                .padding(.vertical, 10)
-                                                .padding(.horizontal, 16)
-                                                .background(ShepherdTheme.surfaceSunken)
-                                                .clipShape(Capsule())
-                                            Spacer()
+                                    // Generic gap marker between consecutive verses in sample
+                                    if index < chapter.verses.count - 1 {
+                                        let nextVerse = chapter.verses[index + 1]
+                                        if nextVerse.number > verse.number + 1 {
+                                            let gapText = (nextVerse.number == verse.number + 2)
+                                                ? "Verse \(verse.number + 1) isn't in this sample"
+                                                : "Verses \(verse.number + 1)–\(nextVerse.number - 1) aren't in this sample"
+                                            HStack {
+                                                Spacer()
+                                                Text(gapText)
+                                                    .font(.footnote)
+                                                    .foregroundStyle(ShepherdTheme.textTertiary)
+                                                    .padding(.vertical, 10)
+                                                    .padding(.horizontal, 16)
+                                                    .background(ShepherdTheme.surfaceSunken)
+                                                    .clipShape(Capsule())
+                                                Spacer()
+                                            }
+                                            .padding(.vertical, 8)
                                         }
-                                        .padding(.vertical, 8)
                                     }
                                 }
                             }

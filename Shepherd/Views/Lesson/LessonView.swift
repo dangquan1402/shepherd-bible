@@ -12,18 +12,23 @@ public struct LessonView: View {
 
     @State private var showQuiz: Bool = false
     @State private var showComplete: Bool = false
+    @State private var pendingComplete: Bool = false
     @State private var finishedScore: Int = 0
-    @State private var oldXP: Int = 0
+    @State private var completionResult: LessonProgressRecorder.CompletionResult? = nil
 
     public init(lesson: Lesson) {
         self.lesson = lesson
     }
 
+    private var pathTitle: String {
+        content.paths.first?.title ?? "Beginner: 7 Days with God"
+    }
+
     public var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 20) {
-                // Eyebrow
-                Text("BEGINNER: 7 DAYS WITH GOD")
+                // Eyebrow (sentence case per spec)
+                Text(pathTitle)
                     .font(ShepherdTheme.scriptureEyebrow())
                     .foregroundStyle(ShepherdTheme.accent)
                     .padding(.top, 8)
@@ -44,10 +49,14 @@ public struct LessonView: View {
                     }
                 }
 
-                // Lesson Body Markdown
-                VStack(alignment: .leading, spacing: 12) {
+                // Reflection Section Header & Markdown Body
+                VStack(alignment: .leading, spacing: 10) {
+                    Text("Reflection")
+                        .font(.headline)
+                        .foregroundStyle(ShepherdTheme.accent)
+
                     Text(LocalizedStringKey(lesson.bodyMarkdown))
-                        .font(.system(size: 17))
+                        .font(.body)
                         .foregroundStyle(ShepherdTheme.textPrimary)
                         .lineSpacing(6)
                 }
@@ -88,17 +97,27 @@ public struct LessonView: View {
         .scrollEdgeEffectStyle(.soft, for: .top)
         .navigationTitle("Day \(lesson.dayIndex)")
         .navigationBarTitleDisplayMode(.inline)
-        .fullScreenCover(isPresented: $showQuiz) {
+        .fullScreenCover(isPresented: $showQuiz, onDismiss: {
+            if pendingComplete {
+                pendingComplete = false
+                showComplete = true
+            }
+        }) {
             QuizView(lesson: lesson) { score in
-                completeLesson(score: score)
+                recordCompletion(score: score)
             }
         }
         .fullScreenCover(isPresented: $showComplete) {
             LessonCompleteView(
+                dayIndex: lesson.dayIndex,
+                lessonTitle: lesson.title,
                 score: finishedScore,
                 totalQuestions: lesson.quiz.count,
-                streakCount: streaks.first?.current ?? 1,
-                oldXP: oldXP
+                streakCount: completionResult?.streakCount ?? streaks.first?.current ?? 1,
+                oldXP: completionResult?.oldXP ?? companions.first?.xp ?? 0,
+                xpEarned: completionResult?.xpAwarded ?? 12,
+                wasAlreadyCompleted: completionResult?.wasAlreadyCompleted ?? false,
+                companionName: companions.first?.name ?? "Lamb"
             ) {
                 showComplete = false
                 dismiss()
@@ -106,26 +125,11 @@ public struct LessonView: View {
         }
     }
 
-    private func completeLesson(score: Int) {
-        showQuiz = false
+    private func recordCompletion(score: Int) {
+        let result = LessonProgressRecorder.complete(lesson: lesson, score: score, context: modelContext)
+        completionResult = result
         finishedScore = score
-
-        let companion = companions.first
-        oldXP = companion?.xp ?? 0
-
-        // Persist progress and update models
-        let progress = LessonProgress(lessonId: lesson.id, quizScore: score)
-        modelContext.insert(progress)
-
-        let streak = streaks.first
-        streak?.markCompleted()
-
-        companion?.addXP(10 + score)
-        try? modelContext.save()
-
-        // Present reward complete screen
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-            showComplete = true
-        }
+        pendingComplete = true
+        showQuiz = false
     }
 }

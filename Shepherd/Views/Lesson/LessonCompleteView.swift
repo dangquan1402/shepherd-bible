@@ -1,34 +1,57 @@
 import SwiftUI
 
 public struct LessonCompleteView: View {
+    public let dayIndex: Int
+    public let lessonTitle: String
     public let score: Int
     public let totalQuestions: Int
-    public let xpEarned: Int
-    public let newCurrentXP: Int
-    public let newStage: Int
-    public let oldStage: Int
     public let streakCount: Int
+    public let oldXP: Int
+    public let xpEarned: Int
+    public let wasAlreadyCompleted: Bool
+    public let companionName: String
     public var onContinue: () -> Void
 
     @State private var animatedProgress: Double = 0.0
     @State private var showStageUpModal: Bool = false
+    @State private var appeared: Bool = false
+    @State private var hopTrigger: Int = 0
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     public init(
-        score: Int,
-        totalQuestions: Int,
-        streakCount: Int,
-        oldXP: Int,
+        dayIndex: Int = 1,
+        lessonTitle: String = "",
+        score: Int = 0,
+        totalQuestions: Int = 2,
+        streakCount: Int = 1,
+        oldXP: Int = 0,
+        xpEarned: Int = 12,
+        wasAlreadyCompleted: Bool = false,
+        companionName: String = "Lamb",
         onContinue: @escaping () -> Void
     ) {
+        self.dayIndex = dayIndex
+        self.lessonTitle = lessonTitle
         self.score = score
         self.totalQuestions = totalQuestions
         self.streakCount = streakCount
-        self.xpEarned = 10 + score
-        self.newCurrentXP = oldXP + (10 + score)
-        self.oldStage = max(1, min(5, 1 + oldXP / 50))
-        self.newStage = max(1, min(5, 1 + (oldXP + 10 + score) / 50))
+        self.oldXP = oldXP
+        self.xpEarned = wasAlreadyCompleted ? 0 : xpEarned
+        self.wasAlreadyCompleted = wasAlreadyCompleted
+        self.companionName = companionName
         self.onContinue = onContinue
+    }
+
+    private var newCurrentXP: Int {
+        oldXP + xpEarned
+    }
+
+    private var oldStage: Int {
+        Progression.stage(for: oldXP)
+    }
+
+    private var newStage: Int {
+        Progression.stage(for: newCurrentXP)
     }
 
     private var xpIntoCurrentStage: Int {
@@ -36,7 +59,11 @@ public struct LessonCompleteView: View {
     }
 
     private var xpNeededToNextStage: Int {
-        50 - (newCurrentXP % 50)
+        50 - xpIntoCurrentStage
+    }
+
+    private var stageName: String {
+        LambStage(rawValue: newStage)?.name ?? "Newborn"
     }
 
     public var body: some View {
@@ -46,58 +73,69 @@ public struct LessonCompleteView: View {
             VStack(spacing: 24) {
                 Spacer()
 
-                // Celebrating Lamb on vignette
+                // Stage 1 Celebrating Lamb on Meadow Hill Vignette
                 ZStack {
-                    Circle()
-                        .fill(ShepherdTheme.accentSubtle.opacity(0.4))
-                        .frame(width: 220, height: 220)
+                    HillVignetteView(width: 320, height: 70)
+                        .offset(y: 50)
 
-                    LambView(
-                        stage: newStage,
+                    AnimatedLambView(
+                        stage: 1,
                         expression: .celebrating,
-                        displayHeight: 160
+                        displayHeight: 160,
+                        isBreathing: false,
+                        hopTrigger: hopTrigger
                     )
                 }
 
                 VStack(spacing: 8) {
-                    Text("Lesson Complete!")
+                    Text("Day \(dayIndex) complete")
                         .font(ShepherdTheme.title1Serif())
                         .foregroundStyle(ShepherdTheme.textPrimary)
 
-                    Text("You're building a daily habit with God.")
-                        .font(.subheadline)
-                        .foregroundStyle(ShepherdTheme.textSecondary)
+                    if !lessonTitle.isEmpty {
+                        Text(lessonTitle)
+                            .font(.subheadline)
+                            .foregroundStyle(ShepherdTheme.textSecondary)
+                    }
                 }
 
                 // Reward Stat Chips
                 HStack(spacing: 12) {
-                    RewardStatChip(
-                        icon: "sparkles",
-                        text: "+\(xpEarned) XP",
-                        color: ShepherdTheme.accentFill
-                    )
+                    if wasAlreadyCompleted {
+                        RewardStatChip(
+                            icon: "checkmark.circle.fill",
+                            text: "Already completed",
+                            color: ShepherdTheme.accentFill
+                        )
+                    } else {
+                        RewardStatChip(
+                            icon: "sparkles",
+                            text: "+\(xpEarned) XP",
+                            color: ShepherdTheme.accentFill
+                        )
+                    }
 
                     RewardStatChip(
                         icon: "flame.fill",
-                        text: "Streak \(streakCount)",
+                        text: "\(streakCount) day streak",
                         color: ShepherdTheme.accentFill
                     )
                 }
 
-                // XP Progress Bar to next stage
-                VStack(spacing: 8) {
+                // Companion Stage & XP Progress Card
+                VStack(spacing: 10) {
                     HStack {
-                        Text("\(xpIntoCurrentStage) / 50 XP")
-                            .font(.system(size: 13, weight: .bold))
+                        Text("\(companionName) · Stage \(newStage) \(stageName)")
+                            .font(.body.weight(.semibold))
                             .foregroundStyle(ShepherdTheme.textPrimary)
                         Spacer()
                         if newStage < 5 {
                             Text("\(xpNeededToNextStage) XP to Stage \(newStage + 1)")
-                                .font(.system(size: 13, weight: .medium))
+                                .font(.subheadline)
                                 .foregroundStyle(ShepherdTheme.textSecondary)
                         } else {
-                            Text("Max Stage Reached")
-                                .font(.system(size: 13, weight: .medium))
+                            Text("Max Stage")
+                                .font(.subheadline)
                                 .foregroundStyle(ShepherdTheme.textSecondary)
                         }
                     }
@@ -137,7 +175,10 @@ public struct LessonCompleteView: View {
                 .padding(.bottom, 20)
             }
         }
+        .sensoryFeedback(.success, trigger: appeared)
         .onAppear {
+            appeared = true
+            hopTrigger += 1
             let targetProgress = Double(xpIntoCurrentStage) / 50.0
             if reduceMotion {
                 animatedProgress = targetProgress
@@ -155,7 +196,6 @@ public struct LessonCompleteView: View {
         }
     }
 }
-
 // MARK: - Stage Up Modal (Row 6 Motion Table)
 
 struct StageUpModalView: View {

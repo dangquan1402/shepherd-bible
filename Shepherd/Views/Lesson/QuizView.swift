@@ -1,4 +1,5 @@
 import SwiftUI
+import SwiftData
 
 public struct QuizView: View {
     public let lesson: Lesson
@@ -6,6 +7,7 @@ public struct QuizView: View {
 
     @EnvironmentObject private var content: ContentStore
     @Environment(\.dismiss) private var dismiss
+    @Query private var companions: [Companion]
 
     @State private var questionIndex: Int = 0
     @State private var selectedChoiceIndex: Int? = nil
@@ -27,36 +29,9 @@ public struct QuizView: View {
         public let verseText: String
     }
 
-    public var autoCheck: Bool = false
-
-    public init(
-        lesson: Lesson,
-        initialQuestionIndex: Int = 0,
-        initialSelectedChoiceIndex: Int? = nil,
-        initialIsChecked: Bool = false,
-        initialIsAnswerCorrect: Bool = false,
-        autoCheck: Bool = false,
-        onFinished: @escaping (Int) -> Void
-    ) {
+    public init(lesson: Lesson, onFinished: @escaping (Int) -> Void) {
         self.lesson = lesson
-        self.autoCheck = autoCheck
         self.onFinished = onFinished
-        _questionIndex = State(initialValue: initialQuestionIndex)
-        _selectedChoiceIndex = State(initialValue: initialSelectedChoiceIndex)
-        _isChecked = State(initialValue: initialIsChecked)
-        _isAnswerCorrect = State(initialValue: initialIsAnswerCorrect)
-        if initialIsChecked, initialSelectedChoiceIndex != nil, initialQuestionIndex < lesson.quiz.count {
-            let q = lesson.quiz[initialQuestionIndex]
-            let correctChoice = q.choices[q.correctIndex]
-            _feedbackResult = State(initialValue: QuizFeedbackData(
-                isCorrect: initialIsAnswerCorrect,
-                title: initialIsAnswerCorrect ? "Correct!" : "Keep going! You're learning.",
-                explain: q.explain,
-                correctChoice: correctChoice,
-                verseRef: "GEN.1.3",
-                verseText: "God said, “Let there be light,” and there was light."
-            ))
-        }
     }
 
     private var currentQuestion: QuizQuestion {
@@ -68,6 +43,10 @@ public struct QuizView: View {
         return Double(answeredCount) / Double(lesson.quiz.count)
     }
 
+    private var companionStage: Int {
+        companions.first?.stage ?? 1
+    }
+
     public var body: some View {
         NavigationStack {
             ZStack(alignment: .bottom) {
@@ -75,31 +54,15 @@ public struct QuizView: View {
 
                 ScrollView {
                     VStack(alignment: .leading, spacing: 20) {
-                        // Progress bar & Eyebrow
-                        VStack(alignment: .leading, spacing: 8) {
-                            Text("DAY \(lesson.dayIndex)")
-                                .font(.system(size: 13, weight: .bold))
-                                .foregroundStyle(ShepherdTheme.accent)
-
-                            GeometryReader { geo in
-                                ZStack(alignment: .leading) {
-                                    Capsule()
-                                        .fill(ShepherdTheme.surfaceSunken)
-                                        .frame(height: 6)
-
-                                    Capsule()
-                                        .fill(ShepherdTheme.accentFill)
-                                        .frame(width: geo.size.width * CGFloat(quizProgress), height: 6)
-                                        .animation(.easeInOut(duration: 0.3), value: quizProgress)
-                                }
-                            }
-                            .frame(height: 6)
-                        }
-                        .padding(.top, 8)
+                        // Eyebrow
+                        Text("DAY \(lesson.dayIndex)")
+                            .font(.subheadline.weight(.bold))
+                            .foregroundStyle(ShepherdTheme.accent)
+                            .padding(.top, 12)
 
                         // Question Prompt
                         Text(currentQuestion.prompt)
-                            .font(.system(size: 22, weight: .bold, design: .serif))
+                            .font(ShepherdTheme.title2Serif())
                             .foregroundStyle(ShepherdTheme.textPrimary)
                             .padding(.top, 4)
 
@@ -138,7 +101,7 @@ public struct QuizView: View {
 
                 // Scrim overlay behind feedback sheet
                 if feedbackResult != nil {
-                    Color.black.opacity(0.15)
+                    ShepherdTheme.scrimSoft
                         .ignoresSafeArea()
                         .transition(.opacity)
                 }
@@ -146,20 +109,24 @@ public struct QuizView: View {
                 // Morph A: GlassEffectContainer morphing Check button into FeedbackSheet
                 GlassEffectContainer(spacing: 16) {
                     if let result = feedbackResult {
-                        QuizFeedbackSheet(result: result) {
+                        QuizFeedbackSheet(
+                            result: result,
+                            companionStage: companionStage
+                        ) {
                             advanceToNextQuestion()
                         }
                         .glassEffectID("quiz_action", in: morphNamespace)
+                        .transition(reduceMotion ? .opacity : .identity)
                     } else {
                         Button {
-                            withAnimation(ShepherdTheme.morphSpring) {
+                            withAnimation(reduceMotion ? .easeInOut(duration: 0.2) : ShepherdTheme.morphSpring) {
                                 evaluateAnswer()
                             }
                         } label: {
                             Text("Check")
-                                .font(.system(size: 17, weight: .bold))
+                                .font(.body.weight(.bold))
                                 .frame(maxWidth: .infinity)
-                                .frame(height: 56)
+                                .frame(minHeight: 56)
                         }
                         .buttonStyle(.glassProminent)
                         .tint(ShepherdTheme.accentFill)
@@ -170,24 +137,37 @@ public struct QuizView: View {
                     }
                 }
             }
-            .navigationTitle("Quiz")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
-                ToolbarItem(placement: .cancellationAction) {
-                    Button("Close") {
+                ToolbarItem(placement: .topBarLeading) {
+                    Button {
                         dismiss()
+                    } label: {
+                        Image(systemName: "xmark")
+                            .font(.system(size: 16, weight: .semibold))
                     }
+                    .accessibilityLabel("Close Quiz")
+                }
+
+                ToolbarItem(placement: .principal) {
+                    GeometryReader { geo in
+                        ZStack(alignment: .leading) {
+                            Capsule()
+                                .fill(ShepherdTheme.surfaceSunken)
+                                .frame(height: 6)
+
+                            Capsule()
+                                .fill(ShepherdTheme.accentFill)
+                                .frame(width: geo.size.width * CGFloat(quizProgress), height: 6)
+                                .animation(.easeInOut(duration: 0.3), value: quizProgress)
+                        }
+                    }
+                    .frame(width: 180, height: 6)
                 }
             }
-            .sensoryFeedback(.success, trigger: isChecked && isAnswerCorrect)
-            .sensoryFeedback(.warning, trigger: isChecked && !isAnswerCorrect)
-            .task {
-                if autoCheck {
-                    try? await Task.sleep(nanoseconds: 800_000_000)
-                    withAnimation(ShepherdTheme.morphSpring) {
-                        evaluateAnswer()
-                    }
-                }
+            .sensoryFeedback(trigger: feedbackResult) { _, new in
+                guard let new else { return nil }
+                return new.isCorrect ? .success : .warning
             }
         }
     }
@@ -202,9 +182,8 @@ public struct QuizView: View {
         }
         answeredCount += 1
 
-        // M5 rule: find answering verse
         let correctChoiceText = currentQuestion.choices[currentQuestion.correctIndex]
-        let verseInfo = resolveAnsweringVerse(for: currentQuestion)
+        let verseInfo = QuizRules.answeringVerse(for: currentQuestion, in: lesson, verses: { content.verse(ref: $0) })
 
         feedbackResult = QuizFeedbackData(
             isCorrect: correct,
@@ -216,22 +195,8 @@ public struct QuizView: View {
         )
     }
 
-    private func resolveAnsweringVerse(for question: QuizQuestion) -> (ref: String, text: String) {
-        let correctText = question.choices[question.correctIndex]
-        for ref in lesson.verseRefs {
-            if let text = content.verse(ref: ref),
-               text.localizedCaseInsensitiveContains(correctText) {
-                return (ref, text)
-            }
-        }
-        if let firstRef = lesson.verseRefs.first, let text = content.verse(ref: firstRef) {
-            return (firstRef, text)
-        }
-        return ("Scripture", "In the beginning, God created the heavens and the earth.")
-    }
-
     private func advanceToNextQuestion() {
-        withAnimation(ShepherdTheme.morphSpring) {
+        withAnimation(reduceMotion ? .easeInOut(duration: 0.2) : ShepherdTheme.morphSpring) {
             feedbackResult = nil
             isChecked = false
             selectedChoiceIndex = nil
@@ -249,26 +214,34 @@ public struct QuizView: View {
 
 struct QuizFeedbackSheet: View {
     let result: QuizView.QuizFeedbackData
+    let companionStage: Int
     var onContinue: () -> Void
+
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     var body: some View {
         VStack(alignment: .leading, spacing: 14) {
-            // Lamb Avatar + Title Header
+            // Mascot Avatar + Title Header (Row 3 hop on correct, Row 4 tilt on wrong)
             HStack(spacing: 12) {
-                LambAvatarView(
-                    stage: 1,
+                AnimatedLambView(
+                    stage: companionStage,
                     expression: result.isCorrect ? .happy : .encouraging,
-                    size: 56
+                    displayHeight: 56,
+                    isBreathing: false,
+                    hopTrigger: result.isCorrect ? 1 : 0,
+                    isTilted: !result.isCorrect
                 )
+                .frame(width: 56, height: 56)
+                .clipShape(Circle())
 
                 VStack(alignment: .leading, spacing: 2) {
                     Text(result.title)
-                        .font(.system(size: 22, weight: .bold))
+                        .font(ShepherdTheme.title2Serif())
                         .foregroundStyle(result.isCorrect ? ShepherdTheme.success : ShepherdTheme.error)
 
                     if !result.isCorrect {
                         Text("Answer: \(result.correctChoice).")
-                            .font(.system(size: 15, weight: .medium))
+                            .font(.callout.weight(.medium))
                             .foregroundStyle(ShepherdTheme.textSecondary)
                     }
                 }
@@ -278,7 +251,7 @@ struct QuizFeedbackSheet: View {
             // Explanation if present
             if let explain = result.explain, !explain.isEmpty {
                 Text(explain)
-                    .font(.system(size: 15))
+                    .font(.callout)
                     .foregroundStyle(ShepherdTheme.textPrimary)
                     .lineSpacing(4)
             }

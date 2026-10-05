@@ -6,46 +6,39 @@ public struct SettingsView: View {
     @State private var restoreToastMessage: String? = nil
     @State private var isRestoring: Bool = false
 
-    public init(initialToastMessage: String? = nil) {
-        _restoreToastMessage = State(initialValue: initialToastMessage)
+    public init() {}
+
+    private var appVersion: String {
+        Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0.0"
     }
 
     public var body: some View {
         NavigationStack {
             List {
                 // Subscription Status Section
-                Section("Subscription") {
-                    HStack {
-                        VStack(alignment: .leading, spacing: 4) {
+                Section("Shepherd Premium") {
+                    Button {
+                        if !store.isPremium {
+                            showPaywall = true
+                        }
+                    } label: {
+                        HStack {
                             Text("Shepherd Premium")
-                                .font(.headline)
                                 .foregroundStyle(ShepherdTheme.textPrimary)
-                            Text(store.isPremium ? "Premium Active" : "Not active")
+                            Spacer()
+                            Text(store.isPremium ? "Active" : "Not active ›")
                                 .font(.subheadline)
                                 .foregroundStyle(store.isPremium ? ShepherdTheme.success : ShepherdTheme.textSecondary)
                         }
-
-                        Spacer()
-
-                        if !store.isPremium {
-                            Button("Upgrade") {
-                                showPaywall = true
-                            }
-                            .font(.subheadline.bold())
-                            .foregroundStyle(ShepherdTheme.accent)
-                        } else {
-                            Image(systemName: "checkmark.seal.fill")
-                                .foregroundStyle(ShepherdTheme.accentFill)
-                        }
                     }
-                    .padding(.vertical, 4)
+                    .buttonStyle(.plain)
 
                     Button {
                         restore()
                     } label: {
                         HStack {
                             Text("Restore Purchases")
-                                .foregroundStyle(ShepherdTheme.textPrimary)
+                                .foregroundStyle(ShepherdTheme.accentFill)
                             Spacer()
                             if isRestoring {
                                 ProgressView()
@@ -55,16 +48,14 @@ public struct SettingsView: View {
                 }
 
                 // Privacy Section
-                Section("Privacy") {
-                    VStack(alignment: .leading, spacing: 6) {
-                        Text("On-device only")
-                            .font(.headline)
+                Section {
+                    HStack {
+                        Text("No account")
                             .foregroundStyle(ShepherdTheme.textPrimary)
-                        Text("No account. Progress stays on this device.")
-                            .font(.footnote)
+                        Spacer()
+                        Text("On this device")
                             .foregroundStyle(ShepherdTheme.textSecondary)
                     }
-                    .padding(.vertical, 4)
 
                     HStack {
                         Text("Ad trackers")
@@ -73,15 +64,21 @@ public struct SettingsView: View {
                         Text("None in v1")
                             .foregroundStyle(ShepherdTheme.textSecondary)
                     }
+                } header: {
+                    Text("Privacy")
+                } footer: {
+                    Text("No account. Progress stays on this device.")
+                        .font(.footnote)
+                        .foregroundStyle(ShepherdTheme.textTertiary)
                 }
 
                 // About Section
                 Section("About") {
                     HStack {
-                        Text("App")
+                        Text("Bible text")
                             .foregroundStyle(ShepherdTheme.textPrimary)
                         Spacer()
-                        Text("Shepherd")
+                        Text("WEB (public domain)")
                             .foregroundStyle(ShepherdTheme.textSecondary)
                     }
 
@@ -89,15 +86,15 @@ public struct SettingsView: View {
                         Text("Version")
                             .foregroundStyle(ShepherdTheme.textPrimary)
                         Spacer()
-                        Text("1.0 (iOS 26)")
+                        Text(appVersion)
                             .foregroundStyle(ShepherdTheme.textSecondary)
                     }
 
                     Link("Terms of Service", destination: ShepherdConstants.termsOfServiceURL)
-                        .foregroundStyle(ShepherdTheme.accent)
+                        .foregroundStyle(ShepherdTheme.accentFill)
 
                     Link("Privacy Policy", destination: ShepherdConstants.privacyPolicyURL)
-                        .foregroundStyle(ShepherdTheme.accent)
+                        .foregroundStyle(ShepherdTheme.accentFill)
                 }
             }
             .navigationTitle("Settings")
@@ -114,7 +111,7 @@ public struct SettingsView: View {
                             .font(.system(size: 16))
                             .foregroundStyle(ShepherdTheme.textPrimary)
                         Text(message)
-                            .font(.system(size: 15, weight: .medium))
+                            .font(.subheadline.weight(.medium))
                             .foregroundStyle(ShepherdTheme.textPrimary)
                     }
                     .padding(.horizontal, 18)

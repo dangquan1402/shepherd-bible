@@ -76,6 +76,17 @@ public final class StreakState {
         best = max(best, current)
         lastCompletedDate = day
     }
+
+    public func consumeFreeze(isPremium: Bool) -> Bool {
+        guard Entitlements.isUnlocked(.streakFreezes, isPremium: isPremium) else {
+            return false
+        }
+        if freezesLeft > 0 {
+            freezesLeft -= 1
+            return true
+        }
+        return false
+    }
 }
 
 @Model
@@ -83,6 +94,8 @@ public final class LessonProgress {
     @Attribute(.unique) public var lessonId: String
     public var completedAt: Date
     public var quizScore: Int
+
+    public var isCompleted: Bool { true }
 
     public init(lessonId: String, completedAt: Date = .now, quizScore: Int) {
         self.lessonId = lessonId

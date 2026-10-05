@@ -57,23 +57,44 @@ public final class StoreKitManager: ObservableObject {
             ]
             let loaded = try await Product.products(for: productIDs)
             self.products = loaded.sorted { $0.price > $1.price } // Yearly first
+            self.lastErrorMessage = nil
             await updateCustomerProductStatus()
         } catch {
             self.lastErrorMessage = error.localizedDescription
         }
     }
 
-    public func updateCustomerProductStatus() async {
+    public func updateCustomerProductStatus(context: ModelContext? = nil) async {
         var hasActiveEntitlement = false
+        var activeProductId: String? = nil
+        var activeExpirationDate: Date? = nil
+
         for await result in Transaction.currentEntitlements {
             if let transaction = try? result.payloadValue {
                 if transaction.revocationDate == nil,
                    (transaction.expirationDate == nil || transaction.expirationDate! > Date()) {
                     hasActiveEntitlement = true
+                    activeProductId = transaction.productID
+                    activeExpirationDate = transaction.expirationDate
                 }
             }
         }
         self.isPremium = hasActiveEntitlement
+
+        if let context = context {
+            if let existing = try? context.fetch(FetchDescriptor<EntitlementState>()).first {
+                existing.isPremium = hasActiveEntitlement
+                existing.productId = activeProductId
+                existing.expirationDate = activeExpirationDate
+            } else {
+                context.insert(EntitlementState(
+                    isPremium: hasActiveEntitlement,
+                    expirationDate: activeExpirationDate,
+                    productId: activeProductId
+                ))
+            }
+            try? context.save()
+        }
     }
 
     public func purchase(_ product: Product) async -> Bool {
@@ -113,9 +134,18 @@ public final class StoreKitManager: ObservableObject {
         do {
             try await AppStore.sync()
             await updateCustomerProductStatus()
-            purchaseState = .restored
-            return isPremium
+            if isPremium {
+                purchaseState = .restored
+                return true
+            } else {
+                purchaseState = .idle
+                return false
+            }
         } catch {
+            if let skError = error as? StoreKitError, case .userCancelled = skError {
+                purchaseState = .idle
+                return false
+            }
             purchaseState = .failed(error.localizedDescription)
             return false
         }
