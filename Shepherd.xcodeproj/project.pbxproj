@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		15FDFD6DA0A5B9D0AA6375AE /* StoreKitManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6748B96F2755258AF0768F0 /* StoreKitManager.swift */; };
+		17EB76049B3952227160A562 /* LambSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD25E57594DED53C58E6744C /* LambSystem.swift */; };
 		2D202EE9DCBED7408CA90ED0 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15E6C3E3FB61F8BAA592A7BA /* RootView.swift */; };
 		2E139ED7F7F5E9C6CDE89C72 /* ShepherdTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CE4BBC57FDEA303093E3E67 /* ShepherdTests.swift */; };
 		2EEA46F488FBA5B6A5585F5B /* ContentModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708A96F4A3D915BC760AF160 /* ContentModels.swift */; };
@@ -69,6 +70,7 @@
 		EEFEB075297B25E3F78E1951 /* ContentStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentStore.swift; sourceTree = "<group>"; };
 		F6318DDCB619E65C7710F7E1 /* ShepherdTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShepherdTheme.swift; sourceTree = "<group>"; };
 		FCBBB1FB51A505E798F33BFF /* PaywallView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaywallView.swift; sourceTree = "<group>"; };
+		FD25E57594DED53C58E6744C /* LambSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LambSystem.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -115,6 +117,7 @@
 				A0F52522B49A217EF6E54062 /* Companion */,
 				B773B5AC189212890B87831F /* Home */,
 				B54EDC1942F52D8486A311BB /* Lesson */,
+				B81F7DD6E56DEB792BF30D15 /* Mascot */,
 				112280B7737495321E2BD257 /* Onboarding */,
 				BC001306D91FAF35744E4E99 /* Paywall */,
 			);
@@ -195,6 +198,14 @@
 				46724CD2BD612565CCD2F492 /* SettingsView.swift */,
 			);
 			path = Home;
+			sourceTree = "<group>";
+		};
+		B81F7DD6E56DEB792BF30D15 /* Mascot */ = {
+			isa = PBXGroup;
+			children = (
+				FD25E57594DED53C58E6744C /* LambSystem.swift */,
+			);
+			path = Mascot;
 			sourceTree = "<group>";
 		};
 		BC001306D91FAF35744E4E99 /* Paywall */ = {
@@ -343,6 +354,7 @@
 				2EEA46F488FBA5B6A5585F5B /* ContentModels.swift in Sources */,
 				4B889C32EF77017E1ADE9C0C /* ContentStore.swift in Sources */,
 				D520A64F6CB87366694D27BE /* HomeView.swift in Sources */,
+				17EB76049B3952227160A562 /* LambSystem.swift in Sources */,
 				95036D8A0CE586487B82EDE9 /* LessonView.swift in Sources */,
 				5F1DC930BE92575E3158D14A /* MainTabView.swift in Sources */,
 				CFAB18160EE6BC95EE87BB86 /* OnboardingFlowView.swift in Sources */,
