@@ -106,15 +106,15 @@ Media Strategy:
 | Decision | Category | Source / Evidence | Rationale |
 |:---|:---|:---|:---|
 | **Parchment & Twilight Canvas** | Palette | Refero `mymind` & `Alison Roman` | Evokes physical vellum and sacred manuscript warmth without yellow tinting; provides comfortable contrast in morning and evening reading. |
-| **Still Waters Blue Accent** | Palette | Psalm 23:2 (`sample_bible.json`) & `ShepherdTheme.accent` | Blue represents guidance and peace; keeps brand distinct from quiz correctness (green) and streak fire (gold/amber). |
+| **Still Waters Blue Accent (Superseded)** | Palette | Superseded in Fix Round 1 | Superseded by Living Dawn Amber (row below) to ensure ownable pastoral identity and eliminate generic blue. |
 | **Golden Wool Companion / Streak Tone** | Palette | Refero `Foodvisor` & `Mindllama` | Golden sunrise tone (`#D98200` light, `#F5A623` dark) for streak flame and XP stars; warm and encouraging. |
 | **Opaque Content Cards** | Elevation | iOS 26 HIG & Open Pool §6.3 Rule 3 | Body scripture and quiz choices must never sit on transparent glass; prevents refraction artifacts and maintains WCAG AAA contrast. |
 | **Floating Glass Chrome** | Liquid Glass | iOS 26 Cheatsheet & WWDC 2025 | System toolbars, floating action pills, and glass tab bar with `.glassEffect(.regular)` and background blur (16pt radius) + specular rim. |
 | **Glass Tab Bar with Bottom Accessory** | Navigation | iOS 26 Cheatsheet `.tabViewBottomAccessory` | Floats "Continue Today's Lesson" directly above the glass tab bar, collapsing gracefully during scroll. |
 | **Scrolled State Z-Order** | Hierarchy | GROL Review B2 & N2 | Content passes UNDER blurred glass chrome; top and bottom progressive gradient fades prevent text collision. |
 | **Verbatim Content Grounding** | Truthfulness | Repo `paths.json` & `sample_bible.json` | Every verse text, reference, lesson title, quiz prompt, and choice is extracted verbatim from the repo files. |
-| **StoreKit 2 Soft Paywall Specs** | Monetization | `StoreKitManager.swift` & Drops `188237cf` | 7-day free trial timeline, Annual primary ($39.99/yr placeholder) + Monthly ($4.99/mo placeholder), auto-renew disclosure, restore purchases, terms, privacy. |
-| **Vector Lamb Companion Stages** | Mascot | `UserModels.swift` (`Companion.stage = 1 + xp/50`) | Stage 1 (0-49 XP): Newborn, Stage 2 (50-99 XP): Sprout, Stage 3 (100-149 XP): Lamb, Stage 4 (150-199 XP): Yearling, Stage 5 (200+ XP): Flock Leader. |
+| **StoreKit 2 Soft Paywall Specs** | Monetization | `StoreKitManager.swift` & Drops `188237cf` | 7-day free trial timeline, Annual primary ($29.99/yr placeholder price tag) + Monthly ($4.99/mo placeholder), auto-renew disclosure, restore purchases, terms, privacy. |
+| **Vector Lamb Companion Stages** | Mascot | `UserModels.swift` (`Companion.stage = 1 + xp/50`) | Stage 1 (0-49 XP): Newborn, Stage 2 (50-99 XP): Lamb, Stage 3 (100-149 XP): Young sheep, Stage 4 (150-199 XP): Yearling, Stage 5 (200+ XP): Grown sheep. |
 | **Mascot Sanctuary Policy** | Mascot / UX | Reverent scripture reading | The lamb never appears alongside Scripture text in Lesson Reading or Bible Reader; preserves devotional reverence. |
 | **Non-Shaming Mistake Pose** | Mascot / Ethics | Refero Finch & Headspace | When a quiz answer is wrong, the lamb shows an encouraging head-tilt with a warm smile, never crying or scolding. |
 | **Glass Morphing Container** | Motion / Glass | iOS 26 Cheatsheet §5.2 | `GlassEffectContainer` shares the material buffer during button-to-sheet expansion, eliminating flickering. |
