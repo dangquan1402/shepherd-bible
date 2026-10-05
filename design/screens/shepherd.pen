@@ -10676,7 +10676,7 @@
           "layout": "vertical",
           "layoutPosition": "absolute",
           "x": 16,
-          "y": 20,
+          "y": 35,
           "width": 370,
           "gap": 16,
           "children": [
@@ -11673,7 +11673,7 @@
           "layout": "vertical",
           "layoutPosition": "absolute",
           "x": 16,
-          "y": 20,
+          "y": 35,
           "width": 370,
           "gap": 16,
           "children": [
