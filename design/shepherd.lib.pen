@@ -801,7 +801,7 @@
                   "fontFamily": "$--font-sans",
                   "fontSize": "$--text-headline",
                   "fontWeight": "$--weight-semibold",
-                  "fill": "569X-color-on-accent"
+                  "fill": "$--color-on-accent"
                 }
               ]
             }
@@ -1024,7 +1024,7 @@
                   "width": 8,
                   "height": 8,
                   "cornerRadius": 4,
-                  "fill": "569X-color-on-accent"
+                  "fill": "$--color-on-accent"
                 }
               ]
             }
@@ -2174,35 +2174,35 @@
                 {
                   "type": "ref",
                   "id": "mcs_ref_s1",
-                  "ref": "lamb_stage1",
+                  "ref": "comp_lamb_s1",
                   "width": 50,
                   "height": 50
                 },
                 {
                   "type": "ref",
                   "id": "mcs_ref_s2",
-                  "ref": "lamb_stage2",
+                  "ref": "comp_lamb_s2",
                   "width": 50,
                   "height": 50
                 },
                 {
                   "type": "ref",
                   "id": "mcs_ref_s3",
-                  "ref": "lamb_stage3",
+                  "ref": "comp_lamb_s3",
                   "width": 50,
                   "height": 50
                 },
                 {
                   "type": "ref",
                   "id": "mcs_ref_s4",
-                  "ref": "lamb_stage4",
+                  "ref": "comp_lamb_s4",
                   "width": 50,
                   "height": 50
                 },
                 {
                   "type": "ref",
                   "id": "mcs_ref_s5",
-                  "ref": "lamb_stage5",
+                  "ref": "comp_lamb_s5",
                   "width": 50,
                   "height": 50
                 }

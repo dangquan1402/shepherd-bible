@@ -213,7 +213,7 @@ The library exposes 14 component families designed for direct reusability via li
 
 ## 5. Screen Inventory & Production Frames (`screens/shepherd.pen`)
 
-All 44 frames (22 Dark, 22 Light) are authoritatively constructed at native iPhone 17 Pro specifications (402 × 874 pt) and exported at @2x retina resolution (`design/exports/`):
+All 62 frames (31 Dark, 31 Light) are authoritatively constructed at native iPhone 17 Pro specifications (402 × 874 pt) and exported at @2x retina resolution (`design/exports/`):
 
 | # | Frame Name (Dark / Light) | Priority | Screen Type | Key Features & States |
 |:---:|:---|:---:|:---:|:---|
@@ -239,6 +239,15 @@ All 44 frames (22 Dark, 22 Light) are authoritatively constructed at native iPho
 | 20 | `Bible_Reader_Dark` / `_Light` | **P1** | Scripture Reader | Pure distraction-free Scripture reading view: Genesis 1:1–5 [WEB verbatim], book/chapter headers, custom verse numeral styling. |
 | 21 | `Settings_Dark` / `_Light` | **P1** | Privacy & Settings | 100% on-device privacy guarantee, SwiftData local storage statement, Shepherd Premium active subscription card, Restore Purchases row, translation version. |
 | 22 | `Accessibility_AX3_Dark` / `_Light` | **P1** | Accessibility AX3 | Dynamic Type AX3 large text stress test (32pt headline, 26pt serif verse body), generous line spacing, 60pt tall primary button, 44pt toolbar close target. |
+| 23 | `Mascot_System_Dark` / `_Light` | **P0** | Character System | Complete Barnaby character sheet: Stages 1–5 vector silhouettes (`1 + xp/50`), 6 emotional expressions, color token palette swatches. |
+| 24 | `Motion_QuizMorph_Start_Dark` / `_Light` | **P0** | Motion Morph A | Start state: 54pt interactive capsule button "Check Answer" before tap (`.glassEffectID("quiz_action")`). |
+| 25 | `Motion_QuizMorph_Mid_Dark` / `_Light` | **P0** | Motion Morph A | In-flight state: Fluid spring interpolation (`response: 0.35, dampingFraction: 0.8`), dynamic specular rim expansion across choices. |
+| 26 | `Motion_QuizMorph_End_Dark` / `_Light` | **P0** | Motion Morph A | Settled state: 214pt Liquid Glass drawer with success feedback, scripture reference, and "Continue" action. |
+| 27 | `Motion_Accessory_Inline_Dark` / `_Light` | **P0** | Motion Morph B | Glass TabView bottom accessory inline pill state (56pt) docked above glass tab bar (`.glassEffectID("bottom_acc")`). |
+| 28 | `Motion_Accessory_Expanded_Dark` / `_Light` | **P0** | Motion Morph B | Glass TabView bottom accessory expanded card (150pt) displaying current scripture context and +15 XP reward preview. |
+| 29 | `Motion_PathMorph_Start_Dark` / `_Light` | **P0** | Motion Morph C | Start state: 72×72pt active path node with halo pulse and star badge (`.glassEffectID("lesson_header")`). |
+| 30 | `Motion_PathMorph_End_Dark` / `_Light` | **P0** | Motion Morph C | Settled state: Seamless transition into full-width lesson reader header card. |
+| 31 | `Motion_Mascot_Evolution_Dark` / `_Light` | **P0** | Character Evolution | Threshold moment: 50 XP milestone triggers Stage 1 Newborn -> Stage 2 Sprout Lamb evolution with starbursts and bounce physics. |
 
 ---
 
@@ -401,10 +410,10 @@ $ python3 scratch/chrome_probe.py design/screens/shepherd.pen
 ```
 
 ### 7.3 Contrast Probe (`scratch/contrast_shepherd.py`)
-Calculates relative luminance and WCAG 2.1 contrast ratios for every text and background pair across all 44 frames:
+Calculates relative luminance and WCAG 2.1 contrast ratios for every text and background pair across all 62 frames:
 ```text
 $ python3 scratch/contrast_shepherd.py design/screens/shepherd.pen design/shepherd.lib.pen
-total text pairs 566 fails 0
+total text pairs 750 fails 0
 ```
 - Minimum measured body text contrast: 5.4:1 (exceeds WCAG AA 4.5:1 floor).
 - Headline and primary scripture text: 14.2:1 against light canvas / 15.6:1 against dark canvas.
@@ -412,8 +421,11 @@ total text pairs 566 fails 0
 ### 7.4 Pencil Token Audit (`pen-audit.py`)
 Verifies that 100% of visual styling references library variables with zero dangling or unresolved pointers:
 ```text
+$ python3 ~/.gemini/config/skills/pencil-pen-authoring/scripts/pen-audit.py design/shepherd.lib.pen
+design/shepherd.lib.pen: imports[none] lib=0 local=314 vars=67 hex=0 refs=0 dangling=0
+
 $ python3 ~/.gemini/config/skills/pencil-pen-authoring/scripts/pen-audit.py design/screens/shepherd.pen
-design/screens/shepherd.pen: imports[I=../shepherd.lib.pen] lib=3704 local=0 vars=0 hex=0 refs=0 dangling=0
+design/screens/shepherd.pen: imports[I=../shepherd.lib.pen] lib=5056 local=0 vars=0 hex=0 refs=0 dangling=0
 ```
 
 ### 7.5 Pencil Layout Engine Check (`pen-layout-check.js`)
@@ -423,3 +435,141 @@ $ bash ~/.gemini/config/skills/pencil-pen-authoring/scripts/pen-run.sh design/sc
 libraries: I ok
 no clipped or overlapping text
 ```
+
+---
+
+## 8. Mascot Character System — Barnaby the Lamb
+
+### 8.1 Character Identity & Proportions
+Barnaby is Shepherd's living devotional companion—a gentle, warm, patient lamb who walks alongside the reader through the 7-day paths and grows as the user learns.
+
+```text
+       ┌────────────────────────────────────────────────────────┐
+       │             MASCOT CONSTRUCTION ARCHITECTURE           │
+       ├────────────────────────────┬───────────────────────────┤
+       │ Head : Body Ratio          │ 1:1 (Stage 1) -> 1:1.4 (S5)│
+       │ Silhouette Form            │ Organic rounded cloud wool│
+       │ Ear Angle Rules            │ 15° droop (idle) / 35° perk│
+       │ Eye Geometry               │ 4×4pt rounded vector ovals│
+       │ Line & Stroke Weight       │ 1pt hair border, 1.5pt eye│
+       │ Glass Interaction          │ Halo glows through glass  │
+       └────────────────────────────┴───────────────────────────┘
+```
+
+### 8.2 Fixed Pastoral Character Palette
+To ensure visual harmony behind Liquid Glass chrome and in both light/dark appearances, the character strictly uses 6 semantic tokens:
+- **`--color-mascot-wool`** (`#FFFFFF` light / `#E8E4DA` dark): Fluffy fleece body and ear tufts.
+- **`--color-mascot-skin`** (`#FFF8F0` light / `#2C2621` dark): Warm parchment face and inner ears.
+- **`--color-mascot-feature`** (`#2D3430` light / `#F4F5F4` dark): Eyes, smile arcs, and hoof markings.
+- **`--color-mascot-snout`** (`#E8B4A2` light / `#C48D7D` dark): Soft peach snout and flushed cheeks.
+- **`--color-mascot-halo`** (`#EBF2FC` light / `#1B2A3D` dark): Gentle Still Waters blue ambient aura.
+- **`--color-mascot-gold`** (`#D98200` light / `#F5A623` dark): Celebratory star eyes and Stage 5 laurel wreath.
+
+### 8.3 Exact Growth Stages (`Companion.stage = 1 + xp/50`)
+Every stage maps directly to the model formula in `UserModels.swift:46`:
+
+| Stage | Name | Threshold | Silhouette & Visual Evolution |
+|:---:|:---|:---:|:---|
+| **1** | **Newborn Lamb** | `0–49 XP` | Tiny curled sleeping posture, compact fleece ring, delicate closed/resting eyes. Gentle introduction to faith. |
+| **2** | **Sprout Lamb** | `50–99 XP` | Sitting upright, alert open eyes, soft head tilt, curious presence. First steps in daily habit. |
+| **3** | **Standing Lamb** | `100–149 XP` | Fully standing on sturdy hooves, cheerful confident smile, perky ears, Still Waters blue neck ribbon. |
+| **4** | **Yearling Sheep** | `150–199 XP` | Fuller, richer cloud fleece coat, serene posture, protective presence, deeper ambient aura. |
+| **5** | **Flock Leader** | `200+ XP` | Majestic mature guide, radiant golden sunrise laurel wreath, gentle dignified stance, guiding others. |
+
+### 8.4 Expression Repertoire
+The library defines 6 production expression components:
+1. **`Mascot/Expression/Idle`**: Calm, resting presence. Soft oval eyes, gentle smile. Displayed on home path card and companion hub.
+2. **`Mascot/Expression/Happy`**: Upward-curved laughing crescent eye arcs (`^ ^`), perky ears, glowing cheeks. Triggered upon selecting the correct quiz answer.
+3. **`Mascot/Expression/Encouraging`**: Sympathetic 10° head tilt, warm wide eyes, soft comforting presence. Triggered upon an incorrect quiz answer. **Strict ethical rule:** The mascot never cries, scolds, shakes in anger, or guilts the user.
+4. **`Mascot/Expression/Celebrating`**: Leaping energetic posture, golden star eyes (`★ ★`), open cheerful mouth, radiant fleece sparkles. Triggered on lesson completion and streak increments.
+5. **`Mascot/Expression/Sleepy`**: Peaceful horizontal slit eyes (`- -`), slightly drooping relaxed ears, floating soft "zZ". Displayed during evening reminders and rest intervals.
+6. **`Mascot/Expression/Hello`**: Friendly onboarding greeting pose, perky lifted ear, waving fleece hoof. Displayed on Welcome and Name-Your-Lamb screens.
+
+### 8.5 Screen Placement & Sanctuary Policy
+- **Where Barnaby Appears:**
+  - Onboarding Welcome & Name-Your-Companion screens (bonding ritual).
+  - Building Your Personal Plan loading state (companion preview).
+  - Today's Path status card (daily companion check-in).
+  - Quiz Feedback Sheets (instant pedagogical reaction: happy or encouraging).
+  - Lesson Complete Celebration (joyful XP reward moment).
+  - Companion Hub (full level inspection, stage timeline, and naming).
+- **Where Barnaby Deliberately Does NOT Appear (The Sacred Sanctuary Rule):**
+  - **Lesson Reading View:** Barnaby is completely absent.
+  - **Bible Reader View:** Barnaby is completely absent.
+  - **Rationale:** Scripture is sacred and contemplative. Reading God's Word requires quietude and reverence. Inserting a cartoon animal into biblical text degrades devotional depth and causes cognitive fatigue.
+
+### 8.6 Mascot Personality, Voice & Sample Copy
+Barnaby speaks as a humble, cheerful study companion walking along the path—never as an authority, theologian, or divine voice. He cheers consistency, encourages patience, and celebrates small steps of understanding:
+1. *"A gentle step forward today. One passage at a time."* (Onboarding complete)
+2. *"You're doing wonderfully. Let's look back at Genesis 1:1 together."* (Incorrect quiz guidance)
+3. *"Splendid! The light always breaks through the darkness."* (Correct quiz answer)
+4. *"Day 1 complete! Our meadow is growing brighter."* (Lesson complete)
+5. *"Rest peacefully tonight. Tomorrow's path will be waiting for us."* (Evening reflection)
+6. *"No rush, no pressure. Five quiet minutes is all we need."* (Habit reminder)
+
+---
+
+## 9. Liquid Glass & Motion Specification
+
+Every animation in Shepherd is built using real Apple iOS 26 SwiftUI primitives (`GlassEffectContainer`, `@Namespace`, `.glassEffectID`, `phaseAnimator`, `keyframeAnimator`, `.sensoryFeedback`). Zero third-party runtimes (no Lottie, no network dependencies).
+
+### 9.1 Liquid Glass Morphing Matrix
+
+| Interaction | Trigger | Components Involved | Duration & Curve | Optical Mechanics & Haptics |
+|:---|:---|:---|:---|:---|
+| **Morph A: Quiz Action -> Feedback Sheet** | User selects choice & taps "Check Answer" | `.glassEffectID("quiz_action", in: namespace)` | `350ms`<br>`.spring(response: 0.35, dampingFraction: 0.8)` | The 54pt capsule button smoothly expands upwards into a 214pt Liquid Glass drawer. The specular rim refracts the underlying choice list with dynamic blur (`radius: 20`).<br>**Haptic:** `.sensoryFeedback(.success)` or `.sensoryFeedback(.warning)`. |
+| **Morph B: Tab Bottom Accessory Inline <-> Expanded** | Tap / drag up on bottom accessory | `.glassEffectID("bottom_acc", in: namespace)` | `300ms`<br>`.spring(response: 0.30, dampingFraction: 0.85)` | The 56pt inline pill expands into a 150pt rich preview card displaying scripture reference and +15 XP badge.<br>**Haptic:** `.sensoryFeedback(.selection)`. |
+| **Morph C: Path Node -> Lesson Header** | User taps active Day 1 path circle | `.glassEffectID("lesson_header", in: namespace)` | `320ms`<br>`.spring(response: 0.32, dampingFraction: 0.82)` | The 72×72 circular path node expands into the full-width reading header card while transitioning views.<br>**Haptic:** `.sensoryFeedback(.impact(weight: .medium))`. |
+
+### 9.2 Mascot Motion Physics (Native SwiftUI Animators)
+
+```swift
+// 1. Idle Breathing & Gentle Blink Loop
+struct MascotIdleView: View {
+    @State private var isBreathing = false
+    
+    var body: some View {
+        BarnabyVectorShape()
+            .phaseAnimator([0.0, 1.0]) { content, phase in
+                content
+                    .scaleEffect(x: 1.0 + phase * 0.02, y: 1.0 - phase * 0.02, anchor: .bottom)
+                    .offset(y: phase * -2)
+            } animation: { _ in
+                .easeInOut(duration: 3.2).repeatForever(autoreverses: true)
+            }
+    }
+}
+
+// 2. Celebratory Hop & Stage Evolution Moment
+struct MascotHopView: View {
+    var trigger: Bool
+    
+    var body: some View {
+        BarnabyVectorShape()
+            .keyframeAnimator(initialValue: AnimationValues(), trigger: trigger) { content, value in
+                content
+                    .offset(y: value.verticalTranslation)
+                    .scaleEffect(x: value.squashX, y: value.stretchY, anchor: .bottom)
+            } keyframes: { _ in
+                KeyframeTrack(\.verticalTranslation) {
+                    CubicKeyframe(-12, duration: 0.15) // Apex hop
+                    SpringKeyframe(0, duration: 0.20, spring: .snappy) // Settle
+                }
+                KeyframeTrack(\.stretchY) {
+                    CubicKeyframe(1.08, duration: 0.15) // Stretch upwards
+                    SpringKeyframe(1.0, duration: 0.20, spring: .bouncy)
+                }
+            }
+    }
+}
+```
+
+### 9.3 Reward Moments & Temporal Choreography
+- **Streak Increment:** The flame badge scales up (`1.0 -> 1.15 -> 1.0`) over 280ms accompanied by `.sensoryFeedback(.impact(weight: .light))`.
+- **XP Progress Fill:** The horizontal XP bar animates its corner-radiused fill width using `.spring(duration: 0.5, bounce: 0.1)`, accompanied by a subtle golden glow flash (`opacity 0.0 -> 0.4 -> 0.0`).
+- **Path Node Unlocking:** Upon completing a lesson, the subsequent path node padlock icon morphs into the active blue star with a soft ring ripple (`radius 36 -> 52`, `opacity 0.8 -> 0.0`).
+
+### 9.4 Accessibility Fallbacks
+- **`accessibilityReduceMotion`:** When enabled in iOS Settings, all spring morphs and keyframe hops are immediately replaced by standard 150ms opacity crossfades or static state switches. No view positions translate across the screen.
+- **`accessibilityReduceTransparency`:** When enabled, Liquid Glass materials automatically swap their translucent blur layers (`--color-glass-fill`) for 100% opaque card surfaces (`--color-card-surface`) with high-contrast borders (`--color-surface-border`), guaranteeing complete legibility.
+- **Devotional Restraint:** Motion is quiet, soft, and respectful. Zero full-screen particle cannons, zero noisy confetti bursts, and zero unprompted popups while studying.
