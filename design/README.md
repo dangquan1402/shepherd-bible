@@ -1,660 +1,593 @@
-# Shepherd — iOS 26 "Liquid Glass" Design Specification
+# Shepherd: iOS 26 Liquid Glass design
 
-This specification documents the complete visual and architectural redesign of **Shepherd** for Apple iOS 26. Grounded in Refero design research, it establishes an authentic Liquid Glass design system, a warm pastoral identity, 100% data-truthful content extracted from repository sources, and an accessible, production-grade interface.
+Design files for the Shepherd iPhone app: a warm, pastoral Bible-habit app with a lamb companion, drawn for iOS 26 Liquid Glass.
 
----
+| File | What it holds |
+|---|---|
+| `shepherd.lib.pen` | The library: tokens (light/dark), 30 lamb variants, 7 lamb avatars, glass navigation, controls, rows, feedback sheets |
+| `screens/shepherd.pen` | Every screen as a light frame and a dark frame, built from library instances (imports the library as `I`) |
+| `exports/*.png` + `exports/index.tsv` | One 2× PNG per frame (`Screen_State_Light.png` / `_Dark.png`); `index.tsv` maps frame id to file |
+| `research.md` | Refero references, reference lock, decision ledger |
+| `tools/readme_tables.py` | Regenerates the token, component, frame and sample-content sections below from the files |
 
-## 1. Product Summary & Design Inputs
-
-### 1.1 Product Contract
-- **Positioning:** Privacy-first, Duolingo-style Bible learning app for iOS.
-- **Architecture:** SwiftData on-device persistence, StoreKit 2 soft paywall, bundled public-domain World English Bible (WEB), WidgetKit ready.
-- **Privacy Guarantee:** 100% on-device. No accounts, no email capture, no third-party trackers, no cloud analytics.
-- **Monetization:** Free 7-day beginner path + offline reader; Shepherd Premium soft paywall (7-day free trial, Annual primary with placeholder pricing + Monthly tier).
-
-### 1.2 Platform & Deployment Target (D1 / M16)
-- **Deployment Target:** Apple **iOS 26** (`@available(iOS 26, *)`).
-- **Design Paradigm:** Authentic Apple Liquid Glass. The visual language leverages iOS 26 native capabilities:
-  - System glass navigation chrome with dynamic specular reflection (`.toolbar`, `.buttonStyle(.glass)`, `.buttonStyle(.glassProminent)`).
-  - Floating Liquid Glass tab bar with docked bottom accessory (`.tabViewBottomAccessory`).
-  - Coordinated interactive morphing between controls and bottom feedback sheets (`GlassEffectContainer(spacing:)`, `@Namespace`, `.glassEffectID`).
-  - Dynamic specular edge highlights reacting to underlying meadow hills and scroll offsets.
-- **Decision Resolution (D1):** Per resolved decision D1, Shepherd targets iOS 26 directly as its base requirement. No fallback material frame is drawn because Liquid Glass is the explicit architectural target of the redesign.
-
-### 1.3 Data Models & Service Contract
-
-Every metric, label, and state in the design maps 1:1 to the SwiftData models and services in `Shepherd/`:
-
-| Model / Service | Source File | Properties & Exposed APIs | Redesign Mapping |
-|:---|:---|:---|:---|
-| `UserProfile` | `UserModels.swift:4-28` | `displayName: String?`<br>`goal: String` ("grow_daily", "understand", "peace", "new")<br>`experienceLevel: String` ("beginner", "some", "regular")<br>`dailyMinutes: Int` (5, 10, 15)<br>`createdAt: Date`<br>`hasCompletedOnboarding: Bool` | Drives the 4-step onboarding questionnaire and personalizes the "Preparing your personal path" screen. |
-| `Companion` | `UserModels.swift:30-48` | `name: String` (default "Lamb", user-chosen in onboarding)<br>`stage: Int` (1..5: `1 + xp / 50`)<br>`xp: Int`<br>`outfitId: String?`<br>`func addXP(_ amount: Int)` | Drives the vector lamb companion in all 5 stages: Stage 1 Newborn (0–49 XP), Stage 2 Lamb (50–99 XP), Stage 3 Young sheep (100–149 XP), Stage 4 Yearling (150–199 XP), Stage 5 Grown sheep (200+ XP). |
-| `StreakState` | `UserModels.swift:50-79` | `current: Int`<br>`best: Int`<br>`lastCompletedDate: Date?`<br>`freezesLeft: Int` (default 1)<br>`func markCompleted(on day: Date)` | Drives the floating streak pill ("3 Days 🔥 · Best 5"), weekly streak calendar dots, and streak freeze indicator in paywall. |
-| `LessonProgress` | `UserModels.swift:81-92` | `lessonId: String`<br>`completedAt: Date`<br>`quizScore: Int` | Determines path node status: completed (check badge), current (pulsing amber halo), or locked (padlock). |
-| `EntitlementState` | `UserModels.swift:94-105` | `isPremium: Bool`<br>`expirationDate: Date?`<br>`productId: String?` | Governs access to premium path chapters, companion custom outfits, and widget customization. |
-| `StoreKitManager` | `StoreKitManager.swift:1-38` | `monthlyID = "com.dangvietquan.shepherd.premium.monthly"`<br>`yearlyID = "com.dangvietquan.shepherd.premium.yearly"`<br>`products: [Product]`<br>`func purchase(_ product: Product)` | 7-day trial timeline, Annual primary card ([Price placeholder: $29.99/year, $2.50/mo]) + Monthly tier ([Price placeholder: $4.99/month]), Restore Purchases, App Store terms. |
-| `ContentStore` | `ContentStore.swift:1-43` | `bible: BibleBundle?`<br>`paths: [StudyPath]`<br>`func verse(ref: String) -> String?` | Feeds verbatim WEB verses for all lesson readings, quiz answers, and standalone reader view. |
-
-### 1.4 Verbatim Current Scaffold Copy & Data Inventory
-
-Extracted directly from the Swift codebase:
-
-- **Onboarding (`OnboardingFlowView.swift`):**
-  - Welcome: *"Welcome to Shepherd"*, *"A few minutes a day. Scripture that sticks. Everything stays on your phone."*
-  - Goal: *"What’s your goal?"* -> *"Grow a daily habit"* (`grow_daily`), *"Understand the Bible better"* (`understand`), *"Find peace & prayer"* (`peace`), *"I’m new to faith"* (`new`).
-  - Familiarity: *"How familiar are you?"* -> *"Beginner"* (`beginner`), *"Some experience"* (`some`), *"I read regularly"* (`regular`).
-  - Daily Time: *"How many minutes a day?"* -> *"5 min"*, *"10 min"*, *"15 min"* (`.segmented` control).
-  - Mascot Name: *"Name your companion"*, TextField placeholder *"Lamb’s name"*.
-  - Plan Generation: *"Preparing your path…"*, *"Daily goal: 5 min"*.
-  - CTAs: *"Continue"*, *"See my plan"*.
-- **Home (`HomeView.swift`):**
-  - Large title *"Today"*.
-  - Subtitle *"Streak \(current) 🔥 · Best \(best)"*.
-  - Continue card *"Continue path"*, `lesson.title`, *"Day \(lesson.dayIndex)"*.
-  - Mascot readout *"\(name) is stage \(stage) · \(xp) XP"*.
-- **Paywall (`PaywallView.swift`):**
-  - Heading *"Grow with Shepherd Premium"*.
-  - Feature items: *"Full learning paths"*, *"Streak freezes"*, *"Companion outfits"*, *"Widgets & reminders"*.
-  - Plan options: *"Yearly — 7-day free trial · Best value (Most popular)"*, *"Monthly — 7-day free trial"*.
-  - CTAs: *"Start free trial"*, *"Continue with free path"*.
-  - Pricing: Displayed using StoreKit `Product.displayPrice` with explicit placeholder disclaimer in mockups.
-- **Lesson (`LessonView.swift`):**
-  - Inline title *"Day \(lesson.dayIndex)"*, Title `lesson.title`.
-  - Verse card reference `ref`, verse text from `ContentStore.verse(ref:)`.
-  - Reflection body markdown, Prayer prompt section *"Prayer"*, prayer text.
-  - CTA *"Take the quiz"*.
-- **Quiz (`QuizView.swift`):**
-  - Counter *"Question \(index + 1) of \(lesson.quiz.count)"*, `q.prompt`, `q.choices[i]`.
-  - Close button *"Close"*, actions *"Next"*, *"Finish"*.
-- **Companion (`CompanionView.swift`):**
-  - Title *"Companion"*, `companion.name`, *"Stage \(stage)"*, *"\(xp) XP"*, *"Keep studying — your lamb grows with your streak."*.
-- **Settings (`SettingsView.swift`):**
-  - Privacy section: *"No account. Progress stays on this device."*, *"No ad trackers in v1."*.
-  - About section: *"Shepherd"*, *"Privacy-first Bible learning"*, *"Version 1.0"*.
-  - Subscription section: *"Shepherd Premium"*, *"Restore Purchases"*.
-
-### 1.5 Real Sample Content (Pasted Verbatim from JSON)
-
-#### Lesson 1 (Day 1) — `paths.json`
-- **Path ID:** `beginner-7` ("Beginner: 7 Days with God")
-- **Lesson ID:** `day1` (Day 1)
-- **Title:** "In the beginning"
-- **Verse References:** `GEN.1.1`, `GEN.1.3`
-- **Body Markdown:**
-  > God speaks creation into being. Light comes first — order from chaos.
-  >
-  > **Reflection:** Where do you need God to bring light today?
-- **Prayer Prompt:** "Thank you, God, for creating all things and for bringing light into darkness."
-
-#### Verbatim Verses — `sample_bible.json` [Translation: WEB]
-- **Genesis 1:1 (`GEN.1.1`):** "In the beginning, God created the heavens and the earth."
-- **Genesis 1:3 (`GEN.1.3`):** "God said, "Let there be light," and there was light."
-
-#### Verbatim Quiz Questions — `paths.json`
-- **Question 1 (`day1-q1`):**
-  - **Prompt:** "Who created the heavens and the earth?"
-  - **Choices:** `A` "God" | `B` "Angels" | `C` "Chance" | `D` "Kings"
-  - **Correct Answer:** Choice `A` ("God")
-  - **Explanation:** "Genesis 1:1 — God is the Creator."
-- **Question 2 (`day1-q2`):**
-  - **Prompt:** "What did God say first?"
-  - **Choices:** `A` "Let there be light" | `B` "Let there be land" | `C` "It is finished" | `D` "Follow me"
-  - **Correct Answer:** Choice `A` ("Let there be light")
-  - **Explanation:** `null` (grounded in Genesis 1:3; per Rule M5, falls back to the lesson's matching verse text `GEN.1.3`)
-
-### 1.6 UX Weaknesses of the Current Scaffold
-
-1. **Emoji Placeholder:** Used a bare unicode emoji "🐑" instead of an authentic vector companion mascot that dynamically illustrates the 5 developmental stages (`Companion.stage`).
-2. **Missing Liquid Glass Chrome:** Built with flat views (`ShepherdTheme.softBackground`) and basic `List` containers. Lacked specular reflection, background blur, and content scrolling under floating bars.
-3. **No Visual Daily Path:** The Home screen presented a basic text card rather than an engaging Duolingo-style serpentine path map showing completed milestones, active node, and locked future days.
-4. **No Instant Quiz Feedback:** `QuizView` advanced instantly without an interactive feedback sheet, scripture citation, or pedagogical encouragement.
-5. **No Lesson Completion Celebration:** Completing a quiz immediately dismissed the view without rewarding XP, celebrating companion growth, or updating the streak counter.
-6. **Incomplete Paywall Shell:** Lacked a StoreKit 2 trial timeline (Today -> Day 5 Cancel reminder -> Day 7 Charge), auto-renew disclosure, Restore Purchases button, and live Terms & Privacy links.
-7. **Companion View is Bare:** Contained only an emoji and two labels; lacked stage progression milestones, XP progress rings, and outfit preview slots.
+Sections marked *generated* are written by `python3 design/tools/readme_tables.py`. Do not edit them by hand.
 
 ---
 
-## 2. Visual Identity & Pastoral Theme
+## 1. Platform and captain decisions
 
-The redesign gives Shepherd a **distinct, ownable pastoral devotional identity**—warm, calm, sacred, and luminous—combining layered morning meadow hills, parchment, wool fleece, and Living Dawn Amber with authentic Apple Liquid Glass.
+- **D1, deployment target: iOS 26.** The app's minimum target moves from iOS 17 (the repo README) to **iOS 26**. Liquid Glass (`.glassEffect`, `GlassEffectContainer`, `.buttonStyle(.glass)` / `.glassProminent`, `tabViewBottomAccessory`, `.tabBarMinimizeBehavior`, `scrollEdgeEffectStyle`) is iOS 26 only. No `.ultraThinMaterial` fallback is designed. The SwiftUI animators used for the lamb (`phaseAnimator`, `keyframeAnimator`, `sensoryFeedback`) exist from iOS 17.
+- **D2, path catalogue:** the real path (`beginner-7`) plus one honest "More paths are coming" row, with no titles and no counts (`Path_Overview`).
+- **D3, trial reminder:** no reminder promise. The paywall's Day 5 row reads "Cancel anytime before Day 7". Settings has no reminder row.
 
-```text
-       ┌────────────────────────────────────────────────────────┐
-       │                 SHEPHERD DESIGN THEME                  │
-       ├────────────────────────────┬───────────────────────────┤
-       │ Pastoral Light Canvas      │ Soft Morning Parchment    │
-       │ Twilight Dark Canvas       │ Deep Meadow Charcoal      │
-       │ Living Dawn Amber Accent   │ Morning Star / Living Sun │
-       │ Pastoral Meadow Landscape  │ Rolling Hills & S-Trail   │
-       │ Liquid Glass Material      │ Specular Rim + 24pt Blur  │
-       │ Content Foundation         │ Crisp Opaque Cards        │
-       └────────────────────────────┴───────────────────────────┘
-```
+## 2. Design inputs
 
-### Color Contrast Discipline & Devotional Identity
-- **Green & Red are strictly reserved for correctness:** Correct (`#137135` light / `#34D399` dark; fill `#0D7A3E`) and Wrong (`#B91C1C` light / `#F87171` dark) are never used for brand buttons or badges.
-- **Ownable Brand Accent:** "Living Dawn Amber" (`--color-accent`: `#9A5500` light / `#FBBF24` dark; `--color-accent-fill`: `#B45309` light / `#A65500` dark) embodies the light of God's Word ("Your word is a lamp to my feet", Psalm 119:105) and exceeds 5.2:1 contrast against all canvas and surface fills.
-- **Pastoral Meadow Canvas:** Rolling meadow hills (`--color-meadow-sky`, `--color-meadow-hill-distant`, `--color-meadow-hill-near`, `--color-meadow-path`) provide living physical landscape forms behind Liquid Glass chrome.
+### 2.1 What the code exposes
 
----
+| Model / service | Fields used by the design | Where it shows |
+|---|---|---|
+| `UserProfile` | `goal` (`grow_daily` / `understand` / `peace` / `new`), `experienceLevel` (`beginner` / `some` / `regular`), `dailyMinutes` (5 / 10 / 15) | Onboarding steps 2–4 use the code's labels and values exactly |
+| `Companion` | `name` (default "Lamb", set in onboarding), `xp`, `stage = max(1, min(5, 1 + xp / 50))` | Lamb stage everywhere; Companion screen; XP bars |
+| `StreakState` | `current` (starts at 0; `markCompleted` sets 1), `best`, `freezesLeft` (no logic consumes it) | Streak chip in the Today toolbar; reward chip. No freeze state is drawn: nothing in the code uses `freezesLeft` yet |
+| `LessonProgress` | `lessonId`, `quizScore` | Path node done / current state |
+| `EntitlementState` | `isPremium` | Settings "Shepherd Premium" row |
+| `LessonView.complete` | `addXP(10 + score)`, `markCompleted()` | Reward: +12 XP for 2/2 correct on Day 1 (+11 for 1/2, +10 for 0/2) |
+| `StoreKitManager` | `premium.yearly`, `premium.monthly`, `Product.displayPrice` | Paywall plan cards; prices in the frames are placeholders |
+| `ContentStore.verse(ref:)` | WEB text by `BOOK.c.v` | Every verse in every frame |
 
-## 3. Design Tokens (`shepherd.lib.pen`)
+### 2.2 Verbatim copy kept from the scaffold
 
-The library declares **86 semantic design variables** with a synchronized light/dark theme axis.
+Onboarding: "Welcome to Shepherd", "A few minutes a day. Scripture that sticks. Everything stays on your phone.", "What’s your goal?", "How familiar are you?", "How many minutes a day?", "Name your companion", "Continue", "See my plan". Paywall: "Grow with Shepherd Premium", the four features "Full learning paths", "Streak freezes", "Companion outfits", "Widgets & reminders", "Yearly · 7-day free trial · Best value · Most popular", "Monthly · 7-day free trial", "Start free trial", "Continue with free path". Lesson: "Take the quiz", "Prayer". Settings: "No account. Progress stays on this device.", "No ad trackers in v1." (shown as "Ad trackers · None in v1").
 
-### 3.1 Color Tokens
+Copy changed on purpose: the building step reads "Preparing your path…" (one path exists, nothing is personalised) and its rows read "Goal: Grow a daily habit" and "Daily goal: 5 min". The quiz drops "Question 1 of 2" for a progress bar plus "Day 1".
 
-| Token Name | Light Mode | Dark Mode | Role & Usage |
-|:---|:---:|:---:|:---|
-| `--color-canvas-bg` | `#FAF8F4` | `#141716` | Screen background (Morning Parchment / Deep Twilight) |
-| `--color-card-surface` | `#FFFFFF` | `#1D2220` | Primary content cards, choices, and reading panels |
-| `--color-surface-sunken` | `#F2EFE9` | `#252C29` | Inset backgrounds, quiz progress tracks, badges |
-| `--color-surface-border` | `#E8E4DA` | `#2D3632` | 1pt hairline borders on cards and dividers |
-| `--color-text-primary` | `#1A1D1B` | `#F4F5F4` | Headlines, scripture body, quiz prompts (14:1+ contrast) |
-| `--color-text-secondary` | `#545C57` | `#A6AEA8` | Verse citations, subtitles, metadata (5.5:1+ contrast) |
-| `--color-text-tertiary` | `#666E69` | `#8E9690` | Inactive dates, footnote disclaimers (4.6:1+ contrast) |
-| `--color-accent` | `#9A5500` | `#FBBF24` | Living Dawn Amber: Primary brand text and icons (5.2:1+) |
-| `--color-accent-fill` | `#B45309` | `#A65500` | High-contrast button containers with white text (5.2:1+) |
-| `--color-accent-subtle` | `#FEF3C7` | `#352109` | Active node glow, selected choice background tint |
-| `--color-on-accent` | `#FFFFFF` | `#FFFFFF` | High-contrast white text on primary accent buttons |
-| `--color-gold` | `#945300` | `#F5A623` | Golden sunrise streak text and badges |
-| `--color-gold-fill` | `#D98200` | `#F5A623` | Golden streak flame badge fill |
-| `--color-gold-subtle` | `#FEF6E6` | `#33240E` | Streak pill background tint |
-| `--color-meadow-sky` | `#FFF6E3` | `#0F1A1D` | Morning dawn sky / twilight sky gradient ground |
-| `--color-meadow-sky-bottom` | `#FDEFD6` | `#14231F` | Morning dawn sky horizon blend |
-| `--color-meadow-hill-distant` | `#DDE8CF` | `#1A2C24` | Distant rolling meadow hill swell behind glass |
-| `--color-meadow-hill-near` | `#C9DDB8` | `#21382B` | Near meadow hill contour behind path |
-| `--color-meadow-path` | `#DDD2BC` | `#353B32` | Winding meadow path ribbon ground |
-| `--color-meadow-path-border` | `#C8BC9F` | `#465042` | Stepping stone dots and path edge border |
-| `--color-success` | `#137135` | `#34D399` | Quiz correct answer border, icon, celebration text |
-| `--color-success-fill` | `#137135` | `#0D7A3E` | Quiz correct Continue button fill with white text (5.4:1+) |
-| `--color-success-subtle`| `#EDF8F1` | `#153020` | Quiz correct feedback sheet background |
-| `--color-error` | `#B91C1C` | `#F87171` | Quiz incorrect answer border, icon |
-| `--color-error-subtle` | `#FDF2F2` | `#361919` | Quiz wrong feedback sheet background |
-| `--color-glass-fill` | `#FFFFFF8C` (55%) | `#1A24208C` (55%) | Liquid Glass tinted chrome fill (55% opacity for crisp legibility) |
-| `--color-glass-stroke` | `#D4CDC0` | `#FFFFFF33` | Specular rim highlight (visible edge in Light Mode) |
-| `--color-glass-specular` | `#FFFFFFE6` | `#FFFFFF4D` | Top-light specular reflection highlight |
-| `--color-shadow-glass` | `#0F172A14` | `#00000033` | Soft outer ambient elevation shadow |
-| `--color-shadow-glass-heavy` | `#0F172A26` | `#00000066` | Deep floating elevation shadow for modal sheets |
-| `--color-scrim` | `#00000059` | `#00000080` | Modal backdrop dim overlay behind sheets |
-| `--color-mascot-wool` | `#FFF8EC` | `#FFF8EC` | Lamb fleece cloud body and ear tufts |
-| `--color-mascot-fleece-shade` | `#E9DCC6` | `#E9DCC6` | Wool underside shading and fleece ripples |
-| `--color-mascot-face` | `#F4E3CC` | `#F4E3CC` | Gentle parchment face and ear interiors |
-| `--color-mascot-snout` | `#EFA593` | `#EFA593` | Soft blush snout and rosy cheeks |
-| `--color-mascot-feature` | `#3D312B` | `#3D312B` | Eyes, smile curves, hooves |
-| `--color-mascot-far-legs` | `#2F2621` | `#2F2621` | Rear legs depth perspective |
-| `--color-mascot-bell` | `#C99A3A` | `#C99A3A` | Stage 3 bell / Stage 5 laurel gold |
-| `--color-mascot-halo` | `#7A6655` | `#FFF8EC4D` | Ambient devotional halo aura |
-| `--color-mascot-shadow` | `#0000001F` | `#00000059` | Ground contact shadow under hooves |
+### 2.3 Sample content (*generated*, pasted from the JSON)
 
-### 3.2 Geometry, Radii & Spacing Tokens
+<!-- gen:content -->
+Path `beginner-7`: "Beginner: 7 Days with God" (level `beginner`, `estimatedDays` 7, 7 lessons). Translation label in the JSON: `WEB`.
 
-| Token Name | Value | Role |
-|:---|:---:|:---|
-| `--radius-xs` | 4 | Stepping stone dots, subtle badge corners |
-| `--radius-sm` | 8 | Small tags, streak chips, verse pills |
-| `--radius-md` | 14 | Answer choice rows, plan cards, scripture verse cards |
-| `--radius-lg` | 20 | Main content containers, companion cards, sheet plates |
-| `--radius-xl` | 28 | Dialog cards, modal sheet containers |
-| `--radius-pill`| 999 | Buttons, floating action pills, path nodes, tab bars |
-| `--space-1` | 4 | Tight label-to-icon spacing |
-| `--space-2` | 8 | Intra-card element spacing, chip horizontal padding |
-| `--space-3` | 12 | Stack gaps between choice rows and list items |
-| `--space-4` | 16 | Standard screen gutter padding, card inner padding |
-| `--space-5` | 20 | Medium section spacing |
-| `--space-6` | 24 | Section gaps, hero spacing, modal header offsets |
-| `--space-8` | 32 | Major block margins, modal padding |
-| `--space-10` | 40 | Large hero offset spacing |
+| Day | Lesson id | Title | Verses | Questions (explain present?) |
+|---|---|---|---|---|
+| 1 | `day1` | In the beginning | GEN.1.1, GEN.1.3 | `day1-q1` yes; `day1-q2` null |
+| 2 | `day2` | Made in God's image | GEN.1.26, GEN.1.27 | `day2-q1` null; `day2-q2` null |
+| 3 | `day3` | The Word became flesh | JHN.1.1, JHN.1.14 | `day3-q1` null; `day3-q2` null |
+| 4 | `day4` | God so loved | JHN.3.16, JHN.3.17 | `day4-q1` null; `day4-q2` null |
+| 5 | `day5` | The Lord is my shepherd | PSA.23.1, PSA.23.4 | `day5-q1` null; `day5-q2` null |
+| 6 | `day6` | Light of the world | MAT.5.14, MAT.5.16 | `day6-q1` null; `day6-q2` null |
+| 7 | `day7` | Pray like this | MAT.6.9, MAT.6.11, PHP.4.6, PHP.4.7 | `day7-q1` null; `day7-q2` null; `day7-q3` null |
 
-### 3.3 Typography Tokens (Apple Dynamic Type Mapping)
+**Day 1, verbatim** (`day1`)
 
-| Token Name | Size / Weight | Dynamic Type Style |
-|:---|:---:|:---|
-| `--text-large-title` | 34pt Bold | `.largeTitle` |
-| `--text-title1` | 28pt Bold | `.title` |
-| `--text-title2` | 22pt Bold | `.title2` |
-| `--text-title3` | 20pt Semibold | `.title3` |
-| `--text-headline` | 17pt Semibold | `.headline` |
-| `--text-body` | 17pt Regular | `.body` |
-| `--text-callout` | 16pt Regular | `.callout` |
-| `--text-subheadline` | 15pt Regular | `.subheadline` |
-| `--text-footnote` | 13pt Regular | `.footnote` |
-| `--text-caption` | 12pt Medium | `.caption` |
-| `--text-xs` | 11pt Medium | `.caption2` (Hard floor) |
-| `--text-ax3-body` | 40pt Regular | `.body` (Accessibility AX3) |
+- Genesis 1:1 (WEB): "In the beginning, God created the heavens and the earth."
+- Genesis 1:3 (WEB): "God said, "Let there be light," and there was light."
+- Body: "God speaks creation into being. Light comes first — order from chaos.  **Reflection:** Where do you need God to bring light today?"
+- Prayer: "Thank you, God, for creating all things and for bringing light into darkness."
+- `day1-q1` "Who created the heavens and the earth?": A "God" · B "Angels" · C "Chance" · D "Kings"; correct A; explain: "Genesis 1:1 — God is the Creator."
+- `day1-q2` "What did God say first?": A "Let there be light" · B "Let there be land" · C "It is finished" · D "Follow me"; correct A; explain: null
 
----
+Bible sample chapters: Genesis 1 (8 verses: 1, 2, 3, 4, 5, 26, 27, 31), John 1 (6 verses: 1, 2, 3, 4, 5, 14), John 3 (2 verses: 16, 17), Psalms 23 (4 verses: 1, 2, 3, 4), Matthew 5 (6 verses: 3, 4, 5, 6, 14, 16), Matthew 6 (5 verses: 9, 10, 11, 12, 13), Philippians 4 (2 verses: 6, 7).
+<!-- /gen:content -->
 
-## 4. Reusable Library Components (`shepherd.lib.pen`)
+### 2.4 Weaknesses of the scaffold this design answers
 
-The library exposes **56 components** designed for direct reusability via library instances (`type: "ref"`):
+1. The lamb is an emoji ("🐑") everywhere, including Home and the paywall.
+2. Home is a text card, not a path; the quiz has no feedback, no verse, no reward.
+3. Flat `List` chrome with no glass, no scroll-edge treatment, no tab-bar accessory.
+4. The paywall has no auto-renew disclosure, no Restore / Terms / Privacy, and no purchase states.
+5. The tab bar uses `hare.fill` for the lamb.
 
-### 4.1 Navigation & Chrome Components
-1. **`Nav/GlassToolbar` (`comp_nav_toolbar`)**: System Liquid Glass navigation bar with leading circular button (`xmark` or `chevron.left`), centered title, and trailing actions.
-2. **`Nav/GlassTabBar` (`comp_nav_tabbar`)**: iOS 26 floating glass tab bar with 4 tabs: Today (`sun.max`), Bible (`book`), Lamb (custom vector lamb glyph), Settings (`gearshape.fill`).
-3. **`Nav/BottomAccessory` (`comp_bottom_accessory`)**: Floating glass accessory (`.tabViewBottomAccessory`) displaying "Continue Lesson — Day 1" with interactive glass button.
+## 3. Identity
 
-### 4.2 Interactive Controls & Buttons
-4. **`Button/GlassPrimary` (`comp_btn_primary`)**: Authentic `.buttonStyle(.glassProminent)` primary button with specular rim, background blur, and white typography.
-5. **`Button/GlassSecondary` (`comp_btn_secondary`)**: Authentic `.buttonStyle(.glass)` secondary button with frosted glass material.
-6. **`Path/Node` (`comp_path_node`)**: Learning path node supporting 4 states: `complete` (check badge), `current` (pulsing amber halo), `available`, and `locked` (padlock).
-7. **`Card/Lesson` (`comp_card_lesson`)**: Path lesson card displaying day index, title, scripture reference, and status.
-8. **`Card/Verse` (`comp_card_verse`)**: Scripture reading card with subtle reference tag, verbatim WEB verse text, and generous typographic leading.
-9. **`Row/QuizChoice` (`comp_row_choice`)**: Quiz answer row with 5 states: `neutral`, `selected` (amber ring + filled radio), `correct` (green ring + `circle-check-big`), `wrong` (red ring + `circle-x`), and `revealed-correct` (green outline + explanation).
-10. **`Sheet/QuizFeedback` (`comp_sheet_feedback`)**: Bottom feedback drawer with status icon, headline ("Splendid!" / "Keep going! You're learning."), verbatim scripture citation, and prominent glass continue CTA.
-11. **`Chip/Streak` (`comp_chip_streak`)**: Golden sunrise streak chip ("3 Days 🔥") with active and freeze badges.
-12. **`Bar/XPProgress` (`comp_bar_xp`)**: Companion growth bar displaying current level progress (0..50 XP) with rounded track and glowing fill.
-13. **`Row/PlanOption` (`comp_row_plan`)**: Onboarding goal and familiarity selection card with radio indicator.
-14. **`Card/PaywallPlan` (`comp_card_paywall`)**: Subscription plan card comparing Annual ([Price placeholder: $29.99/year], 7-day trial, "Best Value" badge) vs Monthly ([Price placeholder: $4.99/month]).
+- **Canvas:** parchment (`#FAF8F4`) by day, deep meadow charcoal (`#141716`) by night, with a dawn-sky gradient behind most screens and illustrated meadow hills on Today.
+- **Accent: Living Dawn Amber.** Text `#9A5500` / `#FBBF24`, fill `#B45309` / `#A65500`. It is used for actions, the current node, progress and the lamb's ribbon only.
+- **Green and red are reserved for quiz correctness** (`--color-success*`, `--color-error*`). Nothing else uses them. The Settings restore toast uses a neutral info icon for this reason.
+- **The lamb** is the character (section 6). It lives on the path, in feedback, in onboarding and on the reward. It is deliberately absent from Lesson reading and the Bible reader.
+- **Type.** SF Pro for UI and New York (`.fontDesign(.serif)`) for titles, verses and prayer. *Render proxies:* Pencil's renderer has no Apple system fonts, so the `--font-body` / `--font-sans` tokens hold **Inter** and `--font-display` / `--font-serif` hold **Newsreader**. Ship SF Pro and New York; sizes and weights carry over.
 
-### 4.3 Vector Mascot System (30 Production Variants)
-The mascot system defines 30 dedicated components (`5 stages × 6 emotional expressions`), each constructed with true geometric paths and vector curves:
+## 4. Tokens (*generated*)
 
-- **Stage 1 (Newborn Lamb, 0–49 XP):**
-  - `comp_lamb_s1_idle`: Resting pose, calm eyes
-  - `comp_lamb_s1_happy`: Joyful laughing eyes
-  - `comp_lamb_s1_encouraging`: Gentle 10° head tilt
-  - `comp_lamb_s1_celebrating`: Upright joyful pose
-  - `comp_lamb_s1_sleepy`: Relaxed closed eyes
-  - `comp_lamb_s1_hello`: Waving greeting pose
-- **Stage 2 (Lamb, 50–99 XP):**
-  - `comp_lamb_s2_idle`, `comp_lamb_s2_happy`, `comp_lamb_s2_encouraging`, `comp_lamb_s2_celebrating`, `comp_lamb_s2_sleepy`, `comp_lamb_s2_hello`
-- **Stage 3 (Young Sheep, 100–149 XP):**
-  - `comp_lamb_s3_idle`, `comp_lamb_s3_happy`, `comp_lamb_s3_encouraging`, `comp_lamb_s3_celebrating`, `comp_lamb_s3_sleepy`, `comp_lamb_s3_hello`
-- **Stage 4 (Yearling, 150–199 XP):**
-  - `comp_lamb_s4_idle`, `comp_lamb_s4_happy`, `comp_lamb_s4_encouraging`, `comp_lamb_s4_celebrating`, `comp_lamb_s4_sleepy`, `comp_lamb_s4_hello`
-- **Stage 5 (Grown Sheep, 200+ XP):**
-  - `comp_lamb_s5_idle`, `comp_lamb_s5_happy`, `comp_lamb_s5_encouraging`, `comp_lamb_s5_celebrating`, `comp_lamb_s5_sleepy`, `comp_lamb_s5_hello`
+<!-- gen:tokens -->
+102 variables in `shepherd.lib.pen` (theme axis `mode`: light / dark).
 
----
+**Colour: text and surfaces**
 
-## 5. Screen Inventory & Production Frames (`screens/shepherd.pen`)
+| Token | Light | Dark |
+|---|---|---|
+| `--color-canvas-bg` | `#FAF8F4` | `#141716` |
+| `--color-card-surface` | `#FFFFFF` | `#1D2220` |
+| `--color-surface-sunken` | `#F2EFE9` | `#252C29` |
+| `--color-surface-border` | `#E8E4DA` | `#2D3632` |
+| `--color-text-primary` | `#1A1D1B` | `#F4F5F4` |
+| `--color-text-secondary` | `#545C57` | `#A6AEA8` |
+| `--color-text-tertiary` | `#666E69` | `#8E9690` |
+| `--color-on-accent` | `#FFFFFF` | `#FFFFFF` |
+| `--color-transparent` | `#00000000` | `#00000000` |
+| `--color-phone-island` | `#000000` | `#000000` |
+| `--color-phone-camera` | `#1A1A2E` | `#1A1A2E` |
+| `--color-phone-sensor` | `#111111` | `#111111` |
+| `--color-canvas-clear` | `#FAF8F400` | `#14171600` |
+| `--color-canvas-veil` | `#FAF8F4B3` | `#141716B3` |
 
-All **70 frames** (35 Dark, 35 Light) are authoritatively constructed at native iPhone 17 Pro specifications (402 × 874 pt) and exported at @2x retina resolution (`design/exports/`):
+**Colour: accent, gold, reward**
 
-| # | Frame Name (Dark / Light) | Priority | Screen Type | Key Features & States |
-|:---:|:---|:---:|:---:|:---|
-| 1 | `Onboarding_Welcome_Dark` / `_Light` | **P0** | Mascot Hero | Stage 1 Lamb vector mascot on rolling meadow hill vignette, 3 value propositions, 6-segment progress bar (step 1/6), "Get Started" primary glass CTA. |
-| 2 | `Onboarding_Goal_Dark` / `_Light` | **P0** | Questionnaire | Step 2 of 6: 4 verbatim goals mapped to `UserProfile.goal` ("Grow a daily habit", "Understand the Bible better", "Find peace & prayer", "I'm new to faith") with peeking Stage 1 lamb. |
-| 3 | `Onboarding_Experience_Dark` / `_Light` | **P0** | Questionnaire | Step 3 of 6: 3 verbatim experience levels mapped to `UserProfile.experienceLevel` ("Beginner", "Some experience", "I read regularly"). |
-| 4 | `Onboarding_Pace_Dark` / `_Light` | **P0** | Questionnaire | Step 4 of 6: Daily pace segmented control mapped to `UserProfile.dailyMinutes` ("5 min", "10 min", "15 min"). |
-| 5 | `Onboarding_NameLamb_Dark` / `_Light` | **P0** | Companion Setup | Step 5 of 6: Vector mascot preview, active text input field ("Barnaby"), suggestion chips ("Barnaby", "Woolly", "Pip", "Gideon"). |
-| 6 | `Onboarding_BuildingPlan_Dark` / `_Light` | **P0** | Plan Creation | Step 6 of 6: "Preparing your path…" with reading lamb vignette, progressive checklist, on-device privacy statement. |
-| 7 | `Paywall_Trial_Dark` / `_Light` | **P0** | StoreKit 2 Paywall | 7-day trial timeline (Today -> Day 5 Cancel reminder -> Day 7 Charge), Annual ([Price placeholder: $29.99/year], Best Value) + Monthly ($4.99/month), Restore Purchases, Terms, Privacy. |
-| 8 | `Paywall_Purchasing_Dark` / `_Light` | **P0** | StoreKit 2 Paywall | In-flight purchase transaction overlay with ProgressView spinner and "Connecting to App Store..." notice. |
-| 9 | `Paywall_Pending_Dark` / `_Light` | **P0** | StoreKit 2 Paywall | Ask to Buy / Family Approval pending transaction notice dialog. |
-| 10 | `Paywall_Failed_Dark` / `_Light` | **P0** | StoreKit 2 Paywall | Payment decline / network failure recovery dialog with "Try Again" action. |
-| 11 | `Paywall_Restored_Dark` / `_Light` | **P0** | StoreKit 2 Paywall | Successful transaction restoration dialog with green circle-check and "Your Shepherd Premium subscription is active." |
-| 12 | `Home_DailyPath_Dark` / `_Light` | **P0** | Winding Meadow Path | Layered dawn/twilight meadow canvas, winding 7-day serpentine S-curve trail with active Day 1 star node, Barnaby the Lamb standing beside Node 1 with speech bubble ("Ready for Day 1!"), floating glass bottom accessory docked above glass tab bar. |
-| 13 | `Home_Scrolled_Dark` / `_Light` | **P0** | Liquid Glass Proof | Scrolled state showing Day 1 node, Barnaby the Lamb, speech bubble, and meadow hills visibly passing UNDER the top glass toolbar with physical 24pt background blur, and Node 4 passing under bottom accessory. |
-| 14 | `Lesson_Reading_Dark` / `_Light` | **P0** | Scripture Reading | Day 1 "In the beginning", Genesis 1:1 and 1:3 cards [WEB verbatim], reflection card, prayer card, "Take the quiz" CTA. Barnaby is reverently absent (Sacred Sanctuary rule). |
-| 15 | `Quiz_Unanswered_Dark` / `_Light` | **P0** | Interactive Quiz | Duolingo-style learning progress bar in glass toolbar (50% fill), streak chip, eyebrow "DAY 1 · IN THE BEGINNING", 4 neutral choices, disabled Check Answer button. |
-| 16 | `Quiz_Selected_Dark` / `_Light` | **P0** | Interactive Quiz | Choice A selected with Living Dawn Amber border and radio dot, enabled "Check Answer" primary glass button. |
-| 17 | `Quiz_Correct_Dark` / `_Light` | **P0** | Quiz Feedback | Choice A styled in green success, bottom Liquid Glass drawer with Barnaby Happy (`comp_lamb_s1_happy`), verbatim Genesis 1:1 [WEB] citation, and "Continue" CTA. |
-| 18 | `Quiz_Wrong_Dark` / `_Light` | **P0** | Quiz Feedback | Choice C styled in error red, Choice A revealed in green success, bottom Liquid Glass drawer with Barnaby Encouraging (`comp_lamb_s1_encouraging`), verbatim Genesis 1:1 [WEB] citation, and "Continue" CTA. |
-| 19 | `Quiz_Q2_Wrong_Dark` / `_Light` | **P0** | Quiz Question 2 | Question 2 ("What did God say first?"): Choice B styled in error red, Choice A revealed in green success, bottom drawer showing Genesis 1:3 [WEB verbatim] scripture fallback per Rule M5. |
-| 20 | `Lesson_Complete_Dark` / `_Light` | **P0** | Reward Celebration | Day 1 celebration screen: Stage 1 Lamb Celebrating (160pt), +12 XP badge, 1 Day Streak! flame badge, Level 1 progress bar (12/50 XP), "Continue to Home" CTA. |
-| 21 | `Companion_Detail_Dark` / `_Light` | **P0** | Mascot Stage Hub | Barnaby hero illustration (180pt), Level 1 readout, 5 growth stages list (Stage 1 Newborn unlocked, Stages 2–5 locked with XP thresholds). Highlights "Lamb" tab. |
-| 22 | `Path_Overview_Dark` / `_Light` | **P0** | Path Catalog | Path catalog showing active "Beginner: 7 Days with God" (In Progress) and one honest future row: "More paths are coming" (per D2; no fake titles or counts). Pushed from Today toolbar. |
-| 23 | `Bible_Reader_Dark` / `_Light` | **P0** | Scripture Reader | Pure distraction-free Scripture reading view: Genesis 1:1–5 [WEB verbatim], drop cap on verse 1, quiet gap marker ("Verses 6–25 aren't in this sample"), translation version. Barnaby is absent (Sanctuary rule). Highlights "Bible" tab. |
-| 24 | `Settings_Dark` / `_Light` | **P0** | Privacy & Settings | 100% on-device privacy guarantee, SwiftData local storage statement, Shepherd Premium active subscription card, Restore Purchases row, translation version 1.0. Highlights "Settings" tab. |
-| 25 | `Accessibility_AX3_Dark` / `_Light` | **P1** | Accessibility AX3 | Dynamic Type AX3 large text stress test (32pt headline, 26pt serif verse body), generous line spacing, 60pt tall primary button, 44pt toolbar close target. |
-| 26 | `Accessibility_AX3_QuizWrong_Dark` / `_Light` | **P1** | Accessibility AX3 | Large-text quiz error sheet stress test: choice text wrapping to 2–3 lines, multi-line feedback sheet with scroll indicators, 44pt minimum touch targets. |
-| 27 | `Mascot_System_Dark` / `_Light` | **P0** | Character System | Complete Barnaby character sheet: Stages 1–5 vector silhouettes (`1 + xp/50`), 6 emotional expressions, color token palette swatches. |
-| 28 | `Motion_QuizMorph_Start_Dark` / `_Light` | **P0** | Motion Morph A | Start state: 54pt interactive capsule button "Check Answer" before tap (`.glassEffectID("quiz_action")`). |
-| 29 | `Motion_QuizMorph_Mid_Dark` / `_Light` | **P0** | Motion Morph A | In-flight state: Fluid spring interpolation (`response: 0.35, dampingFraction: 0.8`), dynamic specular rim expansion across choices. |
-| 30 | `Motion_QuizMorph_End_Dark` / `_Light` | **P0** | Motion Morph A | Settled state: 214pt Liquid Glass drawer with success feedback, scripture reference, and "Continue" action. |
-| 31 | `Motion_Accessory_Inline_Dark` / `_Light` | **P0** | Motion Morph B | Glass TabView bottom accessory inline pill state (56pt) docked above glass tab bar (`.glassEffectID("bottom_acc")`). |
-| 32 | `Motion_Accessory_Expanded_Dark` / `_Light` | **P0** | Motion Morph B | Glass TabView bottom accessory expanded card (150pt) displaying current scripture context and +15 XP reward preview. |
-| 33 | `Motion_PathMorph_Start_Dark` / `_Light` | **P0** | Motion Morph C | Start state: 72×72pt active path node with halo pulse and star badge (`.glassEffectID("lesson_header")`). |
-| 34 | `Motion_PathMorph_End_Dark` / `_Light` | **P0** | Motion Morph C | Settled state: Seamless transition into full-width lesson reader header card. |
-| 35 | `Motion_Mascot_Evolution_Dark` / `_Light` | **P0** | Character Evolution | Threshold moment: 50 XP milestone triggers Stage 1 Newborn -> Stage 2 Lamb evolution with starbursts and bounce physics. |
+| Token | Light | Dark |
+|---|---|---|
+| `--color-accent` | `#9A5500` | `#FBBF24` |
+| `--color-accent-fill` | `#B45309` | `#A65500` |
+| `--color-accent-subtle` | `#FEF3C7` | `#352109` |
+| `--color-gold` | `#945300` | `#F5A623` |
+| `--color-gold-fill` | `#D98200` | `#F5A623` |
+| `--color-gold-subtle` | `#FEF6E6` | `#33240E` |
+| `--color-node-current-ring` | `#FFFFFF` | `#FFF8EC` |
+| `--color-node-glow` | `#B4530966` | `#FBBF2440` |
+| `--color-accent-fill-deep` | `#8A3F06` | `#6E3800` |
+| `--color-accent-subtle-deep` | `#EBCB82` | `#4A3010` |
+| `--color-node-locked` | `#FFFDF8` | `#2A302C` |
+| `--color-node-locked-deep` | `#DCD3C1` | `#1B201D` |
 
----
+**Colour: quiz correctness (quiz only)**
 
-## 6. iOS 26 SwiftUI Implementation Mapping
+| Token | Light | Dark |
+|---|---|---|
+| `--color-success` | `#137135` | `#34D399` |
+| `--color-success-subtle` | `#EDF8F1` | `#153020` |
+| `--color-error` | `#B91C1C` | `#F87171` |
+| `--color-error-subtle` | `#FDF2F2` | `#361919` |
+| `--color-success-fill` | `#137135` | `#0D7A3E` |
+| `--color-success-deep` | `#0D4F25` | `#0A5A2E` |
 
-This design maps strictly to the real iOS 26 SwiftUI APIs documented in Apple's Liquid Glass specification:
+**Colour: Liquid Glass**
 
-### 6.1 Liquid Glass Effects & Tints
-```swift
-// Regular glass effect with Living Dawn Amber accent tint and interactive touch haptics
-Text("Continue →")
-    .font(.headline)
-    .foregroundStyle(.white)
-    .padding(.horizontal, 24)
-    .padding(.vertical, 14)
-    .glassEffect(.regular.tint(ShepherdTheme.accent).interactive(), in: .capsule)
+| Token | Light | Dark |
+|---|---|---|
+| `--color-glass-fill` | `#FFFFFF8C` | `#1A24208C` |
+| `--color-glass-stroke` | `#D4CDC0` | `#FFFFFF33` |
+| `--color-glass-specular` | `#FFFFFFE6` | `#FFFFFF4D` |
+| `--color-shadow-glass` | `#0F172A14` | `#00000033` |
+| `--color-shadow-glass-heavy` | `#0F172A26` | `#00000066` |
+| `--color-scrim` | `#00000059` | `#00000080` |
+| `--color-glass-spec-top` | `#FFFFFFE6` | `#FFFFFF73` |
+| `--color-glass-spec-mid` | `#FFFFFF00` | `#FFFFFF00` |
+| `--color-glass-spec-bottom` | `#8C7A6259` | `#FFFFFF1F` |
+| `--color-glass-inner-hi` | `#FFFFFF99` | `#FFFFFF40` |
+| `--color-tab-selection` | `#5A4A3A1A` | `#FFFFFF24` |
+| `--color-scrim-soft` | `#1A1D1B14` | `#00000040` |
 
-// Specular rim toolbar in navigation stack
-.toolbar {
-    ToolbarItem(placement: .topBarLeading) {
-        Button(action: { dismiss() }) {
-            Image(systemName: "xmark")
-        }
-        .buttonStyle(.glass)
-    }
-}
-```
+**Colour: meadow illustration**
 
-### 6.2 Glass TabView & Bottom Accessory View
-```swift
-TabView(selection: $selectedTab) {
-    Tab("Today", systemImage: "sun.max", value: TabItem.today) {
-        NavigationStack {
-            HomeDailyPathView()
-        }
-    }
-    Tab("Bible", systemImage: "book", value: TabItem.bible) {
-        NavigationStack {
-            BibleReaderView()
-        }
-    }
-    Tab("Lamb", image: "shepherd.lamb.template", value: TabItem.companion) {
-        NavigationStack {
-            CompanionDetailView()
-        }
-    }
-    Tab("Settings", systemImage: "gearshape.fill", value: TabItem.settings) {
-        NavigationStack {
-            SettingsView()
-        }
-    }
-}
-.tint(ShepherdTheme.accent)
-// Liquid Glass Bottom Accessory for immediate lesson continuation
-.tabViewBottomAccessory {
-    HStack {
-        VStack(alignment: .leading, spacing: 2) {
-            Text("TODAY'S LESSON")
-                .font(.caption2.weight(.bold))
-                .foregroundStyle(.secondary)
-            Text("Day 1: In the beginning")
-                .font(.subheadline.weight(.semibold))
-        }
-        Spacer()
-        Button("Continue →") {
-            startLesson()
-        }
-        .buttonStyle(.glassProminent)
-        .tint(ShepherdTheme.accent)
-    }
-    .padding(.horizontal, 16)
-    .padding(.vertical, 12)
-    .glassEffect(.regular, in: .rect(cornerRadius: 20))
-}
-.tabBarMinimizeBehavior(.onScrollDown)
-```
+| Token | Light | Dark |
+|---|---|---|
+| `--color-meadow-sky` | `#FFF6E3` | `#0F1A1D` |
+| `--color-meadow-hill-distant` | `#DDE8CF` | `#1A2C24` |
+| `--color-meadow-hill-near` | `#C9DDB8` | `#21382B` |
+| `--color-meadow-path` | `#DDD2BC` | `#353B32` |
+| `--color-meadow-path-border` | `#C8BC9F` | `#465042` |
+| `--color-meadow-sky-bottom` | `#FDEFD6` | `#14231F` |
+| `--color-meadow-hill-mid` | `#D3E2C3` | `#1D3227` |
+| `--color-meadow-sky-clear` | `#FFF6E300` | `#0F1A1D00` |
+| `--color-meadow-sky-veil` | `#FFF6E3B3` | `#0F1A1DB3` |
 
-### 6.3 Coordinated Morphing with `GlassEffectContainer` & `@Namespace`
-In quiz progression, the action button smoothly morphs from "Check Answer" (inline CTA) into the bottom `FeedbackSheet` using coordinated glass effect namespaces:
+**Colour: lamb**
 
-```swift
-struct QuizView: View {
-    @State private var answerState: QuizAnswerState = .unanswered
-    @Namespace private var glassMorphNamespace
+| Token | Light | Dark |
+|---|---|---|
+| `--color-mascot-fleece` | `#FFF8EC` | `#FFF8EC` |
+| `--color-mascot-fleece-shade` | `#E9DCC6` | `#E9DCC6` |
+| `--color-mascot-face` | `#F4E3CC` | `#F4E3CC` |
+| `--color-mascot-features` | `#3D312B` | `#3D312B` |
+| `--color-mascot-far-legs` | `#2F2621` | `#2F2621` |
+| `--color-mascot-blush` | `#EFA593` | `#EFA593` |
+| `--color-mascot-outline` | `#7A6655` | `#FFF8EC4D` |
+| `--color-mascot-shadow` | `#0000001F` | `#00000059` |
+| `--color-mascot-tongue` | `#E07F72` | `#E07F72` |
+| `--color-mascot-bell` | `#C99A3A` | `#C99A3A` |
+| `--color-mascot-hoof` | `#241C18` | `#241C18` |
+| `--color-mascot-catchlight` | `#FFFFFF` | `#FFFFFF` |
 
-    var body: some View {
-        ZStack(alignment: .bottom) {
-            ScrollView {
-                QuizQuestionContent(state: $answerState)
-            }
-            
-            GlassEffectContainer(spacing: 12) {
-                switch answerState {
-                case .unanswered:
-                    Button("Check Answer") {}
-                        .buttonStyle(.glass)
-                        .disabled(true)
-                        .glassEffectID("quiz_action", in: glassMorphNamespace)
-                        
-                case .selected:
-                    Button("Check Answer") {
-                        withAnimation(.spring(response: 0.35, dampingFraction: 0.8)) {
-                            answerState = .evaluated
-                        }
-                    }
-                    .buttonStyle(.glassProminent)
-                    .tint(ShepherdTheme.accent)
-                    .glassEffectID("quiz_action", in: glassMorphNamespace)
-                    
-                case .evaluated:
-                    FeedbackSheetView(isCorrect: isCorrect, explanation: quiz.explain)
-                        .glassEffectID("quiz_action", in: glassMorphNamespace)
-                }
-            }
-        }
-    }
-}
-```
+**Colour: design notes (not shipped UI)**
 
-### 6.4 Accessibility Reduce Transparency Fallback
-```swift
-@Environment(\.accessibilityReduceTransparency) var reduceTransparency
+| Token | Light | Dark |
+|---|---|---|
+| `--color-note` | `#6D28D9` | `#C4B5FD` |
+| `--color-note-subtle` | `#F1EAFE` | `#2A2144` |
 
-var body: some View {
-    content
-        .background {
-            if reduceTransparency {
-                RoundedRectangle(cornerRadius: 20)
-                    .fill(Color("CardSurfaceOpaque"))
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 20)
-                            .stroke(Color("SurfaceBorder"), lineWidth: 1)
-                    )
-            } else {
-                Color.clear
-                    .glassEffect(.regular, in: .rect(cornerRadius: 20))
-            }
-        }
-}
-```
+**Type**
 
----
+| Token | Light | Dark |
+|---|---|---|
+| `--font-sans` | `Inter` | `Inter` |
+| `--font-serif` | `Newsreader` | `Newsreader` |
+| `--font-mono` | `SF Mono` | `SF Mono` |
+| `--text-xs` | `11` | `11` |
+| `--text-caption` | `12` | `12` |
+| `--text-footnote` | `13` | `13` |
+| `--text-subheadline` | `15` | `15` |
+| `--text-callout` | `16` | `16` |
+| `--text-body` | `17` | `17` |
+| `--text-headline` | `17` | `17` |
+| `--text-title3` | `20` | `20` |
+| `--text-title2` | `22` | `22` |
+| `--text-title1` | `28` | `28` |
+| `--text-large-title` | `34` | `34` |
+| `--text-ax3-body` | `40` | `40` |
+| `--weight-regular` | `400` | `400` |
+| `--weight-medium` | `500` | `500` |
+| `--weight-semibold` | `600` | `600` |
+| `--weight-bold` | `700` | `700` |
+| `--font-body` | `Inter` | `Inter` |
+| `--font-display` | `Newsreader` | `Newsreader` |
 
-## 7. Quality Gate Verifications
+**Radius and spacing**
 
-Every automated probe and design check passes with 0 warnings and 0 errors:
+| Token | Light | Dark |
+|---|---|---|
+| `--radius-xs` | `4` | `4` |
+| `--radius-sm` | `8` | `8` |
+| `--radius-md` | `14` | `14` |
+| `--radius-lg` | `20` | `20` |
+| `--radius-xl` | `28` | `28` |
+| `--radius-pill` | `999` | `999` |
+| `--space-1` | `4` | `4` |
+| `--space-2` | `8` | `8` |
+| `--space-3` | `12` | `12` |
+| `--space-4` | `16` | `16` |
+| `--space-5` | `20` | `20` |
+| `--space-6` | `24` | `24` |
+| `--space-8` | `32` | `32` |
+| `--space-10` | `40` | `40` |
+<!-- /gen:tokens -->
 
-### 7.1 Truth Probe (`sb_truth_probe.py`)
-Validates every visible verse, lesson title, reflection prompt, prayer prompt, quiz question, choice, explanation, and answer styling against `Shepherd/Resources/Content/paths.json` and `sample_bible.json`:
-```text
-$ python3 scratch/sb_truth_probe.py design/screens/shepherd.pen .
-0 truth problems
-```
+Type scale (Dynamic Type style → size used in the frames): Large Title 34 (Home, Paths, Settings, lesson title, all in the serif), Title1 28 (onboarding questions), Title2 22 (feedback title), Title3 20, Headline/Body 17, Callout 16, Subheadline 15, Footnote 13, Caption2 11. Nothing is below 11 pt.
 
-### 7.2 Chrome Probe (`sb_chrome_probe.py`)
-Validates Liquid Glass hierarchy: scroll content precedes chrome in z-order, all chrome components have blur filters, and `_Scrolled` frames feature scroll content passing under the toolbar:
-```text
-$ python3 scratch/sb_chrome_probe.py design/screens/shepherd.pen design/shepherd.lib.pen
-0 chrome problems
-```
+## 5. Components and Liquid Glass
 
-### 7.3 Contrast Probe (`sb_contrast.py`)
-Calculates relative luminance and WCAG 2.1 contrast ratios for every text and background pair across all 70 frames:
-```text
-$ python3 scratch/sb_contrast.py design/screens/shepherd.pen design/shepherd.lib.pen
-total text pairs: 1070
-WCAG AA failures: 0
-```
-- Minimum measured body text contrast: 5.4:1 (exceeds WCAG AA 4.5:1 floor).
-- Headline and primary scripture text: 14.2:1 against light canvas / 15.6:1 against dark canvas.
-- Accent text `#9A5500` against light canvas `#FAF8F4`: 5.21:1.
-- Button fill `#B45309` with white text: 5.25:1.
+### 5.1 Library components (*generated*)
 
-### 7.4 Pencil Token Audit (`pen-audit.py`)
-Verifies library instances (`refs >= 300`), 0 hex literals, and 0 dangling pointers:
-```text
-$ python3 ~/.gemini/config/skills/pencil-pen-authoring/scripts/pen-audit.py design/shepherd.lib.pen
-design/shepherd.lib.pen: imports[none] lib=0 local=3626 vars=86 hex=0 refs=0 dangling=0
+<!-- gen:components -->
+74 published components (30 lamb variants + 44 others).
 
-$ python3 ~/.gemini/config/skills/pencil-pen-authoring/scripts/pen-audit.py design/screens/shepherd.pen
-design/screens/shepherd.pen: imports[I=../shepherd.lib.pen] lib=2506 local=0 vars=0 hex=0 refs=322 dangling=0
-```
-- **Library References Gate:** 322 component instances (exceeds 300 reference requirement).
-- **Hex Literal Gate:** 0 hex literals in both files (100% token binding).
-- **Dangling Pointer Gate:** 0 dangling variables.
+| Component | Size (pt) | Children | Purpose |
+|---|---|---|---|
+| `Icon/LambGlyph` | 24×24 | 1 path | 24 pt lamb template glyph for the Lamb tab |
+| `Mascot/CharacterSheet` | 1240×719 | 30 ref, 21 text | all 30 lamb variants with stage labels |
+| `Sys/StatusBar` | 402×54 | 1 frame, 3 icon, 1 text | iPhone system chrome (status bar with black Dynamic Island, home indicator) |
+| `Sys/HomeIndicator` | 140×5 |  | iPhone system chrome (status bar with black Dynamic Island, home indicator) |
+| `Nav/GlassButton` | 44×44 | 2 frame, 1 icon | 44 pt circular glass toolbar button; icon swapped per use |
+| `Nav/StreakChip` | 76×44 | 2 frame, 1 icon, 1 text | glass toolbar chip: flame + current streak |
+| `Nav/GlassPillButton` | 96×44 | 2 frame, 1 text | glass text button for toolbars |
+| `Nav/TabBar/Today` | 370×62 | 3 frame, 3 icon, 1 ref, 4 text | glass tab bar, one variant per selected tab |
+| `Nav/TabBar/Bible` | 370×62 | 3 frame, 3 icon, 1 ref, 4 text | glass tab bar, one variant per selected tab |
+| `Nav/TabBar/Lamb` | 370×62 | 3 frame, 3 icon, 1 ref, 4 text | glass tab bar, one variant per selected tab |
+| `Nav/TabBar/Settings` | 370×62 | 3 frame, 3 icon, 1 ref, 4 text | glass tab bar, one variant per selected tab |
+| `Nav/TabBarMin/Today` | 56×56 | 2 frame, 1 icon | minimized tab bar (single glass circle) after scroll-down |
+| `Nav/Accessory/Expanded` | 370×56 | 3 frame, 1 icon, 2 text | tabViewBottomAccessory, expanded placement |
+| `Nav/Accessory/Inline` | 298×52 | 2 frame, 1 icon, 1 text | tabViewBottomAccessory, inline placement |
+| `Button/Prominent` | 370×56 | 2 frame, 1 text | primary action (.glassProminent tinted amber) |
+| `Button/ProminentDisabled` | 370×56 | 1 text | primary action (.glassProminent tinted amber) |
+| `Button/Glass` | 370×56 | 2 frame, 1 text | secondary action (.glass) |
+| `Button/Text` | 370×44 | 1 text | plain text action |
+| `Path/Node/Current` | 84×92 | 4 ellipse, 1 icon | 3D path node (face + deep lip) |
+| `Path/Node/Done` | 84×92 | 3 ellipse, 1 icon | 3D path node (face + deep lip) |
+| `Path/Node/Locked` | 84×92 | 3 ellipse, 1 icon | 3D path node (face + deep lip) |
+| `Path/Node/MilestoneLocked` | 84×92 | 3 ellipse, 1 icon | 3D path node (face + deep lip) |
+| `Row/Choice/Neutral` | 370×60 | 1 frame, 2 text | quiz answer row state |
+| `Row/Choice/Selected` | 370×60 | 1 frame, 2 text | quiz answer row state |
+| `Row/Choice/Correct` | 370×60 | 1 frame, 1 icon, 2 text | quiz answer row state |
+| `Row/Choice/Wrong` | 370×60 | 1 frame, 1 icon, 2 text | quiz answer row state |
+| `Row/Choice/Revealed` | 370×60 | 1 frame, 1 icon, 2 text | quiz answer row state |
+| `Bar/Progress` | 200×8 | 1 frame | progress / XP bar (fill width overridden) |
+| `Chip/Stat` | 150×40 | 1 icon, 1 text | reward chip (+XP, streak) |
+| `Card/Verse` | 370×None | 2 text | verse card: reference + translation, serif verse text |
+| `Row/Option/Default` | 370×60 | 1 ellipse, 1 text | onboarding option row |
+| `Row/Option/Selected` | 370×60 | 1 icon, 1 text | onboarding option row |
+| `Card/Plan/Selected` | 370×80 | 1 frame, 1 icon, 4 text | paywall plan card |
+| `Card/Plan/Default` | 370×80 | 1 ellipse, 1 frame, 4 text | paywall plan card |
+| `Row/Settings` | 370×52 | 1 icon, 2 text | settings row (label, value, chevron) |
+| `Sheet/Feedback/Correct` | 386×296 | 1 ellipse, 5 frame, 3 ref, 2 text | glass quiz feedback sheet (morph target of Check) |
+| `Sheet/Feedback/Wrong` | 386×334 | 1 ellipse, 5 frame, 3 ref, 2 text | glass quiz feedback sheet (morph target of Check) |
+| `Avatar/S1/Happy` | 56×56 | 15 path | lamb head-and-shoulders avatar (56 pt, pre-cut to the circle) |
+| `Avatar/S1/Encouraging` | 56×56 | 15 path | lamb head-and-shoulders avatar (56 pt, pre-cut to the circle) |
+| `Avatar/S1/Idle` | 56×56 | 15 path | lamb head-and-shoulders avatar (56 pt, pre-cut to the circle) |
+| `Avatar/S2/Idle` | 56×56 | 15 path | lamb head-and-shoulders avatar (56 pt, pre-cut to the circle) |
+| `Avatar/S3/Idle` | 56×56 | 16 path | lamb head-and-shoulders avatar (56 pt, pre-cut to the circle) |
+| `Avatar/S4/Idle` | 56×56 | 16 path | lamb head-and-shoulders avatar (56 pt, pre-cut to the circle) |
+| `Avatar/S5/Idle` | 56×56 | 18 path | lamb head-and-shoulders avatar (56 pt, pre-cut to the circle) |
 
-### 7.5 Pencil Layout Engine Check (`pen-layout-check.js`)
-Validates bounding box overlaps and text wrapping inside headless `pen interactive`:
-```text
-$ bash ~/.gemini/config/skills/pencil-pen-authoring/scripts/pen-run.sh design/screens/shepherd.pen -e "$(cat ~/.gemini/config/skills/pencil-pen-authoring/scripts/pen-layout-check.js)"
-libraries: I ok
-no clipped or overlapping text
-```
+| Lamb variant | Artboard (pt) | Vector layers |
+|---|---|---|
+| `Lamb/S1/Idle` | 141.2×87.3 | 16 paths |
+| `Lamb/S1/Happy` | 141.2×87.3 | 16 paths |
+| `Lamb/S1/Encouraging` | 141.2×87.3 | 16 paths |
+| `Lamb/S1/Celebrating` | 141.2×87.3 | 17 paths |
+| `Lamb/S1/Sleepy` | 141.2×87.3 | 16 paths |
+| `Lamb/S1/Hello` | 141.2×87.3 | 18 paths |
+| `Lamb/S2/Idle` | 111.3×87.5 | 18 paths |
+| `Lamb/S2/Happy` | 111.3×87.5 | 18 paths |
+| `Lamb/S2/Encouraging` | 111.3×87.5 | 18 paths |
+| `Lamb/S2/Celebrating` | 111.3×87.5 | 19 paths |
+| `Lamb/S2/Sleepy` | 111.3×87.5 | 17 paths |
+| `Lamb/S2/Hello` | 111.3×87.5 | 20 paths |
+| `Lamb/S3/Idle` | 136.1×104.3 | 19 paths |
+| `Lamb/S3/Happy` | 136.1×104.3 | 19 paths |
+| `Lamb/S3/Encouraging` | 136.1×104.3 | 19 paths |
+| `Lamb/S3/Celebrating` | 136.1×104.3 | 20 paths |
+| `Lamb/S3/Sleepy` | 136.1×104.3 | 17 paths |
+| `Lamb/S3/Hello` | 136.1×104.3 | 22 paths |
+| `Lamb/S4/Idle` | 152.5×116.7 | 20 paths |
+| `Lamb/S4/Happy` | 152.5×116.7 | 20 paths |
+| `Lamb/S4/Encouraging` | 152.5×116.7 | 20 paths |
+| `Lamb/S4/Celebrating` | 152.5×116.7 | 21 paths |
+| `Lamb/S4/Sleepy` | 152.5×116.7 | 17 paths |
+| `Lamb/S4/Hello` | 152.5×116.7 | 23 paths |
+| `Lamb/S5/Idle` | 171.3×129.1 | 22 paths |
+| `Lamb/S5/Happy` | 171.3×129.1 | 22 paths |
+| `Lamb/S5/Encouraging` | 171.3×129.1 | 22 paths |
+| `Lamb/S5/Celebrating` | 171.3×129.1 | 23 paths |
+| `Lamb/S5/Sleepy` | 171.3×129.1 | 19 paths |
+| `Lamb/S5/Hello` | 171.3×129.1 | 25 paths |
+<!-- /gen:components -->
 
-### 7.6 Export Integrity Verification
-Automated checksum and channel audit across all 70 canonical PNG exports:
-- **Total Exported PNGs:** 70 (35 Dark, 35 Light) @2x retina resolution.
-- **Black Frame Check (max pixel channel < 60):** 0 black frames.
-- **Identical Dark/Light Pairs:** 0 identical pairs (100% theme differentiation).
+### 5.2 The glass recipe (every glass node)
 
----
+| Layer | Value | Why |
+|---|---|---|
+| Fill | `--color-glass-fill`: white 55% / `#1A2420` 55% | Mostly clear; content shows through |
+| Backdrop | `background_blur` 24 | The frosting |
+| Shadow | 0/8, blur 24, `--color-shadow-glass` | Lifts glass off the content |
+| Rim | 1 pt inner stroke `--color-glass-stroke` (light `#D4CDC0`, 1.52:1 on the canvas, so it stays visible in light mode) | Edge definition |
+| Specular | 1 pt overlay stroke, linear gradient top→bottom: `--color-glass-spec-top` (white 90% / 45%) → clear at 45% → `--color-glass-spec-bottom` (`#8C7A62` 35% / white 12%) | Top-lit highlight with a darker bottom edge |
+| Inner highlight | 1 pt line inset 1 pt at the top, `--color-glass-inner-hi` (white 60% / 25%) | The bright lip of real glass |
 
-## 8. Mascot Character System — The Shepherd Lamb
+Rules: glass is only on chrome (toolbar buttons, streak chip, tab bar, accessory, sheets, dialogs, toasts, the Home speech bubble). Never glass on glass: the Bible picker's close button is a plain sunken circle, not glass. Glass always sits over something living: the dawn gradient, the meadow, or scrolling text. Sheets and dialogs sit over a scrim: `--color-scrim` for dialogs and the picker, and the lighter `--color-scrim-soft` (8% / 25%) for the quiz feedback sheet so the answers stay readable.
 
-### 8.1 Character Identity & Proportions
-The mascot is **the Shepherd lamb**—a gentle, warm, patient companion who walks alongside the reader through the 7-day paths and grows as the user learns. The user names their lamb during onboarding (`Companion.name`, default "Lamb"); **Barnaby** is the sample story name used in design mockups.
+Pencil cannot render refraction; the frames show blur, tint, rim and specular. The real material comes from the APIs below.
 
-```text
-       ┌────────────────────────────────────────────────────────┐
-       │             MASCOT CONSTRUCTION ARCHITECTURE           │
-       ├────────────────────────────┬───────────────────────────┤
-       │ Head : Body Ratio          │ 1:1 (Stage 1) -> 1:1.4 (S5)│
-       │ Silhouette Form            │ Organic rounded cloud wool│
-       │ Ear Angle Rules            │ 15° droop (idle) / 35° perk│
-       │ Eye Geometry               │ 4×4pt rounded vector ovals│
-       │ Line & Stroke Weight       │ 1pt hair border, 1.5pt eye│
-       │ Glass Interaction          │ Halo glows through glass  │
-       └────────────────────────────┴───────────────────────────┘
-```
+### 5.3 Component → API map
 
-### 8.2 Fixed Pastoral Character Palette
-To ensure visual harmony behind Liquid Glass chrome and in both light/dark appearances, the character strictly uses semantic tokens:
-- **`--color-mascot-wool`** (`#FFF8EC`): Fluffy fleece body and ear tufts.
-- **`--color-mascot-face`** (`#F4E3CC`): Warm parchment face and inner ears.
-- **`--color-mascot-feature`** (`#3D312B`): Eyes, smile arcs, and hoof markings.
-- **`--color-mascot-snout`** (`#EFA593`): Soft blush snout and rosy cheeks.
-- **`--color-mascot-halo`** (`#7A6655` light / `#FFF8EC4D` dark): Gentle ambient aura.
-- **`--color-mascot-bell`** (`#C99A3A`): Bell collar and Stage 5 laurel wreath.
+| Design element | SwiftUI (iOS 26) |
+|---|---|
+| Toolbar buttons (`Nav/GlassButton`), streak chip | `.toolbar { ToolbarItem(placement: .topBarLeading / .topBarTrailing) { Button(…, systemImage:) } }`. The system draws the glass; no custom glass behind it |
+| Large title "Today" → inline on scroll | `.navigationTitle("Today")` + `.navigationBarTitleDisplayMode(.large)` |
+| Tab bar (`Nav/TabBar/*`) | `TabView { Tab("Today", systemImage: "sun.max", value: …) … }` with the system glass tab bar; `.tint(accent)` |
+| Minimized tab bar (`Nav/TabBarMin/Today`) | `.tabBarMinimizeBehavior(.onScrollDown)` |
+| Bottom accessory (`Nav/Accessory/*`) | `.tabViewBottomAccessory { ContinueLessonAccessory() }`; inside, read `@Environment(\.tabViewBottomAccessoryPlacement)`: `.expanded` shows the eyebrow + title, `.inline` shows the title only. No `.glassEffect` on its content (the system supplies the glass) |
+| `Button/Prominent` | `.buttonStyle(.glassProminent)` + `.tint(accentFill)`; press response comes from the style |
+| `Button/Glass` | `.buttonStyle(.glass)` |
+| Feedback sheet | Custom view with `.glassEffect(.regular, in: .rect(cornerRadius: 28))`, in one `GlassEffectContainer` with the Check button (Morph A) |
+| Speech bubble, toast | `.glassEffect(.regular, in: .capsule)` |
+| Scroll edge under the bar | `.scrollEdgeEffectStyle(.soft, for: .top)` |
+| Reduce Transparency | `@Environment(\.accessibilityReduceTransparency)`: replace every custom `.glassEffect` with `--color-card-surface` + 1 pt `--color-glass-stroke` + the scrim. The system bars adapt on their own |
 
-### 8.3 Exact Growth Stages (`Companion.stage = 1 + xp/50`)
-Every stage maps directly to the model formula in `UserModels.swift:46`:
+Icons (lucide in the frames → SF Symbol in code): `sun` → `sun.max`, `book-open` → `book`, `settings` → `gearshape`, `map` → `map`, `flame` → `flame.fill`, `chevron-left` → `chevron.left`, `x` → `xmark`, `pencil` → `pencil`, `list` → `list.bullet`, `lock` → `lock.fill`, `check` → `checkmark`, `flag` → `flag.fill`, `circle-check` → `checkmark.circle.fill`, `circle-x` → `xmark.circle.fill`, `play` → `play.fill`, `sprout` → `leaf`, `info` → `info.circle`, `loader-circle` → `ProgressView()`, `hourglass` → `hourglass`, `circle-alert` → `exclamationmark.circle`. The Lamb tab uses `Icon/LambGlyph`, a custom template image (the lamb silhouette with a cut-out face), instead of `hare.fill`.
 
-| Stage | Name | Threshold | Silhouette & Visual Evolution |
-|:---:|:---|:---:|:---|
-| **1** | **Newborn** | `0–49 XP` | Tiny curled sleeping posture, compact fleece ring, delicate closed/resting eyes. Gentle introduction to faith. |
-| **2** | **Lamb** | `50–99 XP` | Sitting upright, alert open eyes, soft head tilt, curious presence. First steps in daily habit. |
-| **3** | **Young sheep** | `100–149 XP` | Fully standing on sturdy hooves, cheerful confident smile, perky ears, golden neck bell collar. |
-| **4** | **Yearling** | `150–199 XP` | Fuller, richer cloud fleece coat, serene posture, protective presence, deeper ambient aura. |
-| **5** | **Grown sheep** | `200+ XP` | Mature pastoral guide, radiant golden floral laurel wreath, gentle dignified stance, guiding others. |
+## 6. Navigation
 
-### 8.4 Expression Repertoire
-The library defines 6 production expressions across all 5 stages:
-1. **Idle**: Calm, resting presence. Soft oval eyes, gentle smile. Displayed on home path card and companion hub.
-2. **Happy**: Upward-curved laughing crescent eye arcs (`^ ^`), perky ears, glowing cheeks. Triggered upon selecting the correct quiz answer.
-3. **Encouraging**: Sympathetic 10° head tilt, warm wide eyes, soft comforting presence. Triggered upon an incorrect quiz answer. **Strict ethical rule:** The mascot never cries, scolds, shakes in anger, or guilts the user.
-4. **Celebrating**: Leaping energetic posture, golden star eyes (`★ ★`), open cheerful mouth, radiant fleece sparkles. Triggered on lesson completion and streak increments.
-5. **Sleepy**: Peaceful horizontal slit eyes (`- -`), slightly drooping relaxed ears. Displayed during evening hours and rest intervals.
-6. **Hello**: Friendly onboarding greeting pose, perky lifted ear, waving fleece hoof. Displayed on Welcome and Name-Your-Lamb screens.
+Tabs: **Today** (`sun.max`, the path), **Bible** (`book`, the reader), **Lamb** (custom glyph, the companion), **Settings** (`gearshape`). This replaces the code's `Path` tab: the path catalogue is pushed from Today's leading toolbar button (`map`), and that needs a `MainTabView` change. Lessons are pushed from a node with a zoom transition. The quiz is presented full screen (`.fullScreenCover`; the code uses `.sheet`). Onboarding and the paywall are modal. Every tab frame highlights its own tab; pushed screens keep their tab highlighted.
 
-### 8.5 Screen Placement & Sanctuary Policy
-- **Where the Lamb Appears:**
-  - Onboarding Welcome & Name-Your-Companion screens (bonding ritual).
-  - Questionnaire steps (bottom-left peeking pose over option list).
-  - Building Your Personal Plan loading state (companion preview).
-  - Today's Path status card (standing beside active node on the meadow S-curve).
-  - Quiz Feedback Sheets (instant pedagogical reaction: happy or encouraging).
-  - Lesson Complete Celebration (joyful XP reward moment).
-  - Companion Hub (full level inspection, stage timeline, and naming).
-- **Where the Lamb Deliberately Does NOT Appear (The Sacred Sanctuary Rule):**
-  - **Lesson Reading View:** The lamb is completely absent.
-  - **Bible Reader View:** The lamb is completely absent.
-  - **Rationale:** Scripture is sacred and contemplative. Reading God's Word requires quietude and reverence. Inserting a cartoon mascot into biblical text degrades devotional depth and causes cognitive fatigue.
+## 7. Screens
 
-### 8.6 Mascot Personality, Voice & Sample Copy
-The lamb speaks as a humble, cheerful study companion walking along the path—never as an authority, theologian, or divine voice. It cheers consistency, encourages patience, and celebrates small steps of understanding:
-1. *"A gentle step forward today. One passage at a time."* (Onboarding complete)
-2. *"Keep going! You're learning. Let's look back at Genesis 1:1 together."* (Incorrect quiz guidance)
-3. *"Splendid! The light always breaks through the darkness."* (Correct quiz answer)
-4. *"Day 1 complete! Our meadow is growing brighter."* (Lesson complete)
-5. *"Rest peacefully tonight. Tomorrow's path will be waiting for us."* (Evening reflection)
-6. *"No rush, no pressure. Five quiet minutes is all we need."* (Habit reminder)
+### 7.1 The story every frame follows
 
----
+A first-time user names the lamb **Barnaby** in onboarding (sample name only; the app stores whatever the user types in `Companion.name`, default "Lamb"). They continue with the free path.
 
-## 9. Liquid Glass & Motion Specification
+- **Day 1, before the lesson:** streak 0, 0 of 7 lessons, lamb Stage 1 (0 XP): `Home_DailyPath`, `Path_*`, `Lesson_Reading`, `Quiz_*`.
+- **Day 1 complete, both answers right:** +12 XP (`10 + 2`), 12 / 50 XP, streak 1: `Lesson_Complete`, `Home_Day1Done`, `Companion_Detail`. `Quiz_Wrong` and `Quiz_Q2_Wrong` are the alternate branch (that branch would earn +11 or +10).
+- **After Day 5** (5 perfect days = 60 XP): Stage 2 "Lamb", 60 / 100 XP: `Motion_StageUp_*`.
+- The paywall states are alternate branches of the onboarding paywall. `Paywall_Restored` is a returning purchaser; `Settings` shows the free story ("Not active").
 
-Every animation in Shepherd is built using real Apple iOS 26 SwiftUI primitives (`GlassEffectContainer`, `@Namespace`, `.glassEffectID`, `phaseAnimator`, `keyframeAnimator`, `.sensoryFeedback`, `.matchedTransitionSource`). Zero third-party runtimes.
+### 7.2 Rules for the implementer
 
-### 9.1 Motion Matrix (14 Canonical Animations)
+1. **Path unlock (a design addition):** a node is current when it is the first lesson without `LessonProgress` (the code's `nextLesson`), done when it has progress, and locked otherwise. `PathListView` does not gate lessons today; add `isUnlocked = lesson.dayIndex <= nextLesson.dayIndex`.
+2. **Quiz progress:** `progress = answeredCount / quiz.count`. It shows 0% on unanswered and selected, and moves to 50% when Check is tapped on question 1.
+3. **Feedback content:** title ("Correct!" / "Keep going! You're learning."), then `explain` when it is non-null. The wrong sheet also says "Answer: {correct choice}.". Always show one verse: the lesson's first verse whose text contains the correct choice (case-insensitive), else `lesson.verseRefs[0]`. `Quiz_Q2_Wrong` proves the null-`explain` case: `day1-q2` → Genesis 1:3.
+4. **Feedback sheet:** glass, corner 28, inset 8 pt from the screen edges, a 56 pt lamb avatar (Happy or Encouraging), Continue inside the sheet.
+5. **Reward:** `+{10 + score} XP`, streak from `StreakState.current`, the XP bar to the next multiple of 50, and the "N XP to Stage k" remainder.
+6. **Stages:** 1 Newborn (0–49), 2 Lamb (50–99), 3 Young sheep (100–149), 4 Yearling (150–199), 5 Grown sheep (200+). The same names are used everywhere.
+7. **Paywall:** prices come from `Product.displayPrice`. `$29.99/year` and `$4.99/month` in the frames are placeholders, tagged on screen. The disclosure under the plans: "Free for 7 days, then {price}/year. Auto-renews until cancelled. Cancel anytime in Settings › Apple ID at least 24 hours before the trial ends." Purchasing, pending (Ask to Buy), failed ("You haven't been charged.") and restored are glass dialogs over the dimmed paywall.
+8. **Bible sample gaps:** the bundle has Genesis 1:1–5, 26, 27, 31. After verse 5 the reader shows "Verses 6–25 aren't in this sample", and a quiet footer counts the sample's verses.
 
-| # | Animation | Trigger | Duration | Curve | What Moves | Haptic | Reduce Motion Fallback | Reduce Transparency Fallback |
-|:---:|:---|:---|:---|:---|:---|:---|:---|:---|
-| **1** | **Lamb idle breathe** | Ambient loop while idle | `3.2s` | `.easeInOut` | Body fleece scaleY `1.0 → 1.02` anchored at hooves (`phaseAnimator([0,1])`) | None | Static idle pose | Same |
-| **2** | **Lamb blink** | Ambient timer (every 4–6s) | `0.18s` | `.easeInOut` | Eye oval scaleY `1.0 → 0.1 → 1.0` (`keyframeAnimator`) | None | Static eyes open | Same |
-| **3** | **Happy hop** | User selects correct answer | `0.35s` | `.cubic(0.15s)` + `.snappy(0.2s)` | Vertical offset `0 → -12pt → 0`, landing squash scaleY `0.94` | `.sensoryFeedback(.success)` | Expression swap with 0.15s crossfade | Same |
-| **4** | **Encouraging tilt** | User selects wrong answer | `0.40s` | `.spring(duration: 0.4, bounce: 0.2)` | Head rotation `0° → 10°`, hold (never shakes) | `.sensoryFeedback(.warning)` | Expression swap with crossfade | Same |
-| **5** | **Celebrate** | Lesson completed | `0.60s` | `.bouncy` | Hop ×2 plus 3 fleece sparkles scale `0 → 1 → 0` staggered by `0.08s` | `.sensoryFeedback(.success)` | Static celebrating pose, sparkles static | Same |
-| **6** | **Stage-up evolution** | 50 XP milestone reached | `0.75s` | `.spring(duration: 0.5, bounce: 0.25)` | Old stage scales `1 → 1.08` fades out, new stage scales `0.9 → 1.0`, ring ripple | `.sensoryFeedback(.impact(weight: .medium))` | Direct 0.25s crossfade between stages | Same |
-| **7** | **Morph A: Check → Feedback** | User taps "Check Answer" | `0.35s` | `.spring(duration: 0.35, bounce: 0.15)` | 54pt capsule button expands into 214pt drawer via `GlassEffectContainer` + `.glassEffectID("quiz_action")` | Dynamic with answer result | Simple 0.2s crossfade between views | Opaque card (`#FFFFFF` / `#1D2220`) + 1pt border + scrim |
-| **8** | **Morph B: Accessory Inline ↔ Expanded** | Drag/tap on bottom accessory | `0.30s` | System-driven by `.tabBarMinimizeBehavior(.onScrollDown)` | 56pt pill expands to 150pt preview card via `tabViewBottomAccessoryPlacement` | `.sensoryFeedback(.selection)` | System default crossfade | Opaque card surface + border |
-| **9** | **Morph C: Path Node → Lesson** | Tap active Day 1 path node | `0.35s` | System zoom transition | 72×72pt node expands to full lesson header via `.matchedTransitionSource` + `.navigationTransition(.zoom)` | `.sensoryFeedback(.impact(weight: .medium))` | Standard navigation push crossfade | Standard navigation push |
-| **10** | **Check button press** | User presses button | `0.15s` | Native touch spring | Interactive physical compression via `.buttonStyle(.glassProminent)` | System glass touch haptic | Native touch press | Native solid button press |
-| **11** | **Streak +1 increment** | Lesson reward trigger | `0.28s` | `.snappy` | Streak count `.contentTransition(.numericText())`, flame `.symbolEffect(.bounce)` | `.sensoryFeedback(.impact(weight: .light))` | Numeric text transition only (no flame bounce) | Same |
-| **12** | **XP bar progress fill** | +12 XP awarded | `0.60s` | `.spring(duration: 0.6, bounce: 0.1)` | Horizontal progress bar fill width grows smoothly to new value | None | Instant width update | Same |
-| **13** | **Node unlock ripple** | Previous lesson completed | `0.60s` | `.easeOut` | Lock `.symbolEffect(.disappear)`, fill crossfades to amber, 1 ring ripple 36→52pt / opacity 0.8→0 | `.sensoryFeedback(.impact(weight: .light))` | Direct crossfade without ripple | Same |
-| **14** | **Scroll edge blur** | Scroll reaches top limit | Continuous | System `scrollEdgeEffectStyle(.soft, for: .top)` | Dynamic specular rim glare intensifies, background blur expands | None | Standard scroll stop | Standard scroll stop |
+### 7.3 Frames (*generated*)
 
-### 9.2 Mascot Motion Physics (Native SwiftUI Animators)
+<!-- gen:frames -->
+84 top-level frames (42 screens × light/dark), 714 library instances in the file.
+
+| Screen | Size | Instances per frame | Exports |
+|---|---|---|---|
+| `Mascot_System` | 1240×1330 | 7 | [Light](exports/Mascot_System_Light.png) · [Dark](exports/Mascot_System_Dark.png) |
+| `Home_DailyPath` | 402×874 | 13 | [Light](exports/Home_DailyPath_Light.png) · [Dark](exports/Home_DailyPath_Dark.png) |
+| `Home_Scrolled` | 402×874 | 10 | [Light](exports/Home_Scrolled_Light.png) · [Dark](exports/Home_Scrolled_Dark.png) |
+| `Path_Overview` | 402×874 | 7 | [Light](exports/Path_Overview_Light.png) · [Dark](exports/Path_Overview_Dark.png) |
+| `Lesson_Reading` | 402×874 | 6 | [Light](exports/Lesson_Reading_Light.png) · [Dark](exports/Lesson_Reading_Dark.png) |
+| `Quiz_Unanswered` | 402×874 | 10 | [Light](exports/Quiz_Unanswered_Light.png) · [Dark](exports/Quiz_Unanswered_Dark.png) |
+| `Quiz_Selected` | 402×874 | 10 | [Light](exports/Quiz_Selected_Light.png) · [Dark](exports/Quiz_Selected_Dark.png) |
+| `Quiz_Correct` | 402×874 | 9 | [Light](exports/Quiz_Correct_Light.png) · [Dark](exports/Quiz_Correct_Dark.png) |
+| `Quiz_Wrong` | 402×874 | 9 | [Light](exports/Quiz_Wrong_Light.png) · [Dark](exports/Quiz_Wrong_Dark.png) |
+| `Quiz_Q2_Wrong` | 402×874 | 9 | [Light](exports/Quiz_Q2_Wrong_Light.png) · [Dark](exports/Quiz_Q2_Wrong_Dark.png) |
+| `Lesson_Complete` | 402×874 | 7 | [Light](exports/Lesson_Complete_Light.png) · [Dark](exports/Lesson_Complete_Dark.png) |
+| `Companion_Detail` | 402×874 | 11 | [Light](exports/Companion_Detail_Light.png) · [Dark](exports/Companion_Detail_Dark.png) |
+| `Bible_Reader` | 402×874 | 4 | [Light](exports/Bible_Reader_Light.png) · [Dark](exports/Bible_Reader_Dark.png) |
+| `Settings` | 402×874 | 9 | [Light](exports/Settings_Light.png) · [Dark](exports/Settings_Dark.png) |
+| `Settings_RestoreResult` | 402×874 | 9 | [Light](exports/Settings_RestoreResult_Light.png) · [Dark](exports/Settings_RestoreResult_Dark.png) |
+| `Onboarding_Welcome` | 402×874 | 4 | [Light](exports/Onboarding_Welcome_Light.png) · [Dark](exports/Onboarding_Welcome_Dark.png) |
+| `Onboarding_Goal` | 402×874 | 9 | [Light](exports/Onboarding_Goal_Light.png) · [Dark](exports/Onboarding_Goal_Dark.png) |
+| `Onboarding_Experience` | 402×874 | 8 | [Light](exports/Onboarding_Experience_Light.png) · [Dark](exports/Onboarding_Experience_Dark.png) |
+| `Onboarding_Pace` | 402×874 | 5 | [Light](exports/Onboarding_Pace_Light.png) · [Dark](exports/Onboarding_Pace_Dark.png) |
+| `Onboarding_NameLamb` | 402×874 | 5 | [Light](exports/Onboarding_NameLamb_Light.png) · [Dark](exports/Onboarding_NameLamb_Dark.png) |
+| `Onboarding_BuildingPlan` | 402×874 | 5 | [Light](exports/Onboarding_BuildingPlan_Light.png) · [Dark](exports/Onboarding_BuildingPlan_Dark.png) |
+| `Paywall_Trial` | 402×874 | 8 | [Light](exports/Paywall_Trial_Light.png) · [Dark](exports/Paywall_Trial_Dark.png) |
+| `Paywall_Purchasing` | 402×874 | 7 | [Light](exports/Paywall_Purchasing_Light.png) · [Dark](exports/Paywall_Purchasing_Dark.png) |
+| `Paywall_Pending` | 402×874 | 8 | [Light](exports/Paywall_Pending_Light.png) · [Dark](exports/Paywall_Pending_Dark.png) |
+| `Paywall_Failed` | 402×874 | 9 | [Light](exports/Paywall_Failed_Light.png) · [Dark](exports/Paywall_Failed_Dark.png) |
+| `Paywall_Restored` | 402×874 | 9 | [Light](exports/Paywall_Restored_Light.png) · [Dark](exports/Paywall_Restored_Dark.png) |
+| `Accessibility_AX3` | 402×874 | 5 | [Light](exports/Accessibility_AX3_Light.png) · [Dark](exports/Accessibility_AX3_Dark.png) |
+| `Motion_QuizMorph_Start` | 402×874 | 10 | [Light](exports/Motion_QuizMorph_Start_Light.png) · [Dark](exports/Motion_QuizMorph_Start_Dark.png) |
+| `Motion_QuizMorph_Mid` | 402×874 | 9 | [Light](exports/Motion_QuizMorph_Mid_Light.png) · [Dark](exports/Motion_QuizMorph_Mid_Dark.png) |
+| `Motion_QuizMorph_End` | 402×874 | 9 | [Light](exports/Motion_QuizMorph_End_Light.png) · [Dark](exports/Motion_QuizMorph_End_Dark.png) |
+| `Motion_Accessory_Expanded` | 402×874 | 13 | [Light](exports/Motion_Accessory_Expanded_Light.png) · [Dark](exports/Motion_Accessory_Expanded_Dark.png) |
+| `Motion_Accessory_Inline` | 402×874 | 10 | [Light](exports/Motion_Accessory_Inline_Light.png) · [Dark](exports/Motion_Accessory_Inline_Dark.png) |
+| `Motion_PathZoom_Start` | 402×874 | 13 | [Light](exports/Motion_PathZoom_Start_Light.png) · [Dark](exports/Motion_PathZoom_Start_Dark.png) |
+| `Motion_PathZoom_Mid` | 402×874 | 13 | [Light](exports/Motion_PathZoom_Mid_Light.png) · [Dark](exports/Motion_PathZoom_Mid_Dark.png) |
+| `Motion_PathZoom_End` | 402×874 | 6 | [Light](exports/Motion_PathZoom_End_Light.png) · [Dark](exports/Motion_PathZoom_End_Dark.png) |
+| `Motion_StageUp_Start` | 402×874 | 6 | [Light](exports/Motion_StageUp_Start_Light.png) · [Dark](exports/Motion_StageUp_Start_Dark.png) |
+| `Motion_StageUp_End` | 402×874 | 5 | [Light](exports/Motion_StageUp_End_Light.png) · [Dark](exports/Motion_StageUp_End_Dark.png) |
+| `Motion_Mascot` | 1240×1380 | 19 | [Light](exports/Motion_Mascot_Light.png) · [Dark](exports/Motion_Mascot_Dark.png) |
+| `Accessibility_AX3_QuizWrong` | 402×874 | 11 | [Light](exports/Accessibility_AX3_QuizWrong_Light.png) · [Dark](exports/Accessibility_AX3_QuizWrong_Dark.png) |
+| `Bible_Picker` | 402×874 | 4 | [Light](exports/Bible_Picker_Light.png) · [Dark](exports/Bible_Picker_Dark.png) |
+| `Home_Day1Done` | 402×874 | 13 | [Light](exports/Home_Day1Done_Light.png) · [Dark](exports/Home_Day1Done_Dark.png) |
+| `Path_Lessons` | 402×874 | 4 | [Light](exports/Path_Lessons_Light.png) · [Dark](exports/Path_Lessons_Dark.png) |
+<!-- /gen:frames -->
+
+Notes per screen:
+- **Home_DailyPath:** an S-curve trail (28 pt stroke with a 1 pt edge) through three gradient vector hills. Nodes are at x 306 / 201 / 96 with a 112 pt pitch. The 88 pt lamb stands beside the current node with a glass bubble. There is no header card: the bottom accessory is the call to action. Days 5–6 sit under the accessory and tab bar.
+- **Home_Scrolled:** scrolled 502 pt. Day 4 and the hill crest pass under the collapsed inline "Today" bar through a 24 pt blur band with a soft fade. The tab bar is minimized and the accessory is inline. Below Day 7 the path ends with its title.
+- **Lesson_Reading / Bible_*:** no lamb. Serif verse text; the reader keeps verse numbers in accent.
+- **Accessibility_AX3:** every text level at AX3 (caption 32, body 40, title1 44, the button label at 40, the toolbar title at 28); verse text at 40. **Accessibility_AX3_QuizWrong:** the feedback sheet at a large detent with AX3 text, the choices behind it.
+- **Settings_RestoreResult:** "No purchases to restore" toast after Restore Purchases.
+
+## 8. The lamb
+
+### 8.1 Construction
+
+Every lamb is a stack of filled vector paths on one shared per-stage viewBox, so an instance scales by its size. Built from the review's Lamb target:
+
+- **Fleece:** N overlapping circles (5–11 scallops by stage) around an inner ellipse, unioned. Stage 3 is 84 × 58. A **shade** crescent under each scallop.
+- **Head:** a 46 × 42 egg that narrows to the chin. It overlaps the body's upper left, so the lamb faces three-quarters left. A **tuft** of 2–3 fleece circles on top (none at Stage 1).
+- **Ears:** 20 × 9 leaves hanging from the head's sides, the far one behind the head, each with a 12 × 4 blush inner ear. The droop angle depends on the expression.
+- **Face:** 6 × 8 eyes, 14 apart, with catchlights (8 × 10 at Stage 1). A rounded inverted-triangle nose, a "w" mouth and 40% blush cheeks.
+- **Legs:** 8 pt capsules in `--color-mascot-features`; the far legs are darker; hoof caps in `--color-mascot-hoof`. A three-circle tail. A ground shadow.
+- **Outline:** one 2-unit band around the whole silhouette (the union of every part, inflated), with no inner lines. Strokes are pre-offset into filled shapes, so line weights scale with the lamb.
+- **Palette:** fixed fills in both themes; only the outline changes (`#7A6655` light, `#FFF8EC` 30% dark).
+
+### 8.2 Stages and expressions
+
+| Stage | XP | Display height | Pose | Adds |
+|---|---|---|---|---|
+| 1 Newborn | 0–49 | 64 pt | lying curled, hooves tucked, bigger eyes, ears droop more | none |
+| 2 Lamb | 50–99 | 80 pt | sitting, front legs show | 2-circle tuft |
+| 3 Young sheep | 100–149 | 96 pt | standing on four legs | 3-circle tuft, amber ribbon collar |
+| 4 Yearling | 150–199 | 108 pt | standing, fuller fleece, longer legs | brass bell `#C99A3A` |
+| 5 Grown sheep | 200+ | 120 pt | standing, calm half-lidded eyes | crown of five meadow flowers (no halo, no laurel) |
+
+Expressions (only eyes, mouth, ears and pose change):
+- **Idle:** open eyes, "w" mouth, ears −20°.
+- **Happy:** ^ ^ eyes, open mouth with tongue, ears lifted, body raised 4.
+- **Encouraging:** head tilted 10° clockwise, eyes looking up-left, small smile, one ear raised.
+- **Celebrating:** closed-arc eyes, open mouth, front legs lifted (a whole-body hop at Stage 1), three amber four-point sparkles.
+- **Sleepy:** eyes as closed arcs, ears drooping 35°, the lying pose, a vector "z z".
+- **Hello:** a raised front hoof beside the cheek, ears perked, small open mouth.
+
+`Mascot_System` shows all 30 variants, the size check (24 / 56 / 88 / 180 pt and the 24 pt tab glyph) and the palette.
+
+### 8.3 Where it appears
+
+| Placement | Variant and size |
+|---|---|
+| Welcome, Name your lamb | Stage 1 Hello, 140 pt, on a hill vignette |
+| Onboarding questions, quiz before answering | Stage 1 Idle peeking bottom-left (72 / 56 pt) |
+| Building plan | Stage 1 Happy, 120 pt |
+| Today | Stage 1 Idle, 88 pt, beside the current node, with a glass bubble |
+| Quiz feedback | 56 pt avatar: Happy (correct) or Encouraging (wrong) |
+| Lesson complete | Stage 1 Celebrating, 160 pt, on a hill vignette |
+| Companion | Stage 1 Idle hero (150 pt display height; a lying Newborn is wider than tall, about 330 × 165 pt), plus five 52 pt stage avatars |
+| Paywall | 72 pt Happy avatar |
+| Lesson reading, Bible reader | **never** |
+
+### 8.4 Voice
+
+The lamb is a humble study companion walking the path with you: it cheers small steps and never speaks as an authority on Scripture. Sample lines:
+
+1. "Ready for Day 1?" (Home, first launch)
+2. "1 day down!" (Home after Day 1)
+3. "Keep going! You're learning." (wrong answer)
+4. "Correct!" (right answer; the verse does the teaching)
+5. "Rest well. Tomorrow's path will be waiting." (Sleepy, evening)
+6. "No rush. Five quiet minutes is enough." (a gentle habit nudge)
+
+## 9. Motion
+
+Calm and short: soft springs, no confetti, nothing moves while scripture is on screen. SwiftUI only, with no Lottie and nothing fetched from the network. One spring for all glass morphs: `.spring(duration: 0.35, bounce: 0.15)`.
+
+| # | Animation | Trigger | Duration | Curve | What moves | Haptic | Reduce Motion | Reduce Transparency |
+|---|---|---|---|---|---|---|---|---|
+| 1 | Lamb idle breathe | lamb on screen and idle (Today, Companion) | 3.2 s loop | `phaseAnimator([0, 1])`, `.easeInOut(duration: 1.6)` per phase | scaleY 1 → 1.02, anchored at the feet | none | static | n/a |
+| 2 | Lamb blink | `keyframeAnimator`, random every 4–6 s | 0.18 s | linear keyframes | eye layer scaleY 1 → 0.1 → 1 | none | static | n/a |
+| 3 | Happy hop | `isCorrect` becomes true on Check | 0.15 s up + 0.2 s down | cubic up, `.snappy(duration: 0.2)` down | y 0 → −12 → 0; land squash scaleY 0.94 | `.sensoryFeedback(.success, trigger:)` | expression swap with a 0.15 s crossfade | n/a |
+| 4 | Encouraging tilt | wrong answer on Check | 0.4 s, then hold | `.spring(duration: 0.4, bounce: 0.2)` | `.rotationEffect` 0 → 10° | `.sensoryFeedback(.warning, trigger:)` | swap; never shake | n/a |
+| 5 | Celebrate | Lesson Complete appears | 0.6 s | hop ×2; sparkles staggered 0.08 s | sparkles scale 0 → 1 → 0 | `.success` | static celebrating pose, sparkles shown statically | n/a |
+| 6 | Stage-up | `stage` increases after `addXP` | ≈ 0.8 s | `.spring(duration: 0.5, bounce: 0.25)` for the new stage | old stage 1 → 1.08 and fades; new stage 0.9 → 1; one ring ripple | `.impact(weight: .medium)` | 0.25 s crossfade | ring drawn solid |
+| 7 | Morph A: Check → feedback sheet | Check tapped | 0.35 s | `.spring(duration: 0.35, bounce: 0.15)` | Check capsule grows into the sheet: `GlassEffectContainer` + `.glassEffectID("quiz_action", in: ns)` | via 3 / 4 | crossfade | opaque card + 1 pt border + scrim |
+| 8 | Morph B: accessory expanded ↔ inline | scroll down / up on Today | system | system | tab bar minimizes to a circle; the accessory moves inline beside it (`.tabBarMinimizeBehavior(.onScrollDown)`); content adapts via `tabViewBottomAccessoryPlacement` | none | system | system |
+| 9 | Morph C: node → lesson | node tapped | system | system | `.matchedTransitionSource(id: lesson.id, in: ns)` on the node, `.navigationTransition(.zoom(sourceID: lesson.id, in: ns))` on `LessonView` | none | system crossfade | system |
+| 10 | Check button press | press | system | system | `.buttonStyle(.glassProminent)` supplies the interactive press; no custom scale | none | system | system |
+| 11 | Streak +1 | `markCompleted` | ≈ 0.3 s | default | number `.contentTransition(.numericText())`; flame `.symbolEffect(.bounce, value:)` | `.impact(weight: .light)` | numericText only | n/a |
+| 12 | XP fill | reward card appears | 0.6 s | `.spring(duration: 0.6, bounce: 0.1)` | bar width | none | instant | n/a |
+| 13 | Node unlock | the next lesson becomes current | 0.6 s | `.easeOut` | lock `.symbolEffect(.disappear)`; fill crossfades to amber; one ring ripple, radius 36 → 52 pt, opacity 0.8 → 0 | none | crossfade | n/a |
+| 14 | Scroll edge | scrolling under the bars | system | system | `.scrollEdgeEffectStyle(.soft, for: .top)`; nothing custom | none | system | system |
+
+Frames: `Motion_QuizMorph_Start/Mid/End` (Morph A: the real quiz, all four choices; the mid frame is the Check capsule stretched to about 60% of the sheet with the label crossfading, and the end frame is identical to `Quiz_Correct`). `Motion_Accessory_Expanded/Inline` (Morph B = Home at rest / scrolled). `Motion_PathZoom_Start/Mid/End` (Morph C). `Motion_StageUp_Start/End` (row 6). `Motion_Mascot` (keyframes for rows 1–6).
 
 ```swift
-// 1. Idle Breathing & Gentle Blink Loop
-struct MascotIdleView: View {
-    @State private var isBreathing = false
-    
-    var body: some View {
-        BarnabyVectorShape()
-            .phaseAnimator([0.0, 1.0]) { content, phase in
-                content
-                    .scaleEffect(x: 1.0 + phase * 0.02, y: 1.0 - phase * 0.02, anchor: .bottom)
-                    .offset(y: phase * -2)
-            } animation: { _ in
-                .easeInOut(duration: 3.2).repeatForever(autoreverses: true)
-            }
+// Morph A
+@Namespace private var ns
+GlassEffectContainer(spacing: 16) {
+    if let result {
+        FeedbackSheet(result: result)
+            .glassEffect(.regular, in: .rect(cornerRadius: 28))
+            .glassEffectID("quiz_action", in: ns)
+    } else {
+        Button("Check") { withAnimation(.spring(duration: 0.35, bounce: 0.15)) { result = check() } }
+            .buttonStyle(.glassProminent)
+            .glassEffectID("quiz_action", in: ns)
+            .disabled(selected == nil)
     }
 }
 
-// 2. Celebratory Hop & Stage Evolution Moment
-struct MascotHopView: View {
-    var trigger: Bool
-    
-    var body: some View {
-        BarnabyVectorShape()
-            .keyframeAnimator(initialValue: AnimationValues(), trigger: trigger) { content, value in
-                content
-                    .offset(y: value.verticalTranslation)
-                    .scaleEffect(x: value.squashX, y: value.stretchY, anchor: .bottom)
-            } keyframes: { _ in
-                KeyframeTrack(\.verticalTranslation) {
-                    CubicKeyframe(-12, duration: 0.15) // Apex hop
-                    SpringKeyframe(0, duration: 0.20, spring: .snappy) // Settle
-                }
-                KeyframeTrack(\.stretchY) {
-                    CubicKeyframe(1.08, duration: 0.15) // Stretch upwards
-                    SpringKeyframe(1.0, duration: 0.20, spring: .bouncy)
-                }
-            }
+// Morph B
+TabView { … }
+    .tabBarMinimizeBehavior(.onScrollDown)
+    .tabViewBottomAccessory { ContinueLessonAccessory() }   // reads \.tabViewBottomAccessoryPlacement
+
+// Morph C
+NodeView(lesson).matchedTransitionSource(id: lesson.id, in: ns)
+LessonView(lesson: lesson).navigationTransition(.zoom(sourceID: lesson.id, in: ns))
+
+// Lamb breathe (phaseAnimator already loops; no repeatForever)
+LambView(stage:, expression: .idle)
+    .phaseAnimator([0.0, 1.0]) { lamb, p in lamb.scaleEffect(x: 1, y: 1 + 0.02 * p, anchor: .bottom) }
+        animation: { _ in .easeInOut(duration: 1.6) }
+
+// Happy hop
+LambView(stage:, expression: .happy)
+    .keyframeAnimator(initialValue: Hop(), trigger: correctCount) { lamb, v in
+        lamb.offset(y: v.y).scaleEffect(x: 1, y: v.squash, anchor: .bottom)
+    } keyframes: { _ in
+        KeyframeTrack(\.y) { CubicKeyframe(-12, duration: 0.15); SpringKeyframe(0, duration: 0.2, spring: .snappy) }
+        KeyframeTrack(\.squash) { LinearKeyframe(1, duration: 0.33); LinearKeyframe(0.94, duration: 0.06); LinearKeyframe(1, duration: 0.1) }
     }
-}
+    .sensoryFeedback(.success, trigger: correctCount)
 ```
 
-### 9.3 Reward Moments & Temporal Choreography
-- **Streak Increment:** The flame badge scales up (`1.0 -> 1.15 -> 1.0`) over 280ms accompanied by `.sensoryFeedback(.impact(weight: .light))`.
-- **XP Progress Fill:** The horizontal XP bar animates its corner-radiused fill width using `.spring(duration: 0.6, bounce: 0.1)`, accompanied by a subtle golden glow flash (`opacity 0.0 -> 0.4 -> 0.0`).
-- **Path Node Unlocking:** Upon completing a lesson, the subsequent path node padlock icon morphs into the active amber star with a soft ring ripple (`radius 36 -> 52`, `opacity 0.8 -> 0.0`).
+Every motion checks `@Environment(\.accessibilityReduceMotion)`, and every custom glass checks `\.accessibilityReduceTransparency`, as the table says.
 
-### 9.4 Accessibility Fallbacks
-- **`accessibilityReduceMotion`:** When enabled in iOS Settings, all spring morphs and keyframe hops are immediately replaced by standard 150ms opacity crossfades or static state switches. No view positions translate across the screen.
-- **`accessibilityReduceTransparency`:** When enabled, Liquid Glass materials automatically swap their translucent blur layers (`--color-glass-fill`) for 100% opaque card surfaces (`--color-card-surface`) with high-contrast borders (`--color-surface-border`), guaranteeing complete legibility.
-- **Devotional Restraint:** Motion is quiet, soft, and respectful. Zero full-screen particle cannons, zero noisy confetti bursts, and zero unprompted popups while studying.
+## 10. Accessibility
+
+- Contrast: 0 WCAG AA failures across every text pair in both themes (gate output in the PR).
+- Dynamic Type: the sizes in section 4 map to the system styles. The two AX3 frames show the largest accessibility size, with text wrapping and buttons growing.
+- Tap targets: toolbar buttons, chips and the tab bar items are 44 pt or more; rows are 52–60 pt; primary buttons are 56 pt.
+- Reduce Transparency and Reduce Motion: section 5.3 and the motion table.
+
+## 11. Gates
+
+Run from the repo root; the outputs are pasted in the PR.
+
+- `pen-audit.py design/shepherd.lib.pen design/screens/shepherd.pen`: library link ok, hex 0, dangling 0.
+- `pen-layout-check.js` on the screens file: no clipped or overlapping text.
+- The export gate: no `_Light.png` byte-identical to its `_Dark.png`, and no black export.
+- The reviewer's `sb_truth_probe.py`, `sb_chrome_probe.py` and `sb_contrast.py`, plus ref-aware variants of the truth and chrome probes. The variants expand library instances, so text and glass inside components are checked too. They are kept outside git, as the reviewer's probes are.
+
+## 12. Known limits
+
+- Fonts are render proxies (section 3).
+- Pencil shows glass as blur, tint, rim and specular, without refraction.
+- The IA change (Bible tab instead of Path), the full-screen quiz and the path unlock gate need Swift changes. This PR changes no Swift.
+- The motion frames are still keyframes; the timing lives in section 9.

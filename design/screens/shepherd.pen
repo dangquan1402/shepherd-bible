@@ -3671,1284 +3671,6 @@
     },
     {
       "type": "frame",
-      "id": "k2SHN",
-      "x": 2300,
-      "y": 0,
-      "name": "Path_Lessons_Light",
-      "theme": {
-        "I:mode": "light"
-      },
-      "clip": true,
-      "width": 402,
-      "height": 874,
-      "fill": "$I:--color-canvas-bg",
-      "layout": "none",
-      "children": [
-        {
-          "type": "frame",
-          "id": "R4pPCy",
-          "x": 0,
-          "y": 0,
-          "name": "ScrollContent",
-          "width": 402,
-          "height": 874,
-          "layout": "none",
-          "children": [
-            {
-              "type": "frame",
-              "id": "Rr3Hn",
-              "x": 0,
-              "y": 0,
-              "name": "Backdrop",
-              "width": 402,
-              "height": 360,
-              "fill": {
-                "type": "gradient",
-                "gradientType": "linear",
-                "enabled": true,
-                "rotation": 180,
-                "size": {
-                  "height": 1
-                },
-                "colors": [
-                  {
-                    "color": "$I:--color-meadow-sky",
-                    "position": 0
-                  },
-                  {
-                    "color": "$I:--color-canvas-clear",
-                    "position": 1
-                  }
-                ]
-              },
-              "layout": "none"
-            },
-            {
-              "type": "text",
-              "id": "ST8mF",
-              "x": 16,
-              "y": 104,
-              "name": "LargeTitle",
-              "fill": "$I:--color-text-primary",
-              "textGrowth": "fixed-width",
-              "width": 370,
-              "content": "Beginner: 7 Days with God",
-              "fontFamily": "$I:--font-display",
-              "fontSize": 28,
-              "fontWeight": "700"
-            },
-            {
-              "type": "frame",
-              "id": "D5RwWV",
-              "x": 16,
-              "y": 156,
-              "name": "LessonList",
-              "width": 370,
-              "height": 504,
-              "fill": "$I:--color-card-surface",
-              "cornerRadius": 20,
-              "stroke": "$I:--color-surface-border",
-              "strokeWidth": 1,
-              "layout": "none",
-              "children": [
-                {
-                  "type": "frame",
-                  "id": "W481Tr",
-                  "x": 16,
-                  "y": 16,
-                  "name": "DayBadge",
-                  "width": 40,
-                  "height": 40,
-                  "fill": "$I:--color-accent-fill",
-                  "cornerRadius": 20,
-                  "layout": "none",
-                  "children": [
-                    {
-                      "type": "icon",
-                      "id": "hGle2",
-                      "x": 11,
-                      "y": 11,
-                      "name": "BadgeIcon",
-                      "width": 18,
-                      "height": 18,
-                      "icon": "book-open",
-                      "library": "lucide",
-                      "fill": "$I:--color-on-accent"
-                    }
-                  ]
-                },
-                {
-                  "type": "text",
-                  "id": "umD49",
-                  "x": 70,
-                  "y": 15,
-                  "name": "RowDay",
-                  "fill": "$I:--color-accent",
-                  "content": "Day 1",
-                  "fontFamily": "$I:--font-body",
-                  "fontSize": 13,
-                  "fontWeight": "600"
-                },
-                {
-                  "type": "text",
-                  "id": "CqTEY",
-                  "x": 70,
-                  "y": 33,
-                  "name": "RowTitle",
-                  "fill": "$I:--color-text-primary",
-                  "textGrowth": "fixed-width",
-                  "width": 250,
-                  "content": "In the beginning",
-                  "fontFamily": "$I:--font-body",
-                  "fontSize": 17,
-                  "fontWeight": "600"
-                },
-                {
-                  "type": "icon",
-                  "id": "zR9NP",
-                  "x": 336,
-                  "y": 27,
-                  "name": "RowChevron",
-                  "width": 18,
-                  "height": 18,
-                  "icon": "chevron-right",
-                  "library": "lucide",
-                  "fill": "$I:--color-text-tertiary"
-                },
-                {
-                  "type": "frame",
-                  "id": "DPr7q",
-                  "x": 70,
-                  "y": 71,
-                  "name": "Separator",
-                  "width": 300,
-                  "height": 1,
-                  "fill": "$I:--color-surface-border",
-                  "layout": "none"
-                },
-                {
-                  "type": "frame",
-                  "id": "H4a2V",
-                  "x": 16,
-                  "y": 88,
-                  "name": "DayBadge",
-                  "width": 40,
-                  "height": 40,
-                  "fill": "$I:--color-surface-sunken",
-                  "cornerRadius": 20,
-                  "layout": "none",
-                  "children": [
-                    {
-                      "type": "icon",
-                      "id": "ciQSx",
-                      "x": 11,
-                      "y": 11,
-                      "name": "BadgeIcon",
-                      "width": 18,
-                      "height": 18,
-                      "icon": "lock",
-                      "library": "lucide",
-                      "fill": "$I:--color-text-secondary"
-                    }
-                  ]
-                },
-                {
-                  "type": "text",
-                  "id": "CGTXk",
-                  "x": 70,
-                  "y": 87,
-                  "name": "RowDay",
-                  "fill": "$I:--color-text-secondary",
-                  "content": "Day 2",
-                  "fontFamily": "$I:--font-body",
-                  "fontSize": 13,
-                  "fontWeight": "600"
-                },
-                {
-                  "type": "text",
-                  "id": "i9xkjP",
-                  "x": 70,
-                  "y": 105,
-                  "name": "RowTitle",
-                  "fill": "$I:--color-text-primary",
-                  "textGrowth": "fixed-width",
-                  "width": 250,
-                  "content": "Made in God's image",
-                  "fontFamily": "$I:--font-body",
-                  "fontSize": 17,
-                  "fontWeight": "normal"
-                },
-                {
-                  "type": "icon",
-                  "id": "nv1yj",
-                  "x": 336,
-                  "y": 99,
-                  "name": "RowChevron",
-                  "width": 18,
-                  "height": 18,
-                  "icon": "chevron-right",
-                  "library": "lucide",
-                  "fill": "$I:--color-text-tertiary"
-                },
-                {
-                  "type": "frame",
-                  "id": "PuZ3w",
-                  "x": 70,
-                  "y": 143,
-                  "name": "Separator",
-                  "width": 300,
-                  "height": 1,
-                  "fill": "$I:--color-surface-border",
-                  "layout": "none"
-                },
-                {
-                  "type": "frame",
-                  "id": "FbMJ8",
-                  "x": 16,
-                  "y": 160,
-                  "name": "DayBadge",
-                  "width": 40,
-                  "height": 40,
-                  "fill": "$I:--color-surface-sunken",
-                  "cornerRadius": 20,
-                  "layout": "none",
-                  "children": [
-                    {
-                      "type": "icon",
-                      "id": "sPXin",
-                      "x": 11,
-                      "y": 11,
-                      "name": "BadgeIcon",
-                      "width": 18,
-                      "height": 18,
-                      "icon": "lock",
-                      "library": "lucide",
-                      "fill": "$I:--color-text-secondary"
-                    }
-                  ]
-                },
-                {
-                  "type": "text",
-                  "id": "euHjT",
-                  "x": 70,
-                  "y": 159,
-                  "name": "RowDay",
-                  "fill": "$I:--color-text-secondary",
-                  "content": "Day 3",
-                  "fontFamily": "$I:--font-body",
-                  "fontSize": 13,
-                  "fontWeight": "600"
-                },
-                {
-                  "type": "text",
-                  "id": "vzPCS",
-                  "x": 70,
-                  "y": 177,
-                  "name": "RowTitle",
-                  "fill": "$I:--color-text-primary",
-                  "textGrowth": "fixed-width",
-                  "width": 250,
-                  "content": "The Word became flesh",
-                  "fontFamily": "$I:--font-body",
-                  "fontSize": 17,
-                  "fontWeight": "normal"
-                },
-                {
-                  "type": "icon",
-                  "id": "jfu1o",
-                  "x": 336,
-                  "y": 171,
-                  "name": "RowChevron",
-                  "width": 18,
-                  "height": 18,
-                  "icon": "chevron-right",
-                  "library": "lucide",
-                  "fill": "$I:--color-text-tertiary"
-                },
-                {
-                  "type": "frame",
-                  "id": "YH7Ms",
-                  "x": 70,
-                  "y": 215,
-                  "name": "Separator",
-                  "width": 300,
-                  "height": 1,
-                  "fill": "$I:--color-surface-border",
-                  "layout": "none"
-                },
-                {
-                  "type": "frame",
-                  "id": "LS0y7",
-                  "x": 16,
-                  "y": 232,
-                  "name": "DayBadge",
-                  "width": 40,
-                  "height": 40,
-                  "fill": "$I:--color-surface-sunken",
-                  "cornerRadius": 20,
-                  "layout": "none",
-                  "children": [
-                    {
-                      "type": "icon",
-                      "id": "lclhn",
-                      "x": 11,
-                      "y": 11,
-                      "name": "BadgeIcon",
-                      "width": 18,
-                      "height": 18,
-                      "icon": "lock",
-                      "library": "lucide",
-                      "fill": "$I:--color-text-secondary"
-                    }
-                  ]
-                },
-                {
-                  "type": "text",
-                  "id": "By5pq",
-                  "x": 70,
-                  "y": 231,
-                  "name": "RowDay",
-                  "fill": "$I:--color-text-secondary",
-                  "content": "Day 4",
-                  "fontFamily": "$I:--font-body",
-                  "fontSize": 13,
-                  "fontWeight": "600"
-                },
-                {
-                  "type": "text",
-                  "id": "YwRwk",
-                  "x": 70,
-                  "y": 249,
-                  "name": "RowTitle",
-                  "fill": "$I:--color-text-primary",
-                  "textGrowth": "fixed-width",
-                  "width": 250,
-                  "content": "God so loved",
-                  "fontFamily": "$I:--font-body",
-                  "fontSize": 17,
-                  "fontWeight": "normal"
-                },
-                {
-                  "type": "icon",
-                  "id": "lvrbV",
-                  "x": 336,
-                  "y": 243,
-                  "name": "RowChevron",
-                  "width": 18,
-                  "height": 18,
-                  "icon": "chevron-right",
-                  "library": "lucide",
-                  "fill": "$I:--color-text-tertiary"
-                },
-                {
-                  "type": "frame",
-                  "id": "S5hbc",
-                  "x": 70,
-                  "y": 287,
-                  "name": "Separator",
-                  "width": 300,
-                  "height": 1,
-                  "fill": "$I:--color-surface-border",
-                  "layout": "none"
-                },
-                {
-                  "type": "frame",
-                  "id": "OOyQ8",
-                  "x": 16,
-                  "y": 304,
-                  "name": "DayBadge",
-                  "width": 40,
-                  "height": 40,
-                  "fill": "$I:--color-surface-sunken",
-                  "cornerRadius": 20,
-                  "layout": "none",
-                  "children": [
-                    {
-                      "type": "icon",
-                      "id": "vRiJi",
-                      "x": 11,
-                      "y": 11,
-                      "name": "BadgeIcon",
-                      "width": 18,
-                      "height": 18,
-                      "icon": "lock",
-                      "library": "lucide",
-                      "fill": "$I:--color-text-secondary"
-                    }
-                  ]
-                },
-                {
-                  "type": "text",
-                  "id": "gWJHS",
-                  "x": 70,
-                  "y": 303,
-                  "name": "RowDay",
-                  "fill": "$I:--color-text-secondary",
-                  "content": "Day 5",
-                  "fontFamily": "$I:--font-body",
-                  "fontSize": 13,
-                  "fontWeight": "600"
-                },
-                {
-                  "type": "text",
-                  "id": "MoVLq",
-                  "x": 70,
-                  "y": 321,
-                  "name": "RowTitle",
-                  "fill": "$I:--color-text-primary",
-                  "textGrowth": "fixed-width",
-                  "width": 250,
-                  "content": "The Lord is my shepherd",
-                  "fontFamily": "$I:--font-body",
-                  "fontSize": 17,
-                  "fontWeight": "normal"
-                },
-                {
-                  "type": "icon",
-                  "id": "fMwEO",
-                  "x": 336,
-                  "y": 315,
-                  "name": "RowChevron",
-                  "width": 18,
-                  "height": 18,
-                  "icon": "chevron-right",
-                  "library": "lucide",
-                  "fill": "$I:--color-text-tertiary"
-                },
-                {
-                  "type": "frame",
-                  "id": "un8KR",
-                  "x": 70,
-                  "y": 359,
-                  "name": "Separator",
-                  "width": 300,
-                  "height": 1,
-                  "fill": "$I:--color-surface-border",
-                  "layout": "none"
-                },
-                {
-                  "type": "frame",
-                  "id": "ps4gf",
-                  "x": 16,
-                  "y": 376,
-                  "name": "DayBadge",
-                  "width": 40,
-                  "height": 40,
-                  "fill": "$I:--color-surface-sunken",
-                  "cornerRadius": 20,
-                  "layout": "none",
-                  "children": [
-                    {
-                      "type": "icon",
-                      "id": "CRVAr",
-                      "x": 11,
-                      "y": 11,
-                      "name": "BadgeIcon",
-                      "width": 18,
-                      "height": 18,
-                      "icon": "lock",
-                      "library": "lucide",
-                      "fill": "$I:--color-text-secondary"
-                    }
-                  ]
-                },
-                {
-                  "type": "text",
-                  "id": "SU6tK",
-                  "x": 70,
-                  "y": 375,
-                  "name": "RowDay",
-                  "fill": "$I:--color-text-secondary",
-                  "content": "Day 6",
-                  "fontFamily": "$I:--font-body",
-                  "fontSize": 13,
-                  "fontWeight": "600"
-                },
-                {
-                  "type": "text",
-                  "id": "V66z9",
-                  "x": 70,
-                  "y": 393,
-                  "name": "RowTitle",
-                  "fill": "$I:--color-text-primary",
-                  "textGrowth": "fixed-width",
-                  "width": 250,
-                  "content": "Light of the world",
-                  "fontFamily": "$I:--font-body",
-                  "fontSize": 17,
-                  "fontWeight": "normal"
-                },
-                {
-                  "type": "icon",
-                  "id": "oDbtn",
-                  "x": 336,
-                  "y": 387,
-                  "name": "RowChevron",
-                  "width": 18,
-                  "height": 18,
-                  "icon": "chevron-right",
-                  "library": "lucide",
-                  "fill": "$I:--color-text-tertiary"
-                },
-                {
-                  "type": "frame",
-                  "id": "Z2KJ8",
-                  "x": 70,
-                  "y": 431,
-                  "name": "Separator",
-                  "width": 300,
-                  "height": 1,
-                  "fill": "$I:--color-surface-border",
-                  "layout": "none"
-                },
-                {
-                  "type": "frame",
-                  "id": "KvT81",
-                  "x": 16,
-                  "y": 448,
-                  "name": "DayBadge",
-                  "width": 40,
-                  "height": 40,
-                  "fill": "$I:--color-surface-sunken",
-                  "cornerRadius": 20,
-                  "layout": "none",
-                  "children": [
-                    {
-                      "type": "icon",
-                      "id": "n1TnX",
-                      "x": 11,
-                      "y": 11,
-                      "name": "BadgeIcon",
-                      "width": 18,
-                      "height": 18,
-                      "icon": "lock",
-                      "library": "lucide",
-                      "fill": "$I:--color-text-secondary"
-                    }
-                  ]
-                },
-                {
-                  "type": "text",
-                  "id": "Ic472",
-                  "x": 70,
-                  "y": 447,
-                  "name": "RowDay",
-                  "fill": "$I:--color-text-secondary",
-                  "content": "Day 7",
-                  "fontFamily": "$I:--font-body",
-                  "fontSize": 13,
-                  "fontWeight": "600"
-                },
-                {
-                  "type": "text",
-                  "id": "VlomQ",
-                  "x": 70,
-                  "y": 465,
-                  "name": "RowTitle",
-                  "fill": "$I:--color-text-primary",
-                  "textGrowth": "fixed-width",
-                  "width": 250,
-                  "content": "Pray like this",
-                  "fontFamily": "$I:--font-body",
-                  "fontSize": 17,
-                  "fontWeight": "normal"
-                },
-                {
-                  "type": "icon",
-                  "id": "mHmK3",
-                  "x": 336,
-                  "y": 459,
-                  "name": "RowChevron",
-                  "width": 18,
-                  "height": 18,
-                  "icon": "chevron-right",
-                  "library": "lucide",
-                  "fill": "$I:--color-text-tertiary"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "id": "oh1Vm",
-          "type": "ref",
-          "ref": "I:ZBDV1",
-          "name": "Toolbar chevron-left",
-          "x": 16,
-          "y": 58,
-          "descendants": {
-            "I:z4feM4": {
-              "icon": "chevron-left"
-            }
-          }
-        },
-        {
-          "id": "oy0EK",
-          "type": "ref",
-          "ref": "I:IwqQH",
-          "name": "TabBar",
-          "x": 16,
-          "y": 780
-        },
-        {
-          "id": "OnToU",
-          "type": "ref",
-          "ref": "I:h3gTX",
-          "name": "StatusBar",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "id": "ZZlW2",
-          "type": "ref",
-          "ref": "I:W5z9z",
-          "name": "HomeIndicator",
-          "x": 131,
-          "y": 861
-        }
-      ]
-    },
-    {
-      "type": "frame",
-      "id": "R7oJ4i",
-      "x": 2300,
-      "y": 960,
-      "name": "Path_Lessons_Dark",
-      "theme": {
-        "I:mode": "dark"
-      },
-      "clip": true,
-      "width": 402,
-      "height": 874,
-      "fill": "$I:--color-canvas-bg",
-      "layout": "none",
-      "children": [
-        {
-          "type": "frame",
-          "id": "RUeK1",
-          "x": 0,
-          "y": 0,
-          "name": "ScrollContent",
-          "width": 402,
-          "height": 874,
-          "layout": "none",
-          "children": [
-            {
-              "type": "frame",
-              "id": "BtN6v",
-              "x": 0,
-              "y": 0,
-              "name": "Backdrop",
-              "width": 402,
-              "height": 360,
-              "fill": {
-                "type": "gradient",
-                "gradientType": "linear",
-                "enabled": true,
-                "rotation": 180,
-                "size": {
-                  "height": 1
-                },
-                "colors": [
-                  {
-                    "color": "$I:--color-meadow-sky",
-                    "position": 0
-                  },
-                  {
-                    "color": "$I:--color-canvas-clear",
-                    "position": 1
-                  }
-                ]
-              },
-              "layout": "none"
-            },
-            {
-              "type": "text",
-              "id": "m8BXx",
-              "x": 16,
-              "y": 104,
-              "name": "LargeTitle",
-              "fill": "$I:--color-text-primary",
-              "textGrowth": "fixed-width",
-              "width": 370,
-              "content": "Beginner: 7 Days with God",
-              "fontFamily": "$I:--font-display",
-              "fontSize": 28,
-              "fontWeight": "700"
-            },
-            {
-              "type": "frame",
-              "id": "TwzZp",
-              "x": 16,
-              "y": 156,
-              "name": "LessonList",
-              "width": 370,
-              "height": 504,
-              "fill": "$I:--color-card-surface",
-              "cornerRadius": 20,
-              "stroke": "$I:--color-surface-border",
-              "strokeWidth": 1,
-              "layout": "none",
-              "children": [
-                {
-                  "type": "frame",
-                  "id": "h9md7x",
-                  "x": 16,
-                  "y": 16,
-                  "name": "DayBadge",
-                  "width": 40,
-                  "height": 40,
-                  "fill": "$I:--color-accent-fill",
-                  "cornerRadius": 20,
-                  "layout": "none",
-                  "children": [
-                    {
-                      "type": "icon",
-                      "id": "b5k1B",
-                      "x": 11,
-                      "y": 11,
-                      "name": "BadgeIcon",
-                      "width": 18,
-                      "height": 18,
-                      "icon": "book-open",
-                      "library": "lucide",
-                      "fill": "$I:--color-on-accent"
-                    }
-                  ]
-                },
-                {
-                  "type": "text",
-                  "id": "KcOQ9",
-                  "x": 70,
-                  "y": 15,
-                  "name": "RowDay",
-                  "fill": "$I:--color-accent",
-                  "content": "Day 1",
-                  "fontFamily": "$I:--font-body",
-                  "fontSize": 13,
-                  "fontWeight": "600"
-                },
-                {
-                  "type": "text",
-                  "id": "d4EvH",
-                  "x": 70,
-                  "y": 33,
-                  "name": "RowTitle",
-                  "fill": "$I:--color-text-primary",
-                  "textGrowth": "fixed-width",
-                  "width": 250,
-                  "content": "In the beginning",
-                  "fontFamily": "$I:--font-body",
-                  "fontSize": 17,
-                  "fontWeight": "600"
-                },
-                {
-                  "type": "icon",
-                  "id": "JSNJ6",
-                  "x": 336,
-                  "y": 27,
-                  "name": "RowChevron",
-                  "width": 18,
-                  "height": 18,
-                  "icon": "chevron-right",
-                  "library": "lucide",
-                  "fill": "$I:--color-text-tertiary"
-                },
-                {
-                  "type": "frame",
-                  "id": "kwRE4",
-                  "x": 70,
-                  "y": 71,
-                  "name": "Separator",
-                  "width": 300,
-                  "height": 1,
-                  "fill": "$I:--color-surface-border",
-                  "layout": "none"
-                },
-                {
-                  "type": "frame",
-                  "id": "wVzde",
-                  "x": 16,
-                  "y": 88,
-                  "name": "DayBadge",
-                  "width": 40,
-                  "height": 40,
-                  "fill": "$I:--color-surface-sunken",
-                  "cornerRadius": 20,
-                  "layout": "none",
-                  "children": [
-                    {
-                      "type": "icon",
-                      "id": "xkCrk",
-                      "x": 11,
-                      "y": 11,
-                      "name": "BadgeIcon",
-                      "width": 18,
-                      "height": 18,
-                      "icon": "lock",
-                      "library": "lucide",
-                      "fill": "$I:--color-text-secondary"
-                    }
-                  ]
-                },
-                {
-                  "type": "text",
-                  "id": "QY9YY",
-                  "x": 70,
-                  "y": 87,
-                  "name": "RowDay",
-                  "fill": "$I:--color-text-secondary",
-                  "content": "Day 2",
-                  "fontFamily": "$I:--font-body",
-                  "fontSize": 13,
-                  "fontWeight": "600"
-                },
-                {
-                  "type": "text",
-                  "id": "T1hKw",
-                  "x": 70,
-                  "y": 105,
-                  "name": "RowTitle",
-                  "fill": "$I:--color-text-primary",
-                  "textGrowth": "fixed-width",
-                  "width": 250,
-                  "content": "Made in God's image",
-                  "fontFamily": "$I:--font-body",
-                  "fontSize": 17,
-                  "fontWeight": "normal"
-                },
-                {
-                  "type": "icon",
-                  "id": "CswAQ",
-                  "x": 336,
-                  "y": 99,
-                  "name": "RowChevron",
-                  "width": 18,
-                  "height": 18,
-                  "icon": "chevron-right",
-                  "library": "lucide",
-                  "fill": "$I:--color-text-tertiary"
-                },
-                {
-                  "type": "frame",
-                  "id": "G2jkr",
-                  "x": 70,
-                  "y": 143,
-                  "name": "Separator",
-                  "width": 300,
-                  "height": 1,
-                  "fill": "$I:--color-surface-border",
-                  "layout": "none"
-                },
-                {
-                  "type": "frame",
-                  "id": "v0Gwkn",
-                  "x": 16,
-                  "y": 160,
-                  "name": "DayBadge",
-                  "width": 40,
-                  "height": 40,
-                  "fill": "$I:--color-surface-sunken",
-                  "cornerRadius": 20,
-                  "layout": "none",
-                  "children": [
-                    {
-                      "type": "icon",
-                      "id": "A639fe",
-                      "x": 11,
-                      "y": 11,
-                      "name": "BadgeIcon",
-                      "width": 18,
-                      "height": 18,
-                      "icon": "lock",
-                      "library": "lucide",
-                      "fill": "$I:--color-text-secondary"
-                    }
-                  ]
-                },
-                {
-                  "type": "text",
-                  "id": "CIXvl",
-                  "x": 70,
-                  "y": 159,
-                  "name": "RowDay",
-                  "fill": "$I:--color-text-secondary",
-                  "content": "Day 3",
-                  "fontFamily": "$I:--font-body",
-                  "fontSize": 13,
-                  "fontWeight": "600"
-                },
-                {
-                  "type": "text",
-                  "id": "YeMTk",
-                  "x": 70,
-                  "y": 177,
-                  "name": "RowTitle",
-                  "fill": "$I:--color-text-primary",
-                  "textGrowth": "fixed-width",
-                  "width": 250,
-                  "content": "The Word became flesh",
-                  "fontFamily": "$I:--font-body",
-                  "fontSize": 17,
-                  "fontWeight": "normal"
-                },
-                {
-                  "type": "icon",
-                  "id": "fLbOQ",
-                  "x": 336,
-                  "y": 171,
-                  "name": "RowChevron",
-                  "width": 18,
-                  "height": 18,
-                  "icon": "chevron-right",
-                  "library": "lucide",
-                  "fill": "$I:--color-text-tertiary"
-                },
-                {
-                  "type": "frame",
-                  "id": "DpL65",
-                  "x": 70,
-                  "y": 215,
-                  "name": "Separator",
-                  "width": 300,
-                  "height": 1,
-                  "fill": "$I:--color-surface-border",
-                  "layout": "none"
-                },
-                {
-                  "type": "frame",
-                  "id": "r0YId",
-                  "x": 16,
-                  "y": 232,
-                  "name": "DayBadge",
-                  "width": 40,
-                  "height": 40,
-                  "fill": "$I:--color-surface-sunken",
-                  "cornerRadius": 20,
-                  "layout": "none",
-                  "children": [
-                    {
-                      "type": "icon",
-                      "id": "z3yGUU",
-                      "x": 11,
-                      "y": 11,
-                      "name": "BadgeIcon",
-                      "width": 18,
-                      "height": 18,
-                      "icon": "lock",
-                      "library": "lucide",
-                      "fill": "$I:--color-text-secondary"
-                    }
-                  ]
-                },
-                {
-                  "type": "text",
-                  "id": "onoET",
-                  "x": 70,
-                  "y": 231,
-                  "name": "RowDay",
-                  "fill": "$I:--color-text-secondary",
-                  "content": "Day 4",
-                  "fontFamily": "$I:--font-body",
-                  "fontSize": 13,
-                  "fontWeight": "600"
-                },
-                {
-                  "type": "text",
-                  "id": "Sz4I2",
-                  "x": 70,
-                  "y": 249,
-                  "name": "RowTitle",
-                  "fill": "$I:--color-text-primary",
-                  "textGrowth": "fixed-width",
-                  "width": 250,
-                  "content": "God so loved",
-                  "fontFamily": "$I:--font-body",
-                  "fontSize": 17,
-                  "fontWeight": "normal"
-                },
-                {
-                  "type": "icon",
-                  "id": "MIze7",
-                  "x": 336,
-                  "y": 243,
-                  "name": "RowChevron",
-                  "width": 18,
-                  "height": 18,
-                  "icon": "chevron-right",
-                  "library": "lucide",
-                  "fill": "$I:--color-text-tertiary"
-                },
-                {
-                  "type": "frame",
-                  "id": "z05D5",
-                  "x": 70,
-                  "y": 287,
-                  "name": "Separator",
-                  "width": 300,
-                  "height": 1,
-                  "fill": "$I:--color-surface-border",
-                  "layout": "none"
-                },
-                {
-                  "type": "frame",
-                  "id": "yRODf",
-                  "x": 16,
-                  "y": 304,
-                  "name": "DayBadge",
-                  "width": 40,
-                  "height": 40,
-                  "fill": "$I:--color-surface-sunken",
-                  "cornerRadius": 20,
-                  "layout": "none",
-                  "children": [
-                    {
-                      "type": "icon",
-                      "id": "xl1y9",
-                      "x": 11,
-                      "y": 11,
-                      "name": "BadgeIcon",
-                      "width": 18,
-                      "height": 18,
-                      "icon": "lock",
-                      "library": "lucide",
-                      "fill": "$I:--color-text-secondary"
-                    }
-                  ]
-                },
-                {
-                  "type": "text",
-                  "id": "dLSaQ",
-                  "x": 70,
-                  "y": 303,
-                  "name": "RowDay",
-                  "fill": "$I:--color-text-secondary",
-                  "content": "Day 5",
-                  "fontFamily": "$I:--font-body",
-                  "fontSize": 13,
-                  "fontWeight": "600"
-                },
-                {
-                  "type": "text",
-                  "id": "B6J33i",
-                  "x": 70,
-                  "y": 321,
-                  "name": "RowTitle",
-                  "fill": "$I:--color-text-primary",
-                  "textGrowth": "fixed-width",
-                  "width": 250,
-                  "content": "The Lord is my shepherd",
-                  "fontFamily": "$I:--font-body",
-                  "fontSize": 17,
-                  "fontWeight": "normal"
-                },
-                {
-                  "type": "icon",
-                  "id": "RiWdz",
-                  "x": 336,
-                  "y": 315,
-                  "name": "RowChevron",
-                  "width": 18,
-                  "height": 18,
-                  "icon": "chevron-right",
-                  "library": "lucide",
-                  "fill": "$I:--color-text-tertiary"
-                },
-                {
-                  "type": "frame",
-                  "id": "bD48c",
-                  "x": 70,
-                  "y": 359,
-                  "name": "Separator",
-                  "width": 300,
-                  "height": 1,
-                  "fill": "$I:--color-surface-border",
-                  "layout": "none"
-                },
-                {
-                  "type": "frame",
-                  "id": "X3UJcZ",
-                  "x": 16,
-                  "y": 376,
-                  "name": "DayBadge",
-                  "width": 40,
-                  "height": 40,
-                  "fill": "$I:--color-surface-sunken",
-                  "cornerRadius": 20,
-                  "layout": "none",
-                  "children": [
-                    {
-                      "type": "icon",
-                      "id": "yGuNr",
-                      "x": 11,
-                      "y": 11,
-                      "name": "BadgeIcon",
-                      "width": 18,
-                      "height": 18,
-                      "icon": "lock",
-                      "library": "lucide",
-                      "fill": "$I:--color-text-secondary"
-                    }
-                  ]
-                },
-                {
-                  "type": "text",
-                  "id": "o7rT1",
-                  "x": 70,
-                  "y": 375,
-                  "name": "RowDay",
-                  "fill": "$I:--color-text-secondary",
-                  "content": "Day 6",
-                  "fontFamily": "$I:--font-body",
-                  "fontSize": 13,
-                  "fontWeight": "600"
-                },
-                {
-                  "type": "text",
-                  "id": "pOfvO",
-                  "x": 70,
-                  "y": 393,
-                  "name": "RowTitle",
-                  "fill": "$I:--color-text-primary",
-                  "textGrowth": "fixed-width",
-                  "width": 250,
-                  "content": "Light of the world",
-                  "fontFamily": "$I:--font-body",
-                  "fontSize": 17,
-                  "fontWeight": "normal"
-                },
-                {
-                  "type": "icon",
-                  "id": "Q7NZ85",
-                  "x": 336,
-                  "y": 387,
-                  "name": "RowChevron",
-                  "width": 18,
-                  "height": 18,
-                  "icon": "chevron-right",
-                  "library": "lucide",
-                  "fill": "$I:--color-text-tertiary"
-                },
-                {
-                  "type": "frame",
-                  "id": "bCafs",
-                  "x": 70,
-                  "y": 431,
-                  "name": "Separator",
-                  "width": 300,
-                  "height": 1,
-                  "fill": "$I:--color-surface-border",
-                  "layout": "none"
-                },
-                {
-                  "type": "frame",
-                  "id": "gkTRP",
-                  "x": 16,
-                  "y": 448,
-                  "name": "DayBadge",
-                  "width": 40,
-                  "height": 40,
-                  "fill": "$I:--color-surface-sunken",
-                  "cornerRadius": 20,
-                  "layout": "none",
-                  "children": [
-                    {
-                      "type": "icon",
-                      "id": "umXMt",
-                      "x": 11,
-                      "y": 11,
-                      "name": "BadgeIcon",
-                      "width": 18,
-                      "height": 18,
-                      "icon": "lock",
-                      "library": "lucide",
-                      "fill": "$I:--color-text-secondary"
-                    }
-                  ]
-                },
-                {
-                  "type": "text",
-                  "id": "caVHd",
-                  "x": 70,
-                  "y": 447,
-                  "name": "RowDay",
-                  "fill": "$I:--color-text-secondary",
-                  "content": "Day 7",
-                  "fontFamily": "$I:--font-body",
-                  "fontSize": 13,
-                  "fontWeight": "600"
-                },
-                {
-                  "type": "text",
-                  "id": "cAMqN",
-                  "x": 70,
-                  "y": 465,
-                  "name": "RowTitle",
-                  "fill": "$I:--color-text-primary",
-                  "textGrowth": "fixed-width",
-                  "width": 250,
-                  "content": "Pray like this",
-                  "fontFamily": "$I:--font-body",
-                  "fontSize": 17,
-                  "fontWeight": "normal"
-                },
-                {
-                  "type": "icon",
-                  "id": "ih63w",
-                  "x": 336,
-                  "y": 459,
-                  "name": "RowChevron",
-                  "width": 18,
-                  "height": 18,
-                  "icon": "chevron-right",
-                  "library": "lucide",
-                  "fill": "$I:--color-text-tertiary"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "id": "CdYqF",
-          "type": "ref",
-          "ref": "I:ZBDV1",
-          "name": "Toolbar chevron-left",
-          "x": 16,
-          "y": 58,
-          "descendants": {
-            "I:z4feM4": {
-              "icon": "chevron-left"
-            }
-          }
-        },
-        {
-          "id": "P2fi5h",
-          "type": "ref",
-          "ref": "I:IwqQH",
-          "name": "TabBar",
-          "x": 16,
-          "y": 780
-        },
-        {
-          "id": "E8Sgw",
-          "type": "ref",
-          "ref": "I:h3gTX",
-          "name": "StatusBar",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "id": "WGGmC",
-          "type": "ref",
-          "ref": "I:W5z9z",
-          "name": "HomeIndicator",
-          "x": 131,
-          "y": 861
-        }
-      ]
-    },
-    {
-      "type": "frame",
       "id": "Pi9Mx",
       "x": 2760,
       "y": 0,
@@ -23149,1194 +21871,6 @@
     },
     {
       "type": "frame",
-      "id": "DmKRO",
-      "x": 1380,
-      "y": 0,
-      "name": "Home_Day1Done_Light",
-      "theme": {
-        "I:mode": "light"
-      },
-      "clip": true,
-      "width": 402,
-      "height": 874,
-      "fill": "$I:--color-meadow-sky",
-      "layout": "none",
-      "children": [
-        {
-          "type": "frame",
-          "id": "F6Wrt",
-          "x": 0,
-          "y": 0,
-          "name": "ScrollContent",
-          "clip": true,
-          "width": 402,
-          "height": 874,
-          "fill": {
-            "type": "gradient",
-            "gradientType": "linear",
-            "enabled": true,
-            "rotation": 180,
-            "size": {
-              "height": 1
-            },
-            "colors": [
-              {
-                "color": "$I:--color-meadow-sky",
-                "position": 0
-              },
-              {
-                "color": "$I:--color-meadow-sky-bottom",
-                "position": 1
-              }
-            ]
-          },
-          "layout": "none",
-          "children": [
-            {
-              "type": "ellipse",
-              "id": "r7uFd",
-              "x": 200,
-              "y": 40,
-              "name": "MorningGlow",
-              "fill": {
-                "type": "gradient",
-                "gradientType": "radial",
-                "enabled": true,
-                "rotation": 0,
-                "size": {
-                  "width": 1,
-                  "height": 1
-                },
-                "colors": [
-                  {
-                    "color": "$I:--color-gold-subtle",
-                    "position": 0
-                  },
-                  {
-                    "color": "$I:--color-meadow-sky-clear",
-                    "position": 1
-                  }
-                ]
-              },
-              "width": 200,
-              "height": 200
-            },
-            {
-              "type": "path",
-              "id": "IZSGY",
-              "x": 0,
-              "y": 304,
-              "name": "Hill",
-              "geometry": "M0 874l0-554.1 6-1.5 6-1.4 6-1.3 6-1.3 6-1.2 6-1.2 6-1.1 6-1.1 6-0.9 6-0.9 6-0.8 6-0.7 6-0.7 6-0.5 6-0.4 6-0.4 6-0.3 6-0.1 6-0.1 6 0 6 0.2 6 0.2 6 0.3 6 0.4 6 0.5 6 0.6 6 0.7 6 0.7 6 0.9 6 0.9 6 1 6 1.1 6 1.2 6 1.2 6 1.2 6 1.4 6 1.4 6 1.4 6 1.4 6 1.5 6 1.6 6 1.5 6 1.6 6 1.6 6 1.5 6 1.6 6 1.6 6 1.6 6 1.5 6 1.5 6 1.5 6 1.5 6 1.4 6 1.4 6 1.3 6 1.3 6 1.2 6 1.1 6 1.1 6 1 6 0.9 6 0.9 6 0.8 6 0.6 6 0.6 6 0.5 6 0.4 0 518.7z",
-              "viewBox": [
-                0,
-                304,
-                402,
-                570
-              ],
-              "fill": {
-                "type": "gradient",
-                "gradientType": "linear",
-                "enabled": true,
-                "rotation": 180,
-                "size": {
-                  "height": 1
-                },
-                "colors": [
-                  {
-                    "color": "$I:--color-meadow-hill-distant",
-                    "position": 0
-                  },
-                  {
-                    "color": "$I:--color-meadow-hill-mid",
-                    "position": 1
-                  }
-                ]
-              },
-              "width": 402,
-              "height": 570
-            },
-            {
-              "type": "path",
-              "id": "q1wPT",
-              "x": 0,
-              "y": 572.5,
-              "name": "Hill",
-              "geometry": "M0 874l0-299.9 6 1.3 6 1.4 6 1.6 6 1.8 6 1.8 6 2 6 2.1 6 2.1 6 2.2 6 2.3 6 2.4 6 2.4 6 2.3 6 2.4 6 2.4 6 2.4 6 2.3 6 2.2 6 2.2 6 2 6 2 6 1.9 6 1.7 6 1.7 6 1.4 6 1.3 6 1.2 6 1 6 0.8 6 0.6 6 0.4 6 0.2 6 0.1 6-0.1 6-0.4 6-0.5 6-0.7 6-0.9 6-1 6-1.2 6-1.4 6-1.6 6-1.6 6-1.8 6-2 6-2 6-2.1 6-2.2 6-2.3 6-2.3 6-2.4 6-2.4 6-2.3 6-2.4 6-2.4 6-2.3 6-2.3 6-2.2 6-2.1 6-2 6-1.9 6-1.8 6-1.7 6-1.5 6-1.4 6-1.2 6-1.1 0 301.5z",
-              "viewBox": [
-                0,
-                572.5,
-                402,
-                301.5
-              ],
-              "fill": {
-                "type": "gradient",
-                "gradientType": "linear",
-                "enabled": true,
-                "rotation": 180,
-                "size": {
-                  "height": 1
-                },
-                "colors": [
-                  {
-                    "color": "$I:--color-meadow-hill-mid",
-                    "position": 0
-                  },
-                  {
-                    "color": "$I:--color-meadow-hill-near",
-                    "position": 1
-                  }
-                ]
-              },
-              "width": 402,
-              "height": 301.5
-            },
-            {
-              "type": "path",
-              "id": "sEyDF",
-              "x": 0,
-              "y": 819.7,
-              "name": "Hill",
-              "geometry": "M0 874l0-17.4 6 0.8 6 0.6 6 0.7 6 0.5 6 0.6 6 0.4 6 0.5 6 0.3 6 0.3 6 0.3 6 0.2 6 0.1 6 0.1 6 0 6 0 6-0.1 6-0.2 6-0.2 6-0.3 6-0.3 6-0.4 6-0.4 6-0.5 6-0.6 6-0.6 6-0.6 6-0.7 6-0.7 6-0.8 6-0.8 6-0.9 6-0.9 6-0.9 6-1 6-1 6-1 6-1 6-1.1 6-1.1 6-1.1 6-1.1 6-1.1 6-1.2 6-1.1 6-1.1 6-1.2 6-1.1 6-1.1 6-1.1 6-1.1 6-1.1 6-1 6-1.1 6-1 6-1 6-0.9 6-0.9 6-0.9 6-0.9 6-0.8 6-0.7 6-0.7 6-0.7 6-0.6 6-0.6 6-0.5 6-0.5 0 54.3z",
-              "viewBox": [
-                0,
-                819.7,
-                402,
-                54.3
-              ],
-              "fill": {
-                "type": "gradient",
-                "gradientType": "linear",
-                "enabled": true,
-                "rotation": 180,
-                "size": {
-                  "height": 1
-                },
-                "colors": [
-                  {
-                    "color": "$I:--color-meadow-hill-near",
-                    "position": 0
-                  },
-                  {
-                    "color": "$I:--color-meadow-hill-mid",
-                    "position": 1
-                  }
-                ]
-              },
-              "width": 402,
-              "height": 54.3
-            },
-            {
-              "type": "path",
-              "id": "ydatV",
-              "x": 0,
-              "y": 262,
-              "name": "TrailEdge",
-              "geometry": "M306 262l-2.9 3.1-3.3 3.6-3.9 4-4.2 4.5-4.6 4.9-4.9 5.3-5.2 5.5-5.4 5.8-5.7 6.1-5.8 6.2-6 6.4-6.1 6.4-6.1 6.5-6.1 6.6-6.1 6.5-6 6.4-5.9 6.3-5.8 6.2-5.6 6-5.4 5.7-5.5 5.6-5.9 5.6-6.4 5.6-6.6 5.6-6.8 5.6-6.9 5.6-7 5.6-7 5.6-6.8 5.6-6.7 5.6-6.4 5.6-6.1 5.6-5.7 5.6-5.1 5.6-4.6 5.6-3.9 5.6-3.2 5.6-2.4 5.6-1.5 5.6-0.5 5.6 0.5 5.6 1.5 5.6 2.4 5.6 3.2 5.6 3.9 5.6 4.6 5.6 5.1 5.6 5.7 5.6 6.1 5.6 6.4 5.6 6.7 5.6 6.8 5.6 7 5.6 7 5.6 6.9 5.6 6.8 5.6 6.6 5.6 6.4 5.6 5.9 5.6 5.5 5.6 5.5 5.6 5.9 5.6 6.4 5.6 6.6 5.6 6.8 5.6 6.9 5.6 7 5.6 7 5.6 6.8 5.6 6.7 5.6 6.4 5.6 6.1 5.6 5.7 5.6 5.1 5.6 4.6 5.6 3.9 5.6 3.2 5.6 2.4 5.6 1.5 5.6 0.5 5.6-0.5 5.6-1.5 5.6-2.4 5.6-3.2 5.6-3.9 5.6-4.6 5.6-5.1 5.6-5.7 5.6-6.1 5.6-6.4 5.6-6.7 5.6-6.8 5.6-7 5.6-7 5.6-6.9 5.6-6.8 5.6-6.6 5.6-6.4 5.6-5.9 5.6-5.5 5.6-5.4 5.7-5.6 6-5.8 6.2-5.9 6.3-6 6.4-6.1 6.5-6.1 6.6-6.1 6.5",
-              "viewBox": [
-                0,
-                262,
-                402,
-                610.2
-              ],
-              "width": 402,
-              "height": 610.2,
-              "stroke": "$I:--color-meadow-path-border",
-              "strokeWidth": 30,
-              "strokeLinejoin": "round",
-              "strokeLinecap": "round"
-            },
-            {
-              "type": "path",
-              "id": "kuM39",
-              "x": 0,
-              "y": 262,
-              "name": "Trail",
-              "geometry": "M306 262l-2.9 3.1-3.3 3.6-3.9 4-4.2 4.5-4.6 4.9-4.9 5.3-5.2 5.5-5.4 5.8-5.7 6.1-5.8 6.2-6 6.4-6.1 6.4-6.1 6.5-6.1 6.6-6.1 6.5-6 6.4-5.9 6.3-5.8 6.2-5.6 6-5.4 5.7-5.5 5.6-5.9 5.6-6.4 5.6-6.6 5.6-6.8 5.6-6.9 5.6-7 5.6-7 5.6-6.8 5.6-6.7 5.6-6.4 5.6-6.1 5.6-5.7 5.6-5.1 5.6-4.6 5.6-3.9 5.6-3.2 5.6-2.4 5.6-1.5 5.6-0.5 5.6 0.5 5.6 1.5 5.6 2.4 5.6 3.2 5.6 3.9 5.6 4.6 5.6 5.1 5.6 5.7 5.6 6.1 5.6 6.4 5.6 6.7 5.6 6.8 5.6 7 5.6 7 5.6 6.9 5.6 6.8 5.6 6.6 5.6 6.4 5.6 5.9 5.6 5.5 5.6 5.5 5.6 5.9 5.6 6.4 5.6 6.6 5.6 6.8 5.6 6.9 5.6 7 5.6 7 5.6 6.8 5.6 6.7 5.6 6.4 5.6 6.1 5.6 5.7 5.6 5.1 5.6 4.6 5.6 3.9 5.6 3.2 5.6 2.4 5.6 1.5 5.6 0.5 5.6-0.5 5.6-1.5 5.6-2.4 5.6-3.2 5.6-3.9 5.6-4.6 5.6-5.1 5.6-5.7 5.6-6.1 5.6-6.4 5.6-6.7 5.6-6.8 5.6-7 5.6-7 5.6-6.9 5.6-6.8 5.6-6.6 5.6-6.4 5.6-5.9 5.6-5.5 5.6-5.4 5.7-5.6 6-5.8 6.2-5.9 6.3-6 6.4-6.1 6.5-6.1 6.6-6.1 6.5",
-              "viewBox": [
-                0,
-                262,
-                402,
-                610.2
-              ],
-              "width": 402,
-              "height": 610.2,
-              "stroke": "$I:--color-meadow-path",
-              "strokeWidth": 28,
-              "strokeLinejoin": "round",
-              "strokeLinecap": "round"
-            },
-            {
-              "id": "vmcCz",
-              "type": "ref",
-              "ref": "I:nXP2b",
-              "name": "Node Day 1",
-              "x": 264,
-              "y": 220
-            },
-            {
-              "type": "text",
-              "id": "IUEuB",
-              "x": 266,
-              "y": 310,
-              "name": "NodeLabel",
-              "fill": "$I:--color-text-primary",
-              "textGrowth": "fixed-width",
-              "width": 80,
-              "content": "Day 1",
-              "textAlign": "center",
-              "fontFamily": "$I:--font-body",
-              "fontSize": 13,
-              "fontWeight": "600"
-            },
-            {
-              "id": "LqKW9",
-              "type": "ref",
-              "ref": "I:vvKpB",
-              "name": "Node Day 2",
-              "x": 159,
-              "y": 332
-            },
-            {
-              "type": "text",
-              "id": "I2TLJ",
-              "x": 161,
-              "y": 422,
-              "name": "NodeLabel",
-              "fill": "$I:--color-text-primary",
-              "textGrowth": "fixed-width",
-              "width": 80,
-              "content": "Day 2",
-              "textAlign": "center",
-              "fontFamily": "$I:--font-body",
-              "fontSize": 13,
-              "fontWeight": "600"
-            },
-            {
-              "id": "L1qpe",
-              "type": "ref",
-              "ref": "I:rsZlP",
-              "name": "Node Day 3",
-              "x": 54,
-              "y": 444
-            },
-            {
-              "type": "text",
-              "id": "m8njhb",
-              "x": 56,
-              "y": 534,
-              "name": "NodeLabel",
-              "fill": "$I:--color-text-secondary",
-              "textGrowth": "fixed-width",
-              "width": 80,
-              "content": "Day 3",
-              "textAlign": "center",
-              "fontFamily": "$I:--font-body",
-              "fontSize": 13,
-              "fontWeight": "600"
-            },
-            {
-              "id": "q3Yum",
-              "type": "ref",
-              "ref": "I:rsZlP",
-              "name": "Node Day 4",
-              "x": 159,
-              "y": 556
-            },
-            {
-              "type": "text",
-              "id": "HUIjZ",
-              "x": 161,
-              "y": 646,
-              "name": "NodeLabel",
-              "fill": "$I:--color-text-secondary",
-              "textGrowth": "fixed-width",
-              "width": 80,
-              "content": "Day 4",
-              "textAlign": "center",
-              "fontFamily": "$I:--font-body",
-              "fontSize": 13,
-              "fontWeight": "600"
-            },
-            {
-              "id": "wqYGm",
-              "type": "ref",
-              "ref": "I:rsZlP",
-              "name": "Node Day 5",
-              "x": 264,
-              "y": 668
-            },
-            {
-              "type": "text",
-              "id": "ljyM3",
-              "x": 266,
-              "y": 758,
-              "name": "NodeLabel",
-              "fill": "$I:--color-text-secondary",
-              "textGrowth": "fixed-width",
-              "width": 80,
-              "content": "Day 5",
-              "textAlign": "center",
-              "fontFamily": "$I:--font-body",
-              "fontSize": 13,
-              "fontWeight": "600"
-            },
-            {
-              "id": "QqcND",
-              "type": "ref",
-              "ref": "I:rsZlP",
-              "name": "Node Day 6",
-              "x": 159,
-              "y": 780
-            },
-            {
-              "type": "text",
-              "id": "JKIS4",
-              "x": 16,
-              "y": 104,
-              "name": "LargeTitle",
-              "fill": "$I:--color-text-primary",
-              "content": "Today",
-              "fontFamily": "$I:--font-display",
-              "fontSize": 34,
-              "fontWeight": "700"
-            },
-            {
-              "id": "Jugkl",
-              "type": "ref",
-              "ref": "I:zNY0b",
-              "name": "Lamb S1_Happy",
-              "x": 245,
-              "y": 325.6,
-              "width": 141.2,
-              "height": 87.3,
-              "descendants": {
-                "I:NofHe": {
-                  "width": 141.2,
-                  "height": 87.3
-                },
-                "I:tgPok": {
-                  "width": 141.2,
-                  "height": 87.3
-                },
-                "I:Fggh2": {
-                  "width": 141.2,
-                  "height": 87.3
-                },
-                "I:a2hyHu": {
-                  "width": 141.2,
-                  "height": 87.3
-                },
-                "I:bJhOp": {
-                  "width": 141.2,
-                  "height": 87.3
-                },
-                "I:W7QY4E": {
-                  "width": 141.2,
-                  "height": 87.3
-                },
-                "I:h0rgdy": {
-                  "width": 141.2,
-                  "height": 87.3
-                },
-                "I:Ij7OX": {
-                  "width": 141.2,
-                  "height": 87.3
-                },
-                "I:lLmmJ": {
-                  "width": 141.2,
-                  "height": 87.3
-                },
-                "I:jcTws": {
-                  "width": 141.2,
-                  "height": 87.3
-                },
-                "I:lVFPC": {
-                  "width": 141.2,
-                  "height": 87.3
-                },
-                "I:EIXAb": {
-                  "width": 141.2,
-                  "height": 87.3
-                },
-                "I:dVPq2": {
-                  "width": 141.2,
-                  "height": 87.3
-                },
-                "I:Yvndk": {
-                  "width": 141.2,
-                  "height": 87.3
-                },
-                "I:PAyxG": {
-                  "width": 141.2,
-                  "height": 87.3
-                },
-                "I:FS55e": {
-                  "width": 141.2,
-                  "height": 87.3
-                }
-              }
-            },
-            {
-              "type": "frame",
-              "id": "KykQJ",
-              "x": 236.48000000000002,
-              "y": 301.63898305084746,
-              "name": "SpeechBubble",
-              "width": 130,
-              "height": 40,
-              "fill": "$I:--color-glass-fill",
-              "cornerRadius": 20,
-              "stroke": "$I:--color-glass-stroke",
-              "strokeWidth": 1,
-              "strokeAlignment": "inner",
-              "effect": [
-                {
-                  "type": "background_blur",
-                  "radius": 24
-                },
-                {
-                  "type": "shadow",
-                  "shadowType": "outer",
-                  "color": "$I:--color-shadow-glass",
-                  "offset": {
-                    "x": 0,
-                    "y": 8
-                  },
-                  "blur": 24
-                }
-              ],
-              "layout": "none",
-              "children": [
-                {
-                  "type": "frame",
-                  "id": "YBD0X",
-                  "layoutPosition": "absolute",
-                  "x": 0,
-                  "y": 0,
-                  "name": "Specular",
-                  "width": 130,
-                  "height": 40,
-                  "cornerRadius": 20,
-                  "stroke": {
-                    "type": "gradient",
-                    "gradientType": "linear",
-                    "enabled": true,
-                    "rotation": 180,
-                    "size": {
-                      "height": 1
-                    },
-                    "colors": [
-                      {
-                        "color": "$I:--color-glass-spec-top",
-                        "position": 0
-                      },
-                      {
-                        "color": "$I:--color-glass-spec-mid",
-                        "position": 0.45
-                      },
-                      {
-                        "color": "$I:--color-glass-spec-bottom",
-                        "position": 1
-                      }
-                    ]
-                  },
-                  "strokeWidth": 1,
-                  "strokeAlignment": "inner",
-                  "layout": "none"
-                },
-                {
-                  "type": "frame",
-                  "id": "q3t4g",
-                  "layoutPosition": "absolute",
-                  "x": 16,
-                  "y": 1,
-                  "name": "InnerHighlight",
-                  "width": 98,
-                  "height": 1,
-                  "fill": "$I:--color-glass-inner-hi",
-                  "layout": "none"
-                },
-                {
-                  "type": "text",
-                  "id": "RKLmN",
-                  "x": 0,
-                  "y": 10,
-                  "name": "BubbleText",
-                  "fill": "$I:--color-text-primary",
-                  "textGrowth": "fixed-width",
-                  "width": 130,
-                  "content": "1 day down!",
-                  "textAlign": "center",
-                  "fontFamily": "$I:--font-body",
-                  "fontSize": 15,
-                  "fontWeight": "600"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "id": "s8ly2",
-          "type": "ref",
-          "ref": "I:ZBDV1",
-          "name": "Toolbar map",
-          "x": 16,
-          "y": 58,
-          "descendants": {
-            "I:z4feM4": {
-              "icon": "map"
-            }
-          }
-        },
-        {
-          "id": "Y8ofWX",
-          "type": "ref",
-          "ref": "I:rWL6G",
-          "name": "Toolbar StreakChip",
-          "x": 310,
-          "y": 58,
-          "descendants": {
-            "I:anKGB": {
-              "content": "1"
-            }
-          }
-        },
-        {
-          "id": "iH1Al",
-          "type": "ref",
-          "ref": "I:V1rr79",
-          "name": "BottomAccessory",
-          "x": 16,
-          "y": 714,
-          "descendants": {
-            "I:w5Zr9g": {
-              "content": "Day 2 · Made in God's image"
-            }
-          }
-        },
-        {
-          "id": "pco54",
-          "type": "ref",
-          "ref": "I:IwqQH",
-          "name": "TabBar",
-          "x": 16,
-          "y": 780
-        },
-        {
-          "id": "fWxi5",
-          "type": "ref",
-          "ref": "I:h3gTX",
-          "name": "StatusBar",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "id": "rAWRB",
-          "type": "ref",
-          "ref": "I:W5z9z",
-          "name": "HomeIndicator",
-          "x": 131,
-          "y": 861
-        }
-      ]
-    },
-    {
-      "type": "frame",
-      "id": "tvAJZ",
-      "x": 1380,
-      "y": 960,
-      "name": "Home_Day1Done_Dark",
-      "theme": {
-        "I:mode": "dark"
-      },
-      "clip": true,
-      "width": 402,
-      "height": 874,
-      "fill": "$I:--color-meadow-sky",
-      "layout": "none",
-      "children": [
-        {
-          "type": "frame",
-          "id": "QMKi1",
-          "x": 0,
-          "y": 0,
-          "name": "ScrollContent",
-          "clip": true,
-          "width": 402,
-          "height": 874,
-          "fill": {
-            "type": "gradient",
-            "gradientType": "linear",
-            "enabled": true,
-            "rotation": 180,
-            "size": {
-              "height": 1
-            },
-            "colors": [
-              {
-                "color": "$I:--color-meadow-sky",
-                "position": 0
-              },
-              {
-                "color": "$I:--color-meadow-sky-bottom",
-                "position": 1
-              }
-            ]
-          },
-          "layout": "none",
-          "children": [
-            {
-              "type": "ellipse",
-              "id": "I7RtaH",
-              "x": 200,
-              "y": 40,
-              "name": "MorningGlow",
-              "fill": {
-                "type": "gradient",
-                "gradientType": "radial",
-                "enabled": true,
-                "rotation": 0,
-                "size": {
-                  "width": 1,
-                  "height": 1
-                },
-                "colors": [
-                  {
-                    "color": "$I:--color-gold-subtle",
-                    "position": 0
-                  },
-                  {
-                    "color": "$I:--color-meadow-sky-clear",
-                    "position": 1
-                  }
-                ]
-              },
-              "width": 200,
-              "height": 200
-            },
-            {
-              "type": "path",
-              "id": "X7ktLR",
-              "x": 0,
-              "y": 304,
-              "name": "Hill",
-              "geometry": "M0 874l0-554.1 6-1.5 6-1.4 6-1.3 6-1.3 6-1.2 6-1.2 6-1.1 6-1.1 6-0.9 6-0.9 6-0.8 6-0.7 6-0.7 6-0.5 6-0.4 6-0.4 6-0.3 6-0.1 6-0.1 6 0 6 0.2 6 0.2 6 0.3 6 0.4 6 0.5 6 0.6 6 0.7 6 0.7 6 0.9 6 0.9 6 1 6 1.1 6 1.2 6 1.2 6 1.2 6 1.4 6 1.4 6 1.4 6 1.4 6 1.5 6 1.6 6 1.5 6 1.6 6 1.6 6 1.5 6 1.6 6 1.6 6 1.6 6 1.5 6 1.5 6 1.5 6 1.5 6 1.4 6 1.4 6 1.3 6 1.3 6 1.2 6 1.1 6 1.1 6 1 6 0.9 6 0.9 6 0.8 6 0.6 6 0.6 6 0.5 6 0.4 0 518.7z",
-              "viewBox": [
-                0,
-                304,
-                402,
-                570
-              ],
-              "fill": {
-                "type": "gradient",
-                "gradientType": "linear",
-                "enabled": true,
-                "rotation": 180,
-                "size": {
-                  "height": 1
-                },
-                "colors": [
-                  {
-                    "color": "$I:--color-meadow-hill-distant",
-                    "position": 0
-                  },
-                  {
-                    "color": "$I:--color-meadow-hill-mid",
-                    "position": 1
-                  }
-                ]
-              },
-              "width": 402,
-              "height": 570
-            },
-            {
-              "type": "path",
-              "id": "FU0qt",
-              "x": 0,
-              "y": 572.5,
-              "name": "Hill",
-              "geometry": "M0 874l0-299.9 6 1.3 6 1.4 6 1.6 6 1.8 6 1.8 6 2 6 2.1 6 2.1 6 2.2 6 2.3 6 2.4 6 2.4 6 2.3 6 2.4 6 2.4 6 2.4 6 2.3 6 2.2 6 2.2 6 2 6 2 6 1.9 6 1.7 6 1.7 6 1.4 6 1.3 6 1.2 6 1 6 0.8 6 0.6 6 0.4 6 0.2 6 0.1 6-0.1 6-0.4 6-0.5 6-0.7 6-0.9 6-1 6-1.2 6-1.4 6-1.6 6-1.6 6-1.8 6-2 6-2 6-2.1 6-2.2 6-2.3 6-2.3 6-2.4 6-2.4 6-2.3 6-2.4 6-2.4 6-2.3 6-2.3 6-2.2 6-2.1 6-2 6-1.9 6-1.8 6-1.7 6-1.5 6-1.4 6-1.2 6-1.1 0 301.5z",
-              "viewBox": [
-                0,
-                572.5,
-                402,
-                301.5
-              ],
-              "fill": {
-                "type": "gradient",
-                "gradientType": "linear",
-                "enabled": true,
-                "rotation": 180,
-                "size": {
-                  "height": 1
-                },
-                "colors": [
-                  {
-                    "color": "$I:--color-meadow-hill-mid",
-                    "position": 0
-                  },
-                  {
-                    "color": "$I:--color-meadow-hill-near",
-                    "position": 1
-                  }
-                ]
-              },
-              "width": 402,
-              "height": 301.5
-            },
-            {
-              "type": "path",
-              "id": "OfbOR",
-              "x": 0,
-              "y": 819.7,
-              "name": "Hill",
-              "geometry": "M0 874l0-17.4 6 0.8 6 0.6 6 0.7 6 0.5 6 0.6 6 0.4 6 0.5 6 0.3 6 0.3 6 0.3 6 0.2 6 0.1 6 0.1 6 0 6 0 6-0.1 6-0.2 6-0.2 6-0.3 6-0.3 6-0.4 6-0.4 6-0.5 6-0.6 6-0.6 6-0.6 6-0.7 6-0.7 6-0.8 6-0.8 6-0.9 6-0.9 6-0.9 6-1 6-1 6-1 6-1 6-1.1 6-1.1 6-1.1 6-1.1 6-1.1 6-1.2 6-1.1 6-1.1 6-1.2 6-1.1 6-1.1 6-1.1 6-1.1 6-1.1 6-1 6-1.1 6-1 6-1 6-0.9 6-0.9 6-0.9 6-0.9 6-0.8 6-0.7 6-0.7 6-0.7 6-0.6 6-0.6 6-0.5 6-0.5 0 54.3z",
-              "viewBox": [
-                0,
-                819.7,
-                402,
-                54.3
-              ],
-              "fill": {
-                "type": "gradient",
-                "gradientType": "linear",
-                "enabled": true,
-                "rotation": 180,
-                "size": {
-                  "height": 1
-                },
-                "colors": [
-                  {
-                    "color": "$I:--color-meadow-hill-near",
-                    "position": 0
-                  },
-                  {
-                    "color": "$I:--color-meadow-hill-mid",
-                    "position": 1
-                  }
-                ]
-              },
-              "width": 402,
-              "height": 54.3
-            },
-            {
-              "type": "path",
-              "id": "rV1SO",
-              "x": 0,
-              "y": 262,
-              "name": "TrailEdge",
-              "geometry": "M306 262l-2.9 3.1-3.3 3.6-3.9 4-4.2 4.5-4.6 4.9-4.9 5.3-5.2 5.5-5.4 5.8-5.7 6.1-5.8 6.2-6 6.4-6.1 6.4-6.1 6.5-6.1 6.6-6.1 6.5-6 6.4-5.9 6.3-5.8 6.2-5.6 6-5.4 5.7-5.5 5.6-5.9 5.6-6.4 5.6-6.6 5.6-6.8 5.6-6.9 5.6-7 5.6-7 5.6-6.8 5.6-6.7 5.6-6.4 5.6-6.1 5.6-5.7 5.6-5.1 5.6-4.6 5.6-3.9 5.6-3.2 5.6-2.4 5.6-1.5 5.6-0.5 5.6 0.5 5.6 1.5 5.6 2.4 5.6 3.2 5.6 3.9 5.6 4.6 5.6 5.1 5.6 5.7 5.6 6.1 5.6 6.4 5.6 6.7 5.6 6.8 5.6 7 5.6 7 5.6 6.9 5.6 6.8 5.6 6.6 5.6 6.4 5.6 5.9 5.6 5.5 5.6 5.5 5.6 5.9 5.6 6.4 5.6 6.6 5.6 6.8 5.6 6.9 5.6 7 5.6 7 5.6 6.8 5.6 6.7 5.6 6.4 5.6 6.1 5.6 5.7 5.6 5.1 5.6 4.6 5.6 3.9 5.6 3.2 5.6 2.4 5.6 1.5 5.6 0.5 5.6-0.5 5.6-1.5 5.6-2.4 5.6-3.2 5.6-3.9 5.6-4.6 5.6-5.1 5.6-5.7 5.6-6.1 5.6-6.4 5.6-6.7 5.6-6.8 5.6-7 5.6-7 5.6-6.9 5.6-6.8 5.6-6.6 5.6-6.4 5.6-5.9 5.6-5.5 5.6-5.4 5.7-5.6 6-5.8 6.2-5.9 6.3-6 6.4-6.1 6.5-6.1 6.6-6.1 6.5",
-              "viewBox": [
-                0,
-                262,
-                402,
-                610.2
-              ],
-              "width": 402,
-              "height": 610.2,
-              "stroke": "$I:--color-meadow-path-border",
-              "strokeWidth": 30,
-              "strokeLinejoin": "round",
-              "strokeLinecap": "round"
-            },
-            {
-              "type": "path",
-              "id": "Seg3C",
-              "x": 0,
-              "y": 262,
-              "name": "Trail",
-              "geometry": "M306 262l-2.9 3.1-3.3 3.6-3.9 4-4.2 4.5-4.6 4.9-4.9 5.3-5.2 5.5-5.4 5.8-5.7 6.1-5.8 6.2-6 6.4-6.1 6.4-6.1 6.5-6.1 6.6-6.1 6.5-6 6.4-5.9 6.3-5.8 6.2-5.6 6-5.4 5.7-5.5 5.6-5.9 5.6-6.4 5.6-6.6 5.6-6.8 5.6-6.9 5.6-7 5.6-7 5.6-6.8 5.6-6.7 5.6-6.4 5.6-6.1 5.6-5.7 5.6-5.1 5.6-4.6 5.6-3.9 5.6-3.2 5.6-2.4 5.6-1.5 5.6-0.5 5.6 0.5 5.6 1.5 5.6 2.4 5.6 3.2 5.6 3.9 5.6 4.6 5.6 5.1 5.6 5.7 5.6 6.1 5.6 6.4 5.6 6.7 5.6 6.8 5.6 7 5.6 7 5.6 6.9 5.6 6.8 5.6 6.6 5.6 6.4 5.6 5.9 5.6 5.5 5.6 5.5 5.6 5.9 5.6 6.4 5.6 6.6 5.6 6.8 5.6 6.9 5.6 7 5.6 7 5.6 6.8 5.6 6.7 5.6 6.4 5.6 6.1 5.6 5.7 5.6 5.1 5.6 4.6 5.6 3.9 5.6 3.2 5.6 2.4 5.6 1.5 5.6 0.5 5.6-0.5 5.6-1.5 5.6-2.4 5.6-3.2 5.6-3.9 5.6-4.6 5.6-5.1 5.6-5.7 5.6-6.1 5.6-6.4 5.6-6.7 5.6-6.8 5.6-7 5.6-7 5.6-6.9 5.6-6.8 5.6-6.6 5.6-6.4 5.6-5.9 5.6-5.5 5.6-5.4 5.7-5.6 6-5.8 6.2-5.9 6.3-6 6.4-6.1 6.5-6.1 6.6-6.1 6.5",
-              "viewBox": [
-                0,
-                262,
-                402,
-                610.2
-              ],
-              "width": 402,
-              "height": 610.2,
-              "stroke": "$I:--color-meadow-path",
-              "strokeWidth": 28,
-              "strokeLinejoin": "round",
-              "strokeLinecap": "round"
-            },
-            {
-              "id": "G16xyu",
-              "type": "ref",
-              "ref": "I:nXP2b",
-              "name": "Node Day 1",
-              "x": 264,
-              "y": 220
-            },
-            {
-              "type": "text",
-              "id": "WvykJ",
-              "x": 266,
-              "y": 310,
-              "name": "NodeLabel",
-              "fill": "$I:--color-text-primary",
-              "textGrowth": "fixed-width",
-              "width": 80,
-              "content": "Day 1",
-              "textAlign": "center",
-              "fontFamily": "$I:--font-body",
-              "fontSize": 13,
-              "fontWeight": "600"
-            },
-            {
-              "id": "cp0pW",
-              "type": "ref",
-              "ref": "I:vvKpB",
-              "name": "Node Day 2",
-              "x": 159,
-              "y": 332
-            },
-            {
-              "type": "text",
-              "id": "Or1Jx",
-              "x": 161,
-              "y": 422,
-              "name": "NodeLabel",
-              "fill": "$I:--color-text-primary",
-              "textGrowth": "fixed-width",
-              "width": 80,
-              "content": "Day 2",
-              "textAlign": "center",
-              "fontFamily": "$I:--font-body",
-              "fontSize": 13,
-              "fontWeight": "600"
-            },
-            {
-              "id": "luOk9",
-              "type": "ref",
-              "ref": "I:rsZlP",
-              "name": "Node Day 3",
-              "x": 54,
-              "y": 444
-            },
-            {
-              "type": "text",
-              "id": "tejXV",
-              "x": 56,
-              "y": 534,
-              "name": "NodeLabel",
-              "fill": "$I:--color-text-secondary",
-              "textGrowth": "fixed-width",
-              "width": 80,
-              "content": "Day 3",
-              "textAlign": "center",
-              "fontFamily": "$I:--font-body",
-              "fontSize": 13,
-              "fontWeight": "600"
-            },
-            {
-              "id": "iHXFQ",
-              "type": "ref",
-              "ref": "I:rsZlP",
-              "name": "Node Day 4",
-              "x": 159,
-              "y": 556
-            },
-            {
-              "type": "text",
-              "id": "fi8dH",
-              "x": 161,
-              "y": 646,
-              "name": "NodeLabel",
-              "fill": "$I:--color-text-secondary",
-              "textGrowth": "fixed-width",
-              "width": 80,
-              "content": "Day 4",
-              "textAlign": "center",
-              "fontFamily": "$I:--font-body",
-              "fontSize": 13,
-              "fontWeight": "600"
-            },
-            {
-              "id": "Qyim2",
-              "type": "ref",
-              "ref": "I:rsZlP",
-              "name": "Node Day 5",
-              "x": 264,
-              "y": 668
-            },
-            {
-              "type": "text",
-              "id": "wd8Et",
-              "x": 266,
-              "y": 758,
-              "name": "NodeLabel",
-              "fill": "$I:--color-text-secondary",
-              "textGrowth": "fixed-width",
-              "width": 80,
-              "content": "Day 5",
-              "textAlign": "center",
-              "fontFamily": "$I:--font-body",
-              "fontSize": 13,
-              "fontWeight": "600"
-            },
-            {
-              "id": "xrNZs",
-              "type": "ref",
-              "ref": "I:rsZlP",
-              "name": "Node Day 6",
-              "x": 159,
-              "y": 780
-            },
-            {
-              "type": "text",
-              "id": "LsgnM",
-              "x": 16,
-              "y": 104,
-              "name": "LargeTitle",
-              "fill": "$I:--color-text-primary",
-              "content": "Today",
-              "fontFamily": "$I:--font-display",
-              "fontSize": 34,
-              "fontWeight": "700"
-            },
-            {
-              "id": "caUTD",
-              "type": "ref",
-              "ref": "I:zNY0b",
-              "name": "Lamb S1_Happy",
-              "x": 245,
-              "y": 325.6,
-              "width": 141.2,
-              "height": 87.3,
-              "descendants": {
-                "I:NofHe": {
-                  "width": 141.2,
-                  "height": 87.3
-                },
-                "I:tgPok": {
-                  "width": 141.2,
-                  "height": 87.3
-                },
-                "I:Fggh2": {
-                  "width": 141.2,
-                  "height": 87.3
-                },
-                "I:a2hyHu": {
-                  "width": 141.2,
-                  "height": 87.3
-                },
-                "I:bJhOp": {
-                  "width": 141.2,
-                  "height": 87.3
-                },
-                "I:W7QY4E": {
-                  "width": 141.2,
-                  "height": 87.3
-                },
-                "I:h0rgdy": {
-                  "width": 141.2,
-                  "height": 87.3
-                },
-                "I:Ij7OX": {
-                  "width": 141.2,
-                  "height": 87.3
-                },
-                "I:lLmmJ": {
-                  "width": 141.2,
-                  "height": 87.3
-                },
-                "I:jcTws": {
-                  "width": 141.2,
-                  "height": 87.3
-                },
-                "I:lVFPC": {
-                  "width": 141.2,
-                  "height": 87.3
-                },
-                "I:EIXAb": {
-                  "width": 141.2,
-                  "height": 87.3
-                },
-                "I:dVPq2": {
-                  "width": 141.2,
-                  "height": 87.3
-                },
-                "I:Yvndk": {
-                  "width": 141.2,
-                  "height": 87.3
-                },
-                "I:PAyxG": {
-                  "width": 141.2,
-                  "height": 87.3
-                },
-                "I:FS55e": {
-                  "width": 141.2,
-                  "height": 87.3
-                }
-              }
-            },
-            {
-              "type": "frame",
-              "id": "tiBZU",
-              "x": 236.48000000000002,
-              "y": 301.63898305084746,
-              "name": "SpeechBubble",
-              "width": 130,
-              "height": 40,
-              "fill": "$I:--color-glass-fill",
-              "cornerRadius": 20,
-              "stroke": "$I:--color-glass-stroke",
-              "strokeWidth": 1,
-              "strokeAlignment": "inner",
-              "effect": [
-                {
-                  "type": "background_blur",
-                  "radius": 24
-                },
-                {
-                  "type": "shadow",
-                  "shadowType": "outer",
-                  "color": "$I:--color-shadow-glass",
-                  "offset": {
-                    "x": 0,
-                    "y": 8
-                  },
-                  "blur": 24
-                }
-              ],
-              "layout": "none",
-              "children": [
-                {
-                  "type": "frame",
-                  "id": "wYv8p",
-                  "layoutPosition": "absolute",
-                  "x": 0,
-                  "y": 0,
-                  "name": "Specular",
-                  "width": 130,
-                  "height": 40,
-                  "cornerRadius": 20,
-                  "stroke": {
-                    "type": "gradient",
-                    "gradientType": "linear",
-                    "enabled": true,
-                    "rotation": 180,
-                    "size": {
-                      "height": 1
-                    },
-                    "colors": [
-                      {
-                        "color": "$I:--color-glass-spec-top",
-                        "position": 0
-                      },
-                      {
-                        "color": "$I:--color-glass-spec-mid",
-                        "position": 0.45
-                      },
-                      {
-                        "color": "$I:--color-glass-spec-bottom",
-                        "position": 1
-                      }
-                    ]
-                  },
-                  "strokeWidth": 1,
-                  "strokeAlignment": "inner",
-                  "layout": "none"
-                },
-                {
-                  "type": "frame",
-                  "id": "R9Mlgl",
-                  "layoutPosition": "absolute",
-                  "x": 16,
-                  "y": 1,
-                  "name": "InnerHighlight",
-                  "width": 98,
-                  "height": 1,
-                  "fill": "$I:--color-glass-inner-hi",
-                  "layout": "none"
-                },
-                {
-                  "type": "text",
-                  "id": "nCdvM",
-                  "x": 0,
-                  "y": 10,
-                  "name": "BubbleText",
-                  "fill": "$I:--color-text-primary",
-                  "textGrowth": "fixed-width",
-                  "width": 130,
-                  "content": "1 day down!",
-                  "textAlign": "center",
-                  "fontFamily": "$I:--font-body",
-                  "fontSize": 15,
-                  "fontWeight": "600"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "id": "WGiB5",
-          "type": "ref",
-          "ref": "I:ZBDV1",
-          "name": "Toolbar map",
-          "x": 16,
-          "y": 58,
-          "descendants": {
-            "I:z4feM4": {
-              "icon": "map"
-            }
-          }
-        },
-        {
-          "id": "lK0wU",
-          "type": "ref",
-          "ref": "I:rWL6G",
-          "name": "Toolbar StreakChip",
-          "x": 310,
-          "y": 58,
-          "descendants": {
-            "I:anKGB": {
-              "content": "1"
-            }
-          }
-        },
-        {
-          "id": "GjnOr",
-          "type": "ref",
-          "ref": "I:V1rr79",
-          "name": "BottomAccessory",
-          "x": 16,
-          "y": 714,
-          "descendants": {
-            "I:w5Zr9g": {
-              "content": "Day 2 · Made in God's image"
-            }
-          }
-        },
-        {
-          "id": "sBwIg",
-          "type": "ref",
-          "ref": "I:IwqQH",
-          "name": "TabBar",
-          "x": 16,
-          "y": 780
-        },
-        {
-          "id": "w3CUQ",
-          "type": "ref",
-          "ref": "I:h3gTX",
-          "name": "StatusBar",
-          "x": 0,
-          "y": 0
-        },
-        {
-          "id": "DAvNQ",
-          "type": "ref",
-          "ref": "I:W5z9z",
-          "name": "HomeIndicator",
-          "x": 131,
-          "y": 861
-        }
-      ]
-    },
-    {
-      "type": "frame",
       "id": "A1z9F",
       "x": 5520,
       "y": 0,
@@ -42157,6 +39691,2316 @@
         },
         {
           "id": "ztoGF",
+          "type": "ref",
+          "ref": "I:W5z9z",
+          "name": "HomeIndicator",
+          "x": 131,
+          "y": 861
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "dKoNB",
+      "x": 1380,
+      "y": 0,
+      "name": "Home_Day1Done_Light",
+      "theme": {
+        "I:mode": "light"
+      },
+      "clip": true,
+      "width": 402,
+      "height": 874,
+      "fill": "$I:--color-meadow-sky",
+      "layout": "none",
+      "children": [
+        {
+          "type": "frame",
+          "id": "a8fR9",
+          "x": 0,
+          "y": 0,
+          "name": "ScrollContent",
+          "clip": true,
+          "width": 402,
+          "height": 874,
+          "fill": {
+            "type": "gradient",
+            "gradientType": "linear",
+            "enabled": true,
+            "rotation": 180,
+            "size": {
+              "height": 1
+            },
+            "colors": [
+              {
+                "color": "$I:--color-meadow-sky",
+                "position": 0
+              },
+              {
+                "color": "$I:--color-meadow-sky-bottom",
+                "position": 1
+              }
+            ]
+          },
+          "layout": "none",
+          "children": [
+            {
+              "type": "ellipse",
+              "id": "qomSx",
+              "x": 200,
+              "y": 40,
+              "name": "MorningGlow",
+              "fill": {
+                "type": "gradient",
+                "gradientType": "radial",
+                "enabled": true,
+                "rotation": 0,
+                "size": {
+                  "width": 1,
+                  "height": 1
+                },
+                "colors": [
+                  {
+                    "color": "$I:--color-gold-subtle",
+                    "position": 0
+                  },
+                  {
+                    "color": "$I:--color-meadow-sky-clear",
+                    "position": 1
+                  }
+                ]
+              },
+              "width": 200,
+              "height": 200
+            },
+            {
+              "type": "path",
+              "id": "tvZGf",
+              "x": 0,
+              "y": 304,
+              "name": "Hill",
+              "geometry": "M0 874l0-554.1 6-1.5 6-1.4 6-1.3 6-1.3 6-1.2 6-1.2 6-1.1 6-1.1 6-0.9 6-0.9 6-0.8 6-0.7 6-0.7 6-0.5 6-0.4 6-0.4 6-0.3 6-0.1 6-0.1 6 0 6 0.2 6 0.2 6 0.3 6 0.4 6 0.5 6 0.6 6 0.7 6 0.7 6 0.9 6 0.9 6 1 6 1.1 6 1.2 6 1.2 6 1.2 6 1.4 6 1.4 6 1.4 6 1.4 6 1.5 6 1.6 6 1.5 6 1.6 6 1.6 6 1.5 6 1.6 6 1.6 6 1.6 6 1.5 6 1.5 6 1.5 6 1.5 6 1.4 6 1.4 6 1.3 6 1.3 6 1.2 6 1.1 6 1.1 6 1 6 0.9 6 0.9 6 0.8 6 0.6 6 0.6 6 0.5 6 0.4 0 518.7z",
+              "viewBox": [
+                0,
+                304,
+                402,
+                570
+              ],
+              "fill": {
+                "type": "gradient",
+                "gradientType": "linear",
+                "enabled": true,
+                "rotation": 180,
+                "size": {
+                  "height": 1
+                },
+                "colors": [
+                  {
+                    "color": "$I:--color-meadow-hill-distant",
+                    "position": 0
+                  },
+                  {
+                    "color": "$I:--color-meadow-hill-mid",
+                    "position": 1
+                  }
+                ]
+              },
+              "width": 402,
+              "height": 570
+            },
+            {
+              "type": "path",
+              "id": "EBAzB",
+              "x": 0,
+              "y": 572.5,
+              "name": "Hill",
+              "geometry": "M0 874l0-299.9 6 1.3 6 1.4 6 1.6 6 1.8 6 1.8 6 2 6 2.1 6 2.1 6 2.2 6 2.3 6 2.4 6 2.4 6 2.3 6 2.4 6 2.4 6 2.4 6 2.3 6 2.2 6 2.2 6 2 6 2 6 1.9 6 1.7 6 1.7 6 1.4 6 1.3 6 1.2 6 1 6 0.8 6 0.6 6 0.4 6 0.2 6 0.1 6-0.1 6-0.4 6-0.5 6-0.7 6-0.9 6-1 6-1.2 6-1.4 6-1.6 6-1.6 6-1.8 6-2 6-2 6-2.1 6-2.2 6-2.3 6-2.3 6-2.4 6-2.4 6-2.3 6-2.4 6-2.4 6-2.3 6-2.3 6-2.2 6-2.1 6-2 6-1.9 6-1.8 6-1.7 6-1.5 6-1.4 6-1.2 6-1.1 0 301.5z",
+              "viewBox": [
+                0,
+                572.5,
+                402,
+                301.5
+              ],
+              "fill": {
+                "type": "gradient",
+                "gradientType": "linear",
+                "enabled": true,
+                "rotation": 180,
+                "size": {
+                  "height": 1
+                },
+                "colors": [
+                  {
+                    "color": "$I:--color-meadow-hill-mid",
+                    "position": 0
+                  },
+                  {
+                    "color": "$I:--color-meadow-hill-near",
+                    "position": 1
+                  }
+                ]
+              },
+              "width": 402,
+              "height": 301.5
+            },
+            {
+              "type": "path",
+              "id": "iUnVd",
+              "x": 0,
+              "y": 819.7,
+              "name": "Hill",
+              "geometry": "M0 874l0-17.4 6 0.8 6 0.6 6 0.7 6 0.5 6 0.6 6 0.4 6 0.5 6 0.3 6 0.3 6 0.3 6 0.2 6 0.1 6 0.1 6 0 6 0 6-0.1 6-0.2 6-0.2 6-0.3 6-0.3 6-0.4 6-0.4 6-0.5 6-0.6 6-0.6 6-0.6 6-0.7 6-0.7 6-0.8 6-0.8 6-0.9 6-0.9 6-0.9 6-1 6-1 6-1 6-1 6-1.1 6-1.1 6-1.1 6-1.1 6-1.1 6-1.2 6-1.1 6-1.1 6-1.2 6-1.1 6-1.1 6-1.1 6-1.1 6-1.1 6-1 6-1.1 6-1 6-1 6-0.9 6-0.9 6-0.9 6-0.9 6-0.8 6-0.7 6-0.7 6-0.7 6-0.6 6-0.6 6-0.5 6-0.5 0 54.3z",
+              "viewBox": [
+                0,
+                819.7,
+                402,
+                54.3
+              ],
+              "fill": {
+                "type": "gradient",
+                "gradientType": "linear",
+                "enabled": true,
+                "rotation": 180,
+                "size": {
+                  "height": 1
+                },
+                "colors": [
+                  {
+                    "color": "$I:--color-meadow-hill-near",
+                    "position": 0
+                  },
+                  {
+                    "color": "$I:--color-meadow-hill-mid",
+                    "position": 1
+                  }
+                ]
+              },
+              "width": 402,
+              "height": 54.3
+            },
+            {
+              "type": "path",
+              "id": "j5XMwM",
+              "x": 0,
+              "y": 262,
+              "name": "TrailEdge",
+              "geometry": "M306 262l-2.9 3.1-3.3 3.6-3.9 4-4.2 4.5-4.6 4.9-4.9 5.3-5.2 5.5-5.4 5.8-5.7 6.1-5.8 6.2-6 6.4-6.1 6.4-6.1 6.5-6.1 6.6-6.1 6.5-6 6.4-5.9 6.3-5.8 6.2-5.6 6-5.4 5.7-5.5 5.6-5.9 5.6-6.4 5.6-6.6 5.6-6.8 5.6-6.9 5.6-7 5.6-7 5.6-6.8 5.6-6.7 5.6-6.4 5.6-6.1 5.6-5.7 5.6-5.1 5.6-4.6 5.6-3.9 5.6-3.2 5.6-2.4 5.6-1.5 5.6-0.5 5.6 0.5 5.6 1.5 5.6 2.4 5.6 3.2 5.6 3.9 5.6 4.6 5.6 5.1 5.6 5.7 5.6 6.1 5.6 6.4 5.6 6.7 5.6 6.8 5.6 7 5.6 7 5.6 6.9 5.6 6.8 5.6 6.6 5.6 6.4 5.6 5.9 5.6 5.5 5.6 5.5 5.6 5.9 5.6 6.4 5.6 6.6 5.6 6.8 5.6 6.9 5.6 7 5.6 7 5.6 6.8 5.6 6.7 5.6 6.4 5.6 6.1 5.6 5.7 5.6 5.1 5.6 4.6 5.6 3.9 5.6 3.2 5.6 2.4 5.6 1.5 5.6 0.5 5.6-0.5 5.6-1.5 5.6-2.4 5.6-3.2 5.6-3.9 5.6-4.6 5.6-5.1 5.6-5.7 5.6-6.1 5.6-6.4 5.6-6.7 5.6-6.8 5.6-7 5.6-7 5.6-6.9 5.6-6.8 5.6-6.6 5.6-6.4 5.6-5.9 5.6-5.5 5.6-5.4 5.7-5.6 6-5.8 6.2-5.9 6.3-6 6.4-6.1 6.5-6.1 6.6-6.1 6.5",
+              "viewBox": [
+                0,
+                262,
+                402,
+                610.2
+              ],
+              "width": 402,
+              "height": 610.2,
+              "stroke": "$I:--color-meadow-path-border",
+              "strokeWidth": 30,
+              "strokeLinejoin": "round",
+              "strokeLinecap": "round"
+            },
+            {
+              "type": "path",
+              "id": "r4y60",
+              "x": 0,
+              "y": 262,
+              "name": "Trail",
+              "geometry": "M306 262l-2.9 3.1-3.3 3.6-3.9 4-4.2 4.5-4.6 4.9-4.9 5.3-5.2 5.5-5.4 5.8-5.7 6.1-5.8 6.2-6 6.4-6.1 6.4-6.1 6.5-6.1 6.6-6.1 6.5-6 6.4-5.9 6.3-5.8 6.2-5.6 6-5.4 5.7-5.5 5.6-5.9 5.6-6.4 5.6-6.6 5.6-6.8 5.6-6.9 5.6-7 5.6-7 5.6-6.8 5.6-6.7 5.6-6.4 5.6-6.1 5.6-5.7 5.6-5.1 5.6-4.6 5.6-3.9 5.6-3.2 5.6-2.4 5.6-1.5 5.6-0.5 5.6 0.5 5.6 1.5 5.6 2.4 5.6 3.2 5.6 3.9 5.6 4.6 5.6 5.1 5.6 5.7 5.6 6.1 5.6 6.4 5.6 6.7 5.6 6.8 5.6 7 5.6 7 5.6 6.9 5.6 6.8 5.6 6.6 5.6 6.4 5.6 5.9 5.6 5.5 5.6 5.5 5.6 5.9 5.6 6.4 5.6 6.6 5.6 6.8 5.6 6.9 5.6 7 5.6 7 5.6 6.8 5.6 6.7 5.6 6.4 5.6 6.1 5.6 5.7 5.6 5.1 5.6 4.6 5.6 3.9 5.6 3.2 5.6 2.4 5.6 1.5 5.6 0.5 5.6-0.5 5.6-1.5 5.6-2.4 5.6-3.2 5.6-3.9 5.6-4.6 5.6-5.1 5.6-5.7 5.6-6.1 5.6-6.4 5.6-6.7 5.6-6.8 5.6-7 5.6-7 5.6-6.9 5.6-6.8 5.6-6.6 5.6-6.4 5.6-5.9 5.6-5.5 5.6-5.4 5.7-5.6 6-5.8 6.2-5.9 6.3-6 6.4-6.1 6.5-6.1 6.6-6.1 6.5",
+              "viewBox": [
+                0,
+                262,
+                402,
+                610.2
+              ],
+              "width": 402,
+              "height": 610.2,
+              "stroke": "$I:--color-meadow-path",
+              "strokeWidth": 28,
+              "strokeLinejoin": "round",
+              "strokeLinecap": "round"
+            },
+            {
+              "id": "n9o6Pa",
+              "type": "ref",
+              "ref": "I:nXP2b",
+              "name": "Node Day 1",
+              "x": 264,
+              "y": 220
+            },
+            {
+              "type": "text",
+              "id": "ayREY",
+              "x": 266,
+              "y": 310,
+              "name": "NodeLabel",
+              "fill": "$I:--color-text-primary",
+              "textGrowth": "fixed-width",
+              "width": 80,
+              "content": "Day 1",
+              "textAlign": "center",
+              "fontFamily": "$I:--font-body",
+              "fontSize": 13,
+              "fontWeight": "600"
+            },
+            {
+              "id": "xgkIA",
+              "type": "ref",
+              "ref": "I:vvKpB",
+              "name": "Node Day 2",
+              "x": 159,
+              "y": 332
+            },
+            {
+              "type": "text",
+              "id": "g0OBP",
+              "x": 161,
+              "y": 422,
+              "name": "NodeLabel",
+              "fill": "$I:--color-text-primary",
+              "textGrowth": "fixed-width",
+              "width": 80,
+              "content": "Day 2",
+              "textAlign": "center",
+              "fontFamily": "$I:--font-body",
+              "fontSize": 13,
+              "fontWeight": "600"
+            },
+            {
+              "id": "B2jCK",
+              "type": "ref",
+              "ref": "I:rsZlP",
+              "name": "Node Day 3",
+              "x": 54,
+              "y": 444
+            },
+            {
+              "type": "text",
+              "id": "JzxY3",
+              "x": 56,
+              "y": 534,
+              "name": "NodeLabel",
+              "fill": "$I:--color-text-secondary",
+              "textGrowth": "fixed-width",
+              "width": 80,
+              "content": "Day 3",
+              "textAlign": "center",
+              "fontFamily": "$I:--font-body",
+              "fontSize": 13,
+              "fontWeight": "600"
+            },
+            {
+              "id": "G3p3oy",
+              "type": "ref",
+              "ref": "I:rsZlP",
+              "name": "Node Day 4",
+              "x": 159,
+              "y": 556
+            },
+            {
+              "type": "text",
+              "id": "Nazn7",
+              "x": 161,
+              "y": 646,
+              "name": "NodeLabel",
+              "fill": "$I:--color-text-secondary",
+              "textGrowth": "fixed-width",
+              "width": 80,
+              "content": "Day 4",
+              "textAlign": "center",
+              "fontFamily": "$I:--font-body",
+              "fontSize": 13,
+              "fontWeight": "600"
+            },
+            {
+              "id": "E86rV7",
+              "type": "ref",
+              "ref": "I:rsZlP",
+              "name": "Node Day 5",
+              "x": 264,
+              "y": 668
+            },
+            {
+              "type": "text",
+              "id": "S8fwHd",
+              "x": 266,
+              "y": 758,
+              "name": "NodeLabel",
+              "fill": "$I:--color-text-secondary",
+              "textGrowth": "fixed-width",
+              "width": 80,
+              "content": "Day 5",
+              "textAlign": "center",
+              "fontFamily": "$I:--font-body",
+              "fontSize": 13,
+              "fontWeight": "600"
+            },
+            {
+              "id": "Eju33",
+              "type": "ref",
+              "ref": "I:rsZlP",
+              "name": "Node Day 6",
+              "x": 159,
+              "y": 780
+            },
+            {
+              "type": "text",
+              "id": "E8gvdK",
+              "x": 16,
+              "y": 104,
+              "name": "LargeTitle",
+              "fill": "$I:--color-text-primary",
+              "content": "Today",
+              "fontFamily": "$I:--font-display",
+              "fontSize": 34,
+              "fontWeight": "700"
+            },
+            {
+              "id": "X2B89F",
+              "type": "ref",
+              "ref": "I:zNY0b",
+              "name": "Lamb S1_Happy",
+              "x": 7.8,
+              "y": 325.6,
+              "width": 141.2,
+              "height": 87.3,
+              "descendants": {
+                "I:NofHe": {
+                  "width": 141.2,
+                  "height": 87.3
+                },
+                "I:tgPok": {
+                  "width": 141.2,
+                  "height": 87.3
+                },
+                "I:Fggh2": {
+                  "width": 141.2,
+                  "height": 87.3
+                },
+                "I:a2hyHu": {
+                  "width": 141.2,
+                  "height": 87.3
+                },
+                "I:bJhOp": {
+                  "width": 141.2,
+                  "height": 87.3
+                },
+                "I:W7QY4E": {
+                  "width": 141.2,
+                  "height": 87.3
+                },
+                "I:h0rgdy": {
+                  "width": 141.2,
+                  "height": 87.3
+                },
+                "I:Ij7OX": {
+                  "width": 141.2,
+                  "height": 87.3
+                },
+                "I:lLmmJ": {
+                  "width": 141.2,
+                  "height": 87.3
+                },
+                "I:jcTws": {
+                  "width": 141.2,
+                  "height": 87.3
+                },
+                "I:lVFPC": {
+                  "width": 141.2,
+                  "height": 87.3
+                },
+                "I:EIXAb": {
+                  "width": 141.2,
+                  "height": 87.3
+                },
+                "I:dVPq2": {
+                  "width": 141.2,
+                  "height": 87.3
+                },
+                "I:Yvndk": {
+                  "width": 141.2,
+                  "height": 87.3
+                },
+                "I:PAyxG": {
+                  "width": 141.2,
+                  "height": 87.3
+                },
+                "I:FS55e": {
+                  "width": 141.2,
+                  "height": 87.3
+                }
+              }
+            },
+            {
+              "type": "frame",
+              "id": "WeVE8",
+              "x": 16,
+              "y": 301.63898305084746,
+              "name": "SpeechBubble",
+              "width": 130,
+              "height": 40,
+              "fill": "$I:--color-glass-fill",
+              "cornerRadius": 20,
+              "stroke": "$I:--color-glass-stroke",
+              "strokeWidth": 1,
+              "strokeAlignment": "inner",
+              "effect": [
+                {
+                  "type": "background_blur",
+                  "radius": 24
+                },
+                {
+                  "type": "shadow",
+                  "shadowType": "outer",
+                  "color": "$I:--color-shadow-glass",
+                  "offset": {
+                    "x": 0,
+                    "y": 8
+                  },
+                  "blur": 24
+                }
+              ],
+              "layout": "none",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "a96CEX",
+                  "layoutPosition": "absolute",
+                  "x": 0,
+                  "y": 0,
+                  "name": "Specular",
+                  "width": 130,
+                  "height": 40,
+                  "cornerRadius": 20,
+                  "stroke": {
+                    "type": "gradient",
+                    "gradientType": "linear",
+                    "enabled": true,
+                    "rotation": 180,
+                    "size": {
+                      "height": 1
+                    },
+                    "colors": [
+                      {
+                        "color": "$I:--color-glass-spec-top",
+                        "position": 0
+                      },
+                      {
+                        "color": "$I:--color-glass-spec-mid",
+                        "position": 0.45
+                      },
+                      {
+                        "color": "$I:--color-glass-spec-bottom",
+                        "position": 1
+                      }
+                    ]
+                  },
+                  "strokeWidth": 1,
+                  "strokeAlignment": "inner",
+                  "layout": "none"
+                },
+                {
+                  "type": "frame",
+                  "id": "K52RqM",
+                  "layoutPosition": "absolute",
+                  "x": 16,
+                  "y": 1,
+                  "name": "InnerHighlight",
+                  "width": 98,
+                  "height": 1,
+                  "fill": "$I:--color-glass-inner-hi",
+                  "layout": "none"
+                },
+                {
+                  "type": "text",
+                  "id": "AEv7n",
+                  "x": 0,
+                  "y": 10,
+                  "name": "BubbleText",
+                  "fill": "$I:--color-text-primary",
+                  "textGrowth": "fixed-width",
+                  "width": 130,
+                  "content": "1 day down!",
+                  "textAlign": "center",
+                  "fontFamily": "$I:--font-body",
+                  "fontSize": 15,
+                  "fontWeight": "600"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "R29yrf",
+          "type": "ref",
+          "ref": "I:ZBDV1",
+          "name": "Toolbar map",
+          "x": 16,
+          "y": 58,
+          "descendants": {
+            "I:z4feM4": {
+              "icon": "map"
+            }
+          }
+        },
+        {
+          "id": "B4qBu7",
+          "type": "ref",
+          "ref": "I:rWL6G",
+          "name": "Toolbar StreakChip",
+          "x": 310,
+          "y": 58,
+          "descendants": {
+            "I:anKGB": {
+              "content": "1"
+            }
+          }
+        },
+        {
+          "id": "DbaJT",
+          "type": "ref",
+          "ref": "I:V1rr79",
+          "name": "BottomAccessory",
+          "x": 16,
+          "y": 714,
+          "descendants": {
+            "I:w5Zr9g": {
+              "content": "Day 2 · Made in God's image"
+            }
+          }
+        },
+        {
+          "id": "CT7ga",
+          "type": "ref",
+          "ref": "I:IwqQH",
+          "name": "TabBar",
+          "x": 16,
+          "y": 780
+        },
+        {
+          "id": "PRM6R",
+          "type": "ref",
+          "ref": "I:h3gTX",
+          "name": "StatusBar",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "id": "y8uwV",
+          "type": "ref",
+          "ref": "I:W5z9z",
+          "name": "HomeIndicator",
+          "x": 131,
+          "y": 861
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "tVeSv",
+      "x": 1380,
+      "y": 960,
+      "name": "Home_Day1Done_Dark",
+      "theme": {
+        "I:mode": "dark"
+      },
+      "clip": true,
+      "width": 402,
+      "height": 874,
+      "fill": "$I:--color-meadow-sky",
+      "layout": "none",
+      "children": [
+        {
+          "type": "frame",
+          "id": "iKZZA",
+          "x": 0,
+          "y": 0,
+          "name": "ScrollContent",
+          "clip": true,
+          "width": 402,
+          "height": 874,
+          "fill": {
+            "type": "gradient",
+            "gradientType": "linear",
+            "enabled": true,
+            "rotation": 180,
+            "size": {
+              "height": 1
+            },
+            "colors": [
+              {
+                "color": "$I:--color-meadow-sky",
+                "position": 0
+              },
+              {
+                "color": "$I:--color-meadow-sky-bottom",
+                "position": 1
+              }
+            ]
+          },
+          "layout": "none",
+          "children": [
+            {
+              "type": "ellipse",
+              "id": "RUiDo",
+              "x": 200,
+              "y": 40,
+              "name": "MorningGlow",
+              "fill": {
+                "type": "gradient",
+                "gradientType": "radial",
+                "enabled": true,
+                "rotation": 0,
+                "size": {
+                  "width": 1,
+                  "height": 1
+                },
+                "colors": [
+                  {
+                    "color": "$I:--color-gold-subtle",
+                    "position": 0
+                  },
+                  {
+                    "color": "$I:--color-meadow-sky-clear",
+                    "position": 1
+                  }
+                ]
+              },
+              "width": 200,
+              "height": 200
+            },
+            {
+              "type": "path",
+              "id": "VIVsB",
+              "x": 0,
+              "y": 304,
+              "name": "Hill",
+              "geometry": "M0 874l0-554.1 6-1.5 6-1.4 6-1.3 6-1.3 6-1.2 6-1.2 6-1.1 6-1.1 6-0.9 6-0.9 6-0.8 6-0.7 6-0.7 6-0.5 6-0.4 6-0.4 6-0.3 6-0.1 6-0.1 6 0 6 0.2 6 0.2 6 0.3 6 0.4 6 0.5 6 0.6 6 0.7 6 0.7 6 0.9 6 0.9 6 1 6 1.1 6 1.2 6 1.2 6 1.2 6 1.4 6 1.4 6 1.4 6 1.4 6 1.5 6 1.6 6 1.5 6 1.6 6 1.6 6 1.5 6 1.6 6 1.6 6 1.6 6 1.5 6 1.5 6 1.5 6 1.5 6 1.4 6 1.4 6 1.3 6 1.3 6 1.2 6 1.1 6 1.1 6 1 6 0.9 6 0.9 6 0.8 6 0.6 6 0.6 6 0.5 6 0.4 0 518.7z",
+              "viewBox": [
+                0,
+                304,
+                402,
+                570
+              ],
+              "fill": {
+                "type": "gradient",
+                "gradientType": "linear",
+                "enabled": true,
+                "rotation": 180,
+                "size": {
+                  "height": 1
+                },
+                "colors": [
+                  {
+                    "color": "$I:--color-meadow-hill-distant",
+                    "position": 0
+                  },
+                  {
+                    "color": "$I:--color-meadow-hill-mid",
+                    "position": 1
+                  }
+                ]
+              },
+              "width": 402,
+              "height": 570
+            },
+            {
+              "type": "path",
+              "id": "hUSjB",
+              "x": 0,
+              "y": 572.5,
+              "name": "Hill",
+              "geometry": "M0 874l0-299.9 6 1.3 6 1.4 6 1.6 6 1.8 6 1.8 6 2 6 2.1 6 2.1 6 2.2 6 2.3 6 2.4 6 2.4 6 2.3 6 2.4 6 2.4 6 2.4 6 2.3 6 2.2 6 2.2 6 2 6 2 6 1.9 6 1.7 6 1.7 6 1.4 6 1.3 6 1.2 6 1 6 0.8 6 0.6 6 0.4 6 0.2 6 0.1 6-0.1 6-0.4 6-0.5 6-0.7 6-0.9 6-1 6-1.2 6-1.4 6-1.6 6-1.6 6-1.8 6-2 6-2 6-2.1 6-2.2 6-2.3 6-2.3 6-2.4 6-2.4 6-2.3 6-2.4 6-2.4 6-2.3 6-2.3 6-2.2 6-2.1 6-2 6-1.9 6-1.8 6-1.7 6-1.5 6-1.4 6-1.2 6-1.1 0 301.5z",
+              "viewBox": [
+                0,
+                572.5,
+                402,
+                301.5
+              ],
+              "fill": {
+                "type": "gradient",
+                "gradientType": "linear",
+                "enabled": true,
+                "rotation": 180,
+                "size": {
+                  "height": 1
+                },
+                "colors": [
+                  {
+                    "color": "$I:--color-meadow-hill-mid",
+                    "position": 0
+                  },
+                  {
+                    "color": "$I:--color-meadow-hill-near",
+                    "position": 1
+                  }
+                ]
+              },
+              "width": 402,
+              "height": 301.5
+            },
+            {
+              "type": "path",
+              "id": "bQeZs",
+              "x": 0,
+              "y": 819.7,
+              "name": "Hill",
+              "geometry": "M0 874l0-17.4 6 0.8 6 0.6 6 0.7 6 0.5 6 0.6 6 0.4 6 0.5 6 0.3 6 0.3 6 0.3 6 0.2 6 0.1 6 0.1 6 0 6 0 6-0.1 6-0.2 6-0.2 6-0.3 6-0.3 6-0.4 6-0.4 6-0.5 6-0.6 6-0.6 6-0.6 6-0.7 6-0.7 6-0.8 6-0.8 6-0.9 6-0.9 6-0.9 6-1 6-1 6-1 6-1 6-1.1 6-1.1 6-1.1 6-1.1 6-1.1 6-1.2 6-1.1 6-1.1 6-1.2 6-1.1 6-1.1 6-1.1 6-1.1 6-1.1 6-1 6-1.1 6-1 6-1 6-0.9 6-0.9 6-0.9 6-0.9 6-0.8 6-0.7 6-0.7 6-0.7 6-0.6 6-0.6 6-0.5 6-0.5 0 54.3z",
+              "viewBox": [
+                0,
+                819.7,
+                402,
+                54.3
+              ],
+              "fill": {
+                "type": "gradient",
+                "gradientType": "linear",
+                "enabled": true,
+                "rotation": 180,
+                "size": {
+                  "height": 1
+                },
+                "colors": [
+                  {
+                    "color": "$I:--color-meadow-hill-near",
+                    "position": 0
+                  },
+                  {
+                    "color": "$I:--color-meadow-hill-mid",
+                    "position": 1
+                  }
+                ]
+              },
+              "width": 402,
+              "height": 54.3
+            },
+            {
+              "type": "path",
+              "id": "PTRSj",
+              "x": 0,
+              "y": 262,
+              "name": "TrailEdge",
+              "geometry": "M306 262l-2.9 3.1-3.3 3.6-3.9 4-4.2 4.5-4.6 4.9-4.9 5.3-5.2 5.5-5.4 5.8-5.7 6.1-5.8 6.2-6 6.4-6.1 6.4-6.1 6.5-6.1 6.6-6.1 6.5-6 6.4-5.9 6.3-5.8 6.2-5.6 6-5.4 5.7-5.5 5.6-5.9 5.6-6.4 5.6-6.6 5.6-6.8 5.6-6.9 5.6-7 5.6-7 5.6-6.8 5.6-6.7 5.6-6.4 5.6-6.1 5.6-5.7 5.6-5.1 5.6-4.6 5.6-3.9 5.6-3.2 5.6-2.4 5.6-1.5 5.6-0.5 5.6 0.5 5.6 1.5 5.6 2.4 5.6 3.2 5.6 3.9 5.6 4.6 5.6 5.1 5.6 5.7 5.6 6.1 5.6 6.4 5.6 6.7 5.6 6.8 5.6 7 5.6 7 5.6 6.9 5.6 6.8 5.6 6.6 5.6 6.4 5.6 5.9 5.6 5.5 5.6 5.5 5.6 5.9 5.6 6.4 5.6 6.6 5.6 6.8 5.6 6.9 5.6 7 5.6 7 5.6 6.8 5.6 6.7 5.6 6.4 5.6 6.1 5.6 5.7 5.6 5.1 5.6 4.6 5.6 3.9 5.6 3.2 5.6 2.4 5.6 1.5 5.6 0.5 5.6-0.5 5.6-1.5 5.6-2.4 5.6-3.2 5.6-3.9 5.6-4.6 5.6-5.1 5.6-5.7 5.6-6.1 5.6-6.4 5.6-6.7 5.6-6.8 5.6-7 5.6-7 5.6-6.9 5.6-6.8 5.6-6.6 5.6-6.4 5.6-5.9 5.6-5.5 5.6-5.4 5.7-5.6 6-5.8 6.2-5.9 6.3-6 6.4-6.1 6.5-6.1 6.6-6.1 6.5",
+              "viewBox": [
+                0,
+                262,
+                402,
+                610.2
+              ],
+              "width": 402,
+              "height": 610.2,
+              "stroke": "$I:--color-meadow-path-border",
+              "strokeWidth": 30,
+              "strokeLinejoin": "round",
+              "strokeLinecap": "round"
+            },
+            {
+              "type": "path",
+              "id": "JPx81",
+              "x": 0,
+              "y": 262,
+              "name": "Trail",
+              "geometry": "M306 262l-2.9 3.1-3.3 3.6-3.9 4-4.2 4.5-4.6 4.9-4.9 5.3-5.2 5.5-5.4 5.8-5.7 6.1-5.8 6.2-6 6.4-6.1 6.4-6.1 6.5-6.1 6.6-6.1 6.5-6 6.4-5.9 6.3-5.8 6.2-5.6 6-5.4 5.7-5.5 5.6-5.9 5.6-6.4 5.6-6.6 5.6-6.8 5.6-6.9 5.6-7 5.6-7 5.6-6.8 5.6-6.7 5.6-6.4 5.6-6.1 5.6-5.7 5.6-5.1 5.6-4.6 5.6-3.9 5.6-3.2 5.6-2.4 5.6-1.5 5.6-0.5 5.6 0.5 5.6 1.5 5.6 2.4 5.6 3.2 5.6 3.9 5.6 4.6 5.6 5.1 5.6 5.7 5.6 6.1 5.6 6.4 5.6 6.7 5.6 6.8 5.6 7 5.6 7 5.6 6.9 5.6 6.8 5.6 6.6 5.6 6.4 5.6 5.9 5.6 5.5 5.6 5.5 5.6 5.9 5.6 6.4 5.6 6.6 5.6 6.8 5.6 6.9 5.6 7 5.6 7 5.6 6.8 5.6 6.7 5.6 6.4 5.6 6.1 5.6 5.7 5.6 5.1 5.6 4.6 5.6 3.9 5.6 3.2 5.6 2.4 5.6 1.5 5.6 0.5 5.6-0.5 5.6-1.5 5.6-2.4 5.6-3.2 5.6-3.9 5.6-4.6 5.6-5.1 5.6-5.7 5.6-6.1 5.6-6.4 5.6-6.7 5.6-6.8 5.6-7 5.6-7 5.6-6.9 5.6-6.8 5.6-6.6 5.6-6.4 5.6-5.9 5.6-5.5 5.6-5.4 5.7-5.6 6-5.8 6.2-5.9 6.3-6 6.4-6.1 6.5-6.1 6.6-6.1 6.5",
+              "viewBox": [
+                0,
+                262,
+                402,
+                610.2
+              ],
+              "width": 402,
+              "height": 610.2,
+              "stroke": "$I:--color-meadow-path",
+              "strokeWidth": 28,
+              "strokeLinejoin": "round",
+              "strokeLinecap": "round"
+            },
+            {
+              "id": "P4hxLs",
+              "type": "ref",
+              "ref": "I:nXP2b",
+              "name": "Node Day 1",
+              "x": 264,
+              "y": 220
+            },
+            {
+              "type": "text",
+              "id": "PUcET",
+              "x": 266,
+              "y": 310,
+              "name": "NodeLabel",
+              "fill": "$I:--color-text-primary",
+              "textGrowth": "fixed-width",
+              "width": 80,
+              "content": "Day 1",
+              "textAlign": "center",
+              "fontFamily": "$I:--font-body",
+              "fontSize": 13,
+              "fontWeight": "600"
+            },
+            {
+              "id": "wep7D",
+              "type": "ref",
+              "ref": "I:vvKpB",
+              "name": "Node Day 2",
+              "x": 159,
+              "y": 332
+            },
+            {
+              "type": "text",
+              "id": "HPqt2",
+              "x": 161,
+              "y": 422,
+              "name": "NodeLabel",
+              "fill": "$I:--color-text-primary",
+              "textGrowth": "fixed-width",
+              "width": 80,
+              "content": "Day 2",
+              "textAlign": "center",
+              "fontFamily": "$I:--font-body",
+              "fontSize": 13,
+              "fontWeight": "600"
+            },
+            {
+              "id": "xTASk",
+              "type": "ref",
+              "ref": "I:rsZlP",
+              "name": "Node Day 3",
+              "x": 54,
+              "y": 444
+            },
+            {
+              "type": "text",
+              "id": "VVmFt",
+              "x": 56,
+              "y": 534,
+              "name": "NodeLabel",
+              "fill": "$I:--color-text-secondary",
+              "textGrowth": "fixed-width",
+              "width": 80,
+              "content": "Day 3",
+              "textAlign": "center",
+              "fontFamily": "$I:--font-body",
+              "fontSize": 13,
+              "fontWeight": "600"
+            },
+            {
+              "id": "qxnKg",
+              "type": "ref",
+              "ref": "I:rsZlP",
+              "name": "Node Day 4",
+              "x": 159,
+              "y": 556
+            },
+            {
+              "type": "text",
+              "id": "GD3KY",
+              "x": 161,
+              "y": 646,
+              "name": "NodeLabel",
+              "fill": "$I:--color-text-secondary",
+              "textGrowth": "fixed-width",
+              "width": 80,
+              "content": "Day 4",
+              "textAlign": "center",
+              "fontFamily": "$I:--font-body",
+              "fontSize": 13,
+              "fontWeight": "600"
+            },
+            {
+              "id": "XOoaw",
+              "type": "ref",
+              "ref": "I:rsZlP",
+              "name": "Node Day 5",
+              "x": 264,
+              "y": 668
+            },
+            {
+              "type": "text",
+              "id": "TEn9v",
+              "x": 266,
+              "y": 758,
+              "name": "NodeLabel",
+              "fill": "$I:--color-text-secondary",
+              "textGrowth": "fixed-width",
+              "width": 80,
+              "content": "Day 5",
+              "textAlign": "center",
+              "fontFamily": "$I:--font-body",
+              "fontSize": 13,
+              "fontWeight": "600"
+            },
+            {
+              "id": "o7OY9G",
+              "type": "ref",
+              "ref": "I:rsZlP",
+              "name": "Node Day 6",
+              "x": 159,
+              "y": 780
+            },
+            {
+              "type": "text",
+              "id": "FjDL7",
+              "x": 16,
+              "y": 104,
+              "name": "LargeTitle",
+              "fill": "$I:--color-text-primary",
+              "content": "Today",
+              "fontFamily": "$I:--font-display",
+              "fontSize": 34,
+              "fontWeight": "700"
+            },
+            {
+              "id": "DM7Y7",
+              "type": "ref",
+              "ref": "I:zNY0b",
+              "name": "Lamb S1_Happy",
+              "x": 7.8,
+              "y": 325.6,
+              "width": 141.2,
+              "height": 87.3,
+              "descendants": {
+                "I:NofHe": {
+                  "width": 141.2,
+                  "height": 87.3
+                },
+                "I:tgPok": {
+                  "width": 141.2,
+                  "height": 87.3
+                },
+                "I:Fggh2": {
+                  "width": 141.2,
+                  "height": 87.3
+                },
+                "I:a2hyHu": {
+                  "width": 141.2,
+                  "height": 87.3
+                },
+                "I:bJhOp": {
+                  "width": 141.2,
+                  "height": 87.3
+                },
+                "I:W7QY4E": {
+                  "width": 141.2,
+                  "height": 87.3
+                },
+                "I:h0rgdy": {
+                  "width": 141.2,
+                  "height": 87.3
+                },
+                "I:Ij7OX": {
+                  "width": 141.2,
+                  "height": 87.3
+                },
+                "I:lLmmJ": {
+                  "width": 141.2,
+                  "height": 87.3
+                },
+                "I:jcTws": {
+                  "width": 141.2,
+                  "height": 87.3
+                },
+                "I:lVFPC": {
+                  "width": 141.2,
+                  "height": 87.3
+                },
+                "I:EIXAb": {
+                  "width": 141.2,
+                  "height": 87.3
+                },
+                "I:dVPq2": {
+                  "width": 141.2,
+                  "height": 87.3
+                },
+                "I:Yvndk": {
+                  "width": 141.2,
+                  "height": 87.3
+                },
+                "I:PAyxG": {
+                  "width": 141.2,
+                  "height": 87.3
+                },
+                "I:FS55e": {
+                  "width": 141.2,
+                  "height": 87.3
+                }
+              }
+            },
+            {
+              "type": "frame",
+              "id": "yijQ1",
+              "x": 16,
+              "y": 301.63898305084746,
+              "name": "SpeechBubble",
+              "width": 130,
+              "height": 40,
+              "fill": "$I:--color-glass-fill",
+              "cornerRadius": 20,
+              "stroke": "$I:--color-glass-stroke",
+              "strokeWidth": 1,
+              "strokeAlignment": "inner",
+              "effect": [
+                {
+                  "type": "background_blur",
+                  "radius": 24
+                },
+                {
+                  "type": "shadow",
+                  "shadowType": "outer",
+                  "color": "$I:--color-shadow-glass",
+                  "offset": {
+                    "x": 0,
+                    "y": 8
+                  },
+                  "blur": 24
+                }
+              ],
+              "layout": "none",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "vA3YE",
+                  "layoutPosition": "absolute",
+                  "x": 0,
+                  "y": 0,
+                  "name": "Specular",
+                  "width": 130,
+                  "height": 40,
+                  "cornerRadius": 20,
+                  "stroke": {
+                    "type": "gradient",
+                    "gradientType": "linear",
+                    "enabled": true,
+                    "rotation": 180,
+                    "size": {
+                      "height": 1
+                    },
+                    "colors": [
+                      {
+                        "color": "$I:--color-glass-spec-top",
+                        "position": 0
+                      },
+                      {
+                        "color": "$I:--color-glass-spec-mid",
+                        "position": 0.45
+                      },
+                      {
+                        "color": "$I:--color-glass-spec-bottom",
+                        "position": 1
+                      }
+                    ]
+                  },
+                  "strokeWidth": 1,
+                  "strokeAlignment": "inner",
+                  "layout": "none"
+                },
+                {
+                  "type": "frame",
+                  "id": "BiF8i",
+                  "layoutPosition": "absolute",
+                  "x": 16,
+                  "y": 1,
+                  "name": "InnerHighlight",
+                  "width": 98,
+                  "height": 1,
+                  "fill": "$I:--color-glass-inner-hi",
+                  "layout": "none"
+                },
+                {
+                  "type": "text",
+                  "id": "cKjkS",
+                  "x": 0,
+                  "y": 10,
+                  "name": "BubbleText",
+                  "fill": "$I:--color-text-primary",
+                  "textGrowth": "fixed-width",
+                  "width": 130,
+                  "content": "1 day down!",
+                  "textAlign": "center",
+                  "fontFamily": "$I:--font-body",
+                  "fontSize": 15,
+                  "fontWeight": "600"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ycPIN",
+          "type": "ref",
+          "ref": "I:ZBDV1",
+          "name": "Toolbar map",
+          "x": 16,
+          "y": 58,
+          "descendants": {
+            "I:z4feM4": {
+              "icon": "map"
+            }
+          }
+        },
+        {
+          "id": "SBSui",
+          "type": "ref",
+          "ref": "I:rWL6G",
+          "name": "Toolbar StreakChip",
+          "x": 310,
+          "y": 58,
+          "descendants": {
+            "I:anKGB": {
+              "content": "1"
+            }
+          }
+        },
+        {
+          "id": "puST4",
+          "type": "ref",
+          "ref": "I:V1rr79",
+          "name": "BottomAccessory",
+          "x": 16,
+          "y": 714,
+          "descendants": {
+            "I:w5Zr9g": {
+              "content": "Day 2 · Made in God's image"
+            }
+          }
+        },
+        {
+          "id": "vFMR6",
+          "type": "ref",
+          "ref": "I:IwqQH",
+          "name": "TabBar",
+          "x": 16,
+          "y": 780
+        },
+        {
+          "id": "g5VPKV",
+          "type": "ref",
+          "ref": "I:h3gTX",
+          "name": "StatusBar",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "id": "lzESV",
+          "type": "ref",
+          "ref": "I:W5z9z",
+          "name": "HomeIndicator",
+          "x": 131,
+          "y": 861
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "lpgnE",
+      "x": 2300,
+      "y": 0,
+      "name": "Path_Lessons_Light",
+      "theme": {
+        "I:mode": "light"
+      },
+      "clip": true,
+      "width": 402,
+      "height": 874,
+      "fill": "$I:--color-canvas-bg",
+      "layout": "none",
+      "children": [
+        {
+          "type": "frame",
+          "id": "ZO8g1",
+          "x": 0,
+          "y": 0,
+          "name": "ScrollContent",
+          "width": 402,
+          "height": 874,
+          "layout": "none",
+          "children": [
+            {
+              "type": "frame",
+              "id": "u5oUXK",
+              "x": 0,
+              "y": 0,
+              "name": "Backdrop",
+              "width": 402,
+              "height": 360,
+              "fill": {
+                "type": "gradient",
+                "gradientType": "linear",
+                "enabled": true,
+                "rotation": 180,
+                "size": {
+                  "height": 1
+                },
+                "colors": [
+                  {
+                    "color": "$I:--color-meadow-sky",
+                    "position": 0
+                  },
+                  {
+                    "color": "$I:--color-canvas-clear",
+                    "position": 1
+                  }
+                ]
+              },
+              "layout": "none"
+            },
+            {
+              "type": "text",
+              "id": "w0YbOk",
+              "x": 16,
+              "y": 104,
+              "name": "LargeTitle",
+              "fill": "$I:--color-text-primary",
+              "textGrowth": "fixed-width",
+              "width": 370,
+              "content": "Beginner: 7 Days with God",
+              "fontFamily": "$I:--font-display",
+              "fontSize": 28,
+              "fontWeight": "700"
+            },
+            {
+              "type": "frame",
+              "id": "NJ919",
+              "x": 16,
+              "y": 156,
+              "name": "LessonList",
+              "width": 370,
+              "height": 504,
+              "fill": "$I:--color-card-surface",
+              "cornerRadius": 20,
+              "stroke": "$I:--color-surface-border",
+              "strokeWidth": 1,
+              "layout": "none",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "HEnwF",
+                  "x": 16,
+                  "y": 16,
+                  "name": "DayBadge",
+                  "width": 40,
+                  "height": 40,
+                  "fill": "$I:--color-accent-fill",
+                  "cornerRadius": 20,
+                  "layout": "none",
+                  "children": [
+                    {
+                      "type": "icon",
+                      "id": "iMSkt",
+                      "x": 11,
+                      "y": 11,
+                      "name": "BadgeIcon",
+                      "width": 18,
+                      "height": 18,
+                      "icon": "book-open",
+                      "library": "lucide",
+                      "fill": "$I:--color-on-accent"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "SNPVx",
+                  "x": 70,
+                  "y": 15,
+                  "name": "RowDay",
+                  "fill": "$I:--color-accent",
+                  "content": "Day 1",
+                  "fontFamily": "$I:--font-body",
+                  "fontSize": 13,
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "text",
+                  "id": "P8uJ7",
+                  "x": 70,
+                  "y": 33,
+                  "name": "RowTitle",
+                  "fill": "$I:--color-text-primary",
+                  "textGrowth": "fixed-width",
+                  "width": 250,
+                  "content": "In the beginning",
+                  "fontFamily": "$I:--font-body",
+                  "fontSize": 17,
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "icon",
+                  "id": "nerO1",
+                  "x": 336,
+                  "y": 27,
+                  "name": "RowChevron",
+                  "width": 18,
+                  "height": 18,
+                  "icon": "chevron-right",
+                  "library": "lucide",
+                  "fill": "$I:--color-text-tertiary"
+                },
+                {
+                  "type": "frame",
+                  "id": "lskGo",
+                  "x": 70,
+                  "y": 71,
+                  "name": "Separator",
+                  "width": 300,
+                  "height": 1,
+                  "fill": "$I:--color-surface-border",
+                  "layout": "none"
+                },
+                {
+                  "type": "frame",
+                  "id": "gDDPq",
+                  "x": 16,
+                  "y": 88,
+                  "name": "DayBadge",
+                  "width": 40,
+                  "height": 40,
+                  "fill": "$I:--color-surface-sunken",
+                  "cornerRadius": 20,
+                  "layout": "none",
+                  "children": [
+                    {
+                      "type": "icon",
+                      "id": "XnrPd",
+                      "x": 11,
+                      "y": 11,
+                      "name": "BadgeIcon",
+                      "width": 18,
+                      "height": 18,
+                      "icon": "lock",
+                      "library": "lucide",
+                      "fill": "$I:--color-text-secondary"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "XUb0L",
+                  "x": 70,
+                  "y": 87,
+                  "name": "RowDay",
+                  "fill": "$I:--color-text-secondary",
+                  "content": "Day 2",
+                  "fontFamily": "$I:--font-body",
+                  "fontSize": 13,
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "text",
+                  "id": "Xg1jS",
+                  "x": 70,
+                  "y": 105,
+                  "name": "RowTitle",
+                  "fill": "$I:--color-text-primary",
+                  "textGrowth": "fixed-width",
+                  "width": 250,
+                  "content": "Made in God's image",
+                  "fontFamily": "$I:--font-body",
+                  "fontSize": 17
+                },
+                {
+                  "type": "frame",
+                  "id": "VvYS6",
+                  "x": 70,
+                  "y": 143,
+                  "name": "Separator",
+                  "width": 300,
+                  "height": 1,
+                  "fill": "$I:--color-surface-border",
+                  "layout": "none"
+                },
+                {
+                  "type": "frame",
+                  "id": "gcVNn",
+                  "x": 16,
+                  "y": 160,
+                  "name": "DayBadge",
+                  "width": 40,
+                  "height": 40,
+                  "fill": "$I:--color-surface-sunken",
+                  "cornerRadius": 20,
+                  "layout": "none",
+                  "children": [
+                    {
+                      "type": "icon",
+                      "id": "Q8pg0J",
+                      "x": 11,
+                      "y": 11,
+                      "name": "BadgeIcon",
+                      "width": 18,
+                      "height": 18,
+                      "icon": "lock",
+                      "library": "lucide",
+                      "fill": "$I:--color-text-secondary"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "elJd1",
+                  "x": 70,
+                  "y": 159,
+                  "name": "RowDay",
+                  "fill": "$I:--color-text-secondary",
+                  "content": "Day 3",
+                  "fontFamily": "$I:--font-body",
+                  "fontSize": 13,
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "text",
+                  "id": "EgolO",
+                  "x": 70,
+                  "y": 177,
+                  "name": "RowTitle",
+                  "fill": "$I:--color-text-primary",
+                  "textGrowth": "fixed-width",
+                  "width": 250,
+                  "content": "The Word became flesh",
+                  "fontFamily": "$I:--font-body",
+                  "fontSize": 17
+                },
+                {
+                  "type": "frame",
+                  "id": "W27qtx",
+                  "x": 70,
+                  "y": 215,
+                  "name": "Separator",
+                  "width": 300,
+                  "height": 1,
+                  "fill": "$I:--color-surface-border",
+                  "layout": "none"
+                },
+                {
+                  "type": "frame",
+                  "id": "QCiGP",
+                  "x": 16,
+                  "y": 232,
+                  "name": "DayBadge",
+                  "width": 40,
+                  "height": 40,
+                  "fill": "$I:--color-surface-sunken",
+                  "cornerRadius": 20,
+                  "layout": "none",
+                  "children": [
+                    {
+                      "type": "icon",
+                      "id": "lm4AS",
+                      "x": 11,
+                      "y": 11,
+                      "name": "BadgeIcon",
+                      "width": 18,
+                      "height": 18,
+                      "icon": "lock",
+                      "library": "lucide",
+                      "fill": "$I:--color-text-secondary"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "jub7I",
+                  "x": 70,
+                  "y": 231,
+                  "name": "RowDay",
+                  "fill": "$I:--color-text-secondary",
+                  "content": "Day 4",
+                  "fontFamily": "$I:--font-body",
+                  "fontSize": 13,
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "text",
+                  "id": "oQpmy",
+                  "x": 70,
+                  "y": 249,
+                  "name": "RowTitle",
+                  "fill": "$I:--color-text-primary",
+                  "textGrowth": "fixed-width",
+                  "width": 250,
+                  "content": "God so loved",
+                  "fontFamily": "$I:--font-body",
+                  "fontSize": 17
+                },
+                {
+                  "type": "frame",
+                  "id": "GB4S8",
+                  "x": 70,
+                  "y": 287,
+                  "name": "Separator",
+                  "width": 300,
+                  "height": 1,
+                  "fill": "$I:--color-surface-border",
+                  "layout": "none"
+                },
+                {
+                  "type": "frame",
+                  "id": "H22yX",
+                  "x": 16,
+                  "y": 304,
+                  "name": "DayBadge",
+                  "width": 40,
+                  "height": 40,
+                  "fill": "$I:--color-surface-sunken",
+                  "cornerRadius": 20,
+                  "layout": "none",
+                  "children": [
+                    {
+                      "type": "icon",
+                      "id": "gtvxp",
+                      "x": 11,
+                      "y": 11,
+                      "name": "BadgeIcon",
+                      "width": 18,
+                      "height": 18,
+                      "icon": "lock",
+                      "library": "lucide",
+                      "fill": "$I:--color-text-secondary"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "IJBYz",
+                  "x": 70,
+                  "y": 303,
+                  "name": "RowDay",
+                  "fill": "$I:--color-text-secondary",
+                  "content": "Day 5",
+                  "fontFamily": "$I:--font-body",
+                  "fontSize": 13,
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "text",
+                  "id": "W8yBMa",
+                  "x": 70,
+                  "y": 321,
+                  "name": "RowTitle",
+                  "fill": "$I:--color-text-primary",
+                  "textGrowth": "fixed-width",
+                  "width": 250,
+                  "content": "The Lord is my shepherd",
+                  "fontFamily": "$I:--font-body",
+                  "fontSize": 17
+                },
+                {
+                  "type": "frame",
+                  "id": "K0Ia23",
+                  "x": 70,
+                  "y": 359,
+                  "name": "Separator",
+                  "width": 300,
+                  "height": 1,
+                  "fill": "$I:--color-surface-border",
+                  "layout": "none"
+                },
+                {
+                  "type": "frame",
+                  "id": "l6iDl",
+                  "x": 16,
+                  "y": 376,
+                  "name": "DayBadge",
+                  "width": 40,
+                  "height": 40,
+                  "fill": "$I:--color-surface-sunken",
+                  "cornerRadius": 20,
+                  "layout": "none",
+                  "children": [
+                    {
+                      "type": "icon",
+                      "id": "WZVCx",
+                      "x": 11,
+                      "y": 11,
+                      "name": "BadgeIcon",
+                      "width": 18,
+                      "height": 18,
+                      "icon": "lock",
+                      "library": "lucide",
+                      "fill": "$I:--color-text-secondary"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "eACjs",
+                  "x": 70,
+                  "y": 375,
+                  "name": "RowDay",
+                  "fill": "$I:--color-text-secondary",
+                  "content": "Day 6",
+                  "fontFamily": "$I:--font-body",
+                  "fontSize": 13,
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "text",
+                  "id": "rqx9u",
+                  "x": 70,
+                  "y": 393,
+                  "name": "RowTitle",
+                  "fill": "$I:--color-text-primary",
+                  "textGrowth": "fixed-width",
+                  "width": 250,
+                  "content": "Light of the world",
+                  "fontFamily": "$I:--font-body",
+                  "fontSize": 17
+                },
+                {
+                  "type": "frame",
+                  "id": "f5LidO",
+                  "x": 70,
+                  "y": 431,
+                  "name": "Separator",
+                  "width": 300,
+                  "height": 1,
+                  "fill": "$I:--color-surface-border",
+                  "layout": "none"
+                },
+                {
+                  "type": "frame",
+                  "id": "x7Ofw",
+                  "x": 16,
+                  "y": 448,
+                  "name": "DayBadge",
+                  "width": 40,
+                  "height": 40,
+                  "fill": "$I:--color-surface-sunken",
+                  "cornerRadius": 20,
+                  "layout": "none",
+                  "children": [
+                    {
+                      "type": "icon",
+                      "id": "jKD5B",
+                      "x": 11,
+                      "y": 11,
+                      "name": "BadgeIcon",
+                      "width": 18,
+                      "height": 18,
+                      "icon": "lock",
+                      "library": "lucide",
+                      "fill": "$I:--color-text-secondary"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "CSwbs",
+                  "x": 70,
+                  "y": 447,
+                  "name": "RowDay",
+                  "fill": "$I:--color-text-secondary",
+                  "content": "Day 7",
+                  "fontFamily": "$I:--font-body",
+                  "fontSize": 13,
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "text",
+                  "id": "JzyNT",
+                  "x": 70,
+                  "y": 465,
+                  "name": "RowTitle",
+                  "fill": "$I:--color-text-primary",
+                  "textGrowth": "fixed-width",
+                  "width": 250,
+                  "content": "Pray like this",
+                  "fontFamily": "$I:--font-body",
+                  "fontSize": 17
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "Mi0PW",
+          "type": "ref",
+          "ref": "I:ZBDV1",
+          "name": "Toolbar chevron-left",
+          "x": 16,
+          "y": 58,
+          "descendants": {
+            "I:z4feM4": {
+              "icon": "chevron-left"
+            }
+          }
+        },
+        {
+          "id": "w40bdA",
+          "type": "ref",
+          "ref": "I:IwqQH",
+          "name": "TabBar",
+          "x": 16,
+          "y": 780
+        },
+        {
+          "id": "IcNLh",
+          "type": "ref",
+          "ref": "I:h3gTX",
+          "name": "StatusBar",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "id": "AEipU",
+          "type": "ref",
+          "ref": "I:W5z9z",
+          "name": "HomeIndicator",
+          "x": 131,
+          "y": 861
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "Ejl8m",
+      "x": 2300,
+      "y": 960,
+      "name": "Path_Lessons_Dark",
+      "theme": {
+        "I:mode": "dark"
+      },
+      "clip": true,
+      "width": 402,
+      "height": 874,
+      "fill": "$I:--color-canvas-bg",
+      "layout": "none",
+      "children": [
+        {
+          "type": "frame",
+          "id": "uWBaH",
+          "x": 0,
+          "y": 0,
+          "name": "ScrollContent",
+          "width": 402,
+          "height": 874,
+          "layout": "none",
+          "children": [
+            {
+              "type": "frame",
+              "id": "m4KGvp",
+              "x": 0,
+              "y": 0,
+              "name": "Backdrop",
+              "width": 402,
+              "height": 360,
+              "fill": {
+                "type": "gradient",
+                "gradientType": "linear",
+                "enabled": true,
+                "rotation": 180,
+                "size": {
+                  "height": 1
+                },
+                "colors": [
+                  {
+                    "color": "$I:--color-meadow-sky",
+                    "position": 0
+                  },
+                  {
+                    "color": "$I:--color-canvas-clear",
+                    "position": 1
+                  }
+                ]
+              },
+              "layout": "none"
+            },
+            {
+              "type": "text",
+              "id": "EBtar",
+              "x": 16,
+              "y": 104,
+              "name": "LargeTitle",
+              "fill": "$I:--color-text-primary",
+              "textGrowth": "fixed-width",
+              "width": 370,
+              "content": "Beginner: 7 Days with God",
+              "fontFamily": "$I:--font-display",
+              "fontSize": 28,
+              "fontWeight": "700"
+            },
+            {
+              "type": "frame",
+              "id": "OOUWt",
+              "x": 16,
+              "y": 156,
+              "name": "LessonList",
+              "width": 370,
+              "height": 504,
+              "fill": "$I:--color-card-surface",
+              "cornerRadius": 20,
+              "stroke": "$I:--color-surface-border",
+              "strokeWidth": 1,
+              "layout": "none",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "J7ySYk",
+                  "x": 16,
+                  "y": 16,
+                  "name": "DayBadge",
+                  "width": 40,
+                  "height": 40,
+                  "fill": "$I:--color-accent-fill",
+                  "cornerRadius": 20,
+                  "layout": "none",
+                  "children": [
+                    {
+                      "type": "icon",
+                      "id": "jSBSK",
+                      "x": 11,
+                      "y": 11,
+                      "name": "BadgeIcon",
+                      "width": 18,
+                      "height": 18,
+                      "icon": "book-open",
+                      "library": "lucide",
+                      "fill": "$I:--color-on-accent"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "q2iiX",
+                  "x": 70,
+                  "y": 15,
+                  "name": "RowDay",
+                  "fill": "$I:--color-accent",
+                  "content": "Day 1",
+                  "fontFamily": "$I:--font-body",
+                  "fontSize": 13,
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "text",
+                  "id": "LXE9x",
+                  "x": 70,
+                  "y": 33,
+                  "name": "RowTitle",
+                  "fill": "$I:--color-text-primary",
+                  "textGrowth": "fixed-width",
+                  "width": 250,
+                  "content": "In the beginning",
+                  "fontFamily": "$I:--font-body",
+                  "fontSize": 17,
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "icon",
+                  "id": "dhXiI",
+                  "x": 336,
+                  "y": 27,
+                  "name": "RowChevron",
+                  "width": 18,
+                  "height": 18,
+                  "icon": "chevron-right",
+                  "library": "lucide",
+                  "fill": "$I:--color-text-tertiary"
+                },
+                {
+                  "type": "frame",
+                  "id": "sDnT2",
+                  "x": 70,
+                  "y": 71,
+                  "name": "Separator",
+                  "width": 300,
+                  "height": 1,
+                  "fill": "$I:--color-surface-border",
+                  "layout": "none"
+                },
+                {
+                  "type": "frame",
+                  "id": "x4JnYQ",
+                  "x": 16,
+                  "y": 88,
+                  "name": "DayBadge",
+                  "width": 40,
+                  "height": 40,
+                  "fill": "$I:--color-surface-sunken",
+                  "cornerRadius": 20,
+                  "layout": "none",
+                  "children": [
+                    {
+                      "type": "icon",
+                      "id": "wsSBR",
+                      "x": 11,
+                      "y": 11,
+                      "name": "BadgeIcon",
+                      "width": 18,
+                      "height": 18,
+                      "icon": "lock",
+                      "library": "lucide",
+                      "fill": "$I:--color-text-secondary"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "wojJl",
+                  "x": 70,
+                  "y": 87,
+                  "name": "RowDay",
+                  "fill": "$I:--color-text-secondary",
+                  "content": "Day 2",
+                  "fontFamily": "$I:--font-body",
+                  "fontSize": 13,
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "text",
+                  "id": "p85I4e",
+                  "x": 70,
+                  "y": 105,
+                  "name": "RowTitle",
+                  "fill": "$I:--color-text-primary",
+                  "textGrowth": "fixed-width",
+                  "width": 250,
+                  "content": "Made in God's image",
+                  "fontFamily": "$I:--font-body",
+                  "fontSize": 17
+                },
+                {
+                  "type": "frame",
+                  "id": "A9r44I",
+                  "x": 70,
+                  "y": 143,
+                  "name": "Separator",
+                  "width": 300,
+                  "height": 1,
+                  "fill": "$I:--color-surface-border",
+                  "layout": "none"
+                },
+                {
+                  "type": "frame",
+                  "id": "jZLxs",
+                  "x": 16,
+                  "y": 160,
+                  "name": "DayBadge",
+                  "width": 40,
+                  "height": 40,
+                  "fill": "$I:--color-surface-sunken",
+                  "cornerRadius": 20,
+                  "layout": "none",
+                  "children": [
+                    {
+                      "type": "icon",
+                      "id": "w3H6d",
+                      "x": 11,
+                      "y": 11,
+                      "name": "BadgeIcon",
+                      "width": 18,
+                      "height": 18,
+                      "icon": "lock",
+                      "library": "lucide",
+                      "fill": "$I:--color-text-secondary"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "CuZFD",
+                  "x": 70,
+                  "y": 159,
+                  "name": "RowDay",
+                  "fill": "$I:--color-text-secondary",
+                  "content": "Day 3",
+                  "fontFamily": "$I:--font-body",
+                  "fontSize": 13,
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "text",
+                  "id": "hcxg5",
+                  "x": 70,
+                  "y": 177,
+                  "name": "RowTitle",
+                  "fill": "$I:--color-text-primary",
+                  "textGrowth": "fixed-width",
+                  "width": 250,
+                  "content": "The Word became flesh",
+                  "fontFamily": "$I:--font-body",
+                  "fontSize": 17
+                },
+                {
+                  "type": "frame",
+                  "id": "lCrQf",
+                  "x": 70,
+                  "y": 215,
+                  "name": "Separator",
+                  "width": 300,
+                  "height": 1,
+                  "fill": "$I:--color-surface-border",
+                  "layout": "none"
+                },
+                {
+                  "type": "frame",
+                  "id": "p2R5B",
+                  "x": 16,
+                  "y": 232,
+                  "name": "DayBadge",
+                  "width": 40,
+                  "height": 40,
+                  "fill": "$I:--color-surface-sunken",
+                  "cornerRadius": 20,
+                  "layout": "none",
+                  "children": [
+                    {
+                      "type": "icon",
+                      "id": "WRNCu",
+                      "x": 11,
+                      "y": 11,
+                      "name": "BadgeIcon",
+                      "width": 18,
+                      "height": 18,
+                      "icon": "lock",
+                      "library": "lucide",
+                      "fill": "$I:--color-text-secondary"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "VaF1m",
+                  "x": 70,
+                  "y": 231,
+                  "name": "RowDay",
+                  "fill": "$I:--color-text-secondary",
+                  "content": "Day 4",
+                  "fontFamily": "$I:--font-body",
+                  "fontSize": 13,
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "text",
+                  "id": "wWaLJ",
+                  "x": 70,
+                  "y": 249,
+                  "name": "RowTitle",
+                  "fill": "$I:--color-text-primary",
+                  "textGrowth": "fixed-width",
+                  "width": 250,
+                  "content": "God so loved",
+                  "fontFamily": "$I:--font-body",
+                  "fontSize": 17
+                },
+                {
+                  "type": "frame",
+                  "id": "TdwTj",
+                  "x": 70,
+                  "y": 287,
+                  "name": "Separator",
+                  "width": 300,
+                  "height": 1,
+                  "fill": "$I:--color-surface-border",
+                  "layout": "none"
+                },
+                {
+                  "type": "frame",
+                  "id": "ZD87t",
+                  "x": 16,
+                  "y": 304,
+                  "name": "DayBadge",
+                  "width": 40,
+                  "height": 40,
+                  "fill": "$I:--color-surface-sunken",
+                  "cornerRadius": 20,
+                  "layout": "none",
+                  "children": [
+                    {
+                      "type": "icon",
+                      "id": "I3fyis",
+                      "x": 11,
+                      "y": 11,
+                      "name": "BadgeIcon",
+                      "width": 18,
+                      "height": 18,
+                      "icon": "lock",
+                      "library": "lucide",
+                      "fill": "$I:--color-text-secondary"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "CEr54",
+                  "x": 70,
+                  "y": 303,
+                  "name": "RowDay",
+                  "fill": "$I:--color-text-secondary",
+                  "content": "Day 5",
+                  "fontFamily": "$I:--font-body",
+                  "fontSize": 13,
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "text",
+                  "id": "NK57J",
+                  "x": 70,
+                  "y": 321,
+                  "name": "RowTitle",
+                  "fill": "$I:--color-text-primary",
+                  "textGrowth": "fixed-width",
+                  "width": 250,
+                  "content": "The Lord is my shepherd",
+                  "fontFamily": "$I:--font-body",
+                  "fontSize": 17
+                },
+                {
+                  "type": "frame",
+                  "id": "ypJZY",
+                  "x": 70,
+                  "y": 359,
+                  "name": "Separator",
+                  "width": 300,
+                  "height": 1,
+                  "fill": "$I:--color-surface-border",
+                  "layout": "none"
+                },
+                {
+                  "type": "frame",
+                  "id": "Ihczl",
+                  "x": 16,
+                  "y": 376,
+                  "name": "DayBadge",
+                  "width": 40,
+                  "height": 40,
+                  "fill": "$I:--color-surface-sunken",
+                  "cornerRadius": 20,
+                  "layout": "none",
+                  "children": [
+                    {
+                      "type": "icon",
+                      "id": "nBNAz",
+                      "x": 11,
+                      "y": 11,
+                      "name": "BadgeIcon",
+                      "width": 18,
+                      "height": 18,
+                      "icon": "lock",
+                      "library": "lucide",
+                      "fill": "$I:--color-text-secondary"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "glak2",
+                  "x": 70,
+                  "y": 375,
+                  "name": "RowDay",
+                  "fill": "$I:--color-text-secondary",
+                  "content": "Day 6",
+                  "fontFamily": "$I:--font-body",
+                  "fontSize": 13,
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "text",
+                  "id": "K0iNz",
+                  "x": 70,
+                  "y": 393,
+                  "name": "RowTitle",
+                  "fill": "$I:--color-text-primary",
+                  "textGrowth": "fixed-width",
+                  "width": 250,
+                  "content": "Light of the world",
+                  "fontFamily": "$I:--font-body",
+                  "fontSize": 17
+                },
+                {
+                  "type": "frame",
+                  "id": "Swtyg",
+                  "x": 70,
+                  "y": 431,
+                  "name": "Separator",
+                  "width": 300,
+                  "height": 1,
+                  "fill": "$I:--color-surface-border",
+                  "layout": "none"
+                },
+                {
+                  "type": "frame",
+                  "id": "M2goh",
+                  "x": 16,
+                  "y": 448,
+                  "name": "DayBadge",
+                  "width": 40,
+                  "height": 40,
+                  "fill": "$I:--color-surface-sunken",
+                  "cornerRadius": 20,
+                  "layout": "none",
+                  "children": [
+                    {
+                      "type": "icon",
+                      "id": "T5XOv",
+                      "x": 11,
+                      "y": 11,
+                      "name": "BadgeIcon",
+                      "width": 18,
+                      "height": 18,
+                      "icon": "lock",
+                      "library": "lucide",
+                      "fill": "$I:--color-text-secondary"
+                    }
+                  ]
+                },
+                {
+                  "type": "text",
+                  "id": "nYOYf",
+                  "x": 70,
+                  "y": 447,
+                  "name": "RowDay",
+                  "fill": "$I:--color-text-secondary",
+                  "content": "Day 7",
+                  "fontFamily": "$I:--font-body",
+                  "fontSize": 13,
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "text",
+                  "id": "xAueh",
+                  "x": 70,
+                  "y": 465,
+                  "name": "RowTitle",
+                  "fill": "$I:--color-text-primary",
+                  "textGrowth": "fixed-width",
+                  "width": 250,
+                  "content": "Pray like this",
+                  "fontFamily": "$I:--font-body",
+                  "fontSize": 17
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "WZyVt",
+          "type": "ref",
+          "ref": "I:ZBDV1",
+          "name": "Toolbar chevron-left",
+          "x": 16,
+          "y": 58,
+          "descendants": {
+            "I:z4feM4": {
+              "icon": "chevron-left"
+            }
+          }
+        },
+        {
+          "id": "x7Jq8",
+          "type": "ref",
+          "ref": "I:IwqQH",
+          "name": "TabBar",
+          "x": 16,
+          "y": 780
+        },
+        {
+          "id": "pOACs",
+          "type": "ref",
+          "ref": "I:h3gTX",
+          "name": "StatusBar",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "id": "PMIyP",
           "type": "ref",
           "ref": "I:W5z9z",
           "name": "HomeIndicator",

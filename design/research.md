@@ -22,7 +22,7 @@ This document establishes the empirical research foundation for the Shepherd iOS
 | **Quiz & Lesson Feedback** | `0307c5b0-172f-457f-b1bf-dc897ebf13a6`<br>`474ff039-e63c-4fa6-866f-6ff1fda2a4dc` | Duolingo (iOS) | Stacked radio choice cards; instantaneous post-answer feedback sheet (green tint for correct, coral tint for incorrect); explanation citing the relevant verse reference; prominent primary action button. |
 | **Daily Streak & Habit** | `0590e3dd-071b-4993-b48f-34a17594fe1b`<br>`24bd0c22-311a-43a6-a71d-3d22ab4cd321` | Foodvisor / Clearful (iOS) | Flame streak badge with day counter; 7-day horizontal weekday dot sequence; celebrating consistency without artificial gamification spam. |
 | **Companion / Mascot** | `6d30579f-ae0d-40bc-b3fb-7e753f56cbc1`<br>`f4a0b4dd-b48e-4de9-a3e7-c7d234a50fdd` | Mindllama (iOS) | Cute vector sheep/lamb mascot inside circular badge; stage evolution based on XP; growth milestones directly tied to `Companion.xp` and `Companion.stage`. |
-| **StoreKit 2 Trial Paywall** | `188237cf-f12f-44a0-899d-043fc3044666`<br>`2f5d1d88-a77e-49e8-bd5b-70e331f74da2` | Drops / The Athletic (iOS) | 3-step vertical trial timeline ("Today: Full access", "Day 5: Trial reminder", "Day 7: Billing begins"); Annual primary card ($39.99/yr placeholder) + Monthly option ($4.99/mo); auto-renew disclosure; Restore Purchases; Terms and Privacy links. |
+| **StoreKit 2 Trial Paywall** | `188237cf-f12f-44a0-899d-043fc3044666`<br>`2f5d1d88-a77e-49e8-bd5b-70e331f74da2` | Drops / The Athletic (iOS) | Vertical trial timeline (done step, Today, Day 5, Day 7); Shepherd's Day 5 row is "Cancel anytime before Day 7" (no reminder promise, captain D3); Annual primary card ($29.99/yr placeholder) + Monthly option ($4.99/mo); auto-renew disclosure; Restore Purchases; Terms and Privacy links. |
 | **Onboarding Questionnaire** | `b5494d57-8a09-4371-a3db-8dd105a3b094`<br>`c0b7caf1-89f3-4972-a3f5-096fff051026` | Todoist / How We Feel (iOS) | Clean single-column option cards with selection indicators; top progress bar; "Building your personal path" loading state with animated progress and summary of selected goals. |
 | **Scripture & Bible Reader** | `4c8947a8-61fa-49f3-a7d8-5d65ac08bfad`<br>`d9a6a37d-2c7f-4f05-abfa-b317c513c797` | Apple Books / Fable (iOS) | Paper-like readability, generous 20pt side gutters, clear verse numbers in subtle secondary ink, translation badge ("WEB"), distraction-free typography. |
 
@@ -56,48 +56,28 @@ This document establishes the empirical research foundation for the Shepherd iOS
 ## 2. Reference Lock
 
 ```text
-Primary Reference: Pastoral Morning Light (mymind × Apple Books × Mindllama)
-Visual Thesis: A sunlit, peaceful sanctuary for daily Scripture habit. Warm parchment and morning meadow tones beneath authentic Apple iOS 26 Liquid Glass chrome.
-
-Traits to Preserve:
-1. Warm parchment canvas (#FAF8F4 light, #141716 dark) with crisp opaque white cards (#FFFFFF light, #1D2220 dark).
-2. Noble "Still Waters" lapis blue accent (#2860A8 light, #4A88D9 dark), inspired by Psalm 23:2, reserved exclusively for primary actions and path progression.
-3. Liquid Glass strictly on floating chrome: Navigation bars, Glass Tab Bar, Bottom Accessories (`tabViewBottomAccessory`), and Sheets. Content stays anchored on solid cards.
-4. Real vector lamb companion mascot progressing across 5 stages (Newborn, Sprout, Lamb, Yearling, Flock Leader), never emojis.
-5. Verbatim Scripture and quiz content from bundled WEB and paths.json; zero invented text or metrics.
-
-Borrow Only:
-- Duolingo: Instant quiz feedback bottom drawer with verse explanation.
-- Drops: 3-step vertical trial timeline on the paywall.
-- Apple Books: Generous margins and verse typographic rhythm.
-
-Explicit Rejects:
-- No generic Tailwind palette (slate/sky/emerald).
-- No green/red brand accents; green is strictly quiz-correct, red is strictly quiz-wrong.
-- No AI buzzwords, no cloud accounts, no social leaderboards, no artificial streak multipliers.
-- No glass-on-glass stacking; no glass behind dense multi-line reading text.
-- No fake or hand-typed scripture.
-
-
-Mascot & Character Rules:
-1. Defined vector silhouette: Head-to-body 1:1 for newborn lamb, shifting gracefully to 1:1.4 in mature flock leader. Soft cloud fleece perimeter.
-2. Fixed pastoral palette: Fleece (#FFFFFF light / #E8E4DA dark), Skin/face (#F5E5D5 light / #CDB9A4 dark), Features (#1A1D1B light / #F4F5F4 dark), Still Waters bandana/halo (#2860A8 light / #4A88D9 dark), Sunrise Gold wreath/stars (#D98200 light / #F5A623 dark).
-3. Exact 5-stage progression matching `Companion.stage = 1 + xp/50`: Newborn (0-49 XP), Sprout (50-99 XP), Lamb (100-149 XP), Yearling (150-199 XP), Flock Leader (200+ XP).
-4. Expression set: Idle/Calm, Happy (correct), Encouraging (mistake - never shaming), Celebrating (lesson complete / streak), Sleepy (evening reminder), and Hello (onboarding greeting).
-5. Sacred Sanctuary Rule: The lamb is prominently featured during Onboarding, Path Hub, Quiz Feedback, Celebration, and Companion Detail, but is DELIBERATELY ABSENT during Scripture Reading and Bible Reader. God's Word must remain quiet, reverent, and free of cartoon distraction.
-
-Motion & Dynamics Rules:
-1. All animations use native SwiftUI spring curves (`.spring(duration: 0.35, bounce: 0.15)`); zero external animation dependencies.
-2. Liquid Glass morphs coordinate via `GlassEffectContainer(spacing:)` and `@Namespace`:
-   - Morph A: Quiz Check Button -> FeedbackSheet.
-   - Morph B: TabView bottom accessory compact inline -> expanded lesson preview.
-   - Morph C: Active path node -> lesson reading header.
-3. Every animation has strict `accessibilityReduceMotion` (instant cut/crossfade) and `accessibilityReduceTransparency` (solid surface fallback).
-
-Media Strategy:
-- Mascot: High-craft vector illustration drawn in Pencil components for each of the 5 companion stages.
-- Icons: Native SF Symbols / Lucide standard glyphs with verified rendering names (e.g. circle-check-big, flame, book-open, map-pin, sparkler).
+Primary reference/direction: Pastoral morning light (mymind warmth x Apple Books reading x Duolingo path),
+  with a Mindllama-grade character at the centre.
+Preserve:
+  1. Parchment canvas (#FAF8F4 / #141716) with a dawn-sky gradient; illustrated meadow hills behind the Today path.
+  2. Living Dawn Amber, text #9A5500 / #FBBF24, fill #B45309 / #A65500: actions, current node, progress, the lamb's ribbon.
+  3. Liquid Glass only on chrome (toolbar buttons, streak chip, tab bar, accessory, sheets, dialogs, bubble, toast),
+     never on glass, always over living content; content sits on opaque cards.
+  4. The vector lamb: 5 stages (Newborn, Lamb, Young sheep, Yearling, Grown sheep; stage = 1 + xp/50) x 6 expressions.
+  5. Verbatim WEB scripture and quiz text from the repo JSON.
+Borrow only:
+  - Duolingo: the path of 3D nodes as the screen (e3ac954a), a forgiving mascot line on a wrong answer (fd63609c).
+  - Brilliant / Drops: the trial timeline with step 0 = what you already did.
+  - Fable / Apple Books: a chrome-free serif reader with quiet verse numbers.
+Role rules: green and red are quiz-correctness only; amber is never a background wash; glass is never content.
+Media strategy: every illustration is a vector drawn in the .pen (lamb, hills, trail, vignettes); no bitmaps.
+Reject: generic blue accents, emoji mascots, halos or laurels (authority signals), confetti, streak guilt,
+  invented paths or numbers, glass-on-glass toolbars.
 ```
+
+Mascot rules: the silhouette (scalloped fleece + hanging ears + dark legs) must read as a lamb at 24 pt. Fixed palette in both themes (fleece #FFF8EC, shade #E9DCC6, face #F4E3CC, features #3D312B, blush #EFA593); only the outline changes (#7A6655 / #FFF8EC 30%). The lamb is absent from Lesson reading and the Bible reader.
+
+Motion rules: SwiftUI only. Glass morphs use one spring, `.spring(duration: 0.35, bounce: 0.15)`. Morph A = Check → feedback sheet (`GlassEffectContainer` + `glassEffectID`); Morph B = system accessory expanded ↔ inline (`tabBarMinimizeBehavior`); Morph C = node → lesson zoom (`matchedTransitionSource` + `navigationTransition(.zoom)`). Every item has a Reduce Motion and a Reduce Transparency fallback (design/README.md §9).
 
 ---
 
@@ -109,7 +89,7 @@ Media Strategy:
 | **Still Waters Blue Accent (Superseded)** | Palette | Superseded in Fix Round 1 | Superseded by Living Dawn Amber (row below) to ensure ownable pastoral identity and eliminate generic blue. |
 | **Golden Wool Companion / Streak Tone** | Palette | Refero `Foodvisor` & `Mindllama` | Golden sunrise tone (`#D98200` light, `#F5A623` dark) for streak flame and XP stars; warm and encouraging. |
 | **Opaque Content Cards** | Elevation | iOS 26 HIG & Open Pool §6.3 Rule 3 | Body scripture and quiz choices must never sit on transparent glass; prevents refraction artifacts and maintains WCAG AAA contrast. |
-| **Floating Glass Chrome** | Liquid Glass | iOS 26 Cheatsheet & WWDC 2025 | System toolbars, floating action pills, and glass tab bar with `.glassEffect(.regular)` and background blur (16pt radius) + specular rim. |
+| **Floating Glass Chrome** | Liquid Glass | iOS 26 Cheatsheet & WWDC 2025 | System toolbars (44 pt glass buttons, no capsule behind them), glass tab bar, accessory and sheets: 55% fill, 24 pt background blur, shadow, a solid token rim plus a top-lit gradient specular. |
 | **Glass Tab Bar with Bottom Accessory** | Navigation | iOS 26 Cheatsheet `.tabViewBottomAccessory` | Floats "Continue Today's Lesson" directly above the glass tab bar, collapsing gracefully during scroll. |
 | **Scrolled State Z-Order** | Hierarchy | GROL Review B2 & N2 | Content passes UNDER blurred glass chrome; top and bottom progressive gradient fades prevent text collision. |
 | **Verbatim Content Grounding** | Truthfulness | Repo `paths.json` & `sample_bible.json` | Every verse text, reference, lesson title, quiz prompt, and choice is extracted verbatim from the repo files. |
@@ -118,15 +98,20 @@ Media Strategy:
 | **Mascot Sanctuary Policy** | Mascot / UX | Reverent scripture reading | The lamb never appears alongside Scripture text in Lesson Reading or Bible Reader; preserves devotional reverence. |
 | **Non-Shaming Mistake Pose** | Mascot / Ethics | Refero Finch & Headspace | When a quiz answer is wrong, the lamb shows an encouraging head-tilt with a warm smile, never crying or scolding. |
 | **Glass Morphing Container** | Motion / Glass | iOS 26 Cheatsheet §5.2 | `GlassEffectContainer` shares the material buffer during button-to-sheet expansion, eliminating flickering. |
-| **Native Vector PhaseAnimator** | Motion / Mascot | SwiftUI iOS 17+ / iOS 26 | Vector layers oscillate via `PhaseAnimator` (idle breathing, hop, ear tilt); 100% offline, 0 bytes network, 0 CPU lag. |
+| **Native Vector Animators** | Motion / Mascot | SwiftUI (`phaseAnimator`, `keyframeAnimator`, iOS 17+) | Breathe, blink, hop, tilt, celebrate and stage-up are transforms on the lamb's vector layers; offline, no third-party runtime. |
 | **Living Dawn Amber Accent** | Palette | Psalm 119:105 ("Your word is a lamp") & Refero `Abide` | Replaces generic system blue with warm, ownable Living Dawn Amber (`#9A5500` light / `#FBBF24` dark; fill `#B45309` / `#A65500`); distinct from quiz correctness (green) and quiz error (red). |
 | **Pastoral Meadow Landscape Canvas** | Canvas / Glass | Refero `Mindllama` & Open Pool §6.3 | Layered rolling meadow hills (`--color-meadow-sky`, `--color-meadow-hill-*`, `--color-meadow-path`) provide physical shapes and pastoral hues for Liquid Glass chrome to blur and refract. |
-| **Winding Serpentine Path & Mascot Placement** | Layout / Mascot | Refero `Duolingo` & Captain Mascot Steer | Path nodes follow an organic S-curve through the meadow; Barnaby the Lamb (Stage 1 Newborn) stands proudly beside Node 1 with an encouraging speech bubble ("Ready for Day 1!"). |
+| **S-Curve Path & Mascot Placement** | Layout / Mascot | Refero Duolingo `e3ac954a` & Captain Mascot Steer | One 28 pt trail stroke through three gradient vector hills; nodes alternate x 306 / 201 / 96 at a 112 pt pitch; the Stage 1 lamb (88 pt) stands beside the current node with a glass bubble "Ready for Day 1?". |
 | **Home Hero vs Bottom Accessory Resolution** | Architecture | iOS 26 `.tabViewBottomAccessory` spec | Retains the persistent thumb-friendly bottom accessory docked above the glass tab bar; eliminates duplicate in-page hero card to open full vertical space for the meadow trail. |
-| **Scrolled-Under-Glass Visual Proof** | Liquid Glass | GROL Review B2 & Open Pool §6.3 | Scrolled state (`Home_Scrolled_*`) brings Node 1, Barnaby, and meadow hills directly under the top navigation bar (`y: 54`), demonstrating physical 24pt background blur and specular rim highlights. |
+| **Scrolled-Under-Glass Visual Proof** | Liquid Glass | GROL Review B2 & sb-review M2 | `Home_Scrolled_*` is scrolled 502 pt: Day 4 and the hill crest pass under the collapsed inline "Today" bar through a 24 pt blur band with a soft fade; the tab bar is minimized and the accessory is inline. |
 | **Pedagogical Quiz Progress & Feedback** | Quiz / Learning | Duolingo & Refero `Finch` | Replaces redundant "Question 1 of 2" text with an elegant learning progress bar in the toolbar; wrong-state feedback sheet is a true Liquid Glass drawer morphing from the check button, featuring Barnaby Encouraging, verbatim Genesis 1:1 [WEB] citation, and "Continue" CTA. |
-| **Pruned Human-Readable Exports** | Build Hygiene | GROL Review m1 & fix-round-1 #6 | Eliminates redundant duplicate `frame_*.png` files (saving 50% repo weight); retains 62 canonical human-readable `<Screen_State>.png` exports cataloged in `index.tsv`. |
+| **Human-Readable Exports** | Build Hygiene | GROL Review m1 & fix-round-1 #6 | One `<Screen_State>_<Light/Dark>.png` per frame (84), listed in `index.tsv`; a gate fails if a Light export equals its Dark twin or an export is black. |
 
+| **3D Path Nodes** | Layout / Craft | Refero Duolingo `e3ac954a-8bca-4077-800d-b05302bde64e` | Each node is a face over a deeper "lip" (amber / amber-subtle / wool-white), so the path reads as tappable stepping stones; the current node gets a white ring and an amber glow. |
+| **Lamb Proportions** | Mascot | Refero Mindllama `d36f6e63-ad80-462e-bf8a-70c439892f36` | A big, soft head over a scalloped fleece cloud, two hanging ears and dark legs; built from vector unions so the 2 pt outline wraps only the silhouette. |
+| **Forgiving Wrong-Answer Moment** | Quiz / Mascot | Refero Duolingo `fd63609c-9369-4141-a26e-4063165b243a` | The wrong sheet leads with the Encouraging lamb and "Keep going! You're learning.", then the answer and the verse; no shake, no tears. |
+| **Pre-Cut Lamb Avatars** | Craft | Layout gate (no clipped nodes) | 56 pt head-and-shoulders avatars are geometry pre-intersected with the circle, not clip masks, so every node stays inside its parent. |
+| **Render-Proxy Fonts** | Typography | Pencil renderer limits | Inter stands in for SF Pro and Newsreader for New York in the frames; the app ships the system fonts. |
 ---
 
 ## 4. Anti-Averaging Quality Gates
