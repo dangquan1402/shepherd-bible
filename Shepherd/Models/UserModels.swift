@@ -2,15 +2,15 @@ import Foundation
 import SwiftData
 
 @Model
-final class UserProfile {
-    var displayName: String?
-    var goal: String
-    var experienceLevel: String
-    var dailyMinutes: Int
-    var createdAt: Date
-    var hasCompletedOnboarding: Bool
+public final class UserProfile {
+    public var displayName: String?
+    public var goal: String
+    public var experienceLevel: String
+    public var dailyMinutes: Int
+    public var createdAt: Date
+    public var hasCompletedOnboarding: Bool
 
-    init(
+    public init(
         displayName: String? = nil,
         goal: String = "grow_daily",
         experienceLevel: String = "beginner",
@@ -28,40 +28,40 @@ final class UserProfile {
 }
 
 @Model
-final class Companion {
-    var name: String
-    var stage: Int
-    var xp: Int
-    var outfitId: String?
+public final class Companion {
+    public var name: String
+    public var stage: Int
+    public var xp: Int
+    public var outfitId: String?
 
-    init(name: String = "Lamb", stage: Int = 1, xp: Int = 0, outfitId: String? = nil) {
+    public init(name: String = "Lamb", stage: Int = 1, xp: Int = 0, outfitId: String? = nil) {
         self.name = name
         self.stage = stage
         self.xp = xp
         self.outfitId = outfitId
     }
 
-    func addXP(_ amount: Int) {
+    public func addXP(_ amount: Int) {
         xp += amount
         stage = max(1, min(5, 1 + xp / 50))
     }
 }
 
 @Model
-final class StreakState {
-    var current: Int
-    var best: Int
-    var lastCompletedDate: Date?
-    var freezesLeft: Int
+public final class StreakState {
+    public var current: Int
+    public var best: Int
+    public var lastCompletedDate: Date?
+    public var freezesLeft: Int
 
-    init(current: Int = 0, best: Int = 0, lastCompletedDate: Date? = nil, freezesLeft: Int = 1) {
+    public init(current: Int = 0, best: Int = 0, lastCompletedDate: Date? = nil, freezesLeft: Int = 1) {
         self.current = current
         self.best = best
         self.lastCompletedDate = lastCompletedDate
         self.freezesLeft = freezesLeft
     }
 
-    func markCompleted(on day: Date = .now) {
+    public func markCompleted(on day: Date = .now) {
         let cal = Calendar.current
         if let last = lastCompletedDate, cal.isDate(last, inSameDayAs: day) {
             return
@@ -79,12 +79,12 @@ final class StreakState {
 }
 
 @Model
-final class LessonProgress {
-    @Attribute(.unique) var lessonId: String
-    var completedAt: Date
-    var quizScore: Int
+public final class LessonProgress {
+    @Attribute(.unique) public var lessonId: String
+    public var completedAt: Date
+    public var quizScore: Int
 
-    init(lessonId: String, completedAt: Date = .now, quizScore: Int) {
+    public init(lessonId: String, completedAt: Date = .now, quizScore: Int) {
         self.lessonId = lessonId
         self.completedAt = completedAt
         self.quizScore = quizScore
@@ -92,12 +92,12 @@ final class LessonProgress {
 }
 
 @Model
-final class EntitlementState {
-    var isPremium: Bool
-    var expirationDate: Date?
-    var productId: String?
+public final class EntitlementState {
+    public var isPremium: Bool
+    public var expirationDate: Date?
+    public var productId: String?
 
-    init(isPremium: Bool = false, expirationDate: Date? = nil, productId: String? = nil) {
+    public init(isPremium: Bool = false, expirationDate: Date? = nil, productId: String? = nil) {
         self.isPremium = isPremium
         self.expirationDate = expirationDate
         self.productId = productId
