@@ -121,3 +121,49 @@ To ensure the design maintains an A+ standard and avoids generic "AI slop":
 2. **Sharp contrast boundaries:** Text-to-surface pairs strictly exceed WCAG AA (4.5:1 for body, 3.0:1 for large text).
 3. **No hallucinated features:** Strictly conforms to `docs/PLAN.md` and `README.md` (no social feeds, no cloud sync, no push notifications beyond local reminders).
 4. **Honest privacy guarantees:** On-device storage via SwiftData clearly communicated throughout onboarding and settings.
+
+---
+
+## 5. Brand redesign: Flock (2026-10)
+
+The identity above (Living Dawn Amber on parchment, the outlined beige lamb) is superseded for colour, mascot, icon and logo. Layout, navigation, glass and motion decisions above still stand. Three directions were built on copies of these files (Dayspring, Flock, Still Waters; boards in `data/sb-brand/directions/`, outside the repo). The captain chose **Flock**, with these tweaks: fix the Hello pose, enlarge the Stage 5 crown, keep it devotional, and use sunflower only for reward.
+
+### 5.1 References (Refero MCP, images inspected)
+
+| Reference | Refero | What we take | What we reject |
+|---|---|---|---|
+| Duolingo | app 5; screens `23d2b4cd…` (launch), `248b5230…` (welcome), `630776f9…` (dark lesson) | The face *is* the mark; a flat two-tone character with no outline; a dark that is navy-teal, not black; a lowercase rounded wordmark | Streak guilt, a shouting green field everywhere |
+| Mindllama | app 185; `6d30579f…` (splash), `d4abc9e9…` (home-screen icon) | The face fills the icon tile on one saturated field, so it reads at dock size | Rainbow accessories, the llama's busy fleece texture |
+| Headspace | app 4; `e2bb322d…`, `12ac38cd…` | Flat geometric character, closed-eye smiles, one bold colour per moment | Abstract blobs with no animal |
+| Calm | app 17; `508e96c8…` | A chromatic night (deep blue) with glass tinted by the hue under it | Photo backgrounds |
+| Honk, OLIPOP styles | `856297f1…`, `7aec15c5…` | One saturated field plus chunky rounded type, with each token kept to its role | Retro-kitsch display faces |
+
+Gaps: Refero has no Finch, Hallow, Glorify, Dwell, Abide or YouVersion, and no iOS 26-specific screens. Those references come from public knowledge of the apps: YouVersion's red-brown book, Hallow's gold on purple and Glorify's pastels are the icons Flock must not resemble.
+
+### 5.2 Reference lock
+
+```text
+Primary: a mascot-led brand (Duolingo grammar) made devotional.
+Preserve: the face-led mark and icon; a flat two-tone lamb with no outline; one action colour
+  (ultramarine) and one joy colour (sunflower) with strict roles; a chromatic dark (midnight indigo);
+  a lowercase rounded wordmark.
+Borrow only: Mindllama's face-fills-the-tile icon; Calm's hue-tinted glass on a coloured night.
+Role rules: ultramarine = actions, current node, progress, icon tints, bandana. Sunflower = XP, streak,
+  sparkles, bell, crown centres, sunlit path; never routine chrome. Green and red = quiz correctness only.
+Reject: beige-on-cream lamb, brown outlines, amber doing two jobs, near-black dark, rounded display type
+  for titles (New York stays), any lamb on scripture screens.
+```
+
+### 5.3 Decision ledger
+
+| Decision | Source | Why |
+|---|---|---|
+| Black-faced lamb with a fleece cap and white-sclera eyes | Duolingo (face as mark), Suffolk lamb morphology, captain pick | Reads as a sheep at 24 pt; holds contrast on any canvas without an outline; ownable |
+| No outline; underside shade crescent and three curl marks | Headspace, Duolingo | Removes the clip-art look; the fleece reads as wool, not cloud |
+| Ultramarine `#3D3AE8` fill, `#3431D6` text | Honk style (one saturated field), WCAG | Clean, never muddy; white label 4.5:1+; far from quiz green and red |
+| Dark fill `#5E5CF2` | WCAG non-text 3:1 + label 4.5:1 window | The only band where the button label and the icon tint both pass on indigo surfaces |
+| Sunflower `#FFC21A` for reward only | Captain tweak; Duolingo's gold for XP | Joy stays special; the app stays calm |
+| Midnight indigo `#14122E` dark | Calm, Duolingo dark | Chromatic dark gives the glass depth; sunflower and ultramarine glow on it |
+| App icon: the front face on an ultramarine gradient | Mindllama, Duolingo | Fills the tile; reads at 29 pt and in tinted and clear |
+| Wordmark: Baloo 2 ExtraBold, lowercase, outlined | Duolingo wordmark; OFL licence | Friendly mascot voice; shipped as paths, so no font file |
+| New York titles and verses kept; no lamb on scripture | Captain tweak ("devotional, not a kids' app") | The brand gets bolder; the reading stays reverent |

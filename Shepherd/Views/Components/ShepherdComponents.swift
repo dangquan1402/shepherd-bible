@@ -560,3 +560,41 @@ public struct PlanCard: View {
         .buttonStyle(.plain)
     }
 }
+
+// MARK: - Brand Lockup (design: Brand/Lockup, Brand/Lockup/Compact)
+
+/// The mark (lamb face on the accent chip) beside the outlined `shepherd` wordmark.
+/// Both are vector assets; the wordmark is a template tinted with the accent token.
+public struct BrandLockup: View {
+    public enum Size {
+        case regular   // onboarding welcome: 40 pt mark, 30 pt wordmark
+        case compact   // paywall header: 30 pt mark, 21 pt wordmark
+
+        var mark: CGFloat { self == .regular ? 40 : 30 }
+        var word: CGFloat { self == .regular ? 30 : 21 }
+    }
+
+    public var size: Size
+
+    public init(_ size: Size = .regular) {
+        self.size = size
+    }
+
+    public var body: some View {
+        HStack(spacing: size.mark * 0.28) {
+            Image("BrandMark")
+                .resizable()
+                .frame(width: size.mark, height: size.mark)
+            Image("Wordmark")
+                .resizable()
+                .renderingMode(.template)
+                .scaledToFit()
+                .frame(height: size.word)
+                .foregroundStyle(ShepherdTheme.accent)
+                .offset(y: size.word * 0.08)
+        }
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel("Shepherd")
+        .accessibilityIdentifier("brand_lockup")
+    }
+}
