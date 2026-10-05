@@ -10,13 +10,9 @@ final class StoreKitTests: XCTestCase {
 
     override func setUp() async throws {
         try await super.setUp()
-        do {
-            session = try SKTestSession(configurationFileNamed: "Shepherd")
-            session.disableDialogs = true
-            session.clearTransactions()
-        } catch {
-            print("SKTestSession init note: \(error)")
-        }
+        session = try SKTestSession(configurationFileNamed: "Shepherd")
+        session.disableDialogs = true
+        session.clearTransactions()
     }
 
     override func tearDown() async throws {
@@ -26,16 +22,13 @@ final class StoreKitTests: XCTestCase {
     }
 
     func testStoreKitConfigurationAndPurchaseLifecycle() async throws {
-        guard let session = session else {
-            print("SKTestSession not available on this simulator instance (reported per brief B3)")
-            return
-        }
+        let session = try XCTUnwrap(session)
 
         // 1. Assert: 2 products loaded from configuration (monthly and yearly)
         let manager = StoreKitManager.shared
         await manager.loadProducts()
         if manager.products.isEmpty {
-            throw XCTSkip("SKTestSession hit SKInternalErrorDomain Code=3 in headless simctl environment: storekitd rejected OctaneSaveConfigurationRequest ('com.dangvietquan.shepherd is not entitled for OctaneSaveConfigurationRequest'). Investigated and reported plainly per brief B3.")
+            throw XCTSkip("storekitd: app not installed for development (StoreKit Testing requires Xcode's Run/Test registration)")
         }
         XCTAssertEqual(manager.products.count, 2, "Must load 2 auto-renewing subscription products")
 

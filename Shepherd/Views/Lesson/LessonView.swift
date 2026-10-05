@@ -9,6 +9,7 @@ public struct LessonView: View {
 
     @Query private var streaks: [StreakState]
     @Query private var companions: [Companion]
+    @Query private var entitlements: [EntitlementState]
 
     @State private var showQuiz: Bool = false
     @State private var showComplete: Bool = false
@@ -126,7 +127,8 @@ public struct LessonView: View {
     }
 
     private func recordCompletion(score: Int) {
-        let result = LessonProgressRecorder.complete(lesson: lesson, score: score, context: modelContext)
+        let isPremium = StoreKitManager.shared.isPremium || entitlements.first?.isPremium == true
+        let result = LessonProgressRecorder.complete(lesson: lesson, score: score, context: modelContext, isPremium: isPremium)
         completionResult = result
         finishedScore = score
         pendingComplete = true

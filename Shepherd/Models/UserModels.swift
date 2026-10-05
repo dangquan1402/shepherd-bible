@@ -61,15 +61,23 @@ public final class StreakState {
         self.freezesLeft = freezesLeft
     }
 
-    public func markCompleted(on day: Date = .now) {
+    public func markCompleted(on day: Date = .now, isPremium: Bool = false) {
         let cal = Calendar.current
         if let last = lastCompletedDate, cal.isDate(last, inSameDayAs: day) {
             return
         }
-        if let last = lastCompletedDate,
-           let yesterday = cal.date(byAdding: .day, value: -1, to: day),
-           cal.isDate(last, inSameDayAs: yesterday) {
-            current += 1
+        if let last = lastCompletedDate {
+            let startOfLast = cal.startOfDay(for: last)
+            let startOfDay = cal.startOfDay(for: day)
+            let daysDifference = cal.dateComponents([.day], from: startOfLast, to: startOfDay).day ?? 0
+
+            if daysDifference == 1 {
+                current += 1
+            } else if daysDifference == 2 && consumeFreeze(isPremium: isPremium) {
+                current += 1
+            } else {
+                current = 1
+            }
         } else {
             current = 1
         }

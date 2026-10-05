@@ -57,12 +57,14 @@ private struct ConditionalAccessoryModifier<AccessoryContent: View>: ViewModifie
     @ViewBuilder let accessory: () -> AccessoryContent
 
     func body(content: Content) -> some View {
-        if isEnabled {
-            content.tabViewBottomAccessory {
+        if #available(iOS 26.1, *) {
+            content.tabViewBottomAccessory(isEnabled: isEnabled) {
                 accessory()
             }
         } else {
-            content
+            content.tabViewBottomAccessory {
+                accessory()
+            }
         }
     }
 }

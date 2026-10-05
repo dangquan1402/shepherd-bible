@@ -6,7 +6,6 @@ public final class ContentStore: ObservableObject {
 
     @Published public private(set) var bible: BibleBundle?
     @Published public private(set) var paths: [StudyPath] = []
-    @Published public private(set) var loadError: String?
 
     public init() {}
 
@@ -17,7 +16,7 @@ public final class ContentStore: ObservableObject {
             let bundle = try loadJSON("paths", as: PathBundle.self)
             paths = bundle.paths
         } catch {
-            loadError = error.localizedDescription
+            print("ContentStore load error: \(error)")
         }
     }
 

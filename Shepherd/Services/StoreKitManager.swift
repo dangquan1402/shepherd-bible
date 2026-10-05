@@ -28,6 +28,7 @@ public final class StoreKitManager: ObservableObject {
     }
 
     private var updatesTask: Task<Void, Never>?
+    private var attachedContext: ModelContext?
 
     public init() {
         startTransactionListener()
@@ -35,6 +36,10 @@ public final class StoreKitManager: ObservableObject {
 
     deinit {
         updatesTask?.cancel()
+    }
+
+    public func attach(_ context: ModelContext) {
+        self.attachedContext = context
     }
 
     public func startTransactionListener() {
@@ -57,7 +62,11 @@ public final class StoreKitManager: ObservableObject {
             ]
             let loaded = try await Product.products(for: productIDs)
             self.products = loaded.sorted { $0.price > $1.price } // Yearly first
-            self.lastErrorMessage = nil
+            if loaded.isEmpty {
+                self.lastErrorMessage = "No products returned"
+            } else {
+                self.lastErrorMessage = nil
+            }
             await updateCustomerProductStatus()
         } catch {
             self.lastErrorMessage = error.localizedDescription
@@ -65,6 +74,7 @@ public final class StoreKitManager: ObservableObject {
     }
 
     public func updateCustomerProductStatus(context: ModelContext? = nil) async {
+        let effectiveContext = context ?? attachedContext
         var hasActiveEntitlement = false
         var activeProductId: String? = nil
         var activeExpirationDate: Date? = nil
@@ -81,7 +91,7 @@ public final class StoreKitManager: ObservableObject {
         }
         self.isPremium = hasActiveEntitlement
 
-        if let context = context {
+        if let context = effectiveContext {
             if let existing = try? context.fetch(FetchDescriptor<EntitlementState>()).first {
                 existing.isPremium = hasActiveEntitlement
                 existing.productId = activeProductId

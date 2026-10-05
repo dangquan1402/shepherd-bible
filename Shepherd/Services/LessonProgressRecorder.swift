@@ -28,7 +28,8 @@ public enum LessonProgressRecorder {
     public static func complete(
         lesson: Lesson,
         score: Int,
-        context: ModelContext
+        context: ModelContext,
+        isPremium: Bool = false
     ) -> CompletionResult {
         let lessonId = lesson.id
 
@@ -46,7 +47,7 @@ public enum LessonProgressRecorder {
         if !wasAlreadyCompleted {
             xpAwarded = Progression.xpEarned(score: score)
             companion?.addXP(xpAwarded)
-            streak?.markCompleted()
+            streak?.markCompleted(isPremium: isPremium)
 
             let newProgress = LessonProgress(lessonId: lessonId, quizScore: score)
             context.insert(newProgress)

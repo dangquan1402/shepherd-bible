@@ -218,58 +218,88 @@ struct QuizFeedbackSheet: View {
     var onContinue: () -> Void
 
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
+
+    @State private var animTick = 0
+    @State private var tilted = false
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 14) {
-            // Mascot Avatar + Title Header (Row 3 hop on correct, Row 4 tilt on wrong)
-            HStack(spacing: 12) {
-                AnimatedLambView(
-                    stage: companionStage,
-                    expression: result.isCorrect ? .happy : .encouraging,
-                    displayHeight: 56,
-                    isBreathing: false,
-                    hopTrigger: result.isCorrect ? 1 : 0,
-                    isTilted: !result.isCorrect
-                )
-                .frame(width: 56, height: 56)
-                .clipShape(Circle())
-
-                VStack(alignment: .leading, spacing: 2) {
-                    Text(result.title)
-                        .font(ShepherdTheme.title2Serif())
-                        .foregroundStyle(result.isCorrect ? ShepherdTheme.success : ShepherdTheme.error)
-
-                    if !result.isCorrect {
-                        Text("Answer: \(result.correctChoice).")
-                            .font(.callout.weight(.medium))
-                            .foregroundStyle(ShepherdTheme.textSecondary)
+        ScrollView {
+            VStack(alignment: .leading, spacing: 14) {
+                // Mascot Avatar + Title Header (Row 3 hop on correct, Row 4 tilt on wrong)
+                if dynamicTypeSize.isAccessibilitySize {
+                    VStack(alignment: .leading, spacing: 12) {
+                        avatarView
+                        titleView
+                    }
+                } else {
+                    HStack(spacing: 12) {
+                        avatarView
+                        titleView
+                        Spacer()
                     }
                 }
-                Spacer()
+
+                // Explanation if present
+                if let explain = result.explain, !explain.isEmpty {
+                    Text(explain)
+                        .font(.callout)
+                        .foregroundStyle(ShepherdTheme.textPrimary)
+                        .lineSpacing(4)
+                }
+
+                // Answering Scripture Verse Card
+                VerseCard(
+                    reference: result.verseRef,
+                    translation: "WEB",
+                    text: result.verseText
+                )
+
+                // Continue CTA Button
+                ProminentGlassButton("Continue", action: onContinue)
+                    .padding(.top, 4)
             }
-
-            // Explanation if present
-            if let explain = result.explain, !explain.isEmpty {
-                Text(explain)
-                    .font(.callout)
-                    .foregroundStyle(ShepherdTheme.textPrimary)
-                    .lineSpacing(4)
-            }
-
-            // Answering Scripture Verse Card
-            VerseCard(
-                reference: result.verseRef,
-                translation: "WEB",
-                text: result.verseText
-            )
-
-            // Continue CTA Button
-            ProminentGlassButton("Continue", action: onContinue)
-                .padding(.top, 4)
+            .padding(20)
         }
-        .padding(20)
+        .frame(maxHeight: 520)
         .shepherdGlassCard(cornerRadius: 28)
         .padding(.horizontal, 12)
         .padding(.bottom, 16)
+        .onAppear {
+            guard !reduceMotion else { return }
+            animTick += 1
+            if !result.isCorrect {
+                withAnimation(.spring(duration: 0.4, bounce: 0.2)) {
+                    tilted = true
+                }
+            }
+        }
+    }
+
+    private var avatarView: some View {
+        AnimatedLambView(
+            stage: companionStage,
+            expression: result.isCorrect ? .happy : .encouraging,
+            displayHeight: 56,
+            isBreathing: false,
+            hopTrigger: result.isCorrect ? animTick : 0,
+            isTilted: tilted
+        )
+        .frame(width: 56, height: 56)
+        .clipShape(Circle())
+    }
+
+    private var titleView: some View {
+        VStack(alignment: .leading, spacing: 2) {
+            Text(result.title)
+                .font(ShepherdTheme.title2Serif())
+                .foregroundStyle(result.isCorrect ? ShepherdTheme.success : ShepherdTheme.error)
+
+            if !result.isCorrect {
+                Text("Answer: \(result.correctChoice).")
+                    .font(.callout.weight(.medium))
+                    .foregroundStyle(ShepherdTheme.textSecondary)
+            }
+        }
     }
 }

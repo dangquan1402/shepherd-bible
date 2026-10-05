@@ -1,12 +1,18 @@
 import SwiftUI
+import SwiftData
 
 public struct SettingsView: View {
     @ObservedObject private var store = StoreKitManager.shared
+    @Query private var entitlements: [EntitlementState]
     @State private var showPaywall: Bool = false
     @State private var restoreToastMessage: String? = nil
     @State private var isRestoring: Bool = false
 
     public init() {}
+
+    private var isPremiumActive: Bool {
+        store.isPremium || entitlements.first?.isPremium == true
+    }
 
     private var appVersion: String {
         Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0.0"
@@ -18,7 +24,7 @@ public struct SettingsView: View {
                 // Subscription Status Section
                 Section("Shepherd Premium") {
                     Button {
-                        if !store.isPremium {
+                        if !isPremiumActive {
                             showPaywall = true
                         }
                     } label: {
@@ -26,9 +32,9 @@ public struct SettingsView: View {
                             Text("Shepherd Premium")
                                 .foregroundStyle(ShepherdTheme.textPrimary)
                             Spacer()
-                            Text(store.isPremium ? "Active" : "Not active ›")
+                            Text(isPremiumActive ? "Active" : "Not active ›")
                                 .font(.subheadline)
-                                .foregroundStyle(store.isPremium ? ShepherdTheme.success : ShepherdTheme.textSecondary)
+                                .foregroundStyle(isPremiumActive ? ShepherdTheme.success : ShepherdTheme.textSecondary)
                         }
                     }
                     .buttonStyle(.plain)

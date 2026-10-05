@@ -119,6 +119,34 @@ final class ShepherdTests: XCTestCase {
         XCTAssertEqual(streak.best, 3, "Best streak must be preserved as 3")
     }
 
+    // MARK: - 3b. Streak Freeze Protection on 1-Day Gap
+    func testStreakFreezeProtection() {
+        let calendar = Calendar.current
+        let now = Date()
+
+        // Branch 1: Premium user with freeze available -> 1-day gap preserves streak
+        let premiumStreak = StreakState(current: 5, best: 5, freezesLeft: 1)
+        premiumStreak.lastCompletedDate = now
+
+        guard let dayAfterTomorrow = calendar.date(byAdding: .day, value: 2, to: now) else {
+            XCTFail("Failed to compute dayAfterTomorrow")
+            return
+        }
+
+        // 1-day gap (tomorrow was missed)
+        premiumStreak.markCompleted(on: dayAfterTomorrow, isPremium: true)
+        XCTAssertEqual(premiumStreak.current, 6, "Premium user with freeze should preserve and increment streak on 1-day gap")
+        XCTAssertEqual(premiumStreak.freezesLeft, 0, "Freeze should be consumed")
+
+        // Branch 2: Free user -> 1-day gap resets streak to 1 even if freezesLeft > 0
+        let freeStreak = StreakState(current: 5, best: 5, freezesLeft: 1)
+        freeStreak.lastCompletedDate = now
+
+        freeStreak.markCompleted(on: dayAfterTomorrow, isPremium: false)
+        XCTAssertEqual(freeStreak.current, 1, "Free user on 1-day gap must reset streak to 1")
+        XCTAssertEqual(freeStreak.freezesLeft, 1, "Free user cannot consume streak freeze")
+    }
+
     // MARK: - 4. Explain and Answering Verse Selection (M5 Rule) with Real Content
     @MainActor
     func testExplainAndVerseSelectionRule() {

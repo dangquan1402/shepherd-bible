@@ -147,6 +147,7 @@ public struct PathNodeView: View {
 
     @State private var unlockRingScale: CGFloat = 36
     @State private var unlockRingOpacity: Double = 0.0
+    @State private var showLockFadingOut: Bool = false
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     public init(dayNumber: Int, state: PathNodeState, action: @escaping () -> Void) {
@@ -192,7 +193,7 @@ public struct PathNodeView: View {
                         .frame(width: unlockRingScale, height: unlockRingScale)
                         .opacity(unlockRingOpacity)
 
-                    // Icon
+                    // Base Icon
                     switch state {
                     case .current:
                         Image(systemName: "book.fill")
@@ -203,14 +204,19 @@ public struct PathNodeView: View {
                             .font(.system(size: 28, weight: .bold))
                             .foregroundStyle(ShepherdTheme.accentFill)
                     case .locked:
-                        Image(systemName: "lock.fill")
-                            .font(.system(size: 26, weight: .semibold))
-                            .foregroundStyle(ShepherdTheme.textTertiary)
-                            .symbolEffect(.disappear, isActive: state != .locked)
+                        EmptyView()
                     case .milestoneLocked:
                         Image(systemName: "flag.fill")
                             .font(.system(size: 26, weight: .semibold))
                             .foregroundStyle(ShepherdTheme.textTertiary)
+                    }
+
+                    // Lock Icon that animates disappearance on unlock
+                    if state == .locked || showLockFadingOut {
+                        Image(systemName: "lock.fill")
+                            .font(.system(size: 26, weight: .semibold))
+                            .foregroundStyle(ShepherdTheme.textTertiary)
+                            .symbolEffect(.disappear, isActive: state != .locked)
                     }
                 }
                 .frame(width: 84, height: 90)
@@ -227,6 +233,11 @@ public struct PathNodeView: View {
         .accessibilityLabel("Day \(dayNumber)\(state == .locked || state == .milestoneLocked ? ", locked" : (state == .done ? ", completed" : ", current"))")
         .onChange(of: state) { oldState, newState in
             if oldState == .locked && newState == .current {
+                showLockFadingOut = true
+                Task {
+                    try? await Task.sleep(nanoseconds: 600_000_000)
+                    showLockFadingOut = false
+                }
                 if !reduceMotion {
                     unlockRingScale = 36
                     unlockRingOpacity = 0.8
@@ -292,7 +303,7 @@ public struct ChoiceRow: View {
             HStack(spacing: 14) {
                 // Choice letter badge
                 Text(letter)
-                    .font(.system(size: 15, weight: .bold))
+                    .font(.callout.weight(.bold))
                     .foregroundStyle(letterTextColor)
                     .frame(width: 32, height: 32)
                     .background(letterBgColor)
@@ -300,7 +311,7 @@ public struct ChoiceRow: View {
 
                 // Prompt text
                 Text(text)
-                    .font(.system(size: 17, weight: .medium))
+                    .font(.body.weight(.medium))
                     .foregroundStyle(ShepherdTheme.textPrimary)
                     .multilineTextAlignment(.leading)
 
@@ -326,7 +337,7 @@ public struct ChoiceRow: View {
             }
             .padding(.horizontal, 16)
             .frame(maxWidth: .infinity)
-            .frame(height: 60)
+            .frame(minHeight: 60)
             .background(bgColor)
             .clipShape(RoundedRectangle(cornerRadius: ShepherdTheme.radiusMD))
             .overlay(
@@ -453,11 +464,11 @@ public struct RewardStatChip: View {
                 .font(.system(size: 18, weight: .bold))
                 .foregroundStyle(color)
             Text(text)
-                .font(.system(size: 17, weight: .bold))
+                .font(.body.weight(.bold))
                 .foregroundStyle(ShepherdTheme.textPrimary)
         }
         .padding(.horizontal, 16)
-        .frame(height: 48)
+        .frame(minHeight: 48)
         .background(ShepherdTheme.cardSurface)
         .clipShape(Capsule())
         .overlay(
@@ -511,12 +522,12 @@ public struct PlanCard: View {
                 VStack(alignment: .leading, spacing: 4) {
                     HStack(spacing: 8) {
                         Text(title)
-                            .font(.system(size: 17, weight: .bold))
+                            .font(.body.weight(.bold))
                             .foregroundStyle(ShepherdTheme.textPrimary)
 
                         if let badge {
                             Text(badge.uppercased())
-                                .font(.system(size: 10, weight: .bold))
+                                .font(.caption2.weight(.bold))
                                 .padding(.horizontal, 8)
                                 .padding(.vertical, 3)
                                 .background(ShepherdTheme.accentSubtle)
@@ -526,19 +537,19 @@ public struct PlanCard: View {
                     }
 
                     Text(subtitle)
-                        .font(.system(size: 13))
+                        .font(.footnote)
                         .foregroundStyle(ShepherdTheme.textSecondary)
                 }
 
                 Spacer()
 
                 Text(price)
-                    .font(.system(size: 17, weight: .bold))
+                    .font(.body.weight(.bold))
                     .foregroundStyle(ShepherdTheme.textPrimary)
             }
             .padding(.horizontal, 16)
             .frame(maxWidth: .infinity)
-            .frame(height: 80)
+            .frame(minHeight: 80)
             .background(isSelected ? ShepherdTheme.accentSubtle.opacity(0.3) : ShepherdTheme.cardSurface)
             .clipShape(RoundedRectangle(cornerRadius: ShepherdTheme.radiusMD))
             .overlay(

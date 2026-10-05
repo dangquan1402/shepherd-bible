@@ -26,6 +26,8 @@ public struct RootView: View {
             #endif
             content.loadIfNeeded()
             SeedData.ensureDefaults(in: modelContext)
+            StoreKitManager.shared.attach(modelContext)
+            await StoreKitManager.shared.updateCustomerProductStatus(context: modelContext)
         }
     }
 

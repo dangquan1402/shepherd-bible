@@ -29,7 +29,6 @@ def main():
 </svg>'''
 
     svg_path = os.path.join(tab_lamb_dir, "tab_lamb.svg")
-    pdf_path = os.path.join(tab_lamb_dir, "tab_lamb.pdf")
 
     # Remove old PNGs
     for fn in ["tab_lamb.png", "tab_lamb@2x.png", "tab_lamb@3x.png"]:
@@ -41,15 +40,11 @@ def main():
         f.write(svg_content)
     print(f"Wrote {svg_path}")
 
-    # Convert to vector PDF using sips
-    subprocess.run(["sips", "-s", "format", "pdf", svg_path, "--out", pdf_path], check=True, capture_output=True)
-    print(f"Generated {pdf_path}")
-
-    # Write Contents.json for single universal vector image
+    # Write Contents.json for single universal vector SVG image
     contents = {
         "images": [
             {
-                "filename": "tab_lamb.pdf",
+                "filename": "tab_lamb.svg",
                 "idiom": "universal"
             }
         ],

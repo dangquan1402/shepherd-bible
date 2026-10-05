@@ -34,7 +34,7 @@ public struct BibleReaderView: View {
                                 VStack(alignment: .leading, spacing: 18) {
                                     HStack(alignment: .top, spacing: 10) {
                                         Text("\(verse.number)")
-                                            .font(.system(size: 14, weight: .bold))
+                                            .font(.subheadline.weight(.bold))
                                             .foregroundStyle(ShepherdTheme.accent)
                                             .frame(width: 24, alignment: .trailing)
 

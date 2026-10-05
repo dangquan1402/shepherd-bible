@@ -21,12 +21,11 @@ public struct ContinueLessonAccessory: View {
                         .foregroundStyle(ShepherdTheme.accentFill)
 
                     Text("Day \(lesson.dayIndex) · \(lesson.title)")
-                        .font(.system(size: 15, weight: .semibold))
+                        .font(.callout.weight(.semibold))
                         .foregroundStyle(ShepherdTheme.textPrimary)
-                        .lineLimit(1)
                 }
                 .padding(.horizontal, 14)
-                .frame(height: 52)
+                .frame(minHeight: 52)
             } else {
                 // Morph B: Expanded placement above full tab bar
                 HStack(spacing: 14) {
@@ -41,13 +40,12 @@ public struct ContinueLessonAccessory: View {
 
                     VStack(alignment: .leading, spacing: 2) {
                         Text("TODAY'S LESSON")
-                            .font(.system(size: 11, weight: .bold))
+                            .font(.caption2.weight(.bold))
                             .foregroundStyle(ShepherdTheme.accent)
 
                         Text("Day \(lesson.dayIndex) · \(lesson.title)")
-                            .font(.system(size: 16, weight: .semibold))
+                            .font(.callout.weight(.semibold))
                             .foregroundStyle(ShepherdTheme.textPrimary)
-                            .lineLimit(1)
                     }
 
                     Spacer()
@@ -57,7 +55,7 @@ public struct ContinueLessonAccessory: View {
                         .foregroundStyle(ShepherdTheme.textTertiary)
                 }
                 .padding(.horizontal, 16)
-                .frame(height: 56)
+                .frame(minHeight: 56)
             }
         }
         .buttonStyle(.plain)

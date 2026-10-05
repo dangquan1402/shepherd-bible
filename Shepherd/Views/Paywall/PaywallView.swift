@@ -7,6 +7,8 @@ public struct PaywallView: View {
 
     @ObservedObject private var store = StoreKitManager.shared
     @State private var selectedPlanIsYearly: Bool = true
+    @State private var restoreToastMessage: String? = nil
+    @State private var isRestoring: Bool = false
     @Environment(\.dismiss) private var dismiss
 
     public init(onContinueFree: @escaping () -> Void, onPurchased: @escaping () -> Void) {
@@ -76,7 +78,9 @@ public struct PaywallView: View {
                                 icon: "star.fill",
                                 iconColor: ShepherdTheme.accentFill,
                                 title: "Day 7",
-                                subtitle: "Trial ends; \(store.yearlyProduct?.displayPrice ?? "subscription")/year starts unless you cancel"
+                                subtitle: store.yearlyProduct != nil
+                                    ? "Trial ends; \(store.yearlyProduct!.displayPrice)/year starts unless you cancel"
+                                    : "Trial ends; subscription starts unless you cancel"
                             )
                         }
                         .padding(18)
@@ -86,7 +90,7 @@ public struct PaywallView: View {
                         // Plan Selector
                         if store.products.isEmpty {
                             VStack(spacing: 12) {
-                                if let error = store.lastErrorMessage {
+                                if store.lastErrorMessage != nil {
                                     Text("Couldn't load prices")
                                         .font(.subheadline)
                                         .foregroundStyle(ShepherdTheme.textSecondary)
@@ -184,6 +188,23 @@ public struct PaywallView: View {
                     }
                 }
             }
+            .overlay(alignment: .bottom) {
+                if let message = restoreToastMessage {
+                    HStack(spacing: 10) {
+                        Image(systemName: "info.circle")
+                            .font(.system(size: 16))
+                            .foregroundStyle(ShepherdTheme.textPrimary)
+                        Text(message)
+                            .font(.subheadline.weight(.medium))
+                            .foregroundStyle(ShepherdTheme.textPrimary)
+                    }
+                    .padding(.horizontal, 18)
+                    .padding(.vertical, 12)
+                    .shepherdGlassCard(cornerRadius: ShepherdTheme.radiusPill)
+                    .padding(.bottom, 24)
+                    .transition(.move(edge: .bottom).combined(with: .opacity))
+                }
+            }
             .onAppear {
                 store.purchaseState = .idle
                 if store.products.isEmpty {
@@ -270,11 +291,19 @@ public struct PaywallView: View {
     }
 
     private func restore() {
+        guard !isRestoring else { return }
+        isRestoring = true
         Task {
             let success = await store.restorePurchases()
-            if success {
-                onPurchased()
-                dismiss()
+            isRestoring = false
+            if !success {
+                withAnimation {
+                    restoreToastMessage = "No purchases to restore"
+                }
+                try? await Task.sleep(nanoseconds: 3_000_000_000)
+                withAnimation {
+                    restoreToastMessage = nil
+                }
             }
         }
     }
