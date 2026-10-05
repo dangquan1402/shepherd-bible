@@ -396,9 +396,9 @@ class Lamb:
                     stroke([(bc[0] - hr * 0.1, bc[1] + hr * 0.06), (bc[0] + hr * 0.1, bc[1] + hr * 0.06)], hr * 0.04))
         if self.stage == 5:
             fl, fc = [], []
-            for i, (dx, dy) in enumerate([(-0.72, -0.62), (-0.38, -0.92), (0.02, -1.02), (0.42, -0.9), (0.74, -0.58)]):
+            for i, (dx, dy) in enumerate([(-0.8, -0.6), (-0.44, -0.98), (0.0, -1.12), (0.44, -0.98), (0.8, -0.6)]):
                 cx, cy = hx + dx * hr, hy_l + dy * hr
-                r0 = hr * 0.11
+                r0 = hr * (0.15 if i == 2 else 0.13)
                 fl.append(unary_union([circ(cx + r0 * 1.15 * math.cos(math.radians(a + i * 17)),
                                             cy + r0 * 1.15 * math.sin(math.radians(a + i * 17)), r0)
                                        for a in range(0, 360, 72)]))
@@ -414,14 +414,18 @@ class Lamb:
             pivot = (hx + hr * 0.3, hy_l + hr * 0.8)
             head_parts = {k: (rot(v, 10, pivot) if v is not None else None) for k, v in head_parts.items()}
 
-        # Hello: one front hoof raised beside the cheek
-        wave, wave_hoof = None, None
+        # Hello: the near front leg bends up beside the chin and waves, with two motion arcs
+        wave, wave_hoof, wave_arcs = None, None, None
         if e == "Hello":
-            # the leg starts hidden behind the chin and lifts out beside the cheek
-            a0 = (hx - hr * 0.45, hy_l + hr * 0.95)
-            a1 = (hx - hr * 1.28, hy_l + hr * 0.12)
-            wave = stroke([a0, a1], lw * 1.05)
-            wave_hoof = wave.intersection(circ(a1[0], a1[1], lw * 0.95))
+            chest = (hx - hr * 0.2, hy_l + hr * 1.2)
+            elbow = (hx - hr * 1.22, hy_l + hr * 1.12)
+            hoof = (hx - hr * 1.36, hy_l + hr * 0.42)
+            wave = unary_union([stroke([chest, elbow], lw * 1.05), stroke([elbow, hoof], lw * 1.05)])
+            wave_hoof = wave.intersection(circ(hoof[0], hoof[1], lw * 0.98)).intersection(
+                box(-1e3, -1e3, 1e3, hoof[1] + lw * 0.15))
+            wave_arcs = unary_union([
+                stroke(arc_pts(hoof[0], hoof[1], hr * 0.42, hr * 0.42, 200, 250, 10), hr * 0.06),
+                stroke(arc_pts(hoof[0], hoof[1], hr * 0.62, hr * 0.62, 205, 245, 10), hr * 0.06)])
 
         # ---- extras
         sparkles, zz = None, None
@@ -470,11 +474,12 @@ class Lamb:
         self.add("Bell", "mascotBell", bell)
         self.add("EarFar", "mascotFace", hp["ear_far"])
         self.add("EarFarInner", "mascotBlush", hp["ear_far_in"])
+        self.add("Head", "mascotFace", hp["head"])
+        self.add("Tuft", "mascotFleece", hp["tuft"])
         if wave is not None:
             self.add("WaveLeg", leg_key, wave)
             self.add("WaveHoof", "mascotHoof", wave_hoof)
-        self.add("Head", "mascotFace", hp["head"])
-        self.add("Tuft", "mascotFleece", hp["tuft"])
+            self.add("WaveArcs", "mascotZz", wave_arcs)
         self.add("EarNear", "mascotFace", hp["ear_near"])
         self.add("EarNearInner", "mascotBlush", hp["ear_near_in"])
         self.add("FlowerPetals", "mascotFlower", hp["petals"])

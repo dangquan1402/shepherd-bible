@@ -154,6 +154,9 @@ DIRECTIONS = {
             "--color-mascot-mouth": ("#5B1E2E", "#5B1E2E"),
             "--color-mascot-flower": ("#FF9EB1", "#FF9EB1"),
             "--color-mascot-zz": ("#8C86B8", "#A19DCB"),
+            # app icon background (light = default appearance, dark = dark appearance)
+            "--color-icon-top": ("#4B48F2", "#25225A"),
+            "--color-icon-bottom": ("#2E2BD0", "#14122E"),
         },
     },
     # ------------------------------------------------------------------ C

@@ -112,7 +112,9 @@ def layers_svg(layers, palette, mono=None):
 
 ICON = {
     "dayspring": dict(bg=("#F59A45", "#D4461A"), dark=("#173A35", "#0B1F1C"), face_scale=0.86, face_dy=40, sun="#FFD08A"),
-    "flock": dict(bg=("#4B48F2", "#2E2BD0"), dark=("#25225A", "#14122E"), face_scale=0.9, face_dy=46, sun=None),
+    "flock": dict(bg=(T.tokens("flock")["--color-icon-top"][0], T.tokens("flock")["--color-icon-bottom"][0]),
+                  dark=(T.tokens("flock")["--color-icon-top"][1], T.tokens("flock")["--color-icon-bottom"][1]),
+                  face_scale=0.9, face_dy=46, sun=None),
     "still": dict(bg=("#3E80B5", "#1B4468"), dark=("#18344C", "#0A1620"), face_scale=0.8, face_dy=50, sun="#E9C46A",
                   scene=True),
 }
