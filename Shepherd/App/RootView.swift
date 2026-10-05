@@ -1,12 +1,16 @@
 import SwiftUI
 import SwiftData
 
-struct RootView: View {
+public struct RootView: View {
     @Environment(\.modelContext) private var modelContext
     @Query private var profiles: [UserProfile]
     @StateObject private var content = ContentStore.shared
 
-    var body: some View {
+    @State private var colorSchemeOverride: ColorScheme? = nil
+
+    public init() {}
+
+    public var body: some View {
         Group {
             if profiles.isEmpty {
                 OnboardingFlowView()
@@ -15,9 +19,29 @@ struct RootView: View {
             }
         }
         .environmentObject(content)
+        .preferredColorScheme(colorSchemeOverride)
         .task {
+            #if DEBUG
+            handleLaunchArguments()
+            #endif
             content.loadIfNeeded()
             SeedData.ensureDefaults(in: modelContext)
+            StoreKitManager.shared.attach(modelContext)
+            await StoreKitManager.shared.updateCustomerProductStatus(context: modelContext)
         }
     }
+
+    #if DEBUG
+    private func handleLaunchArguments() {
+        let args = ProcessInfo.processInfo.arguments
+        if let idx = args.firstIndex(of: "-appearance"), idx + 1 < args.count {
+            let val = args[idx + 1].lowercased()
+            if val == "dark" {
+                colorSchemeOverride = .dark
+            } else if val == "light" {
+                colorSchemeOverride = .light
+            }
+        }
+    }
+    #endif
 }

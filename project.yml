@@ -1,0 +1,101 @@
+fileGroups:
+  - Shepherd.storekit
+
+name: Shepherd
+
+options:
+  bundleIdPrefix: com.dangvietquan
+  deploymentTarget:
+    iOS: "26.0"
+  developmentLanguage: en
+
+settings:
+  SWIFT_VERSION: "6.0"
+  IPHONEOS_DEPLOYMENT_TARGET: "26.0"
+
+targets:
+  Shepherd:
+    type: application
+    platform: iOS
+    deploymentTarget: "26.0"
+
+    sources:
+      - path: Shepherd
+        excludes:
+          - "**/*.md"
+          - ".DS_Store"
+          - "Info.plist"
+
+
+    dependencies:
+      - sdk: StoreKit.framework
+        embed: false
+
+    scheme:
+      storeKitConfiguration: Shepherd.storekit
+      testTargets:
+        - ShepherdTests
+        - ShepherdUITests
+      environmentVariables:
+        - variable: SHOT_DIR
+          value: $(SRCROOT)/docs/screenshots
+          isEnabled: true
+
+    info:
+      path: Shepherd/Info.plist
+      properties:
+        CFBundleDisplayName: Shepherd
+        CFBundleShortVersionString: "1.0.0"
+        CFBundleVersion: $(CURRENT_PROJECT_VERSION)
+        UILaunchScreen: {}
+        UIApplicationSupportsMultipleScenes: false
+        UISupportedInterfaceOrientations:
+          - UIInterfaceOrientationPortrait
+        ITSAppUsesNonExemptEncryption: false
+
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.dangvietquan.shepherd
+        TARGETED_DEVICE_FAMILY: "1"
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: AccentColor
+        CURRENT_PROJECT_VERSION: 1
+        MARKETING_VERSION: "1.0.0"
+        INFOPLIST_FILE: Shepherd/Info.plist
+        SWIFT_EMIT_LOC_STRINGS: YES
+        ENABLE_PREVIEWS: YES
+
+      configs:
+        Debug:
+          SWIFT_ACTIVE_COMPILATION_CONDITIONS: DEBUG
+        Release:
+          SWIFT_OPTIMIZATION_LEVEL: "-O"
+
+  ShepherdTests:
+    type: bundle.unit-test
+    platform: iOS
+    deploymentTarget: "26.0"
+    sources:
+      - path: ShepherdTests
+      - path: Shepherd.storekit
+        buildPhase: resources
+    dependencies:
+      - target: Shepherd
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.dangvietquan.shepherdTests
+        TARGETED_DEVICE_FAMILY: "1"
+        GENERATE_INFOPLIST_FILE: YES
+
+  ShepherdUITests:
+    type: bundle.ui-testing
+    platform: iOS
+    deploymentTarget: "26.0"
+    sources: [ShepherdUITests]
+    dependencies: [{ target: Shepherd }]
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.dangvietquan.shepherdUITests
+        GENERATE_INFOPLIST_FILE: YES
+        TEST_TARGET_NAME: Shepherd
+
