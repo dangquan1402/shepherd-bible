@@ -27,7 +27,7 @@ final class RealFlowUITests: XCTestCase {
 
     @MainActor
     private func passOnboardingIfNeeded(_ app: XCUIApplication, goal: String = "peace", level: String = "Some experience") {
-        if app.staticTexts["Welcome to Shepherd"].waitForExistence(timeout: 3.0) {
+        if app.staticTexts["Welcome to Pasture"].waitForExistence(timeout: 3.0) {
             app.buttons["Continue"].tap()
             _ = app.buttons.matching(NSPredicate(format: "label CONTAINS[c] %@", goal)).firstMatch.waitForExistence(timeout: 2.0)
             app.buttons.matching(NSPredicate(format: "label CONTAINS[c] %@", goal)).firstMatch.tap()
@@ -328,7 +328,7 @@ final class RealFlowUITests: XCTestCase {
         app.launch()
 
         // 1. Onboarding Step 0: Welcome
-        XCTAssertTrue(app.staticTexts["Welcome to Shepherd"].waitForExistence(timeout: 6.0))
+        XCTAssertTrue(app.staticTexts["Welcome to Pasture"].waitForExistence(timeout: 6.0))
         Thread.sleep(forTimeInterval: 0.3)
         saveScreenshot("Onboarding_Welcome")
         app.buttons["Continue"].tap()
@@ -540,7 +540,7 @@ final class RealFlowUITests: XCTestCase {
         app.launch()
 
         XCTAssertTrue(app.navigationBars["Today"].waitForExistence(timeout: 6.0))
-        XCTAssertFalse(app.staticTexts["Welcome to Shepherd"].exists)
+        XCTAssertFalse(app.staticTexts["Welcome to Pasture"].exists)
         Thread.sleep(forTimeInterval: 0.3)
     }
 

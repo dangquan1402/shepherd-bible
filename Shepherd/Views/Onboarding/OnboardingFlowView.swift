@@ -92,7 +92,7 @@ public struct OnboardingFlowView: View {
             }
 
             VStack(spacing: 12) {
-                Text("Welcome to Shepherd")
+                Text("Welcome to Pasture")
                     .font(ShepherdTheme.largeTitleSerif())
                     .foregroundStyle(ShepherdTheme.textPrimary)
                     .multilineTextAlignment(.center)

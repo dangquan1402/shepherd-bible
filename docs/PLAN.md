@@ -1,4 +1,4 @@
-# Shepherd — build plan
+# Pasture (formerly Shepherd) — build plan
 
 ## Positioning
 On-device Bible habit app: short daily lessons, streak + lamb companion, soft annual paywall.  

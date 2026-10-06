@@ -1,6 +1,6 @@
 """Icon check sheet from the BUILT app: its AppIcon renditions at 60 / 40 / 29 pt on four home screens.
 
-    python3 tools/brand/icon_check.py <path/to/Shepherd.app> <out.png> [home-screen screenshots ...]
+    python3 tools/brand/icon_check.py <path/to/Shepherd.app (the built bundle keeps the Shepherd name)> <out.png> [home-screen screenshots ...]
 
 Reads the compiled bundle: `assetutil --info Assets.car` must list the default, dark (UIAppearanceDark)
 and tinted (ISAppearanceTintable) AppIcon renditions, and their rendition files are taken from the
@@ -94,7 +94,7 @@ def mock(kind, icons, loose):
         px = pt * 3
         src = loose if (kind == "default" and pt == 40) else ic  # actool's own 120 px default, 1:1 at 40 pt @3x
         wp.alpha_composite(squircle(src, px), (x, 60 + 180 - px))
-        dr.text((x + px / 2, 270), "Shepherd" if pt == 60 else f"{pt} pt", font=font(26), fill=lab, anchor="mm")
+        dr.text((x + px / 2, 270), "Pasture" if pt == 60 else f"{pt} pt", font=font(26), fill=lab, anchor="mm")
         x += px + 40
     dr.text((24, 18), f"{kind} appearance", font=font(24), fill=lab)
     return wp

@@ -24,7 +24,7 @@ WORDMARKS = {
     # Fraunces: soft, slightly wonky old-style serif. SOFT 100 rounds every terminal.
     "dayspring": {
         "font": "fraunces_Fraunces[SOFT,WONK,opsz,wght].ttf",
-        "text": "Shepherd",
+        "text": "Pasture",
         "axes": {"wght": 640, "opsz": 72, "SOFT": 100, "WONK": 1},
         "tracking": -0.012,
         "licence": "Fraunces, SIL Open Font License 1.1 (Undercase Type)",
@@ -32,7 +32,7 @@ WORDMARKS = {
     # Baloo 2 ExtraBold: chunky, rounded, lowercase; the mascot-brand voice.
     "flock": {
         "font": "baloo2_Baloo2[wght].ttf",
-        "text": "shepherd",
+        "text": "pasture",
         "axes": {"wght": 800},
         "tracking": -0.018,
         "licence": "Baloo 2, SIL Open Font License 1.1 (Ek Type)",
@@ -40,7 +40,7 @@ WORDMARKS = {
     # Cormorant Garamond SemiBold, spaced capitals: a quiet psalter title.
     "still": {
         "font": "cormorantgaramond_CormorantGaramond[wght].ttf",
-        "text": "SHEPHERD",
+        "text": "PASTURE",
         "axes": {"wght": 600},
         "tracking": 0.16,
         "licence": "Cormorant Garamond, SIL Open Font License 1.1 (Christian Thalmann)",

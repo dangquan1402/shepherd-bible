@@ -28,7 +28,7 @@ def read_json(path):
 LIB = read_json(os.path.join(D, "shepherd.lib.pen"))
 SCR = read_json(os.path.join(D, "screens", "shepherd.pen"))
 PATHS = read_json(os.path.join(ROOT, "Shepherd/Resources/Content/paths.json"))["paths"]
-BIBLE = read_json(os.path.join(ROOT, "Shepherd/Resources/Content/sample_bible.json"))
+BIBLE = read_json(os.path.join(ROOT, "Shepherd/Resources/Content/web.json"))
 
 
 def walk(n):
@@ -214,12 +214,8 @@ def gen_content():
         out.append(
             f'- `{q["id"]}` "{q["prompt"]}": {ch}; correct {"ABCD"[q["correctIndex"]]}; explain: {json.dumps(q["explain"], ensure_ascii=False)}'
         )
-    sample = ", ".join(
-        f"{b['name']} {c['number']} ({len(c['verses'])} verses: {', '.join(str(v['number']) for v in c['verses'])})"
-        for b in BIBLE["books"]
-        for c in b["chapters"]
-    )
-    out.append(f"\nBible sample chapters: {sample}.")
+    chapters = sum(len(b["chapters"]) for b in BIBLE["books"])
+    out.append(f"\nBundled Bible: {BIBLE['name']}, {len(BIBLE['books'])} books, {chapters} chapters.")
     return "\n".join(out)
 
 

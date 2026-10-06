@@ -18,12 +18,12 @@
       "id" : "21495832",
       "localizations" : [
         {
-          "description" : "Shepherd Premium subscription group",
-          "displayName" : "Shepherd Premium",
+          "description" : "Pasture Premium subscription group",
+          "displayName" : "Pasture Premium",
           "locale" : "en_US"
         }
       ],
-      "name" : "Shepherd Premium",
+      "name" : "Pasture Premium",
       "subscriptions" : [
         {
           "adHocOffers" : [
@@ -43,8 +43,8 @@
           },
           "localizations" : [
             {
-              "description" : "Full access to Shepherd Premium monthly",
-              "displayName" : "Shepherd Premium Monthly",
+              "description" : "Full access to Pasture Premium monthly",
+              "displayName" : "Pasture Premium Monthly",
               "locale" : "en_US"
             }
           ],
@@ -72,8 +72,8 @@
           },
           "localizations" : [
             {
-              "description" : "Full access to Shepherd Premium yearly",
-              "displayName" : "Shepherd Premium Yearly",
+              "description" : "Full access to Pasture Premium yearly",
+              "displayName" : "Pasture Premium Yearly",
               "locale" : "en_US"
             }
           ],

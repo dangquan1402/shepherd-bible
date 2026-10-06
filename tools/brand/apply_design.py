@@ -296,7 +296,7 @@ def screens_cmds():
                 d.update(kw)
                 return f"Insert(f,{json.dumps(d)});"
 
-            js.append(t(40, 32, "The Shepherd brand", 34, "600", font="--font-display"))
+            js.append(t(40, 32, "The Pasture brand", 34, "600", font="--font-display"))
             js.append(
                 t(
                     40,

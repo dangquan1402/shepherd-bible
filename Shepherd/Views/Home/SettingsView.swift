@@ -22,14 +22,14 @@ public struct SettingsView: View {
         NavigationStack {
             List {
                 // Subscription Status Section
-                Section("Shepherd Premium") {
+                Section("Pasture Premium") {
                     Button {
                         if !isPremiumActive {
                             showPaywall = true
                         }
                     } label: {
                         HStack {
-                            Text("Shepherd Premium")
+                            Text("Pasture Premium")
                                 .foregroundStyle(ShepherdTheme.textPrimary)
                             Spacer()
                             Text(isPremiumActive ? "Active" : "Not active ›")
