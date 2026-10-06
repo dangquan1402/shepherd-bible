@@ -137,13 +137,17 @@ final class ContentTests: XCTestCase {
         let beginner = try XCTUnwrap(store.path(id: "beginner-30"))
         XCTAssertEqual(beginner.access, .free)
         XCTAssertTrue(beginner.lessons.allSatisfy { PathAccessPolicy.isUnlocked($0, in: beginner, isPremium: false) })
-        for id in ["peace-14", "mark-30"] {
+        XCTAssertEqual(beginner.lessons.count, 30)
+        XCTAssertFalse(beginner.isDraft)
+        for (id, count) in [("peace-14", 14), ("mark-30", 30)] {
             let path = try XCTUnwrap(store.path(id: id))
             XCTAssertEqual(path.access, .premium, id)
             XCTAssertEqual(path.freePreviewLessons, 3, id)
-            XCTAssertTrue(path.isDraft, "\(id) is a stub until the lesson-writing task completes it")
-            for lesson in path.lessons where lesson.dayIndex <= 3 {
-                XCTAssertTrue(PathAccessPolicy.isUnlocked(lesson, in: path, isPremium: false), "\(lesson.id) is a free preview")
+            XCTAssertEqual(path.lessons.count, count, id)
+            XCTAssertFalse(path.isDraft, "\(id) is complete and must not ship as a draft")
+            for lesson in path.lessons {
+                XCTAssertEqual(PathAccessPolicy.isUnlocked(lesson, in: path, isPremium: false), lesson.dayIndex <= 3, "\(lesson.id): only days 1-3 are a free preview")
+                XCTAssertTrue(PathAccessPolicy.isUnlocked(lesson, in: path, isPremium: true), "\(lesson.id) is open to Premium")
             }
         }
     }
