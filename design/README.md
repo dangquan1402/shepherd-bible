@@ -29,7 +29,7 @@ Sections marked *generated* are written by `python3 design/tools/readme_tables.p
 |---|---|---|
 | `UserProfile` | `goal` (`grow_daily` / `understand` / `peace` / `new`), `experienceLevel` (`beginner` / `some` / `regular`), `dailyMinutes` (5 / 10 / 15) | Onboarding steps 2–4 use the code's labels and values exactly |
 | `Companion` | `name` (default "Lamb", set in onboarding), `xp`, `stage = max(1, min(5, 1 + xp / 50))` | Lamb stage everywhere; Companion screen; XP bars |
-| `StreakState` | `current` (starts at 0; `markCompleted` sets 1), `best`, `freezesLeft` (no logic consumes it) | Streak chip in the Today toolbar; reward chip. No freeze state is drawn: nothing in the code uses `freezesLeft` yet |
+| `StreakState` | `current` (starts at 0; `markCompleted` sets 1), `best`, `freezesLeft` (Premium only: one freeze covers one missed day; one is earned per rolling 7 days, at most 2 banked; `refillFreezes`) | Streak chip in the Today toolbar; reward chip. No freeze state is drawn yet |
 | `LessonProgress` | `lessonId`, `quizScore` | Path node done / current state |
 | `EntitlementState` | `isPremium` | Settings "Pasture Premium" row |
 | `LessonView.complete` | `addXP(10 + score)`, `markCompleted()` | Reward: +12 XP for 2/2 correct on Day 1 (+11 for 1/2, +10 for 0/2) |
