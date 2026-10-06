@@ -324,6 +324,18 @@ final class ShepherdTests: XCTestCase {
         }
     }
 
+    /// ASC's subscription group is 22442787; the old scaffold id 21495832 must not come back.
+    func testSubscriptionGroupIDMatchesASCAndStoreKitConfig() throws {
+        XCTAssertEqual(ShepherdConstants.subscriptionGroupID, "22442787")
+        let url = try XCTUnwrap(Bundle(for: Self.self).url(forResource: "Shepherd", withExtension: "storekit"))
+        let config = try XCTUnwrap(JSONSerialization.jsonObject(with: Data(contentsOf: url)) as? [String: Any])
+        let groups = try XCTUnwrap(config["subscriptionGroups"] as? [[String: Any]])
+        XCTAssertEqual(groups.compactMap { $0["id"] as? String }, [ShepherdConstants.subscriptionGroupID])
+        for subscription in groups.flatMap({ $0["subscriptions"] as? [[String: Any]] ?? [] }) {
+            XCTAssertEqual(subscription["subscriptionGroupID"] as? String, ShepherdConstants.subscriptionGroupID)
+        }
+    }
+
     func testLegalAndSupportURLsPointAtPastureSite() {
         XCTAssertEqual(ShepherdConstants.legalAndSupportURLs.count, 3)
         for url in ShepherdConstants.legalAndSupportURLs {
