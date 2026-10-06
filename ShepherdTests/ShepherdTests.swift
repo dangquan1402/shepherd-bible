@@ -324,6 +324,12 @@ final class ShepherdTests: XCTestCase {
         }
     }
 
+    /// The paywall promises no trial reminder, so its Day 5 row must not wear a bell.
+    func testPaywallDay5IconIsNotAReminder() {
+        XCTAssertFalse(PaywallView.day5Icon.contains("bell"))
+        XCTAssertNotNil(UIImage(systemName: PaywallView.day5Icon))
+    }
+
     /// ASC's subscription group is 22442787; the old scaffold id 21495832 must not come back.
     func testSubscriptionGroupIDMatchesASCAndStoreKitConfig() throws {
         XCTAssertEqual(ShepherdConstants.subscriptionGroupID, "22442787")

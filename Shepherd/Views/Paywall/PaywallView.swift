@@ -2,6 +2,9 @@ import SwiftUI
 import StoreKit
 
 public struct PaywallView: View {
+    /// The Day 5 "Cancel anytime before Day 7" row. Not a bell: the app sends no trial reminder.
+    static let day5Icon = "calendar"
+
     public var onContinueFree: () -> Void
     public var onPurchased: () -> Void
 
@@ -71,7 +74,7 @@ public struct PaywallView: View {
                                 subtitle: PremiumOffer(paths: content.paths).unlocksLine
                             )
                             timelineRow(
-                                icon: "bell.fill",
+                                icon: Self.day5Icon,
                                 iconColor: ShepherdTheme.textSecondary,
                                 title: "Day 5",
                                 subtitle: "Cancel anytime before Day 7"
