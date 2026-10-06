@@ -18,15 +18,19 @@
 		2E139ED7F7F5E9C6CDE89C72 /* ShepherdTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CE4BBC57FDEA303093E3E67 /* ShepherdTests.swift */; };
 		2EEA46F488FBA5B6A5585F5B /* ContentModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708A96F4A3D915BC760AF160 /* ContentModels.swift */; };
 		31F7D185710633B12E98D1A3 /* PathCatalog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D02731B22192A0C9C8AAA35 /* PathCatalog.swift */; };
+		32D1CA709B3C37649A63FC17 /* JournalModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FDB427ED26E40878ED4D6FF /* JournalModels.swift */; };
 		37D4CFA367CEB521E7EE1A64 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 05509D2D188904833C28F5AD /* StoreKit.framework */; };
 		3DA312CB2380372CB91E6EBF /* StoreKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3736069C11269D9C4C99FA2B /* StoreKitTests.swift */; };
 		451358B2BA541C0A8C7408CE /* Shepherd.storekit in Resources */ = {isa = PBXBuildFile; fileRef = AF3DDC905B95F20434D620C0 /* Shepherd.storekit */; };
+		4719FBC2B562E93B2A8C76D2 /* JournalDetailViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90D2650EE7359EF18A0E2F71 /* JournalDetailViews.swift */; };
 		4B889C32EF77017E1ADE9C0C /* ContentStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEFEB075297B25E3F78E1951 /* ContentStore.swift */; };
 		4BE8393361D409629B39C482 /* web.json in Resources */ = {isa = PBXBuildFile; fileRef = D4183D8FD4248CEB38FD2532 /* web.json */; };
+		4EC5C0B3DC4B7F34A2666DCA /* LessonReflectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E8B0910E00140B49D6109AE /* LessonReflectionView.swift */; };
 		5406262C280776A46EB3D413 /* paths.json in Resources */ = {isa = PBXBuildFile; fileRef = 0111BB6B2545D24AEB4B8774 /* paths.json */; };
 		5625992F5A7643CEFF39B291 /* LessonProgressRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EDABF08E64DD679B981D39C /* LessonProgressRecorder.swift */; };
 		5F1DC930BE92575E3158D14A /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D74EB0E09166077803402C5 /* MainTabView.swift */; };
 		62DCD913CC85FFC2BE412965 /* QuizView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C10B446B167E44C35DF40746 /* QuizView.swift */; };
+		6673AAFBF8D1BA6E5737DE64 /* JournalTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3E5FF8E5B1CE613DF154741 /* JournalTests.swift */; };
 		7E1A14B888C678478B811388 /* Entitlements.swift in Sources */ = {isa = PBXBuildFile; fileRef = F42534D58BA4976C8D26FD6A /* Entitlements.swift */; };
 		7EEEB6E2F264705768A8DAD2 /* ContentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B903FC1823760FEB4F671A /* ContentTests.swift */; };
 		858610F6CBDC971A354F86C0 /* OnboardingStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15A18DD64B32A5FD3DD8AABD /* OnboardingStore.swift */; };
@@ -41,7 +45,9 @@
 		B7826112544FE3F520B95226 /* UserModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9C580C2CCCA012A15F5F4F /* UserModels.swift */; };
 		C2DEDA832974E1CD1377E91D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BA6E0B74DAE435F2DA4998EE /* Assets.xcassets */; };
 		CB6F44D2B5B7DFAE05F0EA28 /* ShepherdTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6318DDCB619E65C7710F7E1 /* ShepherdTheme.swift */; };
+		CD14101BFAA19F1C8916BA3D /* JournalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 664C6496BBEBE286A17135A1 /* JournalView.swift */; };
 		CFAB18160EE6BC95EE87BB86 /* OnboardingFlowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C7391F1E61B6D45E7498003 /* OnboardingFlowView.swift */; };
+		D09BF33CA7D3157B0D5ECDD3 /* JournalAuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59AB8A88F45DAD99D336FFC2 /* JournalAuthService.swift */; };
 		D520A64F6CB87366694D27BE /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099E256D3D4E4BF107CF7DDC /* HomeView.swift */; };
 		E2730F1D424EA54D4B106459 /* lamb_variants.json in Resources */ = {isa = PBXBuildFile; fileRef = DE3F92350EF7E0EEC93EEDFF /* lamb_variants.json */; };
 		E31F964A9C2877AAEFEF856A /* LessonCompleteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8D0BFCF6D331443E53A0F4D /* LessonCompleteView.swift */; };
@@ -86,9 +92,14 @@
 		3EDABF08E64DD679B981D39C /* LessonProgressRecorder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LessonProgressRecorder.swift; sourceTree = "<group>"; };
 		46724CD2BD612565CCD2F492 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		4A0E5855986A6E7E3F46AFAB /* ShepherdConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShepherdConstants.swift; sourceTree = "<group>"; };
+		59AB8A88F45DAD99D336FFC2 /* JournalAuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalAuthService.swift; sourceTree = "<group>"; };
+		5FDB427ED26E40878ED4D6FF /* JournalModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalModels.swift; sourceTree = "<group>"; };
+		664C6496BBEBE286A17135A1 /* JournalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalView.swift; sourceTree = "<group>"; };
 		708A96F4A3D915BC760AF160 /* ContentModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentModels.swift; sourceTree = "<group>"; };
 		7C7391F1E61B6D45E7498003 /* OnboardingFlowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingFlowView.swift; sourceTree = "<group>"; };
+		7E8B0910E00140B49D6109AE /* LessonReflectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LessonReflectionView.swift; sourceTree = "<group>"; };
 		8BD1E9E0CAF5A76DE883F724 /* SeedData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeedData.swift; sourceTree = "<group>"; };
+		90D2650EE7359EF18A0E2F71 /* JournalDetailViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalDetailViews.swift; sourceTree = "<group>"; };
 		9CE4BBC57FDEA303093E3E67 /* ShepherdTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShepherdTests.swift; sourceTree = "<group>"; };
 		9D02731B22192A0C9C8AAA35 /* PathCatalog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PathCatalog.swift; sourceTree = "<group>"; };
 		A6748B96F2755258AF0768F0 /* StoreKitManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreKitManager.swift; sourceTree = "<group>"; };
@@ -101,6 +112,7 @@
 		D4183D8FD4248CEB38FD2532 /* web.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = web.json; sourceTree = "<group>"; };
 		D624EA03F0084E2213D941E9 /* QuizRules.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizRules.swift; sourceTree = "<group>"; };
 		DE3F92350EF7E0EEC93EEDFF /* lamb_variants.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = lamb_variants.json; sourceTree = "<group>"; };
+		E3E5FF8E5B1CE613DF154741 /* JournalTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalTests.swift; sourceTree = "<group>"; };
 		EEFEB075297B25E3F78E1951 /* ContentStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentStore.swift; sourceTree = "<group>"; };
 		F3FB1F06E6441697174E7CA2 /* ContinueLessonAccessory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContinueLessonAccessory.swift; sourceTree = "<group>"; };
 		F42534D58BA4976C8D26FD6A /* Entitlements.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Entitlements.swift; sourceTree = "<group>"; };
@@ -135,6 +147,7 @@
 			children = (
 				EEFEB075297B25E3F78E1951 /* ContentStore.swift */,
 				F42534D58BA4976C8D26FD6A /* Entitlements.swift */,
+				59AB8A88F45DAD99D336FFC2 /* JournalAuthService.swift */,
 				3EDABF08E64DD679B981D39C /* LessonProgressRecorder.swift */,
 				15A18DD64B32A5FD3DD8AABD /* OnboardingStore.swift */,
 				8BD1E9E0CAF5A76DE883F724 /* SeedData.swift */,
@@ -159,6 +172,7 @@
 				A0F52522B49A217EF6E54062 /* Companion */,
 				4B048B7D9E0EF1EFF136A0BD /* Components */,
 				B773B5AC189212890B87831F /* Home */,
+				B79C6E432FE2591295CDC1D5 /* Journal */,
 				B54EDC1942F52D8486A311BB /* Lesson */,
 				B81F7DD6E56DEB792BF30D15 /* Mascot */,
 				112280B7737495321E2BD257 /* Onboarding */,
@@ -171,6 +185,7 @@
 			isa = PBXGroup;
 			children = (
 				708A96F4A3D915BC760AF160 /* ContentModels.swift */,
+				5FDB427ED26E40878ED4D6FF /* JournalModels.swift */,
 				9D02731B22192A0C9C8AAA35 /* PathCatalog.swift */,
 				FA489847C8760DE6F0D9EB49 /* Progression.swift */,
 				D624EA03F0084E2213D941E9 /* QuizRules.swift */,
@@ -248,6 +263,7 @@
 			isa = PBXGroup;
 			children = (
 				00B903FC1823760FEB4F671A /* ContentTests.swift */,
+				E3E5FF8E5B1CE613DF154741 /* JournalTests.swift */,
 				9CE4BBC57FDEA303093E3E67 /* ShepherdTests.swift */,
 				3736069C11269D9C4C99FA2B /* StoreKitTests.swift */,
 			);
@@ -258,6 +274,7 @@
 			isa = PBXGroup;
 			children = (
 				A8D0BFCF6D331443E53A0F4D /* LessonCompleteView.swift */,
+				7E8B0910E00140B49D6109AE /* LessonReflectionView.swift */,
 				AA8ACB7ACBDC38979091ADFD /* LessonView.swift */,
 				C10B446B167E44C35DF40746 /* QuizView.swift */,
 			);
@@ -273,6 +290,15 @@
 				46724CD2BD612565CCD2F492 /* SettingsView.swift */,
 			);
 			path = Home;
+			sourceTree = "<group>";
+		};
+		B79C6E432FE2591295CDC1D5 /* Journal */ = {
+			isa = PBXGroup;
+			children = (
+				90D2650EE7359EF18A0E2F71 /* JournalDetailViews.swift */,
+				664C6496BBEBE286A17135A1 /* JournalView.swift */,
+			);
+			path = Journal;
 			sourceTree = "<group>";
 		};
 		B81F7DD6E56DEB792BF30D15 /* Mascot */ = {
@@ -452,6 +478,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7EEEB6E2F264705768A8DAD2 /* ContentTests.swift in Sources */,
+				6673AAFBF8D1BA6E5737DE64 /* JournalTests.swift in Sources */,
 				2E139ED7F7F5E9C6CDE89C72 /* ShepherdTests.swift in Sources */,
 				3DA312CB2380372CB91E6EBF /* StoreKitTests.swift in Sources */,
 			);
@@ -476,9 +503,14 @@
 				14B4CBC57E12EB7BCCE1ED8A /* ContinueLessonAccessory.swift in Sources */,
 				7E1A14B888C678478B811388 /* Entitlements.swift in Sources */,
 				D520A64F6CB87366694D27BE /* HomeView.swift in Sources */,
+				D09BF33CA7D3157B0D5ECDD3 /* JournalAuthService.swift in Sources */,
+				4719FBC2B562E93B2A8C76D2 /* JournalDetailViews.swift in Sources */,
+				32D1CA709B3C37649A63FC17 /* JournalModels.swift in Sources */,
+				CD14101BFAA19F1C8916BA3D /* JournalView.swift in Sources */,
 				17EB76049B3952227160A562 /* LambSystem.swift in Sources */,
 				E31F964A9C2877AAEFEF856A /* LessonCompleteView.swift in Sources */,
 				5625992F5A7643CEFF39B291 /* LessonProgressRecorder.swift in Sources */,
+				4EC5C0B3DC4B7F34A2666DCA /* LessonReflectionView.swift in Sources */,
 				95036D8A0CE586487B82EDE9 /* LessonView.swift in Sources */,
 				5F1DC930BE92575E3158D14A /* MainTabView.swift in Sources */,
 				CFAB18160EE6BC95EE87BB86 /* OnboardingFlowView.swift in Sources */,

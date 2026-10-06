@@ -53,6 +53,20 @@ public struct SettingsView: View {
                     }
                 }
 
+                // Journal Section
+                Section("Journal") {
+                    NavigationLink {
+                        JournalView()
+                    } label: {
+                        HStack {
+                            Text("Reflection & Prayer Journal")
+                                .foregroundStyle(ShepherdTheme.textPrimary)
+                            Spacer()
+                        }
+                    }
+                    .accessibilityIdentifier("SettingsJournalButton")
+                }
+
                 // Privacy Section
                 Section {
                     HStack {

@@ -15,7 +15,9 @@ public struct LessonView: View {
     @State private var showPaywall: Bool = false
     @State private var showQuiz: Bool = false
     @State private var showComplete: Bool = false
+    @State private var showReflection: Bool = false
     @State private var pendingComplete: Bool = false
+    @State private var pendingReflection: Bool = false
     @State private var finishedScore: Int = 0
     @State private var completionResult: LessonProgressRecorder.CompletionResult? = nil
 
@@ -178,7 +180,12 @@ public struct LessonView: View {
                 recordCompletion(score: score)
             }
         }
-        .fullScreenCover(isPresented: $showComplete) {
+        .fullScreenCover(isPresented: $showComplete, onDismiss: {
+            if pendingReflection {
+                pendingReflection = false
+                showReflection = true
+            }
+        }) {
             LessonCompleteView(
                 dayIndex: lesson.dayIndex,
                 lessonTitle: lesson.title,
@@ -190,9 +197,22 @@ public struct LessonView: View {
                 wasAlreadyCompleted: completionResult?.wasAlreadyCompleted ?? false,
                 companionName: companions.first?.name ?? "Lamb"
             ) {
+                pendingReflection = true
                 showComplete = false
-                dismiss()
             }
+        }
+        .fullScreenCover(isPresented: $showReflection, onDismiss: {
+            dismiss()
+        }) {
+            LessonReflectionView(
+                lesson: lesson,
+                onSave: { _ in
+                    showReflection = false
+                },
+                onSkip: {
+                    showReflection = false
+                }
+            )
         }
     }
 
