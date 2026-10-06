@@ -168,7 +168,7 @@ final class RealFlowUITests: XCTestCase {
 
         let picks: [(path: String, shortName: String, lessons: [(day: Int, title: String)])] = [
             ("First Steps: 30 Days with God", "FirstSteps", [(10, "The father runs"), (23, "Seventy times seven"), (30, "Looking back, walking on")]),
-            ("Peace & Prayer: 14 Days", "Peace", [(6, "Thirsty"), (8, "Hannah's prayer"), (14, "Go in peace")]),
+            ("Peace & Prayer: 14 Days", "Peace", [(6, "Thirsty"), (8, "Hannah\u{2019}s prayer"), (14, "Go in peace")]),
             ("Meet Jesus: Mark in 30 Days", "Mark", [(5, "Through the roof"), (18, "Help my unbelief"), (30, "He goes before you")]),
         ]
         for pick in picks {
@@ -434,6 +434,11 @@ final class RealFlowUITests: XCTestCase {
         day1Node.tap()
 
         XCTAssertTrue(app.navigationBars["Day 1"].waitForExistence(timeout: 6.0))
+        // One "Reflection" heading; the body's own **Reflection:** label is not shown again.
+        XCTAssertEqual(app.staticTexts.matching(NSPredicate(format: "label == 'Reflection'")).count, 1)
+        XCTAssertFalse(element(app, containing: "Reflection:").exists, "the Reflection label shows twice")
+        // Lesson copy is shown with typographic quotes (the JSON keeps straight ones).
+        XCTAssertFalse(app.staticTexts.matching(NSPredicate(format: "label CONTAINS '\\\"'")).firstMatch.exists, "a straight quote is on screen")
         Thread.sleep(forTimeInterval: 0.4)
         saveScreenshot("Lesson_Reading")
 

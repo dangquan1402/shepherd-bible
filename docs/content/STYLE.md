@@ -21,7 +21,7 @@ How to write a lesson path for the app. The three launch paths (`beginner-30`, `
 - **Describe before you apply.** Say what the passage says and notice one thing in it; only then invite a response.
 - **Show the text, don't preach it.** Prefer "Jesus doesn't keep away from people with a bad name" to "God wants you to welcome everyone".
 - **US spelling**, to match the WEB text (neighbor, honor, center).
-- **Typography.** Quote Scripture with straight double quotes `"…"` in the JSON so the validator can check it; the quoted text keeps WEB's own curly apostrophes and inner quotes (`"Don’t be afraid"`). Glosses and word meanings are not quotations: write *save us* or plain words, never quote marks.
+- **Typography.** Quote Scripture with straight double quotes `"…"` in the JSON so the validator can check it; the quoted text keeps WEB's own curly apostrophes and inner quotes (`"Don’t be afraid"`). The app turns straight quotes and apostrophes into typographic ones when it displays them (`LessonText.curlyQuotes`), so your own copy uses straight ones too. Glosses and word meanings are not quotations: write *save us* or plain words, never quote marks.
 - **Avoid**: clichés ("journey", "unpack", "lean in", "season of life"), exclamation marks in our own voice, emoji, rhetorical questions stacked in a row, "simply" about hard things.
 
 ## 3. Lesson anatomy (the 5-minute core)

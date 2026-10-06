@@ -31,6 +31,7 @@
 		7EEEB6E2F264705768A8DAD2 /* ContentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B903FC1823760FEB4F671A /* ContentTests.swift */; };
 		858610F6CBDC971A354F86C0 /* OnboardingStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15A18DD64B32A5FD3DD8AABD /* OnboardingStore.swift */; };
 		95036D8A0CE586487B82EDE9 /* LessonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA8ACB7ACBDC38979091ADFD /* LessonView.swift */; };
+		956076E64855B17BA421E2EA /* LessonText.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA163C0912913F37B5B8BAA6 /* LessonText.swift */; };
 		9613C78EC059ACB28D124177 /* RealFlowUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DB9656D1EAB19652FB0080A /* RealFlowUITests.swift */; };
 		9641A077E85D538A38B3E53D /* ShepherdApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D9981D75E425FE7400790AC /* ShepherdApp.swift */; };
 		968B67144263FE9578B3C208 /* SeedData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BD1E9E0CAF5A76DE883F724 /* SeedData.swift */; };
@@ -100,6 +101,7 @@
 		C10B446B167E44C35DF40746 /* QuizView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizView.swift; sourceTree = "<group>"; };
 		D4183D8FD4248CEB38FD2532 /* web.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = web.json; sourceTree = "<group>"; };
 		D624EA03F0084E2213D941E9 /* QuizRules.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizRules.swift; sourceTree = "<group>"; };
+		DA163C0912913F37B5B8BAA6 /* LessonText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LessonText.swift; sourceTree = "<group>"; };
 		DE3F92350EF7E0EEC93EEDFF /* lamb_variants.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = lamb_variants.json; sourceTree = "<group>"; };
 		EEFEB075297B25E3F78E1951 /* ContentStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentStore.swift; sourceTree = "<group>"; };
 		F3FB1F06E6441697174E7CA2 /* ContinueLessonAccessory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContinueLessonAccessory.swift; sourceTree = "<group>"; };
@@ -171,6 +173,7 @@
 			isa = PBXGroup;
 			children = (
 				708A96F4A3D915BC760AF160 /* ContentModels.swift */,
+				DA163C0912913F37B5B8BAA6 /* LessonText.swift */,
 				9D02731B22192A0C9C8AAA35 /* PathCatalog.swift */,
 				FA489847C8760DE6F0D9EB49 /* Progression.swift */,
 				D624EA03F0084E2213D941E9 /* QuizRules.swift */,
@@ -479,6 +482,7 @@
 				17EB76049B3952227160A562 /* LambSystem.swift in Sources */,
 				E31F964A9C2877AAEFEF856A /* LessonCompleteView.swift in Sources */,
 				5625992F5A7643CEFF39B291 /* LessonProgressRecorder.swift in Sources */,
+				956076E64855B17BA421E2EA /* LessonText.swift in Sources */,
 				95036D8A0CE586487B82EDE9 /* LessonView.swift in Sources */,
 				5F1DC930BE92575E3158D14A /* MainTabView.swift in Sources */,
 				CFAB18160EE6BC95EE87BB86 /* OnboardingFlowView.swift in Sources */,
