@@ -137,13 +137,17 @@ final class ContentTests: XCTestCase {
         let beginner = try XCTUnwrap(store.path(id: "beginner-30"))
         XCTAssertEqual(beginner.access, .free)
         XCTAssertTrue(beginner.lessons.allSatisfy { PathAccessPolicy.isUnlocked($0, in: beginner, isPremium: false) })
-        for id in ["peace-14", "mark-30"] {
+        XCTAssertEqual(beginner.lessons.count, 30)
+        XCTAssertFalse(beginner.isDraft)
+        for (id, count) in [("peace-14", 14), ("mark-30", 30)] {
             let path = try XCTUnwrap(store.path(id: id))
             XCTAssertEqual(path.access, .premium, id)
             XCTAssertEqual(path.freePreviewLessons, 3, id)
-            XCTAssertTrue(path.isDraft, "\(id) is a stub until the lesson-writing task completes it")
-            for lesson in path.lessons where lesson.dayIndex <= 3 {
-                XCTAssertTrue(PathAccessPolicy.isUnlocked(lesson, in: path, isPremium: false), "\(lesson.id) is a free preview")
+            XCTAssertEqual(path.lessons.count, count, id)
+            XCTAssertFalse(path.isDraft, "\(id) is complete and must not ship as a draft")
+            for lesson in path.lessons {
+                XCTAssertEqual(PathAccessPolicy.isUnlocked(lesson, in: path, isPremium: false), lesson.dayIndex <= 3, "\(lesson.id): only days 1-3 are a free preview")
+                XCTAssertTrue(PathAccessPolicy.isUnlocked(lesson, in: path, isPremium: true), "\(lesson.id) is open to Premium")
             }
         }
     }
@@ -226,16 +230,15 @@ final class ContentTests: XCTestCase {
     // MARK: - Honest paywall
 
     func testPaywallCountsComeFromContent() {
-        // Today both Premium paths hold only their 3 free preview lessons: Premium opens no
-        // lesson yet, so the paywall must not claim any.
+        // The launch shape: Peace 14 and Mark 30, each with 3 free preview lessons.
         let offer = PremiumOffer(paths: store.paths)
         let premiumOnly = store.paths
             .filter { $0.access == .premium }
             .reduce(0) { $0 + max(0, $1.lessons.count - $1.freePreviewLessons) }
         XCTAssertEqual(offer.lessonCount, premiumOnly)
-        XCTAssertEqual(offer.lessonCount, 0)
-        XCTAssertNil(offer.pathsSummary)
-        XCTAssertEqual(offer.unlocksLine, "Premium unlocks: streak freezes")
+        XCTAssertEqual(offer.lessonCount, 38)
+        XCTAssertEqual(offer.pathsSummary, "38 Premium lessons in 2 paths")
+        XCTAssertEqual(offer.unlocksLine, "Premium unlocks: 38 Premium lessons in 2 paths (Peace & Prayer: 14 Days; Meet Jesus: Mark in 30 Days), streak freezes")
 
         for claim in ["full learning paths", "outfits", "widgets", "reminders"] {
             XCTAssertFalse(offer.unlocksLine.localizedCaseInsensitiveContains(claim), "paywall claims '\(claim)', which this build does not offer")

@@ -45,7 +45,7 @@ Copy changed on purpose: the building step reads "Preparing your path…" (one p
 ### 2.3 Sample content (*generated*, pasted from the JSON)
 
 <!-- gen:content -->
-Path `beginner-30`: "First Steps: 30 Days with God" (level `beginner`, `estimatedDays` 30, 7 lessons). Translation label in the JSON: `WEB`.
+Path `beginner-30`: "First Steps: 30 Days with God" (level `beginner`, `estimatedDays` 30, 30 lessons). Translation label in the JSON: `WEB`.
 
 | Day | Lesson id | Title | Verses | Questions (explain present?) |
 |---|---|---|---|---|
@@ -56,14 +56,37 @@ Path `beginner-30`: "First Steps: 30 Days with God" (level `beginner`, `estimate
 | 5 | `day5` | The Lord is my shepherd | PSA.23.1, PSA.23.4 | `day5-q1` yes; `day5-q2` yes |
 | 6 | `day6` | Light of the world | MAT.5.14, MAT.5.16 | `day6-q1` yes; `day6-q2` yes |
 | 7 | `day7` | Pray like this | MAT.6.9, MAT.6.11, PHP.4.6, PHP.4.7 | `day7-q1` yes; `day7-q2` yes; `day7-q3` yes |
+| 8 | `beginner-30.d08` | The good shepherd | JHN.10.11, JHN.10.14, JHN.10.27 | `beginner-30.d08.q1` yes; `beginner-30.d08.q2` yes; `beginner-30.d08.q3` yes |
+| 9 | `beginner-30.d09` | The one that was lost | LUK.15.4, LUK.15.5, LUK.15.6, LUK.15.7 | `beginner-30.d09.q1` yes; `beginner-30.d09.q2` yes; `beginner-30.d09.q3` yes |
+| 10 | `beginner-30.d10` | The father runs | LUK.15.20, LUK.15.21, LUK.15.22, LUK.15.24 | `beginner-30.d10.q1` yes; `beginner-30.d10.q2` yes; `beginner-30.d10.q3` yes |
+| 11 | `beginner-30.d11` | A gift, not a wage | EPH.2.8, EPH.2.9, EPH.2.10 | `beginner-30.d11.q1` yes; `beginner-30.d11.q2` yes; `beginner-30.d11.q3` yes |
+| 12 | `beginner-30.d12` | While we were yet sinners | ROM.5.6, ROM.5.7, ROM.5.8 | `beginner-30.d12.q1` yes; `beginner-30.d12.q2` yes; `beginner-30.d12.q3` yes |
+| 13 | `beginner-30.d13` | Faith for the next step | HEB.11.1, HEB.11.2, HEB.11.8 | `beginner-30.d13.q1` yes; `beginner-30.d13.q2` yes; `beginner-30.d13.q3` yes |
+| 14 | `beginner-30.d14` | Come and see | JHN.1.43, JHN.1.45, JHN.1.46 | `beginner-30.d14.q1` yes; `beginner-30.d14.q2` yes; `beginner-30.d14.q3` yes |
+| 15 | `beginner-30.d15` | The way | JHN.14.1, JHN.14.2, JHN.14.5, JHN.14.6 | `beginner-30.d15.q1` yes; `beginner-30.d15.q2` yes; `beginner-30.d15.q3` yes |
+| 16 | `beginner-30.d16` | Remain in me | JHN.15.4, JHN.15.5, JHN.15.9 | `beginner-30.d16.q1` yes; `beginner-30.d16.q2` yes; `beginner-30.d16.q3` yes |
+| 17 | `beginner-30.d17` | A lamp for my feet | PSA.119.18, PSA.119.103, PSA.119.105 | `beginner-30.d17.q1` yes; `beginner-30.d17.q2` yes; `beginner-30.d17.q3` yes |
+| 18 | `beginner-30.d18` | Equipped for good | 2TI.3.14, 2TI.3.15, 2TI.3.16, 2TI.3.17 | `beginner-30.d18.q1` yes; `beginner-30.d18.q2` yes; `beginner-30.d18.q3` yes |
+| 19 | `beginner-30.d19` | Doers of the word | JAS.1.22, JAS.1.23, JAS.1.24, JAS.1.25 | `beginner-30.d19.q1` yes; `beginner-30.d19.q2` yes; `beginner-30.d19.q3` yes |
+| 20 | `beginner-30.d20` | The greatest commandment | MAT.22.36, MAT.22.37, MAT.22.39, MAT.22.40 | `beginner-30.d20.q1` yes; `beginner-30.d20.q2` yes; `beginner-30.d20.q3` yes |
+| 21 | `beginner-30.d21` | Love is patient | 1CO.13.4, 1CO.13.5, 1CO.13.6, 1CO.13.7 | `beginner-30.d21.q1` yes; `beginner-30.d21.q2` yes; `beginner-30.d21.q3` yes |
+| 22 | `beginner-30.d22` | Who is my neighbor? | LUK.10.29, LUK.10.33, LUK.10.34, LUK.10.36, LUK.10.37 | `beginner-30.d22.q1` yes; `beginner-30.d22.q2` yes; `beginner-30.d22.q3` yes |
+| 23 | `beginner-30.d23` | Seventy times seven | MAT.6.12, MAT.18.21, MAT.18.22 | `beginner-30.d23.q1` yes; `beginner-30.d23.q2` yes; `beginner-30.d23.q3` yes |
+| 24 | `beginner-30.d24` | Bear with one another | COL.3.12, COL.3.13, COL.3.14 | `beginner-30.d24.q1` yes; `beginner-30.d24.q2` yes; `beginner-30.d24.q3` yes |
+| 25 | `beginner-30.d25` | If we confess | 1JN.1.7, 1JN.1.8, 1JN.1.9 | `beginner-30.d25.q1` yes; `beginner-30.d25.q2` yes; `beginner-30.d25.q3` yes |
+| 26 | `beginner-30.d26` | Together | ACT.2.42, ACT.2.44, ACT.2.46, ACT.2.47 | `beginner-30.d26.q1` yes; `beginner-30.d26.q2` yes; `beginner-30.d26.q3` yes |
+| 27 | `beginner-30.d27` | Don't give up | HEB.10.23, HEB.10.24, HEB.10.25 | `beginner-30.d27.q1` yes; `beginner-30.d27.q2` yes; `beginner-30.d27.q3` yes |
+| 28 | `beginner-30.d28` | He is risen | LUK.24.2, LUK.24.3, LUK.24.5, LUK.24.6 | `beginner-30.d28.q1` yes; `beginner-30.d28.q2` yes; `beginner-30.d28.q3` yes |
+| 29 | `beginner-30.d29` | All things new | REV.21.3, REV.21.4, REV.21.5 | `beginner-30.d29.q1` yes; `beginner-30.d29.q2` yes; `beginner-30.d29.q3` yes |
+| 30 | `beginner-30.d30` | Looking back, walking on | GEN.1.1, JHN.3.16, LUK.15.20, JHN.15.5, LUK.24.6 | `beginner-30.d30.q1` yes; `beginner-30.d30.q2` yes; `beginner-30.d30.q3` yes |
 
 **Day 1, verbatim** (`day1`)
 
 - Genesis 1:1 (WEB): "In the beginning, God created the heavens and the earth."
 - Genesis 1:3 (WEB): "God said, “Let there be light,” and there was light."
-- Body: "God speaks creation into being. Light comes first — order from chaos.  **Reflection:** Where do you need God to bring light today?"
+- Body: "The Bible opens with God, not with us: "In the beginning, God created the heavens and the earth." Before anything else is said, the world is God's work.  The next verse describes the earth as "formless and empty," with darkness over the deep (Genesis 1:2). Then God speaks: "Let there be light." Light is the first thing he makes, and the rest of the chapter brings order and life out of that emptiness, day by day. Again and again God looks at what he has made and calls it good (Genesis 1:31).  **Reflection:** Where in your life does it feel dark or unformed right now? What would it mean to invite God to speak there?  *Study aid: Christians read the days of Genesis 1 in different ways, some as ordinary days and some as a literary pattern. This lesson looks at what the passage says about God.*"
 - Prayer: "Thank you, God, for creating all things and for bringing light into darkness."
-- `day1-q1` "Who created the heavens and the earth?": A "Angels" · B "God" · C "Chance" · D "Kings"; correct B; explain: "Genesis 1:1: \"In the beginning, God created the heavens and the earth.\""
+- `day1-q1` "Who created the heavens and the earth?": A "Angels" · B "God" · C "Moses" · D "Kings"; correct B; explain: "Genesis 1:1: \"In the beginning, God created the heavens and the earth.\""
 - `day1-q2` "What did God say first?": A "Let there be land" · B "It is finished" · C "Let there be light" · D "Follow me"; correct C; explain: "Genesis 1:3. God speaks, and light is the first thing he makes."
 
 Bundled Bible: World English Bible, 66 books, 1189 chapters.
