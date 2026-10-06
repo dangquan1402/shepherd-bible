@@ -79,4 +79,3 @@ Executed on dedicated headless cloned simulator (`xcrun simctl`):
 - **Self-Grade:** A- (full native implementation matching Pencil specs, complete motion table, verified StoreKit 2 & SwiftData flows, clean test bite proof).
 
 ## Captain Follow-up
-- Replace placeholder URLs in `StoreKitManager.swift` (`https://shepherd.bible/terms`, `https://shepherd.bible/privacy`) with production endpoints before App Store submission.

@@ -101,6 +101,9 @@ public struct SettingsView: View {
 
                     Link("Privacy Policy", destination: ShepherdConstants.privacyPolicyURL)
                         .foregroundStyle(ShepherdTheme.accentFill)
+
+                    Link("Help & Support", destination: ShepherdConstants.supportURL)
+                        .foregroundStyle(ShepherdTheme.accentFill)
                 } header: {
                     Text("About")
                 } footer: {

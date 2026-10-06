@@ -322,4 +322,14 @@ final class ShepherdTests: XCTestCase {
             XCTAssertTrue(name.hasPrefix("Pasture Premium"), name)
         }
     }
+
+    func testLegalAndSupportURLsPointAtPastureSite() {
+        XCTAssertEqual(ShepherdConstants.legalAndSupportURLs.count, 3)
+        for url in ShepherdConstants.legalAndSupportURLs {
+            XCTAssertEqual(url.scheme, "https", url.absoluteString)
+            XCTAssertEqual(url.host, "dangquan1402.github.io", url.absoluteString)
+            XCTAssertTrue(url.path.hasPrefix("/pasture/"), url.absoluteString)
+            XCTAssertFalse(url.absoluteString.contains("shepherd.bible"), url.absoluteString)
+        }
+    }
 }
