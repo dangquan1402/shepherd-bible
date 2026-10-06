@@ -34,6 +34,7 @@ REF = re.compile(r"^([1-3]?[A-Z]{2,3})\.(\d+)\.(\d+)$")
 QUOTE = re.compile(r'["“]([^"“”]+)["”]')
 BLANK = "___"
 MIN_QUOTE = 12  # shorter quoted strings are single words ("yoke"), not verse text
+QUESTION_TYPES = {"choice", "fill_blank", "order", "true_false", "match"}
 ACCESS = {"free", "premium", "seasonal"}
 GOALS = {"grow_daily", "understand", "peace"}
 LEVELS = {"beginner", "some", "deep"}
@@ -146,7 +147,10 @@ def validate(bible, bundle, release=False):
             errs.append(f"{pid}: dayIndex is not 1...n: {days}")
 
         positions = [
-            q.get("correctIndex") for lesson in lessons for q in lesson.get("quiz", [])
+            q.get("correctIndex")
+            for lesson in lessons
+            for q in lesson.get("quiz", [])
+            if q.get("type", "choice") == "choice" and q.get("correctIndex") is not None
         ]
         if len(positions) >= 4:
             counts = Counter(positions)
@@ -197,23 +201,28 @@ def validate(bible, bundle, release=False):
                             f'{lid}: quotation is not verbatim WEB text from its verses: "{quoted}"'
                         )
 
+            # Never two non-choice questions in a row
+            for i in range(len(quiz) - 1):
+                t1 = quiz[i].get("type", "choice")
+                t2 = quiz[i + 1].get("type", "choice")
+                if t1 != "choice" and t2 != "choice":
+                    errs.append(
+                        f"{lid}: two non-choice questions in a row ({quiz[i].get('id')} and {quiz[i + 1].get('id')})"
+                    )
+
             for q in quiz:
                 qid = "{}/{}".format(lid, q.get("id"))
                 if q.get("id") in seen:
                     errs.append(f"{qid}: duplicate question id")
                 seen.add(q.get("id"))
-                choices = q.get("choices") or []
-                ci = q.get("correctIndex")
-                if len(choices) < 2:
-                    errs.append(f"{qid}: needs at least 2 choices")
-                if len({c.lower() for c in choices}) != len(choices):
-                    errs.append(f"{qid}: duplicate choices")
-                if not isinstance(ci, int) or not 0 <= ci < len(choices):
-                    errs.append(
-                        f"{qid}: correctIndex {ci!r} is out of range for {len(choices)} choices"
-                    )
-                    continue
-                answer = choices[ci]
+
+                qtype = q.get("type", "choice")
+                if qtype not in QUESTION_TYPES:
+                    errs.append(f"{qid}: unknown question type {qtype!r}")
+
+                prompt = q.get("prompt")
+                if not prompt:
+                    errs.append(f"{qid}: no prompt")
 
                 ar = q.get("answerRef")
                 if not ar:
@@ -231,23 +240,6 @@ def validate(bible, bundle, release=False):
                         f"{qid}: answerRef {ar} is not one of the lesson's verses {refs}"
                     )
                 proof = verses[ar]
-                if answer.lower() not in proof.lower():
-                    errs.append(
-                        f"{qid}: answer {answer!r} is not in its proof verse {ar}: {proof}"
-                    )
-                for i, c in enumerate(choices):
-                    if i != ci and len(c) > 3 and c.lower() in proof.lower():
-                        warns.append(
-                            f"{qid}: wrong choice {c!r} also appears in the proof verse {ar}"
-                        )
-
-                for quoted in QUOTE.findall(q.get("prompt") or ""):
-                    if BLANK in quoted:
-                        filled = quoted.replace(BLANK, answer).rstrip(".,;:")
-                        if filled not in proof:
-                            errs.append(
-                                f'{qid}: blank filled with the answer is not in {ar}: "{filled}"'
-                            )
 
                 explain = q.get("explain")
                 if not explain:
@@ -256,6 +248,108 @@ def validate(bible, bundle, release=False):
                     errs.append(
                         f"{qid}: explain does not cite its proof verse {display(ar, abbrev_names)}"
                     )
+
+                if qtype in ("choice", "fill_blank"):
+                    choices = q.get("choices") or []
+                    ci = q.get("correctIndex")
+                    if len(choices) < 2:
+                        errs.append(f"{qid}: needs at least 2 choices")
+                    if len({c.lower() for c in choices}) != len(choices):
+                        errs.append(f"{qid}: duplicate choices")
+                    if not isinstance(ci, int) or not 0 <= ci < len(choices):
+                        errs.append(
+                            f"{qid}: correctIndex {ci!r} is out of range for {len(choices)} choices"
+                        )
+                        continue
+                    answer = choices[ci]
+
+                    if answer.lower() not in proof.lower():
+                        errs.append(
+                            f"{qid}: answer {answer!r} is not in its proof verse {ar}: {proof}"
+                        )
+
+                    if qtype == "choice":
+                        for i, c in enumerate(choices):
+                            if i != ci and len(c) > 3 and c.lower() in proof.lower():
+                                warns.append(
+                                    f"{qid}: wrong choice {c!r} also appears in the proof verse {ar}"
+                                )
+
+                    if qtype == "fill_blank":
+                        if BLANK not in (prompt or ""):
+                            errs.append(
+                                f"{qid}: fill_blank prompt must contain blank {BLANK!r}"
+                            )
+                        for quoted in QUOTE.findall(prompt or ""):
+                            if BLANK in quoted:
+                                filled = quoted.replace(BLANK, answer).rstrip(".,;:")
+                                if filled not in proof:
+                                    errs.append(
+                                        f'{qid}: blank filled with the answer is not in {ar}: "{filled}"'
+                                    )
+                    else:
+                        for quoted in QUOTE.findall(prompt or ""):
+                            if BLANK in quoted:
+                                filled = quoted.replace(BLANK, answer).rstrip(".,;:")
+                                if filled not in proof:
+                                    errs.append(
+                                        f'{qid}: blank filled with the answer is not in {ar}: "{filled}"'
+                                    )
+
+                elif qtype == "order":
+                    tokens = q.get("orderTokens") or q.get("tokens") or []
+                    if not isinstance(tokens, list) or len(tokens) < 2:
+                        errs.append(f"{qid}: order question needs at least 2 orderTokens")
+                    else:
+                        reconstructed = " ".join(tokens)
+                        if reconstructed not in proof:
+                            errs.append(
+                                f"{qid}: order tokens do not reconstruct a substring of proof verse {ar}: {reconstructed!r}"
+                            )
+
+                elif qtype == "true_false":
+                    ci = q.get("correctIndex")
+                    if not isinstance(ci, int) or ci not in (0, 1):
+                        errs.append(
+                            f"{qid}: true_false correctIndex must be 0 (True) or 1 (False), got {ci!r}"
+                        )
+                    choices = q.get("choices")
+                    if choices is not None and choices != ["True", "False"]:
+                        errs.append(f"{qid}: true_false choices must be ['True', 'False']")
+
+                elif qtype == "match":
+                    pairs = q.get("pairs") or q.get("matchPairs") or []
+                    if not isinstance(pairs, list) or len(pairs) < 2:
+                        errs.append(f"{qid}: match question needs at least 2 pairs")
+                    else:
+                        pair_refs = set()
+                        pair_texts = set()
+                        for idx, p in enumerate(pairs):
+                            pref = p.get("ref")
+                            ptext = p.get("text")
+                            if not pref or not ptext:
+                                errs.append(f"{qid}: pair #{idx} missing ref or text")
+                                continue
+                            if pref in pair_refs:
+                                errs.append(f"{qid}: duplicate ref {pref} in match pairs")
+                            pair_refs.add(pref)
+                            if ptext in pair_texts:
+                                errs.append(f"{qid}: duplicate text {ptext!r} in match pairs")
+                            pair_texts.add(ptext)
+                            if pref not in verses:
+                                errs.append(
+                                    f"{qid}: pair ref {pref} does not exist in the bundled WEB"
+                                )
+                                continue
+                            if pref not in refs:
+                                errs.append(
+                                    f"{qid}: pair ref {pref} is not one of the lesson's verses {refs}"
+                                )
+                            p_proof = verses[pref]
+                            if ptext not in p_proof:
+                                errs.append(
+                                    f"{qid}: pair text {ptext!r} is not in verse {pref}: {p_proof!r}"
+                                )
 
     return errs, warns
 

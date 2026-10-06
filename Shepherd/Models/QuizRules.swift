@@ -12,6 +12,7 @@ public enum QuizRules {
         if let ref = question.answerRef, let text = verses(ref) {
             return (ref, text)
         }
+        guard question.choices.indices.contains(question.correctIndex) else { return nil }
         let correctText = normalizedQuotes(question.choices[question.correctIndex])
         for ref in lesson.verseRefs {
             if let text = verses(ref),
@@ -32,14 +33,53 @@ public enum QuizRules {
     /// The order to display a question's choices in: a permutation of its indices, seeded only by
     /// the question id. It is the same on every launch and device (no `hashValue`, which Swift
     /// randomises per process), and it does not depend on `correctIndex`, so the position of the
-    /// answer on screen tells the reader nothing.
+    /// answer on screen tells the reader nothing. For `.trueFalse`, choices remain in authored order [0, 1].
     public static func displayOrder(for question: QuizQuestion) -> [Int] {
+        if question.type == .trueFalse {
+            return Array(question.choices.indices)
+        }
         var order = Array(question.choices.indices)
         var rng = SplitMix64(seed: fnv1a(question.id))
         if order.count > 1 {
             for i in stride(from: order.count - 1, to: 0, by: -1) {
                 let j = Int(rng.next() % UInt64(i + 1))
                 order.swapAt(i, j)
+            }
+        }
+        return order
+    }
+
+    /// The order to display available tokens in an `order` question word bank: seeded by question id.
+    public static func tokenDisplayOrder(for question: QuizQuestion) -> [Int] {
+        guard let tokens = question.orderTokens, !tokens.isEmpty else { return [] }
+        var order = Array(tokens.indices)
+        var rng = SplitMix64(seed: fnv1a(question.id + "-tokens"))
+        if order.count > 1 {
+            for i in stride(from: order.count - 1, to: 0, by: -1) {
+                let j = Int(rng.next() % UInt64(i + 1))
+                order.swapAt(i, j)
+            }
+            if order == Array(tokens.indices) {
+                let first = order.removeFirst()
+                order.append(first)
+            }
+        }
+        return order
+    }
+
+    /// The order to display right-side matches in a `match` question: seeded by question id.
+    public static func matchDisplayOrder(for question: QuizQuestion) -> [Int] {
+        guard let pairs = question.pairs, !pairs.isEmpty else { return [] }
+        var order = Array(pairs.indices)
+        var rng = SplitMix64(seed: fnv1a(question.id + "-pairs"))
+        if order.count > 1 {
+            for i in stride(from: order.count - 1, to: 0, by: -1) {
+                let j = Int(rng.next() % UInt64(i + 1))
+                order.swapAt(i, j)
+            }
+            if order == Array(pairs.indices) {
+                let first = order.removeFirst()
+                order.append(first)
             }
         }
         return order

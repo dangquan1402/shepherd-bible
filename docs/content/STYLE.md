@@ -43,13 +43,86 @@ Background the text does not show (earlier events, other books) is fine, but cit
 ## 4. Quiz questions
 
 - **Test understanding of the passage shown**, not memory of trivia. Good: "Why did the man go away sorrowful?" Weak: "How many denarii…?"
-- **Mix the types:** fill-in-the-blank from a verse (`"Love is ___ and is kind."`), comprehension ("What did Jesus do before he spoke the words of healing?"), and "what did X say/do". Usually no more than one fill-in-the-blank per lesson.
-- **Every question has an `answerRef`** (one of the lesson's `verseRefs`) whose text contains the correct choice verbatim (case-insensitive), and an `explain` that cites it ("Mark 1:41: …"). The app shows that verse as the proof.
-- **Exactly one defensible answer.** Distractors are plausible but clearly wrong from the passage. Don't use a distractor that is a true statement elsewhere in the same verses (the validator warns), and avoid ones that are true in a parallel passage ("strength" for Matthew 22:37, which Mark 12:30 has).
-- **Never mock.** No joke choices ("Wallet", "Chance"), nothing that makes a person or group look stupid.
+- **Mix the types:** about 1 in 5 questions per path can be an interactive non-choice type (`fill_blank`, `order`, `true_false`, `match`). Never place two non-choice questions in a row within a single lesson.
+- **Every question has an `answerRef`** (one of the lesson's `verseRefs`) and an `explain` citing it ("Mark 1:41: …"). The app shows that verse as the proof card after answering.
+- **Exactly one defensible answer.** Distractors are plausible but clearly wrong from the passage. Don't use a distractor that is a true statement elsewhere in the same verses (the validator warns), and avoid ones that are true in a parallel passage.
+- **Never mock.** No joke choices, nothing that makes a person or group look stupid.
 - **No doctrine in an answer.** Quiz only what the verses say, never a tradition's reading of them.
-- **Answer position.** Write the answer and three wrong choices; the authoring step places the answer so positions are balanced across a path, both as authored (`correctIndex`) and as displayed (`QuizRules.displayOrder` shuffles by question id). Check with `tools/content/content_summary.py`.
-- Keep choices short and parallel in form (all phrases, or all single words).
+- **Answer position.** For `choice` questions, write the answer and three wrong choices; the authoring step balances positions across a path, both as authored (`correctIndex`) and as displayed (`QuizRules.displayOrder` shuffles by question id). Keep choices short and parallel in form.
+
+### Exercise types and JSON shapes
+
+1. **`choice`** (default if `type` omitted)
+   Standard multiple-choice question.
+   ```json
+   {
+     "id": "mark-30.d02.q1",
+     "type": "choice",
+     "prompt": "What were Simon and Andrew doing when Jesus called them?",
+     "choices": ["Selling fish", "Casting a net in the sea", "Mending nets", "Praying in the synagogue"],
+     "correctIndex": 1,
+     "answerRef": "MRK.1.16",
+     "explain": "Mark 1:16: \"They were casting a net in the sea, for they were fishermen.\""
+   }
+   ```
+
+2. **`fill_blank`**
+   Fill in the missing word of a Scripture quote. The prompt contains `"___"`, and `choices` provides the correct missing word (at `correctIndex`) and distractors from the passage.
+   ```json
+   {
+     "id": "peace-14.d01.q3",
+     "type": "fill_blank",
+     "prompt": "Complete the verse: \"My yoke is easy, and my burden is ___.\"",
+     "choices": ["light", "heavy", "small", "removed"],
+     "correctIndex": 0,
+     "answerRef": "MAT.11.30",
+     "explain": "Matthew 11:30: \"For my yoke is easy, and my burden is light.\""
+   }
+   ```
+
+3. **`order`**
+   Put words or phrases of a verse in correct order. `orderTokens` holds the tokens in correct order; `" ".join(orderTokens)` must reconstruct a substring of the `answerRef` verse verbatim.
+   ```json
+   {
+     "id": "day5-q2",
+     "type": "order",
+     "prompt": "Put the words of this verse in order:",
+     "orderTokens": ["The LORD is", "my shepherd;", "I shall", "lack nothing."],
+     "answerRef": "PSA.23.1",
+     "explain": "Psalm 23:1: \"The LORD is my shepherd; I shall lack nothing.\""
+   }
+   ```
+
+4. **`true_false`**
+   Evaluate whether a statement about the verses is true or false. `correctIndex` is 0 for True, 1 for False. `choices` is `["True", "False"]`.
+   ```json
+   {
+     "id": "mark-30.d05.q2",
+     "type": "true_false",
+     "prompt": "Jesus was asleep in the stern on a cushion during the storm.",
+     "choices": ["True", "False"],
+     "correctIndex": 0,
+     "answerRef": "MRK.4.38",
+     "explain": "Mark 4:38: \"He himself was in the stern, asleep on the cushion.\""
+   }
+   ```
+
+5. **`match`**
+   Match Scripture references to their corresponding verse excerpts. `pairs` contains `{ "ref": "...", "text": "..." }`, where each ref is in the lesson's verses and text is verbatim from the verse.
+   ```json
+   {
+     "id": "mark-30.d01.q2",
+     "type": "match",
+     "prompt": "Match each reference to its words:",
+     "pairs": [
+       { "ref": "MRK.1.17", "text": "I will make you into fishers for men." },
+       { "ref": "MRK.1.41", "text": "I am willing. Be cleansed." }
+     ],
+     "answerRef": "MRK.1.17",
+     "explain": "Mark 1:17 and 1:41 record Jesus calling disciples and healing a leper."
+   }
+   ```
+
 
 ## 5. Theology: non-denominational and mainstream
 

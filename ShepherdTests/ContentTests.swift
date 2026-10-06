@@ -85,19 +85,52 @@ final class ContentTests: XCTestCase {
                 for ref in lesson.verseRefs {
                     XCTAssertNotNil(store.verse(ref: ref), "\(lesson.id): \(ref) does not resolve")
                 }
-                for q in lesson.quiz {
+                for (i, q) in lesson.quiz.enumerated() {
                     XCTAssertTrue(ids.insert(q.id).inserted, "duplicate question id \(q.id)")
-                    XCTAssertTrue(q.choices.indices.contains(q.correctIndex), "\(q.id): correctIndex out of range")
                     let ref = try XCTUnwrap(q.answerRef, "\(q.id): no answerRef")
                     XCTAssertTrue(lesson.verseRefs.contains(ref), "\(q.id): proof verse \(ref) is not shown in the lesson")
                     let proof = try XCTUnwrap(store.verse(ref: ref))
-                    XCTAssertTrue(
-                        proof.localizedCaseInsensitiveContains(q.choices[q.correctIndex]),
-                        "\(q.id): answer '\(q.choices[q.correctIndex])' is not in \(ref)"
-                    )
                     XCTAssertTrue(q.explain?.contains(ContentStore.displayRef(ref)) == true, "\(q.id): explain does not cite \(ref)")
-                    authored.append(q.correctIndex)
-                    displayed.append(try XCTUnwrap(QuizRules.displayOrder(for: q).firstIndex(of: q.correctIndex)))
+
+                    // Check consecutive non-choice
+                    if i < lesson.quiz.count - 1 {
+                        let next = lesson.quiz[i + 1]
+                        XCTAssertFalse(q.type != .choice && next.type != .choice, "\(lesson.id): two non-choice questions in a row (\(q.id), \(next.id))")
+                    }
+
+                    switch q.type {
+                    case .choice:
+                        XCTAssertTrue(q.choices.indices.contains(q.correctIndex), "\(q.id): correctIndex out of range")
+                        XCTAssertTrue(
+                            proof.localizedCaseInsensitiveContains(q.choices[q.correctIndex]),
+                            "\(q.id): answer '\(q.choices[q.correctIndex])' is not in \(ref)"
+                        )
+                        authored.append(q.correctIndex)
+                        displayed.append(try XCTUnwrap(QuizRules.displayOrder(for: q).firstIndex(of: q.correctIndex)))
+                    case .fillBlank:
+                        XCTAssertTrue(q.choices.indices.contains(q.correctIndex), "\(q.id): correctIndex out of range")
+                        XCTAssertTrue(q.prompt.contains("___"), "\(q.id): fillBlank prompt missing '___'")
+                        XCTAssertTrue(
+                            proof.localizedCaseInsensitiveContains(q.choices[q.correctIndex]),
+                            "\(q.id): answer '\(q.choices[q.correctIndex])' is not in \(ref)"
+                        )
+                    case .trueFalse:
+                        XCTAssertTrue([0, 1].contains(q.correctIndex), "\(q.id): true_false correctIndex not 0 or 1")
+                        XCTAssertEqual(q.choices, ["True", "False"], "\(q.id): true_false choices")
+                    case .order:
+                        let tokens = try XCTUnwrap(q.orderTokens, "\(q.id): no orderTokens")
+                        XCTAssertGreaterThanOrEqual(tokens.count, 2, "\(q.id): orderTokens count < 2")
+                        let reconstructed = tokens.joined(separator: " ")
+                        XCTAssertTrue(proof.contains(reconstructed), "\(q.id): order tokens '\(reconstructed)' not in \(ref)")
+                    case .match:
+                        let pairs = try XCTUnwrap(q.pairs, "\(q.id): no match pairs")
+                        XCTAssertGreaterThanOrEqual(pairs.count, 2, "\(q.id): pairs count < 2")
+                        for pair in pairs {
+                            XCTAssertTrue(lesson.verseRefs.contains(pair.ref), "\(q.id): pair ref \(pair.ref) not in lesson")
+                            let pairProof = try XCTUnwrap(store.verse(ref: pair.ref), "\(q.id): pair ref \(pair.ref) does not resolve")
+                            XCTAssertTrue(pairProof.contains(pair.text), "\(q.id): pair text '\(pair.text)' not in \(pair.ref)")
+                        }
+                    }
                 }
             }
             if authored.count >= 4 {
@@ -106,6 +139,86 @@ final class ContentTests: XCTestCase {
             }
         }
     }
+
+    func testNewExerciseTypesDecodingAndExecution() throws {
+        let json = """
+        {
+            "id": "test-order-q1",
+            "type": "order",
+            "prompt": "Put words in order:",
+            "orderTokens": ["The LORD", "is my", "shepherd"],
+            "answerRef": "PSA.23.1",
+            "explain": "Psalm 23:1: The LORD is my shepherd"
+        }
+        """.data(using: .utf8)!
+        let question = try JSONDecoder().decode(QuizQuestion.self, from: json)
+        XCTAssertEqual(question.type, .order)
+        XCTAssertEqual(question.orderTokens, ["The LORD", "is my", "shepherd"])
+
+        let tfJson = """
+        {
+            "id": "test-tf-q1",
+            "type": "true_false",
+            "prompt": "Jesus was born in Bethlehem",
+            "choices": ["True", "False"],
+            "correctIndex": 0,
+            "answerRef": "MAT.2.1",
+            "explain": "Matthew 2:1"
+        }
+        """.data(using: .utf8)!
+        let tfQuestion = try JSONDecoder().decode(QuizQuestion.self, from: tfJson)
+        XCTAssertEqual(tfQuestion.type, .trueFalse)
+        XCTAssertEqual(QuizRules.displayOrder(for: tfQuestion), [0, 1])
+
+        let matchJson = """
+        {
+            "id": "test-match-q1",
+            "type": "match",
+            "prompt": "Match reference to verse:",
+            "pairs": [
+                {"ref": "GEN.1.1", "text": "In the beginning"},
+                {"ref": "GEN.1.3", "text": "Let there be light"}
+            ],
+            "answerRef": "GEN.1.1",
+            "explain": "Genesis 1:1"
+        }
+        """.data(using: .utf8)!
+        let matchQuestion = try JSONDecoder().decode(QuizQuestion.self, from: matchJson)
+        XCTAssertEqual(matchQuestion.type, .match)
+        XCTAssertEqual(matchQuestion.pairs?.count, 2)
+    }
+
+    func testTokenDisplayOrderIsPermutation() {
+        let q = QuizQuestion(
+            id: "order-test-1",
+            type: .order,
+            prompt: "",
+            explain: nil,
+            orderTokens: ["one", "two", "three", "four"]
+        )
+        let order = QuizRules.tokenDisplayOrder(for: q)
+        XCTAssertEqual(order.sorted(), [0, 1, 2, 3])
+        XCTAssertNotEqual(order, [0, 1, 2, 3], "Word bank should be shuffled")
+        XCTAssertEqual(QuizRules.tokenDisplayOrder(for: q), order, "Word bank shuffle should be deterministic")
+    }
+
+    func testMatchDisplayOrderIsPermutation() {
+        let q = QuizQuestion(
+            id: "match-test-1",
+            type: .match,
+            prompt: "",
+            explain: nil,
+            pairs: [
+                MatchPair(ref: "A", text: "textA"),
+                MatchPair(ref: "B", text: "textB"),
+                MatchPair(ref: "C", text: "textC")
+            ]
+        )
+        let order = QuizRules.matchDisplayOrder(for: q)
+        XCTAssertEqual(order.sorted(), [0, 1, 2])
+        XCTAssertEqual(QuizRules.matchDisplayOrder(for: q), order, "Match shuffle should be deterministic")
+    }
+
 
     // MARK: - Per-path access
 

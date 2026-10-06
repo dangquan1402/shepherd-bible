@@ -186,9 +186,10 @@ class DefectsAreCaught(unittest.TestCase):
         b = self.mutated()
         for l in b["paths"][0]["lessons"]:
             for q in l["quiz"]:
-                answer = q["choices"].pop(q["correctIndex"])
-                q["choices"].insert(0, answer)
-                q["correctIndex"] = 0
+                if "choices" in q and "correctIndex" in q:
+                    answer = q["choices"].pop(q["correctIndex"])
+                    q["choices"].insert(0, answer)
+                    q["correctIndex"] = 0
         self.assertCaught(b, r"beginner-30: all \d+ answers are choice #0")
 
     def test_lord_edition_wording(self):
@@ -223,6 +224,112 @@ class DefectsAreCaught(unittest.TestCase):
         bible = dict(BIBLE, sourceSHA256="0" * 64)
         self.assertCaught(PATHS, r"sourceSHA256 does not match", bible=bible)
 
+    def test_unknown_question_type(self):
+        b = self.mutated()
+        q = question(b, "day1-q1")
+        q["type"] = "essay"
+        self.assertCaught(b, r"day1-q1: unknown question type 'essay'")
+
+    def test_two_non_choice_questions_in_a_row(self):
+        b = self.mutated()
+        l = lesson(b, "day1")
+        l["quiz"][0]["type"] = "true_false"
+        l["quiz"][0]["choices"] = ["True", "False"]
+        l["quiz"][0]["correctIndex"] = 0
+        l["quiz"][1]["type"] = "order"
+        l["quiz"][1]["orderTokens"] = ["In the beginning,", "God created"]
+        self.assertCaught(b, r"beginner-30/day1: two non-choice questions in a row")
+
+    def test_fill_blank_word_must_be_in_proof_verse(self):
+        b = self.mutated()
+        q = question(b, "day1-q1")
+        q["type"] = "fill_blank"
+        q["prompt"] = 'Complete the verse: "In the beginning, God created the heavens and the ___."'
+        q["choices"] = ["oceans", "moon", "sun", "stars"]
+        q["correctIndex"] = 0
+        self.assertCaught(b, r"day1-q1: answer 'oceans' is not in its proof verse GEN\.1\.1")
+
+    def test_fill_blank_prompt_must_have_blank(self):
+        b = self.mutated()
+        q = question(b, "day1-q1")
+        q["type"] = "fill_blank"
+        q["prompt"] = 'Who created the heavens and the earth?'
+        self.assertCaught(b, r"day1-q1: fill_blank prompt must contain blank '___'")
+
+    def test_order_tokens_must_reconstruct_proof_verse(self):
+        b = self.mutated()
+        q = question(b, "day1-q1")
+        q["type"] = "order"
+        q["prompt"] = "Put the words in order:"
+        q["orderTokens"] = ["In the beginning,", "God destroyed", "the heavens"]
+        self.assertCaught(b, r"day1-q1: order tokens do not reconstruct a substring of proof verse GEN\.1\.1")
+
+    def test_order_valid_passes(self):
+        b = self.mutated()
+        q = question(b, "day1-q1")
+        q["type"] = "order"
+        q["prompt"] = "Put the words in order:"
+        q["orderTokens"] = ["In the beginning,", "God created", "the heavens and the earth."]
+        self.assertEqual(errors(b), [])
+
+    def test_true_false_invalid_correct_index(self):
+        b = self.mutated()
+        q = question(b, "day1-q1")
+        q["type"] = "true_false"
+        q["correctIndex"] = 2
+        self.assertCaught(b, r"day1-q1: true_false correctIndex must be 0 \(True\) or 1 \(False\)")
+
+    def test_true_false_invalid_choices(self):
+        b = self.mutated()
+        q = question(b, "day1-q1")
+        q["type"] = "true_false"
+        q["correctIndex"] = 0
+        q["choices"] = ["Yes", "No"]
+        self.assertCaught(b, r"day1-q1: true_false choices must be \['True', 'False'\]")
+
+    def test_true_false_valid_passes(self):
+        b = self.mutated()
+        q = question(b, "day1-q1")
+        q["type"] = "true_false"
+        q["prompt"] = "In the beginning, God created the heavens and the earth."
+        q["choices"] = ["True", "False"]
+        q["correctIndex"] = 0
+        self.assertEqual(errors(b), [])
+
+    def test_match_pair_ref_not_in_lesson(self):
+        b = self.mutated()
+        q = question(b, "day1-q1")
+        q["type"] = "match"
+        q["prompt"] = "Match each reference to its verse:"
+        q["pairs"] = [
+            {"ref": "GEN.1.1", "text": "In the beginning, God created the heavens and the earth."},
+            {"ref": "REV.22.21", "text": "The grace of the Lord Jesus Christ be with all the saints. Amen."}
+        ]
+        self.assertCaught(b, r"day1-q1: pair ref REV\.22\.21 is not one of the lesson's verses")
+
+    def test_match_pair_text_not_in_verse(self):
+        b = self.mutated()
+        q = question(b, "day1-q1")
+        q["type"] = "match"
+        q["prompt"] = "Match each reference to its verse:"
+        q["pairs"] = [
+            {"ref": "GEN.1.1", "text": "In the beginning, God created the mountains."},
+            {"ref": "GEN.1.3", "text": "Let there be light."}
+        ]
+        self.assertCaught(b, r"day1-q1: pair text 'In the beginning, God created the mountains\.' is not in verse GEN\.1\.1")
+
+    def test_match_valid_passes(self):
+        b = self.mutated()
+        q = question(b, "day1-q1")
+        q["type"] = "match"
+        q["prompt"] = "Match each reference to its verse:"
+        q["pairs"] = [
+            {"ref": "GEN.1.1", "text": "In the beginning, God created the heavens and the earth."},
+            {"ref": "GEN.1.3", "text": "Let there be light"}
+        ]
+        self.assertEqual(errors(b), [])
+
 
 if __name__ == "__main__":
     unittest.main()
+

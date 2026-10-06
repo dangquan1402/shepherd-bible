@@ -234,6 +234,208 @@ final class RealFlowUITests: XCTestCase {
         try executeAX3Flow()
     }
 
+    // MARK: - Exercise Types Flow (Fill-in-the-blank, Order, True/False, Match)
+
+    @MainActor
+    func testExerciseTypesLight() throws {
+        modeOverride = "Light"
+        try executeExerciseTypesFlow()
+    }
+
+    @MainActor
+    func testExerciseTypesDark() throws {
+        modeOverride = "Dark"
+        try executeExerciseTypesFlow()
+    }
+
+    @MainActor
+    private func executeExerciseTypesFlow() throws {
+        let app = XCUIApplication()
+        if modeOverride == "Dark" {
+            app.launchArguments += ["-appearance", "dark"]
+        }
+        app.launchArguments += ["-uitestCompleted", "beginner-30,peace-14,mark-30", "-uitestPremium"]
+        app.launch()
+        passOnboardingIfNeeded(app, goal: "Grow a daily habit", level: "Brand new")
+        XCTAssertTrue(app.navigationBars["Today"].waitForExistence(timeout: 6.0))
+
+        app.buttons["Path Catalogue"].tap()
+        XCTAssertTrue(app.navigationBars["Paths"].waitForExistence(timeout: 4.0))
+        element(app, containing: "First Steps: 30 Days with God").tap()
+        XCTAssertTrue(app.navigationBars["First Steps: 30 Days with God"].waitForExistence(timeout: 4.0))
+
+        // 1. Fill in the blank (Day 8: The good shepherd)
+        let day8Row = element(app, containing: "The good shepherd")
+        var tries = 0
+        while !(day8Row.exists && day8Row.isHittable) && tries < 8 {
+            app.swipeUp()
+            tries += 1
+        }
+        XCTAssertTrue(day8Row.isHittable, "Day 8 row not hittable")
+        day8Row.tap()
+        XCTAssertTrue(app.navigationBars["Day 8"].waitForExistence(timeout: 6.0))
+        app.swipeUp()
+        let quizBtn8 = app.buttons["Take the quiz"]
+        XCTAssertTrue(quizBtn8.waitForExistence(timeout: 4.0))
+        quizBtn8.tap()
+
+        XCTAssertTrue(app.buttons["Check"].waitForExistence(timeout: 4.0))
+        Thread.sleep(forTimeInterval: 0.3)
+        saveScreenshot("Exercise_FillBlank_Unanswered")
+
+        let shepherdChoice = app.buttons.matching(NSPredicate(format: "label CONTAINS[c] 'shepherd'")).firstMatch
+        XCTAssertTrue(shepherdChoice.waitForExistence(timeout: 4.0))
+        shepherdChoice.tap()
+        Thread.sleep(forTimeInterval: 0.2)
+        saveScreenshot("Exercise_FillBlank_Selected")
+
+        app.buttons["Check"].tap()
+        XCTAssertTrue(app.staticTexts["Correct!"].waitForExistence(timeout: 4.0))
+        Thread.sleep(forTimeInterval: 0.4)
+        saveScreenshot("Exercise_FillBlank_Correct")
+
+        app.buttons["Close Quiz"].tap()
+        Thread.sleep(forTimeInterval: 0.4)
+        app.navigationBars.buttons.firstMatch.tap()
+        XCTAssertTrue(app.navigationBars["First Steps: 30 Days with God"].waitForExistence(timeout: 4.0))
+
+        // Scroll back up to earlier days
+        while !element(app, containing: "Made in God's image").isHittable && tries > 0 {
+            app.swipeDown()
+            tries -= 1
+        }
+
+        // 2. Order (Day 2: Made in God's image)
+        let day2Row = element(app, containing: "Made in God's image")
+        XCTAssertTrue(day2Row.waitForExistence(timeout: 4.0))
+        day2Row.tap()
+        XCTAssertTrue(app.navigationBars["Day 2"].waitForExistence(timeout: 6.0))
+        app.swipeUp()
+        let quizBtn2 = app.buttons["Take the quiz"]
+        XCTAssertTrue(quizBtn2.waitForExistence(timeout: 4.0))
+        quizBtn2.tap()
+
+        // Q1 is choice (answer: God’s)
+        let q1Choice = app.buttons.matching(NSPredicate(format: "label CONTAINS[c] 'God’s'")).firstMatch
+        XCTAssertTrue(q1Choice.waitForExistence(timeout: 4.0))
+        q1Choice.tap()
+        app.buttons["Check"].tap()
+        XCTAssertTrue(app.buttons["Continue"].waitForExistence(timeout: 4.0))
+        app.buttons["Continue"].tap()
+
+        // Q2 is order
+        XCTAssertTrue(app.staticTexts.matching(NSPredicate(format: "label CONTAINS[c] 'order'")).firstMatch.waitForExistence(timeout: 4.0))
+        Thread.sleep(forTimeInterval: 0.3)
+        saveScreenshot("Exercise_Order_Unanswered")
+
+        let tokens = ["In God’s image", "he created him;", "male and female", "he created them."]
+        for token in tokens {
+            let tokenBtn = app.buttons.matching(NSPredicate(format: "label CONTAINS[c] %@", token)).firstMatch
+            XCTAssertTrue(tokenBtn.waitForExistence(timeout: 4.0), "missing token \(token)")
+            tokenBtn.tap()
+            Thread.sleep(forTimeInterval: 0.1)
+        }
+        Thread.sleep(forTimeInterval: 0.2)
+        saveScreenshot("Exercise_Order_Selected")
+
+        app.buttons["Check"].tap()
+        XCTAssertTrue(app.staticTexts["Correct!"].waitForExistence(timeout: 4.0))
+        Thread.sleep(forTimeInterval: 0.4)
+        saveScreenshot("Exercise_Order_Correct")
+
+        app.buttons["Close Quiz"].tap()
+        Thread.sleep(forTimeInterval: 0.4)
+        app.navigationBars.buttons.firstMatch.tap()
+        XCTAssertTrue(app.navigationBars["First Steps: 30 Days with God"].waitForExistence(timeout: 4.0))
+
+        // 3. True / False (Day 4: God so loved)
+        let day4Row = element(app, containing: "God so loved")
+        XCTAssertTrue(day4Row.waitForExistence(timeout: 4.0))
+        day4Row.tap()
+        XCTAssertTrue(app.navigationBars["Day 4"].waitForExistence(timeout: 6.0))
+        app.swipeUp()
+        let quizBtn4 = app.buttons["Take the quiz"]
+        XCTAssertTrue(quizBtn4.waitForExistence(timeout: 4.0))
+        quizBtn4.tap()
+
+        // Q1 choice (answer: World)
+        let q1World = app.buttons.matching(NSPredicate(format: "label CONTAINS[c] 'World'")).firstMatch
+        XCTAssertTrue(q1World.waitForExistence(timeout: 4.0))
+        q1World.tap()
+        app.buttons["Check"].tap()
+        XCTAssertTrue(app.buttons["Continue"].waitForExistence(timeout: 4.0))
+        app.buttons["Continue"].tap()
+
+        // Q2 true_false
+        let trueBtn = app.buttons.matching(NSPredicate(format: "label BEGINSWITH[c] 'True'")).firstMatch
+        XCTAssertTrue(trueBtn.waitForExistence(timeout: 4.0))
+        Thread.sleep(forTimeInterval: 0.3)
+        saveScreenshot("Exercise_TrueFalse_Unanswered")
+
+        let falseBtn = app.buttons.matching(NSPredicate(format: "label BEGINSWITH[c] 'False'")).firstMatch
+        XCTAssertTrue(falseBtn.waitForExistence(timeout: 4.0))
+        falseBtn.tap()
+        Thread.sleep(forTimeInterval: 0.2)
+        saveScreenshot("Exercise_TrueFalse_Selected")
+
+        app.buttons["Check"].tap()
+        XCTAssertTrue(app.staticTexts["Correct!"].waitForExistence(timeout: 4.0))
+        Thread.sleep(forTimeInterval: 0.4)
+        saveScreenshot("Exercise_TrueFalse_Correct")
+
+        app.buttons["Close Quiz"].tap()
+        Thread.sleep(forTimeInterval: 0.4)
+        app.navigationBars.buttons.firstMatch.tap()
+        XCTAssertTrue(app.navigationBars["First Steps: 30 Days with God"].waitForExistence(timeout: 4.0))
+
+        // 4. Match (Day 3: The Word became flesh)
+        let day3Row = element(app, containing: "The Word became flesh")
+        XCTAssertTrue(day3Row.waitForExistence(timeout: 4.0))
+        day3Row.tap()
+        XCTAssertTrue(app.navigationBars["Day 3"].waitForExistence(timeout: 6.0))
+        app.swipeUp()
+        let quizBtn3 = app.buttons["Take the quiz"]
+        XCTAssertTrue(quizBtn3.waitForExistence(timeout: 4.0))
+        quizBtn3.tap()
+
+        // Q1 choice (answer: Word)
+        let q1Word = app.buttons.matching(NSPredicate(format: "label CONTAINS[c] 'Word'")).firstMatch
+        XCTAssertTrue(q1Word.waitForExistence(timeout: 4.0))
+        q1Word.tap()
+        app.buttons["Check"].tap()
+        XCTAssertTrue(app.buttons["Continue"].waitForExistence(timeout: 4.0))
+        app.buttons["Continue"].tap()
+
+        // Q2 match
+        XCTAssertTrue(app.staticTexts.matching(NSPredicate(format: "label CONTAINS[c] 'match'")).firstMatch.waitForExistence(timeout: 4.0))
+        Thread.sleep(forTimeInterval: 0.3)
+        saveScreenshot("Exercise_Match_Unanswered")
+
+        let ref1 = app.buttons.matching(NSPredicate(format: "label CONTAINS[c] 'John 1:1' AND NOT label CONTAINS[c] '1:14'")).firstMatch
+        XCTAssertTrue(ref1.waitForExistence(timeout: 4.0))
+        ref1.tap()
+        let text1 = app.buttons.matching(NSPredicate(format: "label CONTAINS[c] 'In the beginning was the Word'")).firstMatch
+        XCTAssertTrue(text1.waitForExistence(timeout: 4.0))
+        text1.tap()
+
+        let ref2 = app.buttons.matching(NSPredicate(format: "label CONTAINS[c] 'John 1:14'")).firstMatch
+        XCTAssertTrue(ref2.waitForExistence(timeout: 4.0))
+        ref2.tap()
+        let text2 = app.buttons.matching(NSPredicate(format: "label CONTAINS[c] 'The Word became flesh'")).firstMatch
+        XCTAssertTrue(text2.waitForExistence(timeout: 4.0))
+        text2.tap()
+
+        Thread.sleep(forTimeInterval: 0.2)
+        saveScreenshot("Exercise_Match_Selected")
+
+        app.buttons["Check"].tap()
+        XCTAssertTrue(app.staticTexts["Correct!"].waitForExistence(timeout: 4.0))
+        Thread.sleep(forTimeInterval: 0.4)
+        saveScreenshot("Exercise_Match_Correct")
+
+        app.buttons["Close Quiz"].tap()
+    }
+
     @MainActor
     func testBibleKeepsChapterAcrossTabs() throws {
         let app = XCUIApplication()
