@@ -2,5 +2,10 @@ Copyright (c) 2026 Quan Dang / dangvietquan
 
 All rights reserved for application source code unless otherwise noted.
 
-Sample Bible excerpts in Resources/Content use the World English Bible (WEB),
-which is in the public domain.
+Shepherd/Resources/Content/web.json is the World English Bible (WEB), 66-book
+edition "engwebp", converted without changes to its text from eBible.org
+(https://ebible.org/find/details.php?id=engwebp; source pinned by SHA-256 in
+tools/bible/build_web.py). The World English Bible is in the public domain.
+"World English Bible" is a trademark of eBible.org and is used here only to
+identify this faithful copy; if the text is ever changed, it must no longer be
+called the World English Bible.

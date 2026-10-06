@@ -1,0 +1,31 @@
+name: content
+
+on:
+  pull_request:
+    paths:
+      - "Shepherd/Resources/Content/**"
+      - "tools/bible/**"
+      - "tools/content/**"
+      - ".github/workflows/content.yml"
+  push:
+    branches: [master]
+    paths:
+      - "Shepherd/Resources/Content/**"
+      - "tools/bible/**"
+      - "tools/content/**"
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      # Re-download the pinned eBible source, rebuild, and require web.json to be byte-identical.
+      - name: Bible bundle is a faithful conversion of the pinned eBible source
+        run: python3 -I tools/bible/build_web.py --check
+      - name: Validator tests (each defect class goes red)
+        run: python3 -I -m unittest discover -s tools/content -v
+      - name: Validate shipped lesson content
+        run: python3 -I tools/content/validate_content.py
