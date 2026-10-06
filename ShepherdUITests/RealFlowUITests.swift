@@ -49,8 +49,15 @@ final class RealFlowUITests: XCTestCase {
             app.buttons["Not now"].tap()
             _ = app.buttons["See my plan"].waitForExistence(timeout: 2.0)
             app.buttons["See my plan"].tap()
-            _ = app.buttons["Continue with free path"].waitForExistence(timeout: 2.0)
-            app.buttons["Continue with free path"].tap()
+            // The paywall's layout shifts when StoreKit prices arrive, which can make a tap land
+            // beside the button; tap again until the paywall is gone.
+            let free = app.buttons["Continue with free path"]
+            _ = free.waitForExistence(timeout: 4.0)
+            for _ in 0..<3 where free.exists {
+                Thread.sleep(forTimeInterval: 0.5)
+                free.tap()
+                _ = app.navigationBars["Today"].waitForExistence(timeout: 3.0)
+            }
         }
     }
 
@@ -210,6 +217,41 @@ final class RealFlowUITests: XCTestCase {
             app.navigationBars.buttons.firstMatch.tap() // Today
             XCTAssertTrue(app.navigationBars["Today"].waitForExistence(timeout: 4.0))
         }
+    }
+
+    // MARK: - App Store rating prompt (the real StoreKit sheet: "Enjoying Pasture?")
+
+    /// Days 1-2 seeded; Day 3 played with a perfect quiz. The rating sheet appears on Today, and a
+    /// cold relaunch does not ask again.
+    @MainActor
+    func testReviewPromptAfterPerfectDay3() throws {
+        let app = XCUIApplication()
+        app.launchArguments += ["-uitestReset", "-uitestCompleted", "beginner-30:2"]
+        app.launch()
+        passOnboardingIfNeeded(app, goal: "Grow a daily habit", level: "Brand new")
+        XCTAssertTrue(app.navigationBars["Today"].waitForExistence(timeout: 6.0))
+        completeLesson(app, day: 3, answers: ["Word", "Flesh"])
+        let prompt = app.staticTexts["Enjoying Pasture?"]
+        XCTAssertTrue(prompt.waitForExistence(timeout: 6.0), "no rating prompt after a perfect Day 3")
+        app.buttons["Not Now"].tap()
+
+        app.terminate()
+        app.launchArguments = [] // a plain cold launch, keeping today's progress
+        app.launch()
+        XCTAssertTrue(app.navigationBars["Today"].waitForExistence(timeout: 6.0))
+        XCTAssertFalse(prompt.waitForExistence(timeout: 4.0), "the rating prompt appeared on launch")
+    }
+
+    /// Day 3 with one wrong answer: no rating prompt.
+    @MainActor
+    func testNoReviewPromptAfterAWrongAnswer() throws {
+        let app = XCUIApplication()
+        app.launchArguments += ["-uitestReset", "-uitestCompleted", "beginner-30:2"]
+        app.launch()
+        passOnboardingIfNeeded(app, goal: "Grow a daily habit", level: "Brand new")
+        XCTAssertTrue(app.navigationBars["Today"].waitForExistence(timeout: 6.0))
+        completeLesson(app, day: 3, answers: ["Law", "Flesh"])
+        XCTAssertFalse(app.staticTexts["Enjoying Pasture?"].waitForExistence(timeout: 5.0), "rating prompt after a wrong answer")
     }
 
     @MainActor

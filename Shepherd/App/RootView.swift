@@ -24,6 +24,7 @@ public struct RootView: View {
         .task {
             #if DEBUG
             handleLaunchArguments()
+            resetForUITestIfAsked()
             #endif
             content.loadIfNeeded()
             SeedData.ensureDefaults(in: modelContext)
@@ -65,6 +66,21 @@ public struct RootView: View {
             }
         }
         try? modelContext.save()
+    }
+
+    /// UI tests only. `-uitestReset` starts from a fresh install's state (no profile, progress,
+    /// rating-prompt or reminder flags) without reinstalling, so tests in one run stay independent.
+    private func resetForUITestIfAsked() {
+        guard ProcessInfo.processInfo.arguments.contains("-uitestReset") else { return }
+        try? modelContext.delete(model: LessonProgress.self)
+        try? modelContext.delete(model: UserProfile.self)
+        try? modelContext.delete(model: Companion.self)
+        try? modelContext.delete(model: StreakState.self)
+        try? modelContext.delete(model: EntitlementState.self)
+        try? modelContext.save()
+        for key in [ReviewPrompter.promptedVersionKey, ReminderSettings.enabledKey, ReminderSettings.hourKey, ReminderSettings.minuteKey] {
+            UserDefaults.standard.removeObject(forKey: key)
+        }
     }
 
     private func handleLaunchArguments() {
