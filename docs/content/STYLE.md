@@ -1,6 +1,6 @@
-# Shepherd lesson style guide
+# Lesson style guide
 
-How to write a lesson path for Shepherd. The three launch paths (`beginner-30`, `peace-14`, `mark-30` in `Shepherd/Resources/Content/paths.json`) follow it; use them as worked examples.
+How to write a lesson path for the app. The three launch paths (`beginner-30`, `peace-14`, `mark-30` in `Shepherd/Resources/Content/paths.json`) follow it; use them as worked examples.
 
 ## 1. Non-negotiables
 
@@ -12,7 +12,8 @@ How to write a lesson path for Shepherd. The three launch paths (`beginner-30`, 
    ```
 3. **Original copy only.** Never paraphrase, adapt or "summarise" a study Bible, devotional, commentary or sermon. Read the passage and write what you see.
 4. **No AI or chatbot framing** in the copy ("As an AI…", "Let's explore…", "In today's fast-paced world…").
-5. **Lesson ids are permanent.** Progress is keyed by lesson id alone; never rename or reuse one. New lessons use `<path-id>.dNN`, questions `<lesson-id>.qN`.
+5. **Never use the app's name in lesson copy** (titles, bodies, prayers, quizzes). Say "this app" or "the Bible tab" if you must refer to it; the name can change, the lessons should not.
+6. **Lesson ids are permanent.** Progress is keyed by lesson id alone; never rename or reuse one. New lessons use `<path-id>.dNN`, questions `<lesson-id>.qN`.
 
 ## 2. Voice
 

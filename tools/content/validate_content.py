@@ -30,7 +30,8 @@ SOURCE_SHA256 = "99ea438ef8a6a20a8122e1f1fa2b12da5504f6708c4b83bef98210ccf0533e1
 BIBLE_DIGEST = os.path.join(ROOT, "tools", "bible", "web.json.sha256")
 
 REF = re.compile(r"^([1-3]?[A-Z]{2,3})\.(\d+)\.(\d+)$")
-QUOTE = re.compile(r'"([^"]+)"')
+# Quotations may be delimited with straight "…" or typographic “…” marks; both are checked.
+QUOTE = re.compile(r'["“]([^"“”]+)["”]')
 BLANK = "___"
 MIN_QUOTE = 12  # shorter quoted strings are single words ("yoke"), not verse text
 ACCESS = {"free", "premium", "seasonal"}

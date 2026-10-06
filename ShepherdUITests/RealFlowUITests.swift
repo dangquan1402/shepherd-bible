@@ -385,7 +385,7 @@ final class RealFlowUITests: XCTestCase {
 
         // 7. Paywall
         XCTAssertTrue(app.staticTexts["Start your 7-day free trial"].waitForExistence(timeout: 6.0))
-        XCTAssertTrue(app.staticTexts.matching(NSPredicate(format: "label CONTAINS '2 more paths, 44 lessons'")).firstMatch.exists)
+        XCTAssertTrue(element(app, containing: "38 Premium lessons in 2 paths").exists)
         XCTAssertFalse(app.staticTexts.matching(NSPredicate(format: "label CONTAINS[c] 'outfits' OR label CONTAINS[c] 'widgets' OR label CONTAINS[c] 'full learning paths'")).firstMatch.exists)
         Thread.sleep(forTimeInterval: 0.3)
         saveScreenshot("Paywall_Trial")

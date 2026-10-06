@@ -68,22 +68,27 @@ public enum PathRecommender {
 }
 
 /// What Premium adds, counted from the bundled content so the paywall never claims more.
+/// Only lessons behind the paywall count: a Premium path's free preview lessons are free.
 public struct PremiumOffer: Equatable, Sendable {
+    /// Premium paths that have at least one lesson beyond their free preview.
     public let pathTitles: [String]
+    /// Lessons that only Premium opens.
     public let lessonCount: Int
 
     public init(paths: [StudyPath]) {
-        let premium = paths.filter { $0.access == .premium }.sorted { $0.sortOrder < $1.sortOrder }
+        let premium = paths
+            .filter { $0.access == .premium && $0.lessons.count > $0.freePreviewLessons }
+            .sorted { $0.sortOrder < $1.sortOrder }
         pathTitles = premium.map(\.title)
-        lessonCount = premium.reduce(0) { $0 + $1.lessons.count }
+        lessonCount = premium.reduce(0) { $0 + max(0, $1.lessons.count - $1.freePreviewLessons) }
     }
 
-    /// "2 more paths, 44 lessons"; nil when content has no Premium path.
+    /// "38 Premium lessons in 2 paths"; nil when Premium opens no lesson yet.
     public var pathsSummary: String? {
-        guard !pathTitles.isEmpty else { return nil }
-        let paths = pathTitles.count == 1 ? "1 more path" : "\(pathTitles.count) more paths"
-        let lessons = lessonCount == 1 ? "1 lesson" : "\(lessonCount) lessons"
-        return "\(paths), \(lessons)"
+        guard lessonCount > 0 else { return nil }
+        let lessons = lessonCount == 1 ? "1 Premium lesson" : "\(lessonCount) Premium lessons"
+        let paths = pathTitles.count == 1 ? "1 path" : "\(pathTitles.count) paths"
+        return "\(lessons) in \(paths)"
     }
 
     /// The paywall's "Premium unlocks" line: only features that exist in this build.

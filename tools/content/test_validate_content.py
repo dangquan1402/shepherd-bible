@@ -99,6 +99,24 @@ class DefectsAreCaught(unittest.TestCase):
         q["explain"] = q["explain"].replace("God’s", "God's")
         self.assertCaught(b, r"day2: quotation is not verbatim WEB text")
 
+    def test_curly_quoted_misquote_in_lesson_prose(self):
+        # Authors may delimit quotations with typographic marks; those must be checked too.
+        b = self.mutated()
+        l = lesson(b, "peace-14.d01")
+        l["bodyMarkdown"] += (
+            "\n\nThe KJV reads differently: “Come unto me, all ye that labour and are heavy laden.”"
+        )
+        self.assertCaught(
+            b,
+            r"peace-14\.d01: quotation is not verbatim WEB text from its verses: \"Come unto me, all ye that labour",
+        )
+
+    def test_curly_quoted_faithful_quote_passes(self):
+        b = self.mutated()
+        l = lesson(b, "peace-14.d01")
+        l["bodyMarkdown"] += "\n\nHe says: “I am gentle and humble in heart.”"
+        self.assertEqual(errors(b), [])
+
     def test_misquote_in_lesson_prose(self):
         b = self.mutated()
         l = lesson(b, "peace-14.d01")
