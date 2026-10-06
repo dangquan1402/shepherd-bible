@@ -1,6 +1,8 @@
-# Shepherd — iOS 26 Liquid Glass Design Research
+# Pasture — iOS 26 Liquid Glass Design Research
 
-This document establishes the empirical research foundation for the Shepherd iOS 26 "Liquid Glass" redesign, conducted in accordance with the `refero-design` methodology. Every aesthetic, structural, and behavioral choice traces directly to live Refero MCP research, the sister app quality rubric, or Apple's official iOS 26 Liquid Glass specification.
+> **Renamed 2026-10-06: Shepherd → Pasture.** A naming scan found an existing App Store app, "Shepherd: Spiritual Bible BFF" (id 6745461941), with a lamb mascot and Duolingo-style Bible paths. The App Store name is now "Pasture: Daily Bible Path". The lamb, the Flock palette and the icon art are unchanged. Only the name and the wordmark (`pasture`, same Baloo 2 ExtraBold outline) changed. The research below was done under the old name.
+
+This document establishes the empirical research foundation for the Pasture (formerly Shepherd) iOS 26 "Liquid Glass" redesign, conducted in accordance with the `refero-design` methodology. Every aesthetic, structural, and behavioral choice traces directly to live Refero MCP research, the sister app quality rubric, or Apple's official iOS 26 Liquid Glass specification.
 
 ---
 
@@ -22,7 +24,7 @@ This document establishes the empirical research foundation for the Shepherd iOS
 | **Quiz & Lesson Feedback** | `0307c5b0-172f-457f-b1bf-dc897ebf13a6`<br>`474ff039-e63c-4fa6-866f-6ff1fda2a4dc` | Duolingo (iOS) | Stacked radio choice cards; instantaneous post-answer feedback sheet (green tint for correct, coral tint for incorrect); explanation citing the relevant verse reference; prominent primary action button. |
 | **Daily Streak & Habit** | `0590e3dd-071b-4993-b48f-34a17594fe1b`<br>`24bd0c22-311a-43a6-a71d-3d22ab4cd321` | Foodvisor / Clearful (iOS) | Flame streak badge with day counter; 7-day horizontal weekday dot sequence; celebrating consistency without artificial gamification spam. |
 | **Companion / Mascot** | `6d30579f-ae0d-40bc-b3fb-7e753f56cbc1`<br>`f4a0b4dd-b48e-4de9-a3e7-c7d234a50fdd` | Mindllama (iOS) | Cute vector sheep/lamb mascot inside circular badge; stage evolution based on XP; growth milestones directly tied to `Companion.xp` and `Companion.stage`. |
-| **StoreKit 2 Trial Paywall** | `188237cf-f12f-44a0-899d-043fc3044666`<br>`2f5d1d88-a77e-49e8-bd5b-70e331f74da2` | Drops / The Athletic (iOS) | Vertical trial timeline (done step, Today, Day 5, Day 7); Shepherd's Day 5 row is "Cancel anytime before Day 7" (no reminder promise, captain D3); Annual primary card ($29.99/yr placeholder) + Monthly option ($4.99/mo); auto-renew disclosure; Restore Purchases; Terms and Privacy links. |
+| **StoreKit 2 Trial Paywall** | `188237cf-f12f-44a0-899d-043fc3044666`<br>`2f5d1d88-a77e-49e8-bd5b-70e331f74da2` | Drops / The Athletic (iOS) | Vertical trial timeline (done step, Today, Day 5, Day 7); Pasture's Day 5 row is "Cancel anytime before Day 7" (no reminder promise, captain D3); Annual primary card ($29.99/yr placeholder) + Monthly option ($4.99/mo); auto-renew disclosure; Restore Purchases; Terms and Privacy links. |
 | **Onboarding Questionnaire** | `b5494d57-8a09-4371-a3db-8dd105a3b094`<br>`c0b7caf1-89f3-4972-a3f5-096fff051026` | Todoist / How We Feel (iOS) | Clean single-column option cards with selection indicators; top progress bar; "Building your personal path" loading state with animated progress and summary of selected goals. |
 | **Scripture & Bible Reader** | `4c8947a8-61fa-49f3-a7d8-5d65ac08bfad`<br>`d9a6a37d-2c7f-4f05-abfa-b317c513c797` | Apple Books / Fable (iOS) | Paper-like readability, generous 20pt side gutters, clear verse numbers in subtle secondary ink, translation badge ("WEB"), distraction-free typography. |
 
@@ -117,7 +119,7 @@ Motion rules: SwiftUI only. Glass morphs use one spring, `.spring(duration: 0.35
 ## 4. Anti-Averaging Quality Gates
 
 To ensure the design maintains an A+ standard and avoids generic "AI slop":
-1. **Not a generic ham-radio or SaaS template:** Shepherd has its own pastoral, devotional identity—warm vellum, quiet wool, morning sun, and still waters.
+1. **Not a generic ham-radio or SaaS template:** Pasture has its own pastoral, devotional identity—warm vellum, quiet wool, morning sun, and still waters.
 2. **Sharp contrast boundaries:** Text-to-surface pairs strictly exceed WCAG AA (4.5:1 for body, 3.0:1 for large text).
 3. **No hallucinated features:** Strictly conforms to `docs/PLAN.md` and `README.md` (no social feeds, no cloud sync, no push notifications beyond local reminders).
 4. **Honest privacy guarantees:** On-device storage via SwiftData clearly communicated throughout onboarding and settings.

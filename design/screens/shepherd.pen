@@ -23,7 +23,7 @@
           "y": 32,
           "name": "Title",
           "fill": "$I:--color-text-primary",
-          "content": "The Shepherd lamb",
+          "content": "The Pasture lamb",
           "fontFamily": "$I:--font-display",
           "fontSize": 34,
           "fontWeight": "700"
@@ -835,7 +835,7 @@
           "y": 32,
           "name": "Title",
           "fill": "$I:--color-text-primary",
-          "content": "The Shepherd lamb",
+          "content": "The Pasture lamb",
           "fontFamily": "$I:--font-display",
           "fontSize": 34,
           "fontWeight": "700"
@@ -4483,12 +4483,12 @@
                   "id": "VutSs",
                   "type": "ref",
                   "ref": "I:b6yFN",
-                  "name": "Row Shepherd Premium",
+                  "name": "Row Pasture Premium",
                   "x": 0,
                   "y": 0,
                   "descendants": {
                     "I:RYjQb": {
-                      "content": "Shepherd Premium",
+                      "content": "Pasture Premium",
                       "fill": "$I:--color-text-primary",
                       "fontWeight": "400"
                     },
@@ -4834,12 +4834,12 @@
                   "id": "cJRpJ",
                   "type": "ref",
                   "ref": "I:b6yFN",
-                  "name": "Row Shepherd Premium",
+                  "name": "Row Pasture Premium",
                   "x": 0,
                   "y": 0,
                   "descendants": {
                     "I:RYjQb": {
-                      "content": "Shepherd Premium",
+                      "content": "Pasture Premium",
                       "fill": "$I:--color-text-primary",
                       "fontWeight": "400"
                     },
@@ -9225,12 +9225,12 @@
                   "id": "X5xHp",
                   "type": "ref",
                   "ref": "I:b6yFN",
-                  "name": "Row Shepherd Premium",
+                  "name": "Row Pasture Premium",
                   "x": 0,
                   "y": 0,
                   "descendants": {
                     "I:RYjQb": {
-                      "content": "Shepherd Premium",
+                      "content": "Pasture Premium",
                       "fill": "$I:--color-text-primary",
                       "fontWeight": "400"
                     },
@@ -9682,12 +9682,12 @@
                   "id": "WErfl",
                   "type": "ref",
                   "ref": "I:b6yFN",
-                  "name": "Row Shepherd Premium",
+                  "name": "Row Pasture Premium",
                   "x": 0,
                   "y": 0,
                   "descendants": {
                     "I:RYjQb": {
-                      "content": "Shepherd Premium",
+                      "content": "Pasture Premium",
                       "fill": "$I:--color-text-primary",
                       "fontWeight": "400"
                     },
@@ -23890,7 +23890,7 @@
                   "fill": "$I:--color-text-primary",
                   "textGrowth": "fixed-width",
                   "width": "fill_container",
-                  "content": "Welcome to Shepherd",
+                  "content": "Welcome to Pasture",
                   "textAlign": "center",
                   "fontFamily": "$I:--font-display",
                   "fontSize": 34,
@@ -24228,7 +24228,7 @@
                   "fill": "$I:--color-text-primary",
                   "textGrowth": "fixed-width",
                   "width": "fill_container",
-                  "content": "Welcome to Shepherd",
+                  "content": "Welcome to Pasture",
                   "textAlign": "center",
                   "fontFamily": "$I:--font-display",
                   "fontSize": 34,
@@ -29260,7 +29260,7 @@
               "fill": "$I:--color-text-primary",
               "textGrowth": "fixed-width",
               "width": 270,
-              "content": "Grow with Shepherd Premium",
+              "content": "Grow with Pasture Premium",
               "fontFamily": "$I:--font-display",
               "fontSize": 28,
               "fontWeight": "700"
@@ -29829,7 +29829,7 @@
               "fill": "$I:--color-text-primary",
               "textGrowth": "fixed-width",
               "width": 270,
-              "content": "Grow with Shepherd Premium",
+              "content": "Grow with Pasture Premium",
               "fontFamily": "$I:--font-display",
               "fontSize": 28,
               "fontWeight": "700"
@@ -30398,7 +30398,7 @@
               "fill": "$I:--color-text-primary",
               "textGrowth": "fixed-width",
               "width": 270,
-              "content": "Grow with Shepherd Premium",
+              "content": "Grow with Pasture Premium",
               "fontFamily": "$I:--font-display",
               "fontSize": 28,
               "fontWeight": "700"
@@ -31081,7 +31081,7 @@
               "fill": "$I:--color-text-primary",
               "textGrowth": "fixed-width",
               "width": 270,
-              "content": "Grow with Shepherd Premium",
+              "content": "Grow with Pasture Premium",
               "fontFamily": "$I:--font-display",
               "fontSize": 28,
               "fontWeight": "700"
@@ -31764,7 +31764,7 @@
               "fill": "$I:--color-text-primary",
               "textGrowth": "fixed-width",
               "width": 270,
-              "content": "Grow with Shepherd Premium",
+              "content": "Grow with Pasture Premium",
               "fontFamily": "$I:--font-display",
               "fontSize": 28,
               "fontWeight": "700"
@@ -32469,7 +32469,7 @@
               "fill": "$I:--color-text-primary",
               "textGrowth": "fixed-width",
               "width": 270,
-              "content": "Grow with Shepherd Premium",
+              "content": "Grow with Pasture Premium",
               "fontFamily": "$I:--font-display",
               "fontSize": 28,
               "fontWeight": "700"
@@ -33174,7 +33174,7 @@
               "fill": "$I:--color-text-primary",
               "textGrowth": "fixed-width",
               "width": 270,
-              "content": "Grow with Shepherd Premium",
+              "content": "Grow with Pasture Premium",
               "fontFamily": "$I:--font-display",
               "fontSize": 28,
               "fontWeight": "700"
@@ -33893,7 +33893,7 @@
               "fill": "$I:--color-text-primary",
               "textGrowth": "fixed-width",
               "width": 270,
-              "content": "Grow with Shepherd Premium",
+              "content": "Grow with Pasture Premium",
               "fontFamily": "$I:--font-display",
               "fontSize": 28,
               "fontWeight": "700"
@@ -34612,7 +34612,7 @@
               "fill": "$I:--color-text-primary",
               "textGrowth": "fixed-width",
               "width": 270,
-              "content": "Grow with Shepherd Premium",
+              "content": "Grow with Pasture Premium",
               "fontFamily": "$I:--font-display",
               "fontSize": 28,
               "fontWeight": "700"
@@ -35388,7 +35388,7 @@
               "fill": "$I:--color-text-primary",
               "textGrowth": "fixed-width",
               "width": 270,
-              "content": "Grow with Shepherd Premium",
+              "content": "Grow with Pasture Premium",
               "fontFamily": "$I:--font-display",
               "fontSize": 28,
               "fontWeight": "700"
@@ -42683,7 +42683,7 @@
           "y": 32,
           "name": "Label",
           "fill": "$I:--color-text-primary",
-          "content": "The Shepherd brand",
+          "content": "The Pasture brand",
           "fontFamily": "$I:--font-display",
           "fontSize": 34,
           "fontWeight": "600"
@@ -42699,7 +42699,8 @@
           "width": 1160,
           "content": "Flock: ultramarine for action, sunflower for reward only, a black-faced lamb with a fleece cap. Wordmark: Baloo 2 ExtraBold, outlined (SIL OFL 1.1); no font ships.",
           "fontFamily": "$I:--font-body",
-          "fontSize": 17
+          "fontSize": 17,
+          "fontWeight": "normal"
         },
         {
           "type": "text",
@@ -42732,7 +42733,8 @@
           "width": 300,
           "content": "180 px (60 pt @3x); this frame's theme is the icon's appearance",
           "fontFamily": "$I:--font-body",
-          "fontSize": 13
+          "fontSize": 13,
+          "fontWeight": "normal"
         },
         {
           "type": "text",
@@ -42803,7 +42805,8 @@
           "fill": "$I:--color-text-secondary",
           "content": "Onboarding welcome (centred above the lamb)",
           "fontFamily": "$I:--font-body",
-          "fontSize": 13
+          "fontSize": 13,
+          "fontWeight": "normal"
         },
         {
           "id": "buvne",
@@ -42822,7 +42825,8 @@
           "fill": "$I:--color-text-secondary",
           "content": "Paywall header (top left)",
           "fontFamily": "$I:--font-body",
-          "fontSize": 13
+          "fontSize": 13,
+          "fontWeight": "normal"
         },
         {
           "type": "text",
@@ -42835,7 +42839,8 @@
           "width": 1160,
           "content": "iOS 26 appearances: default (light frame), dark (dark frame), tinted and clear are generated from the same face (Shepherd/Resources/Assets.xcassets/AppIcon.appiconset, docs/brand/icon_sheet.png). Sunflower never appears in routine chrome.",
           "fontFamily": "$I:--font-body",
-          "fontSize": 15
+          "fontSize": 15,
+          "fontWeight": "normal"
         }
       ]
     },
@@ -42861,7 +42866,7 @@
           "y": 32,
           "name": "Label",
           "fill": "$I:--color-text-primary",
-          "content": "The Shepherd brand",
+          "content": "The Pasture brand",
           "fontFamily": "$I:--font-display",
           "fontSize": 34,
           "fontWeight": "600"
@@ -42877,7 +42882,8 @@
           "width": 1160,
           "content": "Flock: ultramarine for action, sunflower for reward only, a black-faced lamb with a fleece cap. Wordmark: Baloo 2 ExtraBold, outlined (SIL OFL 1.1); no font ships.",
           "fontFamily": "$I:--font-body",
-          "fontSize": 17
+          "fontSize": 17,
+          "fontWeight": "normal"
         },
         {
           "type": "text",
@@ -42910,7 +42916,8 @@
           "width": 300,
           "content": "180 px (60 pt @3x); this frame's theme is the icon's appearance",
           "fontFamily": "$I:--font-body",
-          "fontSize": 13
+          "fontSize": 13,
+          "fontWeight": "normal"
         },
         {
           "type": "text",
@@ -42981,7 +42988,8 @@
           "fill": "$I:--color-text-secondary",
           "content": "Onboarding welcome (centred above the lamb)",
           "fontFamily": "$I:--font-body",
-          "fontSize": 13
+          "fontSize": 13,
+          "fontWeight": "normal"
         },
         {
           "id": "f3y8g",
@@ -43000,7 +43008,8 @@
           "fill": "$I:--color-text-secondary",
           "content": "Paywall header (top left)",
           "fontFamily": "$I:--font-body",
-          "fontSize": 13
+          "fontSize": 13,
+          "fontWeight": "normal"
         },
         {
           "type": "text",
@@ -43013,7 +43022,8 @@
           "width": 1160,
           "content": "iOS 26 appearances: default (light frame), dark (dark frame), tinted and clear are generated from the same face (Shepherd/Resources/Assets.xcassets/AppIcon.appiconset, docs/brand/icon_sheet.png). Sunflower never appears in routine chrome.",
           "fontFamily": "$I:--font-body",
-          "fontSize": 15
+          "fontSize": 15,
+          "fontWeight": "normal"
         }
       ]
     }

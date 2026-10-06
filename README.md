@@ -1,4 +1,6 @@
-# Shepherd
+# Pasture
+
+_Formerly Shepherd: renamed on 2026-10-06. The App Store name is "Pasture: Daily Bible Path". The code keeps the old internal names (the `Shepherd` Swift module, targets and folders, `Shepherd.xcodeproj`, bundle id `com.dangvietquan.shepherd`, the subscription product ids and the repo name), which users never see._
 
 Privacy-first Bible learning for iOS — Duolingo-style daily path, lamb companion, soft paywall.  
 No account. No Meta SDK. Progress stays on device.

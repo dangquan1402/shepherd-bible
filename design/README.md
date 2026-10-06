@@ -1,6 +1,6 @@
-# Shepherd: iOS 26 Liquid Glass design
+# Pasture: iOS 26 Liquid Glass design
 
-Design files for the Shepherd iPhone app: a Bible-habit app with a black-faced lamb companion, drawn for iOS 26 Liquid Glass. Brand direction **Flock** (ultramarine for action, sunflower for reward).
+Design files for the Pasture iPhone app (formerly Shepherd): a Bible-habit app with a black-faced lamb companion, drawn for iOS 26 Liquid Glass. Brand direction **Flock** (ultramarine for action, sunflower for reward).
 
 | File | What it holds |
 |---|---|
@@ -31,42 +31,42 @@ Sections marked *generated* are written by `python3 design/tools/readme_tables.p
 | `Companion` | `name` (default "Lamb", set in onboarding), `xp`, `stage = max(1, min(5, 1 + xp / 50))` | Lamb stage everywhere; Companion screen; XP bars |
 | `StreakState` | `current` (starts at 0; `markCompleted` sets 1), `best`, `freezesLeft` (no logic consumes it) | Streak chip in the Today toolbar; reward chip. No freeze state is drawn: nothing in the code uses `freezesLeft` yet |
 | `LessonProgress` | `lessonId`, `quizScore` | Path node done / current state |
-| `EntitlementState` | `isPremium` | Settings "Shepherd Premium" row |
+| `EntitlementState` | `isPremium` | Settings "Pasture Premium" row |
 | `LessonView.complete` | `addXP(10 + score)`, `markCompleted()` | Reward: +12 XP for 2/2 correct on Day 1 (+11 for 1/2, +10 for 0/2) |
 | `StoreKitManager` | `premium.yearly`, `premium.monthly`, `Product.displayPrice` | Paywall plan cards; prices in the frames are placeholders |
 | `ContentStore.verse(ref:)` | WEB text by `BOOK.c.v` | Every verse in every frame |
 
 ### 2.2 Verbatim copy kept from the scaffold
 
-Onboarding: "Welcome to Shepherd", "A few minutes a day. Scripture that sticks. Everything stays on your phone.", "What’s your goal?", "How familiar are you?", "How many minutes a day?", "Name your companion", "Continue", "See my plan". Paywall: "Grow with Shepherd Premium", the four features "Full learning paths", "Streak freezes", "Companion outfits", "Widgets & reminders", "Yearly · 7-day free trial · Best value · Most popular", "Monthly · 7-day free trial", "Start free trial", "Continue with free path". Lesson: "Take the quiz", "Prayer". Settings: "No account. Progress stays on this device.", "No ad trackers in v1." (shown as "Ad trackers · None in v1").
+Onboarding: "Welcome to Pasture", "A few minutes a day. Scripture that sticks. Everything stays on your phone.", "What’s your goal?", "How familiar are you?", "How many minutes a day?", "Name your companion", "Continue", "See my plan". Paywall: "Grow with Shepherd Premium", the four features "Full learning paths", "Streak freezes", "Companion outfits", "Widgets & reminders", "Yearly · 7-day free trial · Best value · Most popular", "Monthly · 7-day free trial", "Start free trial", "Continue with free path". Lesson: "Take the quiz", "Prayer". Settings: "No account. Progress stays on this device.", "No ad trackers in v1." (shown as "Ad trackers · None in v1").
 
 Copy changed on purpose: the building step reads "Preparing your path…" (one path exists, nothing is personalised) and its rows read "Goal: Grow a daily habit" and "Daily goal: 5 min". The quiz drops "Question 1 of 2" for a progress bar plus "Day 1".
 
 ### 2.3 Sample content (*generated*, pasted from the JSON)
 
 <!-- gen:content -->
-Path `beginner-7`: "Beginner: 7 Days with God" (level `beginner`, `estimatedDays` 7, 7 lessons). Translation label in the JSON: `WEB`.
+Path `beginner-30`: "First Steps: 30 Days with God" (level `beginner`, `estimatedDays` 30, 7 lessons). Translation label in the JSON: `WEB`.
 
 | Day | Lesson id | Title | Verses | Questions (explain present?) |
 |---|---|---|---|---|
-| 1 | `day1` | In the beginning | GEN.1.1, GEN.1.3 | `day1-q1` yes; `day1-q2` null |
-| 2 | `day2` | Made in God's image | GEN.1.26, GEN.1.27 | `day2-q1` null; `day2-q2` null |
-| 3 | `day3` | The Word became flesh | JHN.1.1, JHN.1.14 | `day3-q1` null; `day3-q2` null |
-| 4 | `day4` | God so loved | JHN.3.16, JHN.3.17 | `day4-q1` null; `day4-q2` null |
-| 5 | `day5` | The Lord is my shepherd | PSA.23.1, PSA.23.4 | `day5-q1` null; `day5-q2` null |
-| 6 | `day6` | Light of the world | MAT.5.14, MAT.5.16 | `day6-q1` null; `day6-q2` null |
-| 7 | `day7` | Pray like this | MAT.6.9, MAT.6.11, PHP.4.6, PHP.4.7 | `day7-q1` null; `day7-q2` null; `day7-q3` null |
+| 1 | `day1` | In the beginning | GEN.1.1, GEN.1.3 | `day1-q1` yes; `day1-q2` yes |
+| 2 | `day2` | Made in God's image | GEN.1.26, GEN.1.27 | `day2-q1` yes; `day2-q2` yes |
+| 3 | `day3` | The Word became flesh | JHN.1.1, JHN.1.14 | `day3-q1` yes; `day3-q2` yes |
+| 4 | `day4` | God so loved | JHN.3.16, JHN.3.17 | `day4-q1` yes; `day4-q2` yes |
+| 5 | `day5` | The Lord is my shepherd | PSA.23.1, PSA.23.4 | `day5-q1` yes; `day5-q2` yes |
+| 6 | `day6` | Light of the world | MAT.5.14, MAT.5.16 | `day6-q1` yes; `day6-q2` yes |
+| 7 | `day7` | Pray like this | MAT.6.9, MAT.6.11, PHP.4.6, PHP.4.7 | `day7-q1` yes; `day7-q2` yes; `day7-q3` yes |
 
 **Day 1, verbatim** (`day1`)
 
 - Genesis 1:1 (WEB): "In the beginning, God created the heavens and the earth."
-- Genesis 1:3 (WEB): "God said, "Let there be light," and there was light."
+- Genesis 1:3 (WEB): "God said, “Let there be light,” and there was light."
 - Body: "God speaks creation into being. Light comes first — order from chaos.  **Reflection:** Where do you need God to bring light today?"
 - Prayer: "Thank you, God, for creating all things and for bringing light into darkness."
-- `day1-q1` "Who created the heavens and the earth?": A "God" · B "Angels" · C "Chance" · D "Kings"; correct A; explain: "Genesis 1:1 — God is the Creator."
-- `day1-q2` "What did God say first?": A "Let there be light" · B "Let there be land" · C "It is finished" · D "Follow me"; correct A; explain: null
+- `day1-q1` "Who created the heavens and the earth?": A "Angels" · B "God" · C "Chance" · D "Kings"; correct B; explain: "Genesis 1:1: \"In the beginning, God created the heavens and the earth.\""
+- `day1-q2` "What did God say first?": A "Let there be land" · B "It is finished" · C "Let there be light" · D "Follow me"; correct C; explain: "Genesis 1:3. God speaks, and light is the first thing he makes."
 
-Bible sample chapters: Genesis 1 (8 verses: 1, 2, 3, 4, 5, 26, 27, 31), John 1 (6 verses: 1, 2, 3, 4, 5, 14), John 3 (2 verses: 16, 17), Psalms 23 (4 verses: 1, 2, 3, 4), Matthew 5 (6 verses: 3, 4, 5, 6, 14, 16), Matthew 6 (5 verses: 9, 10, 11, 12, 13), Philippians 4 (2 verses: 6, 7).
+Bundled Bible: World English Bible, 66 books, 1189 chapters.
 <!-- /gen:content -->
 
 ### 2.4 Weaknesses of the scaffold this design answers
@@ -84,7 +84,7 @@ Direction **Flock** (chosen from three in `data/sb-brand/directions`, outside th
 - **Canvas:** an almost-white lavender (`#FBFAFF`) by day, **midnight indigo** (`#14122E`, card `#1E1B42`) by night. The dark is chromatic on purpose: Liquid Glass reads as tinted glass on it, not grey on black. A periwinkle-to-sunrise sky sits behind most screens, with vivid light meadow hills on Today.
 - **Accent: ultramarine.** Text `#3431D6` / `#B3B2FF`, fill `#3D3AE8` / `#5E5CF2`. It is for actions, the current node, progress, icon tints and the lamb's bandana. The dark fill sits in the narrow band that carries a white label at 4.5:1 *and* clears 3:1 against the dark surfaces as an icon tint.
 - **Sunflower (`--color-gold*`) is for reward and celebration only:** XP, streak, sparkles, the bell, the crown's centres, the sunlit path. It never colours routine chrome.
-- **Logo.** A lowercase wordmark `shepherd` outlined from **Baloo 2 ExtraBold** (SIL Open Font License 1.1, Ek Type), so no font ships. The mark is the lamb's front face on an ultramarine chip. `Brand/Lockup` is used centred above the lamb on Onboarding_Welcome; `Brand/Lockup/Compact` is used at the top left of the paywall.
+- **Logo.** A lowercase wordmark `pasture` outlined from **Baloo 2 ExtraBold** (SIL Open Font License 1.1, Ek Type), so no font ships. The mark is the lamb's front face on an ultramarine chip. `Brand/Lockup` is used centred above the lamb on Onboarding_Welcome; `Brand/Lockup/Compact` is used at the top left of the paywall.
 - **App icon.** The front face filling an ultramarine gradient tile (`--color-icon-top` / `-bottom`). The dark appearance uses the same face on midnight indigo. Tinted is a grayscale source with the face lifted to mid-grey so the silhouette survives the tint; clear is a white head silhouette with the eyes cut out. All four come from `tools/brand/brandart.py`.
 - **Devotional, not a kids' app:** New York stays for titles, verses and prayer, scripture screens stay lamb-free, and motion stays calm (section 9).
 - **Green and red are reserved for quiz correctness** (`--color-success*`, `--color-error*`). Nothing else uses them. The Settings restore toast uses a neutral info icon for this reason.
@@ -312,9 +312,9 @@ Type scale (Dynamic Type style → size used in the frames): Large Title 34 (Hom
 | `Avatar/S4/Idle` | 56×56 | 19 path | lamb head-and-shoulders avatar (56 pt, pre-cut to the circle) |
 | `Avatar/S5/Idle` | 56×56 | 21 path | lamb head-and-shoulders avatar (56 pt, pre-cut to the circle) |
 | `Brand/Mark` | 40×40 | 1 ellipse, 10 path | logo mark: the lamb face on an ultramarine chip |
-| `Brand/Wordmark` | 145.15×30 | 1 path | lowercase wordmark, outlined Baloo 2 ExtraBold (SIL OFL 1.1) |
-| `Brand/Lockup` | 196.35×40 | 1 ellipse, 11 path | mark + wordmark, onboarding welcome size |
-| `Brand/Lockup/Compact` | 140.01×30 | 1 ellipse, 11 path | mark + wordmark, paywall header size |
+| `Brand/Wordmark` | 126.37×30 | 1 path | lowercase wordmark, outlined Baloo 2 ExtraBold (SIL OFL 1.1) |
+| `Brand/Lockup` | 177.57×40 | 1 ellipse, 11 path | mark + wordmark, onboarding welcome size |
+| `Brand/Lockup/Compact` | 126.86×30 | 1 ellipse, 11 path | mark + wordmark, paywall header size |
 | `Brand/AppIcon` | 180×180 | 10 path | app icon artwork at 180 px (60 pt @3x); theme picks default / dark |
 
 | Lamb variant | Artboard (pt) | Vector layers |
