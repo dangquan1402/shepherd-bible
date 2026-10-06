@@ -302,4 +302,24 @@ final class ShepherdTests: XCTestCase {
         XCTAssertEqual(second.xpAwarded, 0, "Retaking lesson must award 0 XP")
         XCTAssertEqual(companion.xp, 12, "Companion XP must not increase on retake")
     }
+
+    // MARK: - Brand name (the app was renamed from Shepherd; Swift module and bundle id keep the old name)
+    func testUserVisibleNameIsPasture() throws {
+        XCTAssertEqual(Bundle.main.object(forInfoDictionaryKey: "CFBundleDisplayName") as? String, "Pasture")
+
+        let url = try XCTUnwrap(Bundle(for: Self.self).url(forResource: "Shepherd", withExtension: "storekit"))
+        let config = try XCTUnwrap(JSONSerialization.jsonObject(with: Data(contentsOf: url)) as? [String: Any])
+        let groups = try XCTUnwrap(config["subscriptionGroups"] as? [[String: Any]])
+        var names: [String] = []
+        for group in groups {
+            names.append(try XCTUnwrap(group["name"] as? String))
+            let groupLocs = group["localizations"] as? [[String: Any]] ?? []
+            let subLocs = (group["subscriptions"] as? [[String: Any]] ?? []).flatMap { $0["localizations"] as? [[String: Any]] ?? [] }
+            names += (groupLocs + subLocs).compactMap { $0["displayName"] as? String }
+        }
+        XCTAssertEqual(names.count, 4)
+        for name in names {
+            XCTAssertTrue(name.hasPrefix("Pasture Premium"), name)
+        }
+    }
 }

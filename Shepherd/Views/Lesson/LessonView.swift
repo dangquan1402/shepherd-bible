@@ -56,8 +56,8 @@ public struct LessonView: View {
     }
 
     private var lockedMessage: String {
-        guard let path else { return "This lesson is part of Shepherd Premium." }
-        let intro = "Day \(lesson.dayIndex) of \(path.title) is part of Shepherd Premium."
+        guard let path else { return "This lesson is part of Pasture Premium." }
+        let intro = "Day \(lesson.dayIndex) of \(path.title) is part of Pasture Premium."
         switch path.freePreviewLessons {
         case 0: return intro
         case 1: return "\(intro) The first lesson is free; Premium opens the rest."

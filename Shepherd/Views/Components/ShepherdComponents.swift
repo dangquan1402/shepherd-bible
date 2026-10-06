@@ -579,7 +579,7 @@ public struct PlanCard: View {
 
 // MARK: - Brand Lockup (design: Brand/Lockup, Brand/Lockup/Compact)
 
-/// The mark (lamb face on the accent chip) beside the outlined `shepherd` wordmark.
+/// The mark (lamb face on the accent chip) beside the outlined `pasture` wordmark.
 /// Both are vector assets; the wordmark is a template tinted with the accent token.
 public struct BrandLockup: View {
     public enum Size {
@@ -610,7 +610,7 @@ public struct BrandLockup: View {
                 .offset(y: size.word * 0.08)
         }
         .accessibilityElement(children: .ignore)
-        .accessibilityLabel("Shepherd")
+        .accessibilityLabel("Pasture")
         .accessibilityIdentifier("brand_lockup")
     }
 }
