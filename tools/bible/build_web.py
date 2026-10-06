@@ -42,6 +42,9 @@ USFM_URL = "https://ebible.org/Scriptures/engwebp_usfm.zip"
 USFM_SHA256 = "99ea438ef8a6a20a8122e1f1fa2b12da5504f6708c4b83bef98210ccf0533e12"
 VPL_URL = "https://ebible.org/Scriptures/engwebp_vpl.zip"
 VPL_SHA256 = "f02f675fcd002e6a4a65c4d79a1906b73754a5f366980bbb01fbc60fb39edc84"
+USER_AGENT = (
+    "shepherd-bible/build_web.py (+https://github.com/dangquan1402/shepherd-bible)"
+)
 SOURCE_DATE = (
     "2026-10-02"  # "source files dated 2 Oct 2026" on the eBible page for this zip
 )
@@ -124,7 +127,9 @@ def fetch(url, expected_sha):
             data = f.read()
     else:
         print("downloading", url, file=sys.stderr)
-        with urllib.request.urlopen(url, timeout=120) as r:
+        # eBible's CDN answers 403 to urllib's default User-Agent.
+        req = urllib.request.Request(url, headers={"User-Agent": USER_AGENT})
+        with urllib.request.urlopen(req, timeout=120) as r:
             data = r.read()
     got = sha256(data)
     if got != expected_sha:
