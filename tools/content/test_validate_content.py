@@ -163,7 +163,7 @@ class DefectsAreCaught(unittest.TestCase):
                 answer = q["choices"].pop(q["correctIndex"])
                 q["choices"].insert(0, answer)
                 q["correctIndex"] = 0
-        self.assertCaught(b, r"beginner-30: all 15 answers are choice #0")
+        self.assertCaught(b, r"beginner-30: all \d+ answers are choice #0")
 
     def test_lord_edition_wording(self):
         # The Classic WEB says "Yahweh is my shepherd"; the bundled engwebp says "The LORD".
@@ -183,9 +183,14 @@ class DefectsAreCaught(unittest.TestCase):
         self.assertCaught(b, r"peace-14: premium path needs freePreviewLessons")
 
     def test_drafts_fail_a_release_check(self):
-        self.assertEqual(errors(PATHS), [])
+        b = self.mutated()
+        p = b["paths"][1]
+        n = len(p["lessons"])
+        p["draft"] = {"plannedLessons": n + 1}
+        p["estimatedDays"] = n + 1
+        self.assertEqual(errors(b), [])
         self.assertCaught(
-            PATHS, r"peace-14: draft path, 3 of 14 lessons written", release=True
+            b, rf"peace-14: draft path, {n} of {n + 1} lessons written", release=True
         )
 
     def test_bible_from_another_source(self):
