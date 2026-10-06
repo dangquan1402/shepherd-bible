@@ -78,7 +78,7 @@ public struct PremiumOffer: Equatable, Sendable {
         lessonCount = premium.reduce(0) { $0 + $1.lessons.count }
     }
 
-    /// "2 more paths, 6 lessons"; nil when content has no Premium path.
+    /// "2 more paths, 44 lessons"; nil when content has no Premium path.
     public var pathsSummary: String? {
         guard !pathTitles.isEmpty else { return nil }
         let paths = pathTitles.count == 1 ? "1 more path" : "\(pathTitles.count) more paths"

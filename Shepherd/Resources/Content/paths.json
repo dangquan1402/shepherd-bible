@@ -335,12 +335,12 @@
               "id": "beginner-30.d08.q2",
               "prompt": "According to John 10:11, what does the good shepherd do for the sheep?",
               "choices": [
-                "counts them every evening",
                 "lays down his life for the sheep",
+                "counts them every evening",
                 "keeps only the strongest",
                 "sends them out alone"
               ],
-              "correctIndex": 1,
+              "correctIndex": 0,
               "answerRef": "JHN.10.11",
               "explain": "John 10:11: \"The good shepherd lays down his life for the sheep.\""
             },
@@ -348,12 +348,12 @@
               "id": "beginner-30.d08.q3",
               "prompt": "\"My sheep hear my ___, and I know them, and they follow me.\"",
               "choices": [
-                "voice",
                 "bell",
-                "name",
-                "song"
+                "voice",
+                "song",
+                "name"
               ],
-              "correctIndex": 0,
+              "correctIndex": 1,
               "answerRef": "JHN.10.27",
               "explain": "John 10:27. Following starts with recognizing the shepherd's voice."
             }
@@ -376,12 +376,12 @@
               "id": "beginner-30.d09.q1",
               "prompt": "What does Jesus say the man would do when one sheep is lost?",
               "choices": [
-                "wait for it to find its way back",
-                "stay with the others and hope",
+                "go after the one that was lost",
                 "send a servant to look",
-                "go after the one that was lost"
+                "wait for it to find its way back",
+                "stay with the others and hope"
               ],
-              "correctIndex": 3,
+              "correctIndex": 0,
               "answerRef": "LUK.15.4",
               "explain": "Luke 15:4. He leaves the ninety-nine and searches until he finds the lost one."
             },
@@ -389,12 +389,12 @@
               "id": "beginner-30.d09.q2",
               "prompt": "\"When he has found it, he carries it on his ___, rejoicing.\"",
               "choices": [
+                "shoulders",
                 "back",
                 "arms",
-                "donkey",
-                "shoulders"
+                "donkey"
               ],
-              "correctIndex": 3,
+              "correctIndex": 0,
               "answerRef": "LUK.15.5",
               "explain": "Luke 15:5. The shepherd carries the sheep home himself, and he is glad to do it."
             },
@@ -402,12 +402,12 @@
               "id": "beginner-30.d09.q3",
               "prompt": "According to Luke 15:7, what brings joy in heaven?",
               "choices": [
-                "a new law being kept",
                 "a large crowd at worship",
-                "one sinner who repents",
-                "a perfect week of good deeds"
+                "a new law being kept",
+                "a perfect week of good deeds",
+                "one sinner who repents"
               ],
-              "correctIndex": 2,
+              "correctIndex": 3,
               "answerRef": "LUK.15.7",
               "explain": "Luke 15:7: \"there will be more joy in heaven over one sinner who repents.\""
             }
@@ -430,12 +430,12 @@
               "id": "beginner-30.d10.q1",
               "prompt": "What did the father do when he saw his son still far off?",
               "choices": [
+                "sent a servant to ask why he had come",
                 "ran, fell on his neck, and kissed him",
                 "stayed inside until the son knocked",
-                "waited at the door with his arms folded",
-                "sent a servant to ask why he had come"
+                "waited at the door with his arms folded"
               ],
-              "correctIndex": 0,
+              "correctIndex": 1,
               "answerRef": "LUK.15.20",
               "explain": "Luke 15:20. The father does not wait for the son to arrive; he runs to him."
             },
@@ -443,12 +443,12 @@
               "id": "beginner-30.d10.q2",
               "prompt": "Fill in the blank: \"Bring out the best ___ and put it on him.\"",
               "choices": [
+                "crown",
                 "cloak",
                 "robe",
-                "belt",
-                "crown"
+                "belt"
               ],
-              "correctIndex": 1,
+              "correctIndex": 2,
               "answerRef": "LUK.15.22",
               "explain": "Luke 15:22. The father dresses his son as a son, not as a hired servant."
             },
@@ -456,12 +456,12 @@
               "id": "beginner-30.d10.q3",
               "prompt": "How does the father describe his son in verse 24?",
               "choices": [
-                "was dead and is alive again",
                 "was rich and is now poor",
-                "was a servant and is now a guest",
-                "was foolish and has learned his lesson"
+                "was dead and is alive again",
+                "was foolish and has learned his lesson",
+                "was a servant and is now a guest"
               ],
-              "correctIndex": 0,
+              "correctIndex": 1,
               "answerRef": "LUK.15.24",
               "explain": "Luke 15:24: \"for this, my son, was dead and is alive again. He was lost and is found.\""
             }
@@ -485,10 +485,10 @@
               "choices": [
                 "effort",
                 "sacrifice",
-                "faith",
-                "obedience"
+                "obedience",
+                "faith"
               ],
-              "correctIndex": 2,
+              "correctIndex": 3,
               "answerRef": "EPH.2.8",
               "explain": "Ephesians 2:8: \"for by grace you have been saved through faith.\""
             },
@@ -497,11 +497,11 @@
               "prompt": "According to Ephesians 2:8, salvation is…",
               "choices": [
                 "a wage for hard work",
-                "the gift of God",
+                "a reward for good behavior",
                 "a prize for the strongest",
-                "a reward for good behavior"
+                "the gift of God"
               ],
-              "correctIndex": 1,
+              "correctIndex": 3,
               "answerRef": "EPH.2.8",
               "explain": "Ephesians 2:8: \"it is the gift of God.\""
             },
@@ -509,12 +509,12 @@
               "id": "beginner-30.d11.q3",
               "prompt": "What does verse 10 say we were created in Christ Jesus for?",
               "choices": [
+                "good works",
                 "proving ourselves",
-                "earning our place",
                 "endless rest",
-                "good works"
+                "earning our place"
               ],
-              "correctIndex": 3,
+              "correctIndex": 0,
               "answerRef": "EPH.2.10",
               "explain": "Ephesians 2:10. The good works follow the gift; they do not buy it."
             }
@@ -537,11 +537,11 @@
               "prompt": "\"But God commends his own ___ toward us\"",
               "choices": [
                 "law",
-                "love",
                 "power",
+                "love",
                 "anger"
               ],
-              "correctIndex": 1,
+              "correctIndex": 2,
               "answerRef": "ROM.5.8",
               "explain": "Romans 5:8. Paul says Christ's death shows God's love."
             },
@@ -562,12 +562,12 @@
               "id": "beginner-30.d12.q3",
               "prompt": "According to verse 6, Christ died for…",
               "choices": [
-                "the ungodly",
                 "the deserving",
-                "the strong",
-                "the religious leaders"
+                "the ungodly",
+                "the religious leaders",
+                "the strong"
               ],
-              "correctIndex": 0,
+              "correctIndex": 1,
               "answerRef": "ROM.5.6",
               "explain": "Romans 5:6: \"at the right time Christ died for the ungodly.\""
             }
@@ -589,9 +589,9 @@
               "id": "beginner-30.d13.q1",
               "prompt": "\"Now faith is assurance of things hoped for, proof of things not ___.\"",
               "choices": [
-                "said",
                 "known",
                 "earned",
+                "said",
                 "seen"
               ],
               "correctIndex": 3,
@@ -602,12 +602,12 @@
               "id": "beginner-30.d13.q2",
               "prompt": "How did Abraham respond when God called him?",
               "choices": [
-                "refused",
+                "obeyed",
                 "delayed",
                 "argued",
-                "obeyed"
+                "refused"
               ],
-              "correctIndex": 3,
+              "correctIndex": 0,
               "answerRef": "HEB.11.8",
               "explain": "Hebrews 11:8: \"By faith Abraham, when he was called, obeyed to go out.\""
             },
@@ -615,12 +615,12 @@
               "id": "beginner-30.d13.q3",
               "prompt": "What did Abraham not know when he set out?",
               "choices": [
-                "who had called him",
                 "how to pray",
                 "where he went",
-                "whether to obey"
+                "whether to obey",
+                "who had called him"
               ],
-              "correctIndex": 2,
+              "correctIndex": 1,
               "answerRef": "HEB.11.8",
               "explain": "Hebrews 11:8: \"He went out, not knowing where he went.\""
             }
@@ -642,12 +642,12 @@
               "id": "beginner-30.d14.q1",
               "prompt": "Whom did Philip go and find after Jesus called him?",
               "choices": [
-                "Peter",
-                "Nathanael",
                 "John",
-                "Thomas"
+                "Thomas",
+                "Peter",
+                "Nathanael"
               ],
-              "correctIndex": 1,
+              "correctIndex": 3,
               "answerRef": "JHN.1.45",
               "explain": "John 1:45: \"Philip found Nathanael.\" His first response was to tell a friend."
             },
@@ -656,9 +656,9 @@
               "prompt": "According to Philip, who had written about Jesus?",
               "choices": [
                 "Moses in the law and also the prophets",
+                "the priests in the temple",
                 "the kings of Israel and Judah",
-                "the teachers in Rome",
-                "the priests in the temple"
+                "the teachers in Rome"
               ],
               "correctIndex": 0,
               "answerRef": "JHN.1.45",
@@ -668,12 +668,12 @@
               "id": "beginner-30.d14.q3",
               "prompt": "How did Philip answer Nathanael's doubt?",
               "choices": [
-                "Come and see",
                 "Read the prophets again",
+                "Come and see",
                 "You must believe me",
                 "Ask the teachers of the law"
               ],
-              "correctIndex": 0,
+              "correctIndex": 1,
               "answerRef": "JHN.1.46",
               "explain": "John 1:46: Philip said to him, \"Come and see.\""
             }
@@ -696,12 +696,12 @@
               "id": "beginner-30.d15.q1",
               "prompt": "\"I am the way, the truth, and the ___.\"",
               "choices": [
-                "temple",
-                "life",
+                "light",
                 "law",
-                "light"
+                "life",
+                "temple"
               ],
-              "correctIndex": 1,
+              "correctIndex": 2,
               "answerRef": "JHN.14.6",
               "explain": "John 14:6: \"I am the way, the truth, and the life.\""
             },
@@ -710,9 +710,9 @@
               "prompt": "What did Thomas ask Jesus?",
               "choices": [
                 "Who will lead us now?",
-                "When will the kingdom come?",
+                "Why must you leave so soon?",
                 "How can we know the way?",
-                "Why must you leave so soon?"
+                "When will the kingdom come?"
               ],
               "correctIndex": 2,
               "answerRef": "JHN.14.5",
@@ -722,12 +722,12 @@
               "id": "beginner-30.d15.q3",
               "prompt": "What does Jesus say first, in John 14:1?",
               "choices": [
-                "Keep watch and stay awake",
-                "Go and prepare the meal",
                 "Tell no one about this",
-                "Don’t let your heart be troubled"
+                "Don’t let your heart be troubled",
+                "Keep watch and stay awake",
+                "Go and prepare the meal"
               ],
-              "correctIndex": 3,
+              "correctIndex": 1,
               "answerRef": "JHN.14.1",
               "explain": "John 14:1: \"Don’t let your heart be troubled. Believe in God. Believe also in me.\""
             }
@@ -749,12 +749,12 @@
               "id": "beginner-30.d16.q1",
               "prompt": "\"I am the vine. You are the ___.\"",
               "choices": [
-                "leaves",
                 "branches",
                 "roots",
-                "soil"
+                "soil",
+                "leaves"
               ],
-              "correctIndex": 1,
+              "correctIndex": 0,
               "answerRef": "JHN.15.5",
               "explain": "John 15:5. Jesus is the vine; his followers are the branches."
             },
@@ -762,12 +762,12 @@
               "id": "beginner-30.d16.q2",
               "prompt": "Complete Jesus' words in John 15:4: the branch…",
               "choices": [
-                "needs no water",
                 "chooses its own season",
-                "can’t bear fruit by itself",
-                "grows faster on its own"
+                "needs no water",
+                "grows faster on its own",
+                "can’t bear fruit by itself"
               ],
-              "correctIndex": 2,
+              "correctIndex": 3,
               "answerRef": "JHN.15.4",
               "explain": "John 15:4: \"the branch can’t bear fruit by itself unless it remains in the vine.\""
             },
@@ -776,11 +776,11 @@
               "prompt": "In verse 9, what does Jesus ask his friends to remain in?",
               "choices": [
                 "my house",
-                "the temple",
                 "the city",
-                "my love"
+                "my love",
+                "the temple"
               ],
-              "correctIndex": 3,
+              "correctIndex": 2,
               "answerRef": "JHN.15.9",
               "explain": "John 15:9: \"Even as the Father has loved me, I also have loved you. Remain in my love.\""
             }
@@ -802,12 +802,12 @@
               "id": "beginner-30.d17.q1",
               "prompt": "\"Your word is a lamp to my ___, and a light for my path.\"",
               "choices": [
-                "feet",
+                "eyes",
                 "heart",
                 "house",
-                "eyes"
+                "feet"
               ],
-              "correctIndex": 0,
+              "correctIndex": 3,
               "answerRef": "PSA.119.105",
               "explain": "Psalm 119:105. The lamp lights the way one step at a time."
             },
@@ -815,12 +815,12 @@
               "id": "beginner-30.d17.q2",
               "prompt": "In Psalm 119:103, the writer says God's promises are sweeter than…",
               "choices": [
-                "wine",
-                "fruit",
                 "honey",
-                "bread"
+                "wine",
+                "bread",
+                "fruit"
               ],
-              "correctIndex": 2,
+              "correctIndex": 0,
               "answerRef": "PSA.119.103",
               "explain": "Psalm 119:103: \"How sweet are your promises to my taste, more than honey to my mouth!\""
             },
@@ -828,12 +828,12 @@
               "id": "beginner-30.d17.q3",
               "prompt": "What does the writer ask for in verse 18?",
               "choices": [
-                "Open my eyes",
                 "Defeat my enemies",
-                "Make the road easy",
-                "Give me a long life"
+                "Give me a long life",
+                "Open my eyes",
+                "Make the road easy"
               ],
-              "correctIndex": 0,
+              "correctIndex": 2,
               "answerRef": "PSA.119.18",
               "explain": "Psalm 119:18: \"Open my eyes, that I may see wondrous things out of your law.\""
             }
@@ -856,12 +856,12 @@
               "id": "beginner-30.d18.q1",
               "prompt": "\"Every Scripture is God-breathed and profitable for ___\"",
               "choices": [
-                "entertainment",
-                "ceremony",
                 "arguing",
-                "teaching"
+                "teaching",
+                "ceremony",
+                "entertainment"
               ],
-              "correctIndex": 3,
+              "correctIndex": 1,
               "answerRef": "2TI.3.16",
               "explain": "2 Timothy 3:16. Scripture is given to teach, correct and train."
             },
@@ -870,11 +870,11 @@
               "prompt": "According to verse 17, what is the goal?",
               "choices": [
                 "knowing more than others",
+                "winning every argument",
                 "thoroughly equipped for every good work",
-                "never making mistakes",
-                "winning every argument"
+                "never making mistakes"
               ],
-              "correctIndex": 1,
+              "correctIndex": 2,
               "answerRef": "2TI.3.17",
               "explain": "2 Timothy 3:17. The aim is a complete, equipped life."
             },
@@ -883,11 +883,11 @@
               "prompt": "How long had Timothy known the holy Scriptures?",
               "choices": [
                 "Since he became a leader",
-                "From infancy",
+                "Since meeting Paul",
                 "For about a year",
-                "Since meeting Paul"
+                "From infancy"
               ],
-              "correctIndex": 1,
+              "correctIndex": 3,
               "answerRef": "2TI.3.15",
               "explain": "2 Timothy 3:15. He had known them since he was a small child."
             }
@@ -910,12 +910,12 @@
               "id": "beginner-30.d19.q1",
               "prompt": "\"But be ___ of the word, and not only hearers\"",
               "choices": [
+                "readers",
                 "doers",
                 "judges",
-                "teachers",
-                "readers"
+                "teachers"
               ],
-              "correctIndex": 0,
+              "correctIndex": 1,
               "answerRef": "JAS.1.22",
               "explain": "James 1:22. Hearing is meant to lead to doing."
             },
@@ -923,12 +923,12 @@
               "id": "beginner-30.d19.q2",
               "prompt": "What does James compare a hearer who does not act to?",
               "choices": [
-                "a merchant who loses his coins",
+                "a man looking at his natural face in a mirror",
                 "a builder with no tools",
                 "a traveler who never leaves home",
-                "a man looking at his natural face in a mirror"
+                "a merchant who loses his coins"
               ],
-              "correctIndex": 3,
+              "correctIndex": 0,
               "answerRef": "JAS.1.23",
               "explain": "James 1:23. He looks, walks away and forgets (James 1:24)."
             },
@@ -936,12 +936,12 @@
               "id": "beginner-30.d19.q3",
               "prompt": "What does verse 25 say about the person who keeps looking and doing?",
               "choices": [
-                "will become wealthy",
-                "will be praised by everyone",
                 "will be blessed in what he does",
-                "will never face trouble"
+                "will become wealthy",
+                "will never face trouble",
+                "will be praised by everyone"
               ],
-              "correctIndex": 2,
+              "correctIndex": 0,
               "answerRef": "JAS.1.25",
               "explain": "James 1:25. The blessing comes in the doing."
             }
@@ -964,12 +964,12 @@
               "id": "beginner-30.d20.q1",
               "prompt": "\"You shall love the Lord your God with all your ___, with all your soul, and with all your mind.\"",
               "choices": [
-                "plans",
                 "heart",
-                "voice",
-                "wealth"
+                "plans",
+                "wealth",
+                "voice"
               ],
-              "correctIndex": 1,
+              "correctIndex": 0,
               "answerRef": "MAT.22.37",
               "explain": "Matthew 22:37. Jesus quotes the great command to love God."
             },
@@ -977,12 +977,12 @@
               "id": "beginner-30.d20.q2",
               "prompt": "\"You shall love your ___ as yourself.\"",
               "choices": [
-                "neighbor",
                 "nation",
+                "family",
                 "friends",
-                "family"
+                "neighbor"
               ],
-              "correctIndex": 0,
+              "correctIndex": 3,
               "answerRef": "MAT.22.39",
               "explain": "Matthew 22:39. The second command is love for others."
             },
@@ -990,8 +990,8 @@
               "id": "beginner-30.d20.q3",
               "prompt": "According to Matthew 22:40, what depends on these two commandments?",
               "choices": [
-                "The temple and its sacrifices",
                 "The harvest and the rain",
+                "The temple and its sacrifices",
                 "The whole law and the prophets",
                 "The kings and their rule"
               ],
@@ -1018,12 +1018,12 @@
               "id": "beginner-30.d21.q1",
               "prompt": "\"Love is ___ and is kind.\"",
               "choices": [
-                "cautious",
-                "cheerful",
                 "powerful",
-                "patient"
+                "patient",
+                "cautious",
+                "cheerful"
               ],
-              "correctIndex": 3,
+              "correctIndex": 1,
               "answerRef": "1CO.13.4",
               "explain": "1 Corinthians 13:4. Paul begins with patience and kindness."
             },
@@ -1031,12 +1031,12 @@
               "id": "beginner-30.d21.q2",
               "prompt": "What does Paul say love does with wrongs done to it?",
               "choices": [
-                "repays them quickly",
                 "takes no account of evil",
                 "writes them down to remember",
-                "tells everyone about them"
+                "tells everyone about them",
+                "repays them quickly"
               ],
-              "correctIndex": 1,
+              "correctIndex": 0,
               "answerRef": "1CO.13.5",
               "explain": "1 Corinthians 13:5. Love does not keep score."
             },
@@ -1045,8 +1045,8 @@
               "prompt": "Verse 7 says love bears all things, believes all things, hopes all things, and…",
               "choices": [
                 "controls all things",
-                "forgets all things",
                 "explains all things",
+                "forgets all things",
                 "endures all things"
               ],
               "correctIndex": 3,
@@ -1073,12 +1073,12 @@
               "id": "beginner-30.d22.q1",
               "prompt": "How did the Samaritan respond when he saw the wounded man?",
               "choices": [
-                "afraid of the robbers",
-                "too busy to stop",
+                "angry at the priest",
                 "moved with compassion",
-                "angry at the priest"
+                "afraid of the robbers",
+                "too busy to stop"
               ],
-              "correctIndex": 2,
+              "correctIndex": 1,
               "answerRef": "LUK.10.33",
               "explain": "Luke 10:33. Where others passed by, he was moved with compassion."
             },
@@ -1086,12 +1086,12 @@
               "id": "beginner-30.d22.q2",
               "prompt": "What did the Samaritan do when he came to the man?",
               "choices": [
-                "bound up his wounds",
-                "asked where the man was from",
                 "called for the priest",
-                "went to find the robbers"
+                "went to find the robbers",
+                "asked where the man was from",
+                "bound up his wounds"
               ],
-              "correctIndex": 0,
+              "correctIndex": 3,
               "answerRef": "LUK.10.34",
               "explain": "Luke 10:34. His compassion turned into care."
             },
@@ -1100,11 +1100,11 @@
               "prompt": "What did Jesus tell the lawyer at the end?",
               "choices": [
                 "Go and offer a sacrifice",
-                "Go and do likewise",
+                "Go and study the law",
                 "Go and find the robbers",
-                "Go and study the law"
+                "Go and do likewise"
               ],
-              "correctIndex": 1,
+              "correctIndex": 3,
               "answerRef": "LUK.10.37",
               "explain": "Luke 10:37: Jesus said to him, \"Go and do likewise.\""
             }
@@ -1128,10 +1128,10 @@
               "choices": [
                 "neighbors",
                 "enemies",
-                "leaders",
-                "debtors"
+                "debtors",
+                "leaders"
               ],
-              "correctIndex": 3,
+              "correctIndex": 2,
               "answerRef": "MAT.6.12",
               "explain": "Matthew 6:12. The prayer links being forgiven with forgiving."
             },
@@ -1139,12 +1139,12 @@
               "id": "beginner-30.d23.q2",
               "prompt": "What did Peter ask Jesus?",
               "choices": [
-                "how often shall my brother sin against me, and I forgive him",
+                "is it wrong to be angry",
                 "who should I forgive first",
-                "must I forgive someone who never says sorry",
-                "is it wrong to be angry"
+                "how often shall my brother sin against me, and I forgive him",
+                "must I forgive someone who never says sorry"
               ],
-              "correctIndex": 0,
+              "correctIndex": 2,
               "answerRef": "MAT.18.21",
               "explain": "Matthew 18:21. Peter suggested seven times."
             },
@@ -1152,12 +1152,12 @@
               "id": "beginner-30.d23.q3",
               "prompt": "How did Jesus answer Peter?",
               "choices": [
-                "only once for each wrong",
-                "until he says sorry",
                 "until seventy times seven",
+                "until he says sorry",
+                "only once for each wrong",
                 "until the next festival"
               ],
-              "correctIndex": 2,
+              "correctIndex": 0,
               "answerRef": "MAT.18.22",
               "explain": "Matthew 18:22: \"I don’t tell you until seven times, but, until seventy times seven.\""
             }
@@ -1180,11 +1180,11 @@
               "prompt": "\"Above all these things, walk in ___, which is the bond of perfection.\"",
               "choices": [
                 "peace",
+                "love",
                 "truth",
-                "wisdom",
-                "love"
+                "wisdom"
               ],
-              "correctIndex": 3,
+              "correctIndex": 1,
               "answerRef": "COL.3.14",
               "explain": "Colossians 3:14. Love holds all the other qualities together."
             },
@@ -1192,12 +1192,12 @@
               "id": "beginner-30.d24.q2",
               "prompt": "According to Colossians 3:13, what is the pattern for forgiving each other?",
               "choices": [
-                "even as Christ forgave you",
                 "as soon as they apologize",
                 "once they have made it right",
-                "only if the wrong was small"
+                "only if the wrong was small",
+                "even as Christ forgave you"
               ],
-              "correctIndex": 0,
+              "correctIndex": 3,
               "answerRef": "COL.3.13",
               "explain": "Colossians 3:13: \"even as Christ forgave you, so you also do.\""
             },
@@ -1205,12 +1205,12 @@
               "id": "beginner-30.d24.q3",
               "prompt": "Which of these is on Paul's list in verse 12?",
               "choices": [
-                "ambition",
-                "toughness",
                 "kindness",
-                "cleverness"
+                "ambition",
+                "cleverness",
+                "toughness"
               ],
-              "correctIndex": 2,
+              "correctIndex": 0,
               "answerRef": "COL.3.12",
               "explain": "Colossians 3:12 lists compassion, kindness, lowliness, humility and perseverance."
             }
@@ -1232,10 +1232,10 @@
               "id": "beginner-30.d25.q1",
               "prompt": "\"If we ___ our sins, he is faithful and righteous to forgive us\"",
               "choices": [
-                "count",
+                "forget",
                 "confess",
                 "hide",
-                "forget"
+                "count"
               ],
               "correctIndex": 1,
               "answerRef": "1JN.1.9",
@@ -1246,11 +1246,11 @@
               "prompt": "According to 1 John 1:8, what happens if we say we have no sin?",
               "choices": [
                 "we become holy",
+                "we grow stronger",
                 "we please God",
-                "we deceive ourselves",
-                "we grow stronger"
+                "we deceive ourselves"
               ],
-              "correctIndex": 2,
+              "correctIndex": 3,
               "answerRef": "1JN.1.8",
               "explain": "1 John 1:8: \"If we say that we have no sin, we deceive ourselves.\""
             },
@@ -1258,12 +1258,12 @@
               "id": "beginner-30.d25.q3",
               "prompt": "If we walk in the light, what do we have with one another?",
               "choices": [
-                "fellowship",
-                "rivalry",
                 "debts",
+                "rivalry",
+                "fellowship",
                 "silence"
               ],
-              "correctIndex": 0,
+              "correctIndex": 2,
               "answerRef": "1JN.1.7",
               "explain": "1 John 1:7: \"we have fellowship with one another.\""
             }
@@ -1286,12 +1286,12 @@
               "id": "beginner-30.d26.q1",
               "prompt": "\"They continued steadfastly in the apostles’ teaching and ___, in the breaking of bread, and prayer.\"",
               "choices": [
-                "commerce",
-                "silence",
                 "travel",
-                "fellowship"
+                "commerce",
+                "fellowship",
+                "silence"
               ],
-              "correctIndex": 3,
+              "correctIndex": 2,
               "answerRef": "ACT.2.42",
               "explain": "Acts 2:42. Four things marked their life together."
             },
@@ -1299,12 +1299,12 @@
               "id": "beginner-30.d26.q2",
               "prompt": "Where did they break bread, according to Acts 2:46?",
               "choices": [
-                "in the synagogue",
                 "at home",
+                "in the synagogue",
                 "in the market",
                 "by the sea"
               ],
-              "correctIndex": 1,
+              "correctIndex": 0,
               "answerRef": "ACT.2.46",
               "explain": "Acts 2:46: \"breaking bread at home, they took their food with gladness.\""
             },
@@ -1312,10 +1312,10 @@
               "id": "beginner-30.d26.q3",
               "prompt": "What does Acts 2:47 say the Lord did day by day?",
               "choices": [
-                "sent them away",
+                "made them rich",
                 "added to the assembly",
                 "gave them new laws",
-                "made them rich"
+                "sent them away"
               ],
               "correctIndex": 1,
               "answerRef": "ACT.2.47",
@@ -1339,12 +1339,12 @@
               "id": "beginner-30.d27.q1",
               "prompt": "\"let’s hold fast the confession of our hope without wavering; for he who promised is ___.\"",
               "choices": [
-                "watching",
-                "strong",
                 "near",
-                "faithful"
+                "faithful",
+                "strong",
+                "watching"
               ],
-              "correctIndex": 3,
+              "correctIndex": 1,
               "answerRef": "HEB.10.23",
               "explain": "Hebrews 10:23. Hope rests on God's faithfulness."
             },
@@ -1352,12 +1352,12 @@
               "id": "beginner-30.d27.q2",
               "prompt": "What does Hebrews 10:24 ask us to provoke one another to?",
               "choices": [
-                "love and good works",
-                "debate and argument",
+                "competition and success",
                 "silence and solitude",
-                "competition and success"
+                "love and good works",
+                "debate and argument"
               ],
-              "correctIndex": 0,
+              "correctIndex": 2,
               "answerRef": "HEB.10.24",
               "explain": "Hebrews 10:24: \"Let’s consider how to provoke one another to love and good works.\""
             },
@@ -1365,12 +1365,12 @@
               "id": "beginner-30.d27.q3",
               "prompt": "What does verse 25 say not to forsake?",
               "choices": [
-                "our daily work",
-                "our private plans",
                 "our own assembling together",
-                "the old traditions"
+                "our private plans",
+                "the old traditions",
+                "our daily work"
               ],
-              "correctIndex": 2,
+              "correctIndex": 0,
               "answerRef": "HEB.10.25",
               "explain": "Hebrews 10:25. Meeting together is how encouragement happens."
             }
@@ -1393,12 +1393,12 @@
               "id": "beginner-30.d28.q1",
               "prompt": "What did the women find when they came to the tomb?",
               "choices": [
-                "soldiers guarding the door",
-                "the stone rolled away from the tomb",
+                "a crowd of mourners",
                 "the tomb sealed shut",
-                "a crowd of mourners"
+                "soldiers guarding the door",
+                "the stone rolled away from the tomb"
               ],
-              "correctIndex": 1,
+              "correctIndex": 3,
               "answerRef": "LUK.24.2",
               "explain": "Luke 24:2: \"They found the stone rolled away from the tomb.\""
             },
@@ -1406,10 +1406,10 @@
               "id": "beginner-30.d28.q2",
               "prompt": "\"Why do you seek the living among the ___?\"",
               "choices": [
-                "stones",
                 "tombs",
+                "shadows",
                 "dead",
-                "shadows"
+                "stones"
               ],
               "correctIndex": 2,
               "answerRef": "LUK.24.5",
@@ -1419,12 +1419,12 @@
               "id": "beginner-30.d28.q3",
               "prompt": "What did the two men say about Jesus in verse 6?",
               "choices": [
-                "He isn’t here, but is risen",
-                "He is sleeping inside",
                 "He has gone up to the temple",
-                "He will return at sunset"
+                "He will return at sunset",
+                "He is sleeping inside",
+                "He isn’t here, but is risen"
               ],
-              "correctIndex": 0,
+              "correctIndex": 3,
               "answerRef": "LUK.24.6",
               "explain": "Luke 24:6: \"He isn’t here, but is risen.\""
             }
@@ -1446,12 +1446,12 @@
               "id": "beginner-30.d29.q1",
               "prompt": "\"He will wipe away every ___ from their eyes.\"",
               "choices": [
-                "memory",
-                "fear",
                 "shadow",
-                "tear"
+                "tear",
+                "memory",
+                "fear"
               ],
-              "correctIndex": 3,
+              "correctIndex": 1,
               "answerRef": "REV.21.4",
               "explain": "Revelation 21:4. God himself comforts his people."
             },
@@ -1472,12 +1472,12 @@
               "id": "beginner-30.d29.q3",
               "prompt": "What does the one on the throne say in verse 5?",
               "choices": [
+                "I am hiding all things",
                 "I am leaving all things as they were",
-                "I am making all things new",
                 "I am ending all things",
-                "I am hiding all things"
+                "I am making all things new"
               ],
-              "correctIndex": 1,
+              "correctIndex": 3,
               "answerRef": "REV.21.5",
               "explain": "Revelation 21:5: \"Behold, I am making all things new.\""
             }
@@ -1501,12 +1501,12 @@
               "id": "beginner-30.d30.q1",
               "prompt": "Day 4: John 3:16 says God so loved the world that he gave…",
               "choices": [
-                "a new law",
-                "a holy temple",
                 "a great king",
-                "his only born Son"
+                "his only born Son",
+                "a new law",
+                "a holy temple"
               ],
-              "correctIndex": 3,
+              "correctIndex": 1,
               "answerRef": "JHN.3.16",
               "explain": "John 3:16: \"For God so loved the world, that he gave his only born Son.\""
             },
@@ -1514,12 +1514,12 @@
               "id": "beginner-30.d30.q2",
               "prompt": "Day 10: what did the father do while his son was still far off?",
               "choices": [
-                "waited for an apology",
-                "locked the door",
                 "saw him and was moved with compassion",
-                "sent a messenger"
+                "sent a messenger",
+                "locked the door",
+                "waited for an apology"
               ],
-              "correctIndex": 2,
+              "correctIndex": 0,
               "answerRef": "LUK.15.20",
               "explain": "Luke 15:20. The father saw him first, and ran to him."
             },
@@ -1527,12 +1527,12 @@
               "id": "beginner-30.d30.q3",
               "prompt": "Day 16: \"apart from me you can do ___.\"",
               "choices": [
-                "nothing",
+                "everything",
                 "anything",
-                "little",
-                "everything"
+                "nothing",
+                "little"
               ],
-              "correctIndex": 0,
+              "correctIndex": 2,
               "answerRef": "JHN.15.5",
               "explain": "John 15:5. Staying close to Jesus is where fruit comes from."
             }
@@ -1734,12 +1734,12 @@
               "id": "peace-14.d04.q1",
               "prompt": "\"But seek first God’s Kingdom and his ___\"",
               "choices": [
-                "righteousness",
                 "blessing",
                 "temple",
+                "righteousness",
                 "glory"
               ],
-              "correctIndex": 0,
+              "correctIndex": 2,
               "answerRef": "MAT.6.33",
               "explain": "Matthew 6:33. First things first: God's Kingdom and his way."
             },
@@ -1747,12 +1747,12 @@
               "id": "peace-14.d04.q2",
               "prompt": "According to Matthew 6:32, what does your heavenly Father know?",
               "choices": [
-                "what you did yesterday",
-                "that you need all these things",
                 "how long you will live",
-                "who will help you"
+                "what you did yesterday",
+                "who will help you",
+                "that you need all these things"
               ],
-              "correctIndex": 1,
+              "correctIndex": 3,
               "answerRef": "MAT.6.32",
               "explain": "Matthew 6:32: \"your heavenly Father knows that you need all these things.\""
             },
@@ -1760,12 +1760,12 @@
               "id": "peace-14.d04.q3",
               "prompt": "Why does Jesus say not to be anxious for tomorrow?",
               "choices": [
-                "tomorrow is already decided",
                 "tomorrow may never come",
-                "tomorrow will be easier",
-                "tomorrow will be anxious for itself"
+                "tomorrow will be anxious for itself",
+                "tomorrow is already decided",
+                "tomorrow will be easier"
               ],
-              "correctIndex": 3,
+              "correctIndex": 1,
               "answerRef": "MAT.6.34",
               "explain": "Matthew 6:34. Each day has enough of its own; tomorrow's worries can wait for tomorrow."
             }
@@ -1788,12 +1788,12 @@
               "id": "peace-14.d05.q1",
               "prompt": "\"How long, LORD? Will you ___ me forever?\"",
               "choices": [
-                "test",
-                "leave",
                 "forget",
-                "punish"
+                "leave",
+                "punish",
+                "test"
               ],
-              "correctIndex": 2,
+              "correctIndex": 0,
               "answerRef": "PSA.13.1",
               "explain": "Psalm 13:1. The psalm begins with an honest complaint."
             },
@@ -1801,12 +1801,12 @@
               "id": "peace-14.d05.q2",
               "prompt": "In verse 5, what does the writer say he trusts in?",
               "choices": [
-                "my own strength",
-                "my good name",
                 "your loving kindness",
-                "the king's army"
+                "the king's army",
+                "my good name",
+                "my own strength"
               ],
-              "correctIndex": 2,
+              "correctIndex": 0,
               "answerRef": "PSA.13.5",
               "explain": "Psalm 13:5: \"But I trust in your loving kindness.\""
             },
@@ -1815,8 +1815,8 @@
               "prompt": "Why does the writer say he will sing in verse 6?",
               "choices": [
                 "he has been rewarded",
-                "his troubles are over",
                 "his enemies have fled",
+                "his troubles are over",
                 "he has been good to me"
               ],
               "correctIndex": 3,
@@ -1842,9 +1842,9 @@
               "id": "peace-14.d06.q1",
               "prompt": "\"As the deer pants for the water brooks, so my ___ pants after you, God.\"",
               "choices": [
-                "heart",
-                "soul",
                 "voice",
+                "soul",
+                "heart",
                 "flock"
               ],
               "correctIndex": 1,
@@ -1855,12 +1855,12 @@
               "id": "peace-14.d06.q2",
               "prompt": "What does the writer say his tears have been?",
               "choices": [
-                "my food day and night",
+                "gone by morning",
                 "hidden from everyone",
-                "few and far between",
-                "gone by morning"
+                "my food day and night",
+                "few and far between"
               ],
-              "correctIndex": 0,
+              "correctIndex": 2,
               "answerRef": "PSA.42.3",
               "explain": "Psalm 42:3: \"My tears have been my food day and night.\""
             },
@@ -1868,12 +1868,12 @@
               "id": "peace-14.d06.q3",
               "prompt": "What does the writer tell his own soul in verse 5?",
               "choices": [
-                "Try harder",
-                "Hope in God",
+                "Stop feeling sad",
                 "Forget the past",
-                "Stop feeling sad"
+                "Hope in God",
+                "Try harder"
               ],
-              "correctIndex": 1,
+              "correctIndex": 2,
               "answerRef": "PSA.42.5",
               "explain": "Psalm 42:5: \"Why are you in despair, my soul? Why are you disturbed within me? Hope in God!\""
             }
@@ -1897,11 +1897,11 @@
               "prompt": "\"My soul, wait in ___ for God alone\"",
               "choices": [
                 "fear",
-                "comfort",
+                "silence",
                 "hurry",
-                "silence"
+                "comfort"
               ],
-              "correctIndex": 3,
+              "correctIndex": 1,
               "answerRef": "PSA.62.5",
               "explain": "Psalm 62:5. The psalm begins its second half with quiet waiting."
             },
@@ -1910,9 +1910,9 @@
               "prompt": "In verse 8, what does the writer invite people to pour out before God?",
               "choices": [
                 "your heart",
+                "your offerings",
                 "your plans",
-                "your silver",
-                "your offerings"
+                "your silver"
               ],
               "correctIndex": 0,
               "answerRef": "PSA.62.8",
@@ -1923,11 +1923,11 @@
               "prompt": "What does the writer call God in verse 6?",
               "choices": [
                 "my judge and my ruler",
+                "my teacher and my guide",
                 "my song and my dance",
-                "my rock and my salvation",
-                "my teacher and my guide"
+                "my rock and my salvation"
               ],
-              "correctIndex": 2,
+              "correctIndex": 3,
               "answerRef": "PSA.62.6",
               "explain": "Psalm 62:6: \"He alone is my rock and my salvation, my fortress. I will not be shaken.\""
             }
@@ -1963,12 +1963,12 @@
               "id": "peace-14.d08.q2",
               "prompt": "What did Eli think when he saw Hannah's lips moving?",
               "choices": [
-                "she was drunk",
                 "she was sick",
                 "she was singing",
-                "she was asleep"
+                "she was asleep",
+                "she was drunk"
               ],
-              "correctIndex": 0,
+              "correctIndex": 3,
               "answerRef": "1SA.1.13",
               "explain": "1 Samuel 1:13. Her voice was not heard, and Eli misunderstood her."
             },
@@ -1976,12 +1976,12 @@
               "id": "peace-14.d08.q3",
               "prompt": "How did Hannah describe what she had been doing?",
               "choices": [
-                "I asked the priest to pray for me",
                 "I offered a sacrifice for my sins",
-                "I recited the prayers of my fathers",
-                "I poured out my soul before the LORD"
+                "I asked the priest to pray for me",
+                "I poured out my soul before the LORD",
+                "I recited the prayers of my fathers"
               ],
-              "correctIndex": 3,
+              "correctIndex": 2,
               "answerRef": "1SA.1.15",
               "explain": "1 Samuel 1:15: \"I poured out my soul before the LORD.\""
             }
@@ -2006,10 +2006,10 @@
               "choices": [
                 "sacrifice",
                 "voice",
-                "burden",
-                "crown"
+                "crown",
+                "burden"
               ],
-              "correctIndex": 2,
+              "correctIndex": 3,
               "answerRef": "PSA.55.22",
               "explain": "Psalm 55:22. The burden is handed over to the LORD, who sustains."
             },
@@ -2017,12 +2017,12 @@
               "id": "peace-14.d09.q2",
               "prompt": "Why does 1 Peter 5:7 say we can cast our worries on God?",
               "choices": [
-                "because worries are small",
-                "because we deserve it",
                 "because he cares for you",
-                "because he is far away"
+                "because he is far away",
+                "because worries are small",
+                "because we deserve it"
               ],
-              "correctIndex": 2,
+              "correctIndex": 0,
               "answerRef": "1PE.5.7",
               "explain": "1 Peter 5:7: \"casting all your worries on him, because he cares for you.\""
             },
@@ -2030,12 +2030,12 @@
               "id": "peace-14.d09.q3",
               "prompt": "What did the writer wish for in Psalm 55:6?",
               "choices": [
-                "a ship to sail away",
                 "a quiet house",
+                "wings like a dove",
                 "a strong army",
-                "wings like a dove"
+                "a ship to sail away"
               ],
-              "correctIndex": 3,
+              "correctIndex": 1,
               "answerRef": "PSA.55.6",
               "explain": "Psalm 55:6: \"Oh that I had wings like a dove! Then I would fly away, and be at rest.\""
             }
@@ -2059,8 +2059,8 @@
               "choices": [
                 "idle",
                 "anxious",
-                "proud",
-                "silent"
+                "silent",
+                "proud"
               ],
               "correctIndex": 1,
               "answerRef": "PHP.4.6",
@@ -2070,12 +2070,12 @@
               "id": "peace-14.d10.q2",
               "prompt": "According to verse 6, what should go with our prayer and petition?",
               "choices": [
-                "thanksgiving",
-                "fasting",
                 "sacrifice",
+                "fasting",
+                "thanksgiving",
                 "a vow"
               ],
-              "correctIndex": 0,
+              "correctIndex": 2,
               "answerRef": "PHP.4.6",
               "explain": "Philippians 4:6: \"by prayer and petition with thanksgiving, let your requests be made known to God.\""
             },
@@ -2083,12 +2083,12 @@
               "id": "peace-14.d10.q3",
               "prompt": "What does Philippians 4:7 say the peace of God will do?",
               "choices": [
-                "remove every problem",
                 "explain every mystery",
                 "make you never feel afraid",
-                "guard your hearts and your thoughts"
+                "guard your hearts and your thoughts",
+                "remove every problem"
               ],
-              "correctIndex": 3,
+              "correctIndex": 2,
               "answerRef": "PHP.4.7",
               "explain": "Philippians 4:7: the peace of God \"will guard your hearts and your thoughts in Christ Jesus.\""
             }
@@ -2109,12 +2109,12 @@
               "id": "peace-14.d11.q1",
               "prompt": "\"whatever things are true, whatever things are ___\"",
               "choices": [
-                "simple",
+                "popular",
                 "profitable",
-                "honorable",
-                "popular"
+                "simple",
+                "honorable"
               ],
-              "correctIndex": 2,
+              "correctIndex": 3,
               "answerRef": "PHP.4.8",
               "explain": "Philippians 4:8. Paul's list begins with what is true and honorable."
             },
@@ -2123,9 +2123,9 @@
               "prompt": "What does Paul tell his readers to do with these things, in verse 8?",
               "choices": [
                 "think about these things",
+                "store these things away",
                 "debate these things",
-                "warn others about these things",
-                "store these things away"
+                "warn others about these things"
               ],
               "correctIndex": 0,
               "answerRef": "PHP.4.8",
@@ -2135,12 +2135,12 @@
               "id": "peace-14.d11.q3",
               "prompt": "Who does Philippians 4:9 say will be with you?",
               "choices": [
-                "the elders of the church",
-                "the God of peace",
                 "the apostle Paul",
-                "the angels of heaven"
+                "the elders of the church",
+                "the angels of heaven",
+                "the God of peace"
               ],
-              "correctIndex": 1,
+              "correctIndex": 3,
               "answerRef": "PHP.4.9",
               "explain": "Philippians 4:9: \"and the God of peace will be with you.\""
             }
@@ -2176,11 +2176,11 @@
               "prompt": "Why can the writer sleep in peace, according to verse 8?",
               "choices": [
                 "his doors are locked",
-                "you alone, LORD, make me live in safety",
                 "his troubles are solved",
+                "you alone, LORD, make me live in safety",
                 "his enemies are asleep"
               ],
-              "correctIndex": 1,
+              "correctIndex": 2,
               "answerRef": "PSA.4.8",
               "explain": "Psalm 4:8: \"for you alone, LORD, make me live in safety.\""
             },
@@ -2216,12 +2216,12 @@
               "id": "peace-14.d13.q1",
               "prompt": "\"In the same way, the Spirit also helps our ___\"",
               "choices": [
-                "leaders",
                 "plans",
                 "weaknesses",
+                "leaders",
                 "enemies"
               ],
-              "correctIndex": 2,
+              "correctIndex": 1,
               "answerRef": "ROM.8.26",
               "explain": "Romans 8:26. The Spirit helps where we are weak."
             },
@@ -2229,12 +2229,12 @@
               "id": "peace-14.d13.q2",
               "prompt": "According to Romans 8:26, how does the Spirit intercede for us?",
               "choices": [
+                "with long and perfect sentences",
                 "with groanings which can’t be uttered",
-                "through the voices of angels",
                 "only when we pray correctly",
-                "with long and perfect sentences"
+                "through the voices of angels"
               ],
-              "correctIndex": 0,
+              "correctIndex": 1,
               "answerRef": "ROM.8.26",
               "explain": "Romans 8:26. Prayer does not depend on finding the right words."
             },
@@ -2244,10 +2244,10 @@
               "choices": [
                 "the law",
                 "our past",
-                "our own plans",
-                "God’s love"
+                "God’s love",
+                "our own plans"
               ],
-              "correctIndex": 3,
+              "correctIndex": 2,
               "answerRef": "ROM.8.39",
               "explain": "Romans 8:39: nothing \"will be able to separate us from God’s love which is in Christ Jesus our Lord.\""
             }
@@ -2270,12 +2270,12 @@
               "id": "peace-14.d14.q1",
               "prompt": "\"Peace I leave with you. My ___ I give to you\"",
               "choices": [
-                "kingdom",
-                "wisdom",
                 "peace",
-                "power"
+                "wisdom",
+                "power",
+                "kingdom"
               ],
-              "correctIndex": 2,
+              "correctIndex": 0,
               "answerRef": "JHN.14.27",
               "explain": "John 14:27. Jesus leaves his own peace with his friends."
             },
@@ -2283,12 +2283,12 @@
               "id": "peace-14.d14.q2",
               "prompt": "How does Jesus say he gives, in John 14:27?",
               "choices": [
-                "only to the worthy",
-                "not as the world gives",
                 "as much as you ask",
-                "once and never again"
+                "only to the worthy",
+                "once and never again",
+                "not as the world gives"
               ],
-              "correctIndex": 1,
+              "correctIndex": 3,
               "answerRef": "JHN.14.27",
               "explain": "John 14:27: \"My peace I give to you; not as the world gives, I give to you.\""
             },
@@ -2297,11 +2297,11 @@
               "prompt": "How does the blessing end, in Numbers 6:26?",
               "choices": [
                 "give you riches",
-                "give you victory",
                 "give you long life",
-                "give you peace"
+                "give you peace",
+                "give you victory"
               ],
-              "correctIndex": 3,
+              "correctIndex": 2,
               "answerRef": "NUM.6.26",
               "explain": "Numbers 6:26: \"The LORD lift up his face toward you, and give you peace.\""
             }
@@ -2326,10 +2326,6 @@
         "some",
         "deep"
       ],
-      "draft": {
-        "plannedLessons": 30,
-        "note": "Stub: lessons 1-3 drafted (lesson 2 is the report sample); the lesson-writing task completes the path."
-      },
       "lessons": [
         {
           "id": "mark-30.d01",
@@ -2488,6 +2484,1462 @@
               "correctIndex": 1,
               "answerRef": "MRK.1.37",
               "explain": "Mark 1:37: \"Everyone is looking for you.\""
+            }
+          ]
+        },
+        {
+          "id": "mark-30.d04",
+          "dayIndex": 4,
+          "title": "If you want to",
+          "verseRefs": [
+            "MRK.1.40",
+            "MRK.1.41",
+            "MRK.1.42"
+          ],
+          "bodyMarkdown": "A man with leprosy comes to Jesus on his knees. His words show that he believes Jesus can heal him. What he is not sure of is whether Jesus wants to: \"If you want to, you can make me clean.\"\n\nMark slows down for the answer. \"Being moved with compassion, he stretched out his hand, and touched him.\" People with leprosy had to live apart, and this man may not have been touched in a long time. Jesus could have healed him with a word. He touches him first. Then he says, \"I want to. Be made clean.\"\n\n**Reflection:** Do you find it easier to believe God can help you than to believe he wants to? Bring that question to him today.\n\n*Study aid: the Law of Moses required people with the skin diseases it calls leprosy to live outside the camp (Leviticus 13:46). The word covered a range of conditions, not only the disease called leprosy today.*",
+          "prayerPrompt": "Jesus, thank you that you are willing. Reach out to me in the places where I feel untouchable.",
+          "quiz": [
+            {
+              "id": "mark-30.d04.q1",
+              "prompt": "What did the man with leprosy say to Jesus?",
+              "choices": [
+                "If you want to, you can make me clean",
+                "Please pray for me at the temple",
+                "Teacher, why has this happened to me?",
+                "Tell me what I must do"
+              ],
+              "correctIndex": 0,
+              "answerRef": "MRK.1.40",
+              "explain": "Mark 1:40. He was sure Jesus could; he was not sure Jesus would."
+            },
+            {
+              "id": "mark-30.d04.q2",
+              "prompt": "What did Jesus do before he spoke the words of healing?",
+              "choices": [
+                "told him to wash",
+                "sent him away",
+                "asked his name",
+                "touched him"
+              ],
+              "correctIndex": 3,
+              "answerRef": "MRK.1.41",
+              "explain": "Mark 1:41: \"he stretched out his hand, and touched him.\""
+            },
+            {
+              "id": "mark-30.d04.q3",
+              "prompt": "\"Being moved with ___, he stretched out his hand\"",
+              "choices": [
+                "surprise",
+                "caution",
+                "duty",
+                "compassion"
+              ],
+              "correctIndex": 3,
+              "answerRef": "MRK.1.41",
+              "explain": "Mark 1:41. Compassion moves Jesus to act."
+            }
+          ]
+        },
+        {
+          "id": "mark-30.d05",
+          "dayIndex": 5,
+          "title": "Through the roof",
+          "verseRefs": [
+            "MRK.2.3",
+            "MRK.2.4",
+            "MRK.2.5",
+            "MRK.2.12"
+          ],
+          "bodyMarkdown": "The house is so packed that no one can get near the door. Four people carrying a paralyzed friend refuse to give up. They dig through the roof and lower him down on his mat.\n\nMark says Jesus saw \"their faith,\" the faith of the friends. And Jesus' first words are not about the man's legs: \"Son, your sins are forgiven you.\" Some scribes object that only God can forgive sins (Mark 2:7). Then Jesus tells the man to get up, and he does, carrying his mat out in front of everyone. The crowd says, \"We never saw anything like this!\"\n\n**Reflection:** Who are the friends who have carried you? And who could you help carry to Jesus, in prayer or in practice?\n\n*Study aid: \"Son of Man\" is the title Jesus most often uses of himself in Mark (Mark 2:10). Scholars discuss its background; one passage often mentioned is Daniel 7:13.*",
+          "prayerPrompt": "Jesus, thank you for the people who have carried me. Show me someone I can carry to you today.",
+          "quiz": [
+            {
+              "id": "mark-30.d05.q1",
+              "prompt": "How did the four people get their friend to Jesus?",
+              "choices": [
+                "they pushed through the door",
+                "they called Jesus outside",
+                "they waited until evening",
+                "they removed the roof"
+              ],
+              "correctIndex": 3,
+              "answerRef": "MRK.2.4",
+              "explain": "Mark 2:4. When the crowd blocked the way, they went through the roof."
+            },
+            {
+              "id": "mark-30.d05.q2",
+              "prompt": "What did Jesus see, according to Mark 2:5?",
+              "choices": [
+                "their fear",
+                "their faith",
+                "their impatience",
+                "their wealth"
+              ],
+              "correctIndex": 1,
+              "answerRef": "MRK.2.5",
+              "explain": "Mark 2:5: \"Jesus, seeing their faith, said to the paralytic, “Son, your sins are forgiven you.”\""
+            },
+            {
+              "id": "mark-30.d05.q3",
+              "prompt": "What were Jesus' first words to the paralyzed man?",
+              "choices": [
+                "Get up and walk",
+                "Why have you come?",
+                "Son, your sins are forgiven you",
+                "Your friends are faithful"
+              ],
+              "correctIndex": 2,
+              "answerRef": "MRK.2.5",
+              "explain": "Mark 2:5. Jesus speaks to the man's deepest need first."
+            }
+          ]
+        },
+        {
+          "id": "mark-30.d06",
+          "dayIndex": 6,
+          "title": "Not the healthy",
+          "verseRefs": [
+            "MRK.2.14",
+            "MRK.2.15",
+            "MRK.2.16",
+            "MRK.2.17"
+          ],
+          "bodyMarkdown": "Levi collects taxes, a job that made people suspicious and often resentful. Jesus walks past his tax office and says two words: \"Follow me.\" Levi gets up and follows.\n\nThen there is a dinner at Levi's house, full of tax collectors and others whom respectable people avoided. Some religious leaders ask why Jesus eats with them. His answer is short: \"Those who are healthy have no need for a physician, but those who are sick.\" Jesus doesn't keep away from people with a bad name. He sits down at their table.\n\n**Reflection:** Is there someone you have kept at a distance because of their reputation? Or do you ever feel like the one others keep away from?\n\n*Study aid: tax collectors were widely distrusted, since many took more than they should (compare Luke 3:12). Levi is usually identified with the Matthew of Matthew 9:9.*",
+          "prayerPrompt": "Jesus, thank you that you came for the sick, and that includes me. Help me welcome others the way you do.",
+          "quiz": [
+            {
+              "id": "mark-30.d06.q1",
+              "prompt": "Where was Levi when Jesus called him?",
+              "choices": [
+                "sitting at the tax office",
+                "praying in the synagogue",
+                "working in the fields",
+                "fishing by the sea"
+              ],
+              "correctIndex": 0,
+              "answerRef": "MRK.2.14",
+              "explain": "Mark 2:14: \"he saw Levi the son of Alphaeus sitting at the tax office.\""
+            },
+            {
+              "id": "mark-30.d06.q2",
+              "prompt": "What did the scribes and Pharisees ask Jesus' disciples?",
+              "choices": [
+                "Why is it that he eats and drinks with tax collectors and sinners?",
+                "Why does he not pay the tax?",
+                "Where will he go next?",
+                "Why does he teach by the sea?"
+              ],
+              "correctIndex": 0,
+              "answerRef": "MRK.2.16",
+              "explain": "Mark 2:16. They objected to the company Jesus kept."
+            },
+            {
+              "id": "mark-30.d06.q3",
+              "prompt": "\"Those who are healthy have no need for a ___, but those who are sick.\"",
+              "choices": [
+                "shepherd",
+                "teacher",
+                "priest",
+                "physician"
+              ],
+              "correctIndex": 3,
+              "answerRef": "MRK.2.17",
+              "explain": "Mark 2:17. Jesus compares himself to a doctor who goes to the sick."
+            }
+          ]
+        },
+        {
+          "id": "mark-30.d07",
+          "dayIndex": 7,
+          "title": "Stretch out your hand",
+          "verseRefs": [
+            "MRK.3.1",
+            "MRK.3.3",
+            "MRK.3.4",
+            "MRK.3.5"
+          ],
+          "bodyMarkdown": "It is the Sabbath, the weekly day of rest, and people are watching to see whether Jesus will heal so that they can accuse him. A man with a withered hand is in the synagogue.\n\nJesus doesn't do it quietly. He tells the man to stand up, and asks a question: \"Is it lawful on the Sabbath day to do good or to do harm? To save a life or to kill?\" No one answers. Mark says Jesus looked at them with anger, \"being grieved at the hardening of their hearts.\" Then he tells the man, \"Stretch out your hand,\" and the hand is restored. In this scene, the day of rest is no reason to hold back from doing good.\n\n**Reflection:** Has a rule or habit, even a good one, ever kept you from doing good for someone?\n\n*Study aid: the Sabbath command is one of the Ten Commandments (Exodus 20:8). Just before this scene Jesus says, \"The Sabbath was made for man, not man for the Sabbath\" (Mark 2:27).*",
+          "prayerPrompt": "Jesus, soften my heart. Where I have used rules to avoid love, teach me to do good.",
+          "quiz": [
+            {
+              "id": "mark-30.d07.q1",
+              "prompt": "What question did Jesus ask in the synagogue?",
+              "choices": [
+                "Who among you has never broken the Sabbath?",
+                "Is it lawful on the Sabbath day to do good or to do harm?",
+                "Who wrote the law of the Sabbath?",
+                "Why do you watch me so closely?"
+              ],
+              "correctIndex": 1,
+              "answerRef": "MRK.3.4",
+              "explain": "Mark 3:4. Jesus asks what the day of rest is for."
+            },
+            {
+              "id": "mark-30.d07.q2",
+              "prompt": "How did the people respond to his question?",
+              "choices": [
+                "they left the synagogue",
+                "they agreed with him",
+                "they were silent",
+                "they argued with him"
+              ],
+              "correctIndex": 2,
+              "answerRef": "MRK.3.4",
+              "explain": "Mark 3:4: \"But they were silent.\""
+            },
+            {
+              "id": "mark-30.d07.q3",
+              "prompt": "What did Jesus tell the man to do?",
+              "choices": [
+                "Stretch out your hand",
+                "Go to the priest",
+                "Wait until tomorrow",
+                "Wash in the pool"
+              ],
+              "correctIndex": 0,
+              "answerRef": "MRK.3.5",
+              "explain": "Mark 3:5: \"Stretch out your hand.\" And his hand was restored."
+            }
+          ]
+        },
+        {
+          "id": "mark-30.d08",
+          "dayIndex": 8,
+          "title": "The farmer sows the word",
+          "verseRefs": [
+            "MRK.4.3",
+            "MRK.4.14",
+            "MRK.4.19",
+            "MRK.4.20"
+          ],
+          "bodyMarkdown": "Jesus tells a story about a farmer scattering seed. Some lands on the road, some on rocky ground, some among thorns, and some on good ground. Later he explains it to his disciples: \"The farmer sows the word.\"\n\nThe same seed falls everywhere. What differs is the ground. Some hearers lose the word quickly; some receive it with joy but have no roots; in others, \"the cares of this age, and the deceitfulness of riches\" crowd it out. The good ground is people who \"hear the word, accept it, and bear fruit.\" Most of us can recognize more than one kind of soil in ourselves.\n\n**Reflection:** What thorns are crowding your life right now? What would help make room for the word to grow?\n\n*Study aid: Jesus often uses ordinary farm life to describe God's Kingdom. A few verses later he compares it to seed that grows while the farmer sleeps (Mark 4:26).*",
+          "prayerPrompt": "Lord, make my heart good ground. Clear away the thorns, and let your word take root and grow.",
+          "quiz": [
+            {
+              "id": "mark-30.d08.q1",
+              "prompt": "\"The farmer sows the ___.\"",
+              "choices": [
+                "seed",
+                "law",
+                "word",
+                "harvest"
+              ],
+              "correctIndex": 2,
+              "answerRef": "MRK.4.14",
+              "explain": "Mark 4:14. In Jesus' explanation, the seed is the word."
+            },
+            {
+              "id": "mark-30.d08.q2",
+              "prompt": "According to Mark 4:19, what chokes the word?",
+              "choices": [
+                "too much rain",
+                "the cares of this age",
+                "the farmer's neglect",
+                "too much study"
+              ],
+              "correctIndex": 1,
+              "answerRef": "MRK.4.19",
+              "explain": "Mark 4:19: \"the cares of this age, and the deceitfulness of riches, and the lusts of other things entering in choke the word.\""
+            },
+            {
+              "id": "mark-30.d08.q3",
+              "prompt": "What do the people on the good ground do, according to verse 20?",
+              "choices": [
+                "hear the word and keep it secret",
+                "hear the word and argue about it",
+                "hear the word and wait for a sign",
+                "hear the word, accept it, and bear fruit"
+              ],
+              "correctIndex": 3,
+              "answerRef": "MRK.4.20",
+              "explain": "Mark 4:20. Hearing, accepting and bearing fruit go together."
+            }
+          ]
+        },
+        {
+          "id": "mark-30.d09",
+          "dayIndex": 9,
+          "title": "Peace! Be still!",
+          "verseRefs": [
+            "MRK.4.37",
+            "MRK.4.38",
+            "MRK.4.39",
+            "MRK.4.40",
+            "MRK.4.41"
+          ],
+          "bodyMarkdown": "A storm hits the boat so hard that it starts filling with water. Jesus is asleep on a cushion. The disciples wake him with a question many people have asked in hard times: \"Teacher, don’t you care that we are dying?\"\n\nJesus speaks to the wind and the sea: \"Peace! Be still!\" There is a great calm. Then he asks his friends, \"Why are you so afraid? How is it that you have no faith?\" But the story ends with a question from the disciples themselves: \"Who then is this, that even the wind and the sea obey him?\" Keep that question in mind. Mark will answer it as the story goes on.\n\n**Reflection:** What storm is filling your boat right now? What would you like to say to Jesus about it, honestly?\n\n*Study aid: in the Psalms, calming the sea is something God does: \"He makes the storm a calm\" (Psalm 107:29). That background may be part of why the disciples were so amazed.*",
+          "prayerPrompt": "Jesus, you are with me in the storm. Speak your peace into what frightens me today.",
+          "quiz": [
+            {
+              "id": "mark-30.d09.q1",
+              "prompt": "What was Jesus doing when the storm arose?",
+              "choices": [
+                "talking with the crowd",
+                "asleep on the cushion",
+                "steering the boat",
+                "praying on the mountain"
+              ],
+              "correctIndex": 1,
+              "answerRef": "MRK.4.38",
+              "explain": "Mark 4:38: \"He himself was in the stern, asleep on the cushion.\""
+            },
+            {
+              "id": "mark-30.d09.q2",
+              "prompt": "\"Peace! Be ___!\"",
+              "choices": [
+                "silent",
+                "gone",
+                "strong",
+                "still"
+              ],
+              "correctIndex": 3,
+              "answerRef": "MRK.4.39",
+              "explain": "Mark 4:39: He \"said to the sea, “Peace! Be still!” The wind ceased and there was a great calm.\""
+            },
+            {
+              "id": "mark-30.d09.q3",
+              "prompt": "What did the disciples ask one another at the end?",
+              "choices": [
+                "Who then is this, that even the wind and the sea obey him?",
+                "Why did he wait so long?",
+                "How did he learn to do that?",
+                "Will the storm come back?"
+              ],
+              "correctIndex": 0,
+              "answerRef": "MRK.4.41",
+              "explain": "Mark 4:41. The question of who Jesus is runs through the whole Gospel."
+            }
+          ]
+        },
+        {
+          "id": "mark-30.d10",
+          "dayIndex": 10,
+          "title": "Go home and tell",
+          "verseRefs": [
+            "MRK.5.15",
+            "MRK.5.18",
+            "MRK.5.19",
+            "MRK.5.20"
+          ],
+          "bodyMarkdown": "On the other side of the lake, Jesus meets a man with an unclean spirit, living among the tombs (Mark 5:2). After Jesus sets him free, the townspeople come and find him \"sitting, clothed, and in his right mind.\"\n\nThen comes a surprise. The man begs to go with Jesus, and Jesus says no. He gives him a different calling: \"Go to your house, to your friends, and tell them what great things the Lord has done for you and how he had mercy on you.\" So he does. Not everyone is called to leave home. Some are sent back into it.\n\n**Reflection:** What has God done for you that the people close to you might want to hear about?\n\n*Study aid: the Decapolis was a largely non-Jewish region of ten cities. This man becomes one of the first in Mark to spread the news there (Mark 5:20).*",
+          "prayerPrompt": "Lord, thank you for your mercy to me. Give me courage to tell the people close to me what you have done.",
+          "quiz": [
+            {
+              "id": "mark-30.d10.q1",
+              "prompt": "How did the people find the man when they came to Jesus?",
+              "choices": [
+                "gone back to his family",
+                "asleep by the shore",
+                "sitting, clothed, and in his right mind",
+                "still shouting among the tombs"
+              ],
+              "correctIndex": 2,
+              "answerRef": "MRK.5.15",
+              "explain": "Mark 5:15. The man who had been tormented is at peace."
+            },
+            {
+              "id": "mark-30.d10.q2",
+              "prompt": "What did the man ask as Jesus was getting into the boat?",
+              "choices": [
+                "that he would heal his family",
+                "that he might be with him",
+                "that he would pay for the pigs",
+                "that he would leave the region"
+              ],
+              "correctIndex": 1,
+              "answerRef": "MRK.5.18",
+              "explain": "Mark 5:18: he \"begged him that he might be with him.\""
+            },
+            {
+              "id": "mark-30.d10.q3",
+              "prompt": "What did Jesus tell him to do instead?",
+              "choices": [
+                "Go to the priest and offer a sacrifice",
+                "Follow me to Jerusalem",
+                "Go to your house, to your friends, and tell them",
+                "Stay silent and tell no one"
+              ],
+              "correctIndex": 2,
+              "answerRef": "MRK.5.19",
+              "explain": "Mark 5:19. He is sent home to tell what the Lord has done."
+            }
+          ]
+        },
+        {
+          "id": "mark-30.d11",
+          "dayIndex": 11,
+          "title": "Only believe",
+          "verseRefs": [
+            "MRK.5.28",
+            "MRK.5.34",
+            "MRK.5.36",
+            "MRK.5.41"
+          ],
+          "bodyMarkdown": "Mark weaves two stories together. Jairus, a leader of the synagogue, begs Jesus to come to his dying daughter (Mark 5:23). On the way, a woman who has been bleeding for twelve years (Mark 5:25) reaches out to touch his clothes: \"If I just touch his clothes, I will be made well.\"\n\nJesus stops and looks for her. He calls her \"Daughter\" and sends her off in peace. But the delay seems to cost Jairus everything: word comes that his girl has died. Jesus tells him, \"Don’t be afraid, only believe.\" At the house he takes the child's hand and says, \"Talitha cumi!\" which means, \"Girl, I tell you, get up!\" And she does.\n\n**Reflection:** Waiting while Jesus helps someone else can feel like losing. Where are you waiting right now? What would trusting him look like there?\n\n*Study aid: Mark sometimes keeps Jesus' words in Aramaic, the language he spoke, as here and in Mark 7:34.*",
+          "prayerPrompt": "Jesus, when I am waiting and afraid, help me hear you say: don't be afraid, only believe.",
+          "quiz": [
+            {
+              "id": "mark-30.d11.q1",
+              "prompt": "What did the woman say to herself before touching Jesus?",
+              "choices": [
+                "If I just touch his clothes, I will be made well",
+                "If he sees me, he will send me away",
+                "If I ask, the crowd will stop me",
+                "If I wait, he will come to my house"
+              ],
+              "correctIndex": 0,
+              "answerRef": "MRK.5.28",
+              "explain": "Mark 5:28. She reached out in faith."
+            },
+            {
+              "id": "mark-30.d11.q2",
+              "prompt": "What did Jesus tell Jairus when news came that his daughter had died?",
+              "choices": [
+                "Bring her to the synagogue",
+                "Don’t be afraid, only believe",
+                "It is too late now",
+                "Go home and mourn with your family"
+              ],
+              "correctIndex": 1,
+              "answerRef": "MRK.5.36",
+              "explain": "Mark 5:36: \"Don’t be afraid, only believe.\""
+            },
+            {
+              "id": "mark-30.d11.q3",
+              "prompt": "What does \"Talitha cumi\" mean?",
+              "choices": [
+                "Peace be with this house!",
+                "Sleep now, little one",
+                "Do not weep for her",
+                "Girl, I tell you, get up!"
+              ],
+              "correctIndex": 3,
+              "answerRef": "MRK.5.41",
+              "explain": "Mark 5:41. Mark keeps Jesus' own Aramaic words and translates them."
+            }
+          ]
+        },
+        {
+          "id": "mark-30.d12",
+          "dayIndex": 12,
+          "title": "Sheep without a shepherd",
+          "verseRefs": [
+            "MRK.6.31",
+            "MRK.6.34",
+            "MRK.6.41",
+            "MRK.6.42"
+          ],
+          "bodyMarkdown": "The disciples come back from their first mission tired, with no time even to eat. Jesus says, \"Come away into a deserted place, and rest awhile.\" But the crowds get there first. Instead of being annoyed, Jesus \"had compassion on them because they were like sheep without a shepherd.\"\n\nHe teaches them, and as evening comes, he feeds them. Five loaves and two fish are blessed, broken and handed out, and \"They all ate and were filled.\" Jesus cares about both: his tired friends who need rest, and a hungry crowd. And he feeds the crowd through his disciples' hands, with what they already had.\n\n**Reflection:** What small thing do you have, like five loaves and two fish, that you could offer to God today?\n\n*Study aid: apart from the resurrection, the feeding of the five thousand is the only miracle of Jesus told in all four Gospels (compare John 6:9).*",
+          "prayerPrompt": "Jesus, you care when I am tired and when I am hungry. Take the little I have and use it.",
+          "quiz": [
+            {
+              "id": "mark-30.d12.q1",
+              "prompt": "Why did Jesus have compassion on the crowd?",
+              "choices": [
+                "they were like sheep without a shepherd",
+                "they were sick and injured",
+                "they had brought no money",
+                "they had come from far away"
+              ],
+              "correctIndex": 0,
+              "answerRef": "MRK.6.34",
+              "explain": "Mark 6:34. Jesus saw people with no one to guide them."
+            },
+            {
+              "id": "mark-30.d12.q2",
+              "prompt": "What did Jesus first invite his tired disciples to do?",
+              "choices": [
+                "preach in the next town",
+                "fast and pray",
+                "rest awhile",
+                "send the crowd away"
+              ],
+              "correctIndex": 2,
+              "answerRef": "MRK.6.31",
+              "explain": "Mark 6:31: \"Come away into a deserted place, and rest awhile.\""
+            },
+            {
+              "id": "mark-30.d12.q3",
+              "prompt": "\"They all ate and were ___.\"",
+              "choices": [
+                "thankful",
+                "afraid",
+                "amazed",
+                "filled"
+              ],
+              "correctIndex": 3,
+              "answerRef": "MRK.6.42",
+              "explain": "Mark 6:42. Everyone had enough."
+            }
+          ]
+        },
+        {
+          "id": "mark-30.d13",
+          "dayIndex": 13,
+          "title": "It is I",
+          "verseRefs": [
+            "MRK.6.48",
+            "MRK.6.49",
+            "MRK.6.50",
+            "MRK.6.51"
+          ],
+          "bodyMarkdown": "After feeding the crowd, Jesus sends the disciples across the lake and goes up a mountain to pray (Mark 6:46). In the night he sees them \"distressed in rowing, for the wind was contrary to them,\" and comes to them, walking on the sea.\n\nThey think he is a ghost and cry out. His answer is immediate: \"Cheer up! It is I! Don’t be afraid.\" He gets into the boat, and the wind stops. Mark adds an honest detail: they still had not understood about the loaves (Mark 6:52). The disciples are slow learners, which may be a comfort to the rest of us.\n\n**Reflection:** Where are you straining at the oars right now? What would it mean to hear Jesus say, \"Don’t be afraid\"?\n\n*Study aid: the \"fourth watch of the night\" (Mark 6:48) was the last part of the night, roughly from three to six in the morning.*",
+          "prayerPrompt": "Jesus, come to me where I am straining. Let me hear you say: it is I, don't be afraid.",
+          "quiz": [
+            {
+              "id": "mark-30.d13.q1",
+              "prompt": "Why were the disciples struggling as they rowed?",
+              "choices": [
+                "they had lost their way",
+                "they had no oars",
+                "the wind was contrary to them",
+                "the boat had a leak"
+              ],
+              "correctIndex": 2,
+              "answerRef": "MRK.6.48",
+              "explain": "Mark 6:48: \"Seeing them distressed in rowing, for the wind was contrary to them.\""
+            },
+            {
+              "id": "mark-30.d13.q2",
+              "prompt": "What did the disciples think when they saw Jesus walking on the sea?",
+              "choices": [
+                "it was a ghost",
+                "it was an angel",
+                "it was a fisherman",
+                "it was Elijah"
+              ],
+              "correctIndex": 0,
+              "answerRef": "MRK.6.49",
+              "explain": "Mark 6:49: they \"supposed that it was a ghost, and cried out.\""
+            },
+            {
+              "id": "mark-30.d13.q3",
+              "prompt": "What did Jesus say to them?",
+              "choices": [
+                "Wait for me on the shore",
+                "Cheer up! It is I! Don’t be afraid",
+                "Why did you leave without me?",
+                "Turn the boat around"
+              ],
+              "correctIndex": 1,
+              "answerRef": "MRK.6.50",
+              "explain": "Mark 6:50: \"Cheer up! It is I! Don’t be afraid.\""
+            }
+          ]
+        },
+        {
+          "id": "mark-30.d14",
+          "dayIndex": 14,
+          "title": "Be opened",
+          "verseRefs": [
+            "MRK.7.32",
+            "MRK.7.33",
+            "MRK.7.34",
+            "MRK.7.35",
+            "MRK.7.37"
+          ],
+          "bodyMarkdown": "People bring Jesus a man who is deaf and can hardly speak. Jesus takes him away from the crowd, privately. Then he does something very physical and personal: he puts his fingers in the man's ears, touches his tongue, looks up to heaven and sighs.\n\n\"Ephphatha!\" he says, which means, \"Be opened!\" The man hears and speaks clearly. Many readers notice how Jesus heals him away from the crowd, in a way that respects him. The people's verdict could stand over everything Mark has told so far: \"He has done all things well.\"\n\n**Reflection:** Is there a part of your life that feels closed off, to God or to other people? What would it mean to pray, \"Be opened\"?\n\n*Study aid: the crowd's words, \"He makes even the deaf hear and the mute speak!\" echo a promise in Isaiah 35:5 about what God would one day do.*",
+          "prayerPrompt": "Jesus, where I am closed, open me. Open my ears to hear you and my mouth to speak well.",
+          "quiz": [
+            {
+              "id": "mark-30.d14.q1",
+              "prompt": "What did Jesus do first with the man who was deaf?",
+              "choices": [
+                "told him to wash his ears",
+                "took him aside from the multitude privately",
+                "asked the crowd to pray for him",
+                "sent him to the priest"
+              ],
+              "correctIndex": 1,
+              "answerRef": "MRK.7.33",
+              "explain": "Mark 7:33. Jesus meets him away from the crowd."
+            },
+            {
+              "id": "mark-30.d14.q2",
+              "prompt": "What does \"Ephphatha\" mean?",
+              "choices": [
+                "Be at peace",
+                "Be healed",
+                "Be silent",
+                "Be opened"
+              ],
+              "correctIndex": 3,
+              "answerRef": "MRK.7.34",
+              "explain": "Mark 7:34: “Ephphatha!” that is, “Be opened!”"
+            },
+            {
+              "id": "mark-30.d14.q3",
+              "prompt": "What did the astonished people say in verse 37?",
+              "choices": [
+                "He has done all things well",
+                "He is only a prophet",
+                "He has broken the law",
+                "He should leave our region"
+              ],
+              "correctIndex": 0,
+              "answerRef": "MRK.7.37",
+              "explain": "Mark 7:37: \"He has done all things well. He makes even the deaf hear and the mute speak!\""
+            }
+          ]
+        },
+        {
+          "id": "mark-30.d15",
+          "dayIndex": 15,
+          "title": "Who do you say I am?",
+          "verseRefs": [
+            "MRK.8.27",
+            "MRK.8.28",
+            "MRK.8.29"
+          ],
+          "bodyMarkdown": "Ever since the storm on the lake, the disciples' question has hung over the story: who is this (Mark 4:41)? Now Jesus asks it himself. First he asks what people are saying. The answers are respectful: John the Baptizer, Elijah, one of the prophets.\n\nThen he makes it personal: \"But who do you say that I am?\" Peter answers, \"You are the Christ.\" Many readers see this as the turning point of Mark. From here Jesus begins to tell his disciples plainly that he will suffer, die and rise again (Mark 8:31), and the road turns toward Jerusalem.\n\n**Reflection:** Other people's opinions about Jesus are easy to repeat. If he asked you today, \"But who do you say that I am?\", how would you answer in your own words?\n\n*Study aid: \"Christ\" comes from a Greek word meaning anointed one, the same meaning as the Hebrew word Messiah. Many Jews of the time hoped for an anointed king from David's family.*",
+          "prayerPrompt": "Jesus, I want to know you for myself, not only what others say. Show me who you are.",
+          "quiz": [
+            {
+              "id": "mark-30.d15.q1",
+              "prompt": "According to the disciples, who did some people say Jesus was?",
+              "choices": [
+                "King David",
+                "Abraham",
+                "John the Baptizer",
+                "Moses"
+              ],
+              "correctIndex": 2,
+              "answerRef": "MRK.8.28",
+              "explain": "Mark 8:28: \"John the Baptizer, and others say Elijah, but others, one of the prophets.\""
+            },
+            {
+              "id": "mark-30.d15.q2",
+              "prompt": "Peter answered, \"You are the ___.\"",
+              "choices": [
+                "Rabbi",
+                "Prophet",
+                "Baptizer",
+                "Christ"
+              ],
+              "correctIndex": 3,
+              "answerRef": "MRK.8.29",
+              "explain": "Mark 8:29: Peter answered, \"You are the Christ.\""
+            },
+            {
+              "id": "mark-30.d15.q3",
+              "prompt": "What did Jesus ask his disciples in Mark 8:29?",
+              "choices": [
+                "Where shall we go next?",
+                "Do you understand the parables?",
+                "But who do you say that I am?",
+                "What do the scribes teach?"
+              ],
+              "correctIndex": 2,
+              "answerRef": "MRK.8.29",
+              "explain": "Mark 8:29. Jesus moves from what others say to what his friends believe."
+            }
+          ]
+        },
+        {
+          "id": "mark-30.d16",
+          "dayIndex": 16,
+          "title": "Take up your cross",
+          "verseRefs": [
+            "MRK.8.31",
+            "MRK.8.34",
+            "MRK.8.35"
+          ],
+          "bodyMarkdown": "Right after Peter calls him the Christ, Jesus explains what kind of Christ he will be: one who \"must suffer many things,\" be killed, \"and after three days rise again.\" Peter is horrified and tries to correct him (Mark 8:32).\n\nThen Jesus tells the crowd what following him means: \"let him deny himself, and take up his cross, and follow me.\" In his day, a person carrying a cross was walking to execution. It is not a call to go looking for pain, but to put Jesus ahead of our own comfort and plans. And there is a paradox: \"whoever will lose his life for my sake and the sake of the Good News will save it.\"\n\n**Reflection:** What is one way you could set aside your own way today, for Jesus' sake or for someone else's?\n\n*Study aid: on the road to Jerusalem Jesus foretells his death and resurrection three times (Mark 8:31, Mark 9:31 and Mark 10:33). Each time, the disciples struggle to understand.*",
+          "prayerPrompt": "Jesus, teach me to follow you even when it costs me something. Help me trust that life is found in you.",
+          "quiz": [
+            {
+              "id": "mark-30.d16.q1",
+              "prompt": "What did Jesus say the Son of Man must do?",
+              "choices": [
+                "suffer many things",
+                "defeat the Romans",
+                "live in the temple",
+                "rule from Jerusalem"
+              ],
+              "correctIndex": 0,
+              "answerRef": "MRK.8.31",
+              "explain": "Mark 8:31: \"the Son of Man must suffer many things.\""
+            },
+            {
+              "id": "mark-30.d16.q2",
+              "prompt": "\"let him deny himself, and take up his ___, and follow me.\"",
+              "choices": [
+                "sword",
+                "staff",
+                "crown",
+                "cross"
+              ],
+              "correctIndex": 3,
+              "answerRef": "MRK.8.34",
+              "explain": "Mark 8:34. Following Jesus means taking up the cross."
+            },
+            {
+              "id": "mark-30.d16.q3",
+              "prompt": "According to Mark 8:35, who will save his life?",
+              "choices": [
+                "whoever keeps every rule",
+                "whoever will lose his life for my sake",
+                "whoever guards it carefully",
+                "whoever gains the whole world"
+              ],
+              "correctIndex": 1,
+              "answerRef": "MRK.8.35",
+              "explain": "Mark 8:35. Life is found by losing it for Jesus and the Good News."
+            }
+          ]
+        },
+        {
+          "id": "mark-30.d17",
+          "dayIndex": 17,
+          "title": "Listen to him",
+          "verseRefs": [
+            "MRK.9.2",
+            "MRK.9.4",
+            "MRK.9.7",
+            "MRK.9.8"
+          ],
+          "bodyMarkdown": "Six days later, Jesus takes Peter, James and John up a high mountain, and they see him \"changed into another form.\" Moses and Elijah appear and talk with him. Peter, frightened and not knowing what to say, suggests making three tents (Mark 9:5).\n\nThen a cloud covers them, and a voice speaks: \"This is my beloved Son. Listen to him.\" When it is over, \"they saw no one with them any more, except Jesus only.\" After the glory, they are left with Jesus and with one instruction: listen. They will need it, because the road ahead goes down the mountain and toward the cross.\n\n**Reflection:** Where do you need to listen to Jesus today, rather than talk, plan or fix things?\n\n*Study aid: this scene is often called the Transfiguration. Many readers see Moses and Elijah as standing for the Law and the Prophets, the Hebrew Scriptures.*",
+          "prayerPrompt": "Jesus, quiet me enough to listen to you today.",
+          "quiz": [
+            {
+              "id": "mark-30.d17.q1",
+              "prompt": "Who appeared and talked with Jesus on the mountain?",
+              "choices": [
+                "Abraham and David",
+                "Isaiah and Jeremiah",
+                "Noah and Daniel",
+                "Elijah and Moses"
+              ],
+              "correctIndex": 3,
+              "answerRef": "MRK.9.4",
+              "explain": "Mark 9:4: \"Elijah and Moses appeared to them, and they were talking with Jesus.\""
+            },
+            {
+              "id": "mark-30.d17.q2",
+              "prompt": "\"This is my beloved Son. ___ to him.\"",
+              "choices": [
+                "Bow",
+                "Listen",
+                "Look",
+                "Sing"
+              ],
+              "correctIndex": 1,
+              "answerRef": "MRK.9.7",
+              "explain": "Mark 9:7: \"This is my beloved Son. Listen to him.\""
+            },
+            {
+              "id": "mark-30.d17.q3",
+              "prompt": "Whom did the disciples see when they looked around afterward?",
+              "choices": [
+                "Jesus only",
+                "the crowd below",
+                "Moses only",
+                "no one at all"
+              ],
+              "correctIndex": 0,
+              "answerRef": "MRK.9.8",
+              "explain": "Mark 9:8: \"they saw no one with them any more, except Jesus only.\""
+            }
+          ]
+        },
+        {
+          "id": "mark-30.d18",
+          "dayIndex": 18,
+          "title": "Help my unbelief",
+          "verseRefs": [
+            "MRK.9.21",
+            "MRK.9.22",
+            "MRK.9.23",
+            "MRK.9.24"
+          ],
+          "bodyMarkdown": "Down from the mountain, a desperate father is waiting. His son has suffered since childhood, and the disciples could not help. He says to Jesus, \"if you can do anything, have compassion on us and help us.\"\n\nJesus picks up his words: \"If you can believe, all things are possible to him who believes.\" The father's reply is one of the most honest prayers in the Bible: \"I believe. Help my unbelief!\" He doesn't pretend to have perfect faith. He brings the faith he has, mixed with doubt, and asks for help with both. And Jesus helps him.\n\n**Reflection:** Is there an area where your faith and your doubt live side by side? You can pray this father's prayer, just as it is.\n\n*Study aid: afterwards the disciples ask privately why they could not help the boy, and Jesus speaks to them about prayer (Mark 9:28).*",
+          "prayerPrompt": "Lord, I believe. Help my unbelief.",
+          "quiz": [
+            {
+              "id": "mark-30.d18.q1",
+              "prompt": "How long had the boy been suffering?",
+              "choices": [
+                "Since the last festival",
+                "For a week",
+                "From childhood",
+                "For one year"
+              ],
+              "correctIndex": 2,
+              "answerRef": "MRK.9.21",
+              "explain": "Mark 9:21: He said, \"From childhood.\""
+            },
+            {
+              "id": "mark-30.d18.q2",
+              "prompt": "\"I believe. Help my ___!\"",
+              "choices": [
+                "unbelief",
+                "family",
+                "son",
+                "weakness"
+              ],
+              "correctIndex": 0,
+              "answerRef": "MRK.9.24",
+              "explain": "Mark 9:24. The father brings both his faith and his doubt."
+            },
+            {
+              "id": "mark-30.d18.q3",
+              "prompt": "What did Jesus say is possible to him who believes?",
+              "choices": [
+                "a long life",
+                "an easy road",
+                "great wealth",
+                "all things"
+              ],
+              "correctIndex": 3,
+              "answerRef": "MRK.9.23",
+              "explain": "Mark 9:23: \"all things are possible to him who believes.\""
+            }
+          ]
+        },
+        {
+          "id": "mark-30.d19",
+          "dayIndex": 19,
+          "title": "Let the children come",
+          "verseRefs": [
+            "MRK.10.13",
+            "MRK.10.14",
+            "MRK.10.15",
+            "MRK.10.16"
+          ],
+          "bodyMarkdown": "People bring little children for Jesus to bless, and the disciples try to stop them. In that culture children had little standing, and perhaps the disciples thought Jesus had more important work to do.\n\nJesus is \"moved with indignation.\" \"Allow the little children to come to me! Don’t forbid them, for God’s Kingdom belongs to such as these.\" Then he takes them in his arms and blesses them. God's Kingdom, he says, is received \"like a little child\": not earned by status, but received with open hands.\n\n**Reflection:** What would it mean for you to receive from God like a child, without first trying to prove you deserve it?\n\n*Study aid: Christians have drawn different practical conclusions from this passage, for example about children in worship. All agree that Jesus welcomed them.*",
+          "prayerPrompt": "Jesus, teach me to come to you like a child, with open hands.",
+          "quiz": [
+            {
+              "id": "mark-30.d19.q1",
+              "prompt": "What did the disciples do when people brought children to Jesus?",
+              "choices": [
+                "brought them food",
+                "taught them the law",
+                "rebuked those who were bringing them",
+                "lined them up to meet him"
+              ],
+              "correctIndex": 2,
+              "answerRef": "MRK.10.13",
+              "explain": "Mark 10:13. The disciples tried to keep the children away."
+            },
+            {
+              "id": "mark-30.d19.q2",
+              "prompt": "How did Jesus feel when he saw it?",
+              "choices": [
+                "too tired to notice",
+                "moved with indignation",
+                "pleased with their care",
+                "worried about the crowd"
+              ],
+              "correctIndex": 1,
+              "answerRef": "MRK.10.14",
+              "explain": "Mark 10:14: \"when Jesus saw it, he was moved with indignation.\""
+            },
+            {
+              "id": "mark-30.d19.q3",
+              "prompt": "What did Jesus do with the children?",
+              "choices": [
+                "gave them bread",
+                "took them in his arms and blessed them",
+                "sent them home to their parents",
+                "asked them to sit quietly"
+              ],
+              "correctIndex": 1,
+              "answerRef": "MRK.10.16",
+              "explain": "Mark 10:16: \"He took them in his arms and blessed them, laying his hands on them.\""
+            }
+          ]
+        },
+        {
+          "id": "mark-30.d20",
+          "dayIndex": 20,
+          "title": "One thing you lack",
+          "verseRefs": [
+            "MRK.10.17",
+            "MRK.10.21",
+            "MRK.10.22",
+            "MRK.10.27"
+          ],
+          "bodyMarkdown": "A man runs up and kneels before Jesus with a big question: \"what shall I do that I may inherit eternal life?\" He has kept the commandments since his youth (Mark 10:20). Then Mark adds a detail that is easy to miss: \"Jesus looking at him loved him.\"\n\nOut of that love comes a hard word: \"One thing you lack. Go, sell whatever you have and give to the poor.\" The man goes away sad, \"for he was one who had great possessions.\" The disciples are astonished and ask who can be saved at all. Jesus answers, \"With men it is impossible, but not with God, for all things are possible with God.\"\n\n**Reflection:** Is there anything you hold so tightly that it would be hard to follow Jesus without it?\n\n*Study aid: Jesus does not give this exact instruction to everyone in the Gospels. Christians have long discussed how it applies today; many see in it a warning about trusting in riches (Mark 10:24).*",
+          "prayerPrompt": "Jesus, you look at me with love. Loosen my grip on whatever keeps me from following you.",
+          "quiz": [
+            {
+              "id": "mark-30.d20.q1",
+              "prompt": "What does Mark say Jesus did as he looked at the man?",
+              "choices": [
+                "loved him",
+                "ignored him",
+                "pitied him",
+                "doubted him"
+              ],
+              "correctIndex": 0,
+              "answerRef": "MRK.10.21",
+              "explain": "Mark 10:21: \"Jesus looking at him loved him.\""
+            },
+            {
+              "id": "mark-30.d20.q2",
+              "prompt": "Why did the man go away sorrowful?",
+              "choices": [
+                "his family would not let him",
+                "he had broken the commandments",
+                "he was one who had great possessions",
+                "he did not believe Jesus"
+              ],
+              "correctIndex": 2,
+              "answerRef": "MRK.10.22",
+              "explain": "Mark 10:22: \"he went away sorrowful, for he was one who had great possessions.\""
+            },
+            {
+              "id": "mark-30.d20.q3",
+              "prompt": "How did Jesus answer the astonished disciples in verse 27?",
+              "choices": [
+                "Only those who keep every law",
+                "Only the poor",
+                "Only those who give everything away",
+                "With men it is impossible, but not with God"
+              ],
+              "correctIndex": 3,
+              "answerRef": "MRK.10.27",
+              "explain": "Mark 10:27: \"for all things are possible with God.\""
+            }
+          ]
+        },
+        {
+          "id": "mark-30.d21",
+          "dayIndex": 21,
+          "title": "Not to be served",
+          "verseRefs": [
+            "MRK.10.42",
+            "MRK.10.43",
+            "MRK.10.44",
+            "MRK.10.45"
+          ],
+          "bodyMarkdown": "James and John have just asked for the best seats in Jesus' glory, and the other ten are angry with them (Mark 10:37 and Mark 10:41). Jesus calls them all together and sets two kinds of greatness side by side.\n\nRulers of the nations \"lord it over\" people. \"But it shall not be so among you.\" Among Jesus' followers the great one is the servant, and the first is the one who serves everyone. Then he points to himself: \"For the Son of Man also came not to be served but to serve, and to give his life as a ransom for many.\" Many readers see this verse as a key to the whole of Mark.\n\n**Reflection:** Where could you serve someone today without being asked and without being noticed?\n\n*Study aid: a ransom was a price paid to set a captive free. Christians have understood how Jesus' death is a ransom in a number of ways; Mark gives the picture without a full explanation.*",
+          "prayerPrompt": "Jesus, you came to serve. Make me willing to serve too, especially where no one will notice.",
+          "quiz": [
+            {
+              "id": "mark-30.d21.q1",
+              "prompt": "\"For the Son of Man also came not to be ___ but to serve\"",
+              "choices": [
+                "praised",
+                "seen",
+                "followed",
+                "served"
+              ],
+              "correctIndex": 3,
+              "answerRef": "MRK.10.45",
+              "explain": "Mark 10:45. Jesus describes his own life as service."
+            },
+            {
+              "id": "mark-30.d21.q2",
+              "prompt": "In Mark 10:43, whoever wants to become great among you shall be…",
+              "choices": [
+                "your teacher",
+                "your servant",
+                "your judge",
+                "your ruler"
+              ],
+              "correctIndex": 1,
+              "answerRef": "MRK.10.43",
+              "explain": "Mark 10:43: \"whoever wants to become great among you shall be your servant.\""
+            },
+            {
+              "id": "mark-30.d21.q3",
+              "prompt": "What does Jesus say he came to give, in verse 45?",
+              "choices": [
+                "his life as a ransom for many",
+                "riches to the poor",
+                "a new set of laws",
+                "a kingdom for the twelve"
+              ],
+              "correctIndex": 0,
+              "answerRef": "MRK.10.45",
+              "explain": "Mark 10:45: \"and to give his life as a ransom for many.\""
+            }
+          ]
+        },
+        {
+          "id": "mark-30.d22",
+          "dayIndex": 22,
+          "title": "What do you want?",
+          "verseRefs": [
+            "MRK.10.47",
+            "MRK.10.48",
+            "MRK.10.51",
+            "MRK.10.52"
+          ],
+          "bodyMarkdown": "Bartimaeus is blind and begging by the road out of Jericho. When he hears that Jesus is passing, he shouts, \"Jesus, you son of David, have mercy on me!\" People tell him to be quiet. He shouts louder.\n\nJesus stops and calls him. Then he asks a question with an obvious answer: \"What do you want me to do for you?\" He lets Bartimaeus say it in his own words: \"that I may see again.\" He receives his sight, and Mark ends with a quiet detail: he \"followed Jesus on the way.\" The road leads to Jerusalem, and Bartimaeus is now walking it.\n\n**Reflection:** If Jesus asked you today, \"What do you want me to do for you?\", what would you say?\n\n*Study aid: \"son of David\" was a title for the promised king from David's family. Bartimaeus is the first person in Mark to call Jesus by it.*",
+          "prayerPrompt": "Jesus, son of David, have mercy on me. Help me to see, and to follow you on the way.",
+          "quiz": [
+            {
+              "id": "mark-30.d22.q1",
+              "prompt": "What did Bartimaeus do when the crowd told him to be quiet?",
+              "choices": [
+                "he waited silently",
+                "he apologized",
+                "he cried out much more",
+                "he went home"
+              ],
+              "correctIndex": 2,
+              "answerRef": "MRK.10.48",
+              "explain": "Mark 10:48: \"he cried out much more, “You son of David, have mercy on me!”\""
+            },
+            {
+              "id": "mark-30.d22.q2",
+              "prompt": "What did Jesus ask Bartimaeus?",
+              "choices": [
+                "What do you want me to do for you?",
+                "Who told you I was here?",
+                "Why are you shouting?",
+                "Where is your family?"
+              ],
+              "correctIndex": 0,
+              "answerRef": "MRK.10.51",
+              "explain": "Mark 10:51. Jesus invites him to say what he needs."
+            },
+            {
+              "id": "mark-30.d22.q3",
+              "prompt": "What did Bartimaeus do after he received his sight?",
+              "choices": [
+                "ran to the temple",
+                "followed Jesus on the way",
+                "went home to Jericho",
+                "returned to begging"
+              ],
+              "correctIndex": 1,
+              "answerRef": "MRK.10.52",
+              "explain": "Mark 10:52: \"Immediately he received his sight and followed Jesus on the way.\""
+            }
+          ]
+        },
+        {
+          "id": "mark-30.d23",
+          "dayIndex": 23,
+          "title": "Hosanna",
+          "verseRefs": [
+            "MRK.11.7",
+            "MRK.11.8",
+            "MRK.11.9",
+            "MRK.11.10"
+          ],
+          "bodyMarkdown": "Jesus enters Jerusalem riding a young donkey. People spread their garments and branches on the road, the way a king might be welcomed, and the crowd shouts, \"Hosanna! Blessed is he who comes in the name of the Lord!\"\n\nIt is a joyful scene, and an unusual one. A king arriving on a borrowed donkey (Mark 11:3) is not what most people pictured. Many readers hear an echo of Zechariah 9:9, where Israel's king comes \"lowly, and riding on a donkey.\" Within a week, the city that welcomed him will see him crucified. Christians see both truths in this scene: Jesus is the king, and his way to the throne goes through the cross.\n\n**Reflection:** What kind of king do you want Jesus to be? What kind of king does he show himself to be here?\n\n*Study aid: \"Hosanna\" comes from a Hebrew phrase meaning save us. By Jesus' time it was also a shout of praise. The crowd's words echo Psalm 118:25.*",
+          "prayerPrompt": "Jesus, you come humbly. I welcome you as my king, on your terms and not mine.",
+          "quiz": [
+            {
+              "id": "mark-30.d23.q1",
+              "prompt": "What did Jesus ride into Jerusalem?",
+              "choices": [
+                "a camel",
+                "a war horse",
+                "the young donkey",
+                "a chariot"
+              ],
+              "correctIndex": 2,
+              "answerRef": "MRK.11.7",
+              "explain": "Mark 11:7: \"They brought the young donkey to Jesus and threw their garments on it, and Jesus sat on it.\""
+            },
+            {
+              "id": "mark-30.d23.q2",
+              "prompt": "What did many people spread on the road?",
+              "choices": [
+                "flowers",
+                "carpets",
+                "gold coins",
+                "their garments"
+              ],
+              "correctIndex": 3,
+              "answerRef": "MRK.11.8",
+              "explain": "Mark 11:8: \"Many spread their garments on the way.\""
+            },
+            {
+              "id": "mark-30.d23.q3",
+              "prompt": "\"Hosanna! Blessed is he who comes in the name of the ___!\"",
+              "choices": [
+                "King",
+                "temple",
+                "people",
+                "Lord"
+              ],
+              "correctIndex": 3,
+              "answerRef": "MRK.11.9",
+              "explain": "Mark 11:9. The crowd welcomes Jesus with words from Psalm 118."
+            }
+          ]
+        },
+        {
+          "id": "mark-30.d24",
+          "dayIndex": 24,
+          "title": "All she had",
+          "verseRefs": [
+            "MRK.12.41",
+            "MRK.12.42",
+            "MRK.12.43",
+            "MRK.12.44"
+          ],
+          "bodyMarkdown": "Jesus sits opposite the temple treasury and watches people give. Rich people put in large amounts. Then a poor widow drops in two tiny coins.\n\nJesus calls his disciples over, as if to make sure they don't miss it: \"this poor widow gave more than all those who are giving into the treasury.\" The others gave \"out of their abundance\"; she gave \"all that she had to live on.\" Jesus measures a gift differently. What he notices is not its size but what it cost her, and the trust behind it.\n\n**Reflection:** What would it look like to give God something that really matters to you, whether time, attention or money, as an act of trust?\n\n*Study aid: just before this, Jesus warns about scribes who \"devour widows’ houses\" (Mark 12:40). Some readers also hear in this scene a lament over a system that left her so poor.*",
+          "prayerPrompt": "God, everything I have comes from you. Teach me to give with trust, not only from what is left over.",
+          "quiz": [
+            {
+              "id": "mark-30.d24.q1",
+              "prompt": "What did the poor widow put into the treasury?",
+              "choices": [
+                "two small brass coins",
+                "a tenth of her savings",
+                "nothing at all",
+                "a single gold coin"
+              ],
+              "correctIndex": 0,
+              "answerRef": "MRK.12.42",
+              "explain": "Mark 12:42: \"she cast in two small brass coins.\""
+            },
+            {
+              "id": "mark-30.d24.q2",
+              "prompt": "What did Jesus say about her gift?",
+              "choices": [
+                "should have been kept for herself",
+                "gave more than all those who are giving into the treasury",
+                "was too small to count",
+                "was given only to be seen"
+              ],
+              "correctIndex": 1,
+              "answerRef": "MRK.12.43",
+              "explain": "Mark 12:43: \"this poor widow gave more than all those who are giving into the treasury.\""
+            },
+            {
+              "id": "mark-30.d24.q3",
+              "prompt": "According to verse 44, how did the widow give?",
+              "choices": [
+                "out of duty",
+                "out of habit",
+                "out of her poverty",
+                "out of fear"
+              ],
+              "correctIndex": 2,
+              "answerRef": "MRK.12.44",
+              "explain": "Mark 12:44: \"she, out of her poverty, gave all that she had to live on.\""
+            }
+          ]
+        },
+        {
+          "id": "mark-30.d25",
+          "dayIndex": 25,
+          "title": "What she could",
+          "verseRefs": [
+            "MRK.14.3",
+            "MRK.14.6",
+            "MRK.14.8",
+            "MRK.14.9"
+          ],
+          "bodyMarkdown": "A few days before his death, Jesus is at dinner in Bethany when a woman breaks open a jar of very costly perfume and pours it over his head. Some guests are indignant. They work out the cost and say it could have been sold for the poor (Mark 14:5).\n\nJesus defends her: \"Leave her alone. Why do you trouble her? She has done a good work for me.\" Then he says what her gift means: \"She has done what she could. She has anointed my body beforehand for the burying.\" Whether or not she knew it, her love prepared him for his death. Jesus promises she will be remembered wherever the Good News is told.\n\n**Reflection:** What is one generous, even extravagant, act of love you could offer Jesus or someone else this week?\n\n*Study aid: John's Gospel names her as Mary, the sister of Martha and Lazarus (John 12:3). Mark leaves her unnamed, yet promises that her story will be told.*",
+          "prayerPrompt": "Jesus, you are worth more than anything I could give. Help me love you generously and do what I can.",
+          "quiz": [
+            {
+              "id": "mark-30.d25.q1",
+              "prompt": "What did the woman pour over Jesus' head?",
+              "choices": [
+                "wine from the table",
+                "water from the well",
+                "olive oil from the kitchen",
+                "ointment of pure nard"
+              ],
+              "correctIndex": 3,
+              "answerRef": "MRK.14.3",
+              "explain": "Mark 14:3: \"a woman came having an alabaster jar of ointment of pure nard—very costly.\""
+            },
+            {
+              "id": "mark-30.d25.q2",
+              "prompt": "How did Jesus respond to those who criticized her?",
+              "choices": [
+                "You are right to be angry",
+                "Leave her alone",
+                "Send her away",
+                "Let her pay for it"
+              ],
+              "correctIndex": 1,
+              "answerRef": "MRK.14.6",
+              "explain": "Mark 14:6: \"Leave her alone. Why do you trouble her? She has done a good work for me.\""
+            },
+            {
+              "id": "mark-30.d25.q3",
+              "prompt": "\"She has done what she ___.\"",
+              "choices": [
+                "could",
+                "planned",
+                "promised",
+                "wanted"
+              ],
+              "correctIndex": 0,
+              "answerRef": "MRK.14.8",
+              "explain": "Mark 14:8. Jesus honors what she was able to give."
+            }
+          ]
+        },
+        {
+          "id": "mark-30.d26",
+          "dayIndex": 26,
+          "title": "This is my body",
+          "verseRefs": [
+            "MRK.14.22",
+            "MRK.14.23",
+            "MRK.14.24"
+          ],
+          "bodyMarkdown": "On the night before he dies, Jesus shares the Passover meal with his disciples (Mark 14:12). He takes bread, blesses it, breaks it and gives it to them: \"Take, eat. This is my body.\" Then the cup: \"This is my blood of the new covenant, which is poured out for many.\"\n\nJesus uses an ordinary meal to show what his death will mean. The bread and the cup point to his life, given for others. The meal also looks ahead: he will drink it \"anew in God’s Kingdom\" (Mark 14:25). Christians have kept doing what Jesus did at this table ever since.\n\n**Reflection:** Jesus says his blood is poured out for many. Take a moment to thank him that this includes you.\n\n*Study aid: Christians call this meal Communion, the Lord's Supper or the Eucharist, and understand it in different ways. All trace it back to this night.*",
+          "prayerPrompt": "Jesus, thank you for giving yourself for many, and for me. Help me remember you.",
+          "quiz": [
+            {
+              "id": "mark-30.d26.q1",
+              "prompt": "What did Jesus say as he gave them the bread?",
+              "choices": [
+                "Eat, for tomorrow we travel",
+                "This is the bread of Passover",
+                "Remember the manna in the desert",
+                "Take, eat. This is my body"
+              ],
+              "correctIndex": 3,
+              "answerRef": "MRK.14.22",
+              "explain": "Mark 14:22: \"Take, eat. This is my body.\""
+            },
+            {
+              "id": "mark-30.d26.q2",
+              "prompt": "\"This is my blood of the new ___, which is poured out for many.\"",
+              "choices": [
+                "kingdom",
+                "law",
+                "covenant",
+                "temple"
+              ],
+              "correctIndex": 2,
+              "answerRef": "MRK.14.24",
+              "explain": "Mark 14:24. Jesus speaks of a new covenant."
+            },
+            {
+              "id": "mark-30.d26.q3",
+              "prompt": "For whom does Jesus say his blood is poured out?",
+              "choices": [
+                "for the twelve only",
+                "for the righteous",
+                "for many",
+                "for the priests"
+              ],
+              "correctIndex": 2,
+              "answerRef": "MRK.14.24",
+              "explain": "Mark 14:24: \"which is poured out for many.\""
+            }
+          ]
+        },
+        {
+          "id": "mark-30.d27",
+          "dayIndex": 27,
+          "title": "Not what I desire",
+          "verseRefs": [
+            "MRK.14.33",
+            "MRK.14.34",
+            "MRK.14.36",
+            "MRK.14.38"
+          ],
+          "bodyMarkdown": "In Gethsemane, Jesus begins to be \"greatly troubled and distressed.\" He tells his closest friends, \"My soul is exceedingly sorrowful, even to death.\" Mark does not hide Jesus' anguish.\n\nThen he prays: \"Abba, Father, all things are possible to you. Please remove this cup from me. However, not what I desire, but what you desire.\" He asks honestly for another way, and he trusts his Father with the answer. Both are in the same prayer. Meanwhile, the disciples keep falling asleep. Jesus understands: \"The spirit indeed is willing, but the flesh is weak.\"\n\n**Reflection:** Is there something you are asking God to take away? Can you pray both halves of Jesus' prayer about it today?\n\n*Study aid: \"Abba\" is the Aramaic word for father, used within families. Paul says Christians pray with the same word (Romans 8:15).*",
+          "prayerPrompt": "Abba, Father, you know what I am asking. Not what I desire, but what you desire. Give me strength.",
+          "quiz": [
+            {
+              "id": "mark-30.d27.q1",
+              "prompt": "How did Jesus describe his soul in Mark 14:34?",
+              "choices": [
+                "exceedingly sorrowful, even to death",
+                "tired but hopeful",
+                "calm and at peace",
+                "ready and unafraid"
+              ],
+              "correctIndex": 0,
+              "answerRef": "MRK.14.34",
+              "explain": "Mark 14:34: \"My soul is exceedingly sorrowful, even to death.\""
+            },
+            {
+              "id": "mark-30.d27.q2",
+              "prompt": "\"However, not what I desire, but what you ___.\"",
+              "choices": [
+                "command",
+                "desire",
+                "know",
+                "allow"
+              ],
+              "correctIndex": 1,
+              "answerRef": "MRK.14.36",
+              "explain": "Mark 14:36. Jesus asks honestly and trusts his Father."
+            },
+            {
+              "id": "mark-30.d27.q3",
+              "prompt": "What did Jesus say about his sleeping disciples?",
+              "choices": [
+                "Let them sleep; they cannot help",
+                "They have abandoned me already",
+                "The spirit indeed is willing, but the flesh is weak",
+                "They do not care what happens"
+              ],
+              "correctIndex": 2,
+              "answerRef": "MRK.14.38",
+              "explain": "Mark 14:38: \"The spirit indeed is willing, but the flesh is weak.\""
+            }
+          ]
+        },
+        {
+          "id": "mark-30.d28",
+          "dayIndex": 28,
+          "title": "Before the rooster crows",
+          "verseRefs": [
+            "MRK.14.29",
+            "MRK.14.30",
+            "MRK.14.71",
+            "MRK.14.72"
+          ],
+          "bodyMarkdown": "Earlier that night Peter was sure of himself: \"Although all will be offended, yet I will not.\" Jesus told him that before the rooster crowed twice, he would deny him three times.\n\nNow Peter is in the high priest's courtyard, warming himself by the fire. A servant girl recognizes him. Three times he denies knowing Jesus, the last time with curses: \"I don’t know this man of whom you speak!\" Then the rooster crows a second time. Peter remembers Jesus' words, and he weeps. Mark tells this failure plainly, without softening it.\n\n**Reflection:** Have you ever failed someone you love, or failed God, in a way that still hurts? Hold on to that as you read the last two lessons. Peter's story does not end here.\n\n*Study aid: an early Christian writer, Papias, said that Mark wrote down Peter's memories of Jesus. Scholars weigh this tradition in different ways.*",
+          "prayerPrompt": "Jesus, you know my failures and you still call me. Thank you that my story doesn't end with them.",
+          "quiz": [
+            {
+              "id": "mark-30.d28.q1",
+              "prompt": "What did Peter say when Jesus warned that the disciples would stumble?",
+              "choices": [
+                "Lord, I am afraid I will",
+                "Although all will be offended, yet I will not",
+                "Tell us when it will happen",
+                "Then we must all run away"
+              ],
+              "correctIndex": 1,
+              "answerRef": "MRK.14.29",
+              "explain": "Mark 14:29. Peter was sure of his own strength."
+            },
+            {
+              "id": "mark-30.d28.q2",
+              "prompt": "How many times did Jesus say Peter would deny him?",
+              "choices": [
+                "three times",
+                "four times",
+                "seven times",
+                "once"
+              ],
+              "correctIndex": 0,
+              "answerRef": "MRK.14.30",
+              "explain": "Mark 14:30: \"before the rooster crows twice, you will deny me three times.\""
+            },
+            {
+              "id": "mark-30.d28.q3",
+              "prompt": "What did Peter do when he remembered Jesus' words?",
+              "choices": [
+                "he left the city",
+                "he ran to Jesus",
+                "he wept",
+                "he laughed"
+              ],
+              "correctIndex": 2,
+              "answerRef": "MRK.14.72",
+              "explain": "Mark 14:72: \"When he thought about that, he wept.\""
+            }
+          ]
+        },
+        {
+          "id": "mark-30.d29",
+          "dayIndex": 29,
+          "title": "Truly the Son of God",
+          "verseRefs": [
+            "MRK.15.33",
+            "MRK.15.34",
+            "MRK.15.37",
+            "MRK.15.39"
+          ],
+          "bodyMarkdown": "At midday, darkness covers the land for three hours. Then Jesus cries out, \"My God, my God, why have you forsaken me?\" These are the opening words of Psalm 22, a psalm that begins in abandonment and ends in praise. Even on the cross, Jesus prays the Psalms.\n\nJesus cries out again and dies. Then someone speaks, and in Mark it is not one of his disciples but the Roman centurion who watched him die: \"Truly this man was the Son of God!\" Mark's first line called Jesus \"the Son of God\" (Mark 1:1). Here, at the cross, an outsider says it.\n\n**Reflection:** Take a quiet minute with this scene. What do you want to say to Jesus?\n\n*Study aid: Mark notes that women who had followed Jesus from Galilee were watching from a distance (Mark 15:40). They will be the first at the tomb.*",
+          "prayerPrompt": "Jesus, you went into the darkness for us. Thank you. Truly you are the Son of God.",
+          "quiz": [
+            {
+              "id": "mark-30.d29.q1",
+              "prompt": "What happened from the sixth hour until the ninth hour?",
+              "choices": [
+                "heavy rain",
+                "a great storm",
+                "a bright light in the sky",
+                "darkness over the whole land"
+              ],
+              "correctIndex": 3,
+              "answerRef": "MRK.15.33",
+              "explain": "Mark 15:33: \"there was darkness over the whole land until the ninth hour.\""
+            },
+            {
+              "id": "mark-30.d29.q2",
+              "prompt": "\"My God, my God, why have you ___ me?\"",
+              "choices": [
+                "punished",
+                "forsaken",
+                "forgotten",
+                "tested"
+              ],
+              "correctIndex": 1,
+              "answerRef": "MRK.15.34",
+              "explain": "Mark 15:34. Jesus cries out the first words of Psalm 22."
+            },
+            {
+              "id": "mark-30.d29.q3",
+              "prompt": "What did the centurion say when he saw how Jesus died?",
+              "choices": [
+                "Truly this man was the Son of God!",
+                "This man was a prophet of Galilee",
+                "This man was only a teacher",
+                "Surely this man was a criminal"
+              ],
+              "correctIndex": 0,
+              "answerRef": "MRK.15.39",
+              "explain": "Mark 15:39: \"Truly this man was the Son of God!\""
+            }
+          ]
+        },
+        {
+          "id": "mark-30.d30",
+          "dayIndex": 30,
+          "title": "He goes before you",
+          "verseRefs": [
+            "MRK.16.5",
+            "MRK.16.6",
+            "MRK.16.7",
+            "MRK.16.8"
+          ],
+          "bodyMarkdown": "Very early on the first day of the week, three women come to the tomb with spices, wondering who will roll away the heavy stone (Mark 16:3). It has already been rolled back. A young man in white tells them, \"He has risen! He is not here.\"\n\nThen he gives them a message: \"go, tell his disciples and Peter.\" Peter, who denied Jesus three times, is named. Jesus is going ahead of them into Galilee, where the story began. The women flee, trembling and amazed. Mark leaves the story open, as if handing it to the reader: will you go and meet him too?\n\nYou have walked through Mark from \"The beginning of the Good News\" (Mark 1:1) to an empty tomb. Consider reading it again in the Bible tab. It reads differently the second time.\n\n**Reflection:** Peter was named, after everything. What does it mean to you that Jesus' invitation includes people who have failed him?\n\n*Study aid: the oldest manuscripts of Mark end at 16:8. Most Bibles, including the WEB text in this app, also include verses 9 to 20, often with a note.*",
+          "prayerPrompt": "Risen Jesus, thank you that you go ahead of me, and that your invitation includes me. Help me follow you.",
+          "quiz": [
+            {
+              "id": "mark-30.d30.q1",
+              "prompt": "What did the young man in the tomb tell the women?",
+              "choices": [
+                "He has gone up to the temple",
+                "Wait here until he comes",
+                "He has risen! He is not here",
+                "Someone has moved his body"
+              ],
+              "correctIndex": 2,
+              "answerRef": "MRK.16.6",
+              "explain": "Mark 16:6: \"He has risen! He is not here. See the place where they laid him!\""
+            },
+            {
+              "id": "mark-30.d30.q2",
+              "prompt": "Whom did the young man name, along with the disciples?",
+              "choices": [
+                "Andrew",
+                "James",
+                "John",
+                "Peter"
+              ],
+              "correctIndex": 3,
+              "answerRef": "MRK.16.7",
+              "explain": "Mark 16:7: \"But go, tell his disciples and Peter.\""
+            },
+            {
+              "id": "mark-30.d30.q3",
+              "prompt": "Where did the young man say Jesus was going ahead of them?",
+              "choices": [
+                "Galilee",
+                "Bethany",
+                "Rome",
+                "Jerusalem"
+              ],
+              "correctIndex": 0,
+              "answerRef": "MRK.16.7",
+              "explain": "Mark 16:7: \"He goes before you into Galilee. There you will see him, as he said to you.\""
             }
           ]
         }

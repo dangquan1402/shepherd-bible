@@ -45,6 +45,14 @@ class ShippedContent(unittest.TestCase):
     def test_shipped_content_has_no_errors(self):
         self.assertEqual(errors(PATHS), [])
 
+    def test_shipped_content_is_release_ready(self):
+        # The three launch paths are complete: no path may still be marked draft.
+        self.assertEqual(errors(PATHS, release=True), [])
+        self.assertEqual(
+            {p["id"]: len(p["lessons"]) for p in PATHS["paths"]},
+            {"beginner-30": 30, "peace-14": 14, "mark-30": 30},
+        )
+
     def test_pinned_source_hash_matches_the_bible_builder(self):
         with open(
             os.path.join(vc.ROOT, "tools", "bible", "build_web.py"), encoding="utf-8"
