@@ -227,7 +227,19 @@ public struct OnboardingFlowView: View {
     }
 
     // MARK: - Step 5: Building Plan
+    /// Scrolls when the suggested-path card does not fit (accessibility text sizes), so the
+    /// "See my plan" button below always stays on screen.
     private var buildingPlanStep: some View {
+        ViewThatFits(in: .vertical) {
+            buildingPlanContent
+            ScrollView {
+                buildingPlanContent
+                    .padding(.vertical, 8)
+            }
+        }
+    }
+
+    private var buildingPlanContent: some View {
         VStack(spacing: 20) {
             Spacer()
 
