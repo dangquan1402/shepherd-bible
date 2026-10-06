@@ -26,14 +26,14 @@ final class RealFlowUITests: XCTestCase {
     }
 
     @MainActor
-    private func passOnboardingIfNeeded(_ app: XCUIApplication) {
-        if app.staticTexts["Welcome to Shepherd"].exists {
+    private func passOnboardingIfNeeded(_ app: XCUIApplication, goal: String = "peace", level: String = "Some experience") {
+        if app.staticTexts["Welcome to Shepherd"].waitForExistence(timeout: 3.0) {
             app.buttons["Continue"].tap()
-            _ = app.buttons.matching(NSPredicate(format: "label CONTAINS[c] 'peace'")).firstMatch.waitForExistence(timeout: 2.0)
-            app.buttons.matching(NSPredicate(format: "label CONTAINS[c] 'peace'")).firstMatch.tap()
+            _ = app.buttons.matching(NSPredicate(format: "label CONTAINS[c] %@", goal)).firstMatch.waitForExistence(timeout: 2.0)
+            app.buttons.matching(NSPredicate(format: "label CONTAINS[c] %@", goal)).firstMatch.tap()
             app.buttons["Continue"].tap()
-            _ = app.buttons.matching(NSPredicate(format: "label CONTAINS[c] 'Some experience'")).firstMatch.waitForExistence(timeout: 2.0)
-            app.buttons.matching(NSPredicate(format: "label CONTAINS[c] 'Some experience'")).firstMatch.tap()
+            _ = app.buttons.matching(NSPredicate(format: "label CONTAINS[c] %@", level)).firstMatch.waitForExistence(timeout: 2.0)
+            app.buttons.matching(NSPredicate(format: "label CONTAINS[c] %@", level)).firstMatch.tap()
             app.buttons["Continue"].tap()
             _ = app.buttons["10 min"].waitForExistence(timeout: 2.0)
             app.buttons["10 min"].tap()
@@ -115,21 +115,21 @@ final class RealFlowUITests: XCTestCase {
         try executePathCompleteFlow()
     }
 
-    /// Onboarding 'peace' follows Peace & Prayer (3 lessons in content today). Finishing them must
-    /// show the path-complete state, not the last day again, and lead to the catalog.
+    /// First Steps is free and 30 lessons long. Days 1-29 are seeded as done (DEBUG launch hook
+    /// in RootView), day 30 is played through the UI; finishing it must show the path-complete
+    /// state, not the last day again, and lead to the catalog.
     @MainActor
     private func executePathCompleteFlow() throws {
         let app = XCUIApplication()
+        app.launchArguments += ["-uitestCompleted", "beginner-30:29"]
         app.launch()
-        passOnboardingIfNeeded(app)
+        passOnboardingIfNeeded(app, goal: "Grow a daily habit", level: "Brand new")
         XCTAssertTrue(app.navigationBars["Today"].waitForExistence(timeout: 6.0))
 
-        completeLesson(app, day: 1, answers: ["All you who labor", "Gentle and humble in heart", "light"])
-        completeLesson(app, day: 2, answers: ["feeds", "The birds of the sky", "moment"])
-        completeLesson(app, day: 3, answers: ["strength", "Be still, and know that I am God", "Be afraid"])
+        completeLesson(app, day: 30, answers: ["his only born Son", "saw him and was moved with compassion", "nothing"])
 
         XCTAssertTrue(app.staticTexts["Path complete"].waitForExistence(timeout: 6.0))
-        XCTAssertFalse(app.buttons["Day 3, current"].exists, "the finished path offers its last day again")
+        XCTAssertFalse(app.buttons["Day 30, current"].exists, "the finished path offers its last day again")
         Thread.sleep(forTimeInterval: 0.4)
         saveScreenshot("Home_PathComplete")
 
@@ -137,9 +137,77 @@ final class RealFlowUITests: XCTestCase {
         XCTAssertTrue(next.exists)
         next.tap()
         XCTAssertTrue(app.navigationBars["Paths"].waitForExistence(timeout: 4.0))
-        XCTAssertTrue(element(app, containing: "3 of 3 done").exists)
+        XCTAssertTrue(element(app, containing: "30 of 30 done").exists)
         Thread.sleep(forTimeInterval: 0.3)
         saveScreenshot("Path_Overview_AfterComplete")
+    }
+
+    // MARK: - Content spot renders (three lessons per launch path)
+
+    @MainActor
+    func testLessonSpotRendersLight() throws {
+        modeOverride = "Light"
+        try executeLessonSpotRenders()
+    }
+
+    @MainActor
+    func testLessonSpotRendersDark() throws {
+        modeOverride = "Dark"
+        try executeLessonSpotRenders()
+    }
+
+    /// Opens three lessons of each path from the catalog (all lessons seeded as done, Premium on)
+    /// and saves the top of the lesson, its body and the first quiz question.
+    @MainActor
+    private func executeLessonSpotRenders() throws {
+        let app = XCUIApplication()
+        app.launchArguments += ["-uitestCompleted", "beginner-30,peace-14,mark-30", "-uitestPremium"]
+        app.launch()
+        passOnboardingIfNeeded(app, goal: "Grow a daily habit", level: "Brand new")
+        XCTAssertTrue(app.navigationBars["Today"].waitForExistence(timeout: 6.0))
+
+        let picks: [(path: String, shortName: String, lessons: [(day: Int, title: String)])] = [
+            ("First Steps: 30 Days with God", "FirstSteps", [(10, "The father runs"), (23, "Seventy times seven"), (30, "Looking back, walking on")]),
+            ("Peace & Prayer: 14 Days", "Peace", [(6, "Thirsty"), (8, "Hannah's prayer"), (14, "Go in peace")]),
+            ("Meet Jesus: Mark in 30 Days", "Mark", [(5, "Through the roof"), (18, "Help my unbelief"), (30, "He goes before you")]),
+        ]
+        for pick in picks {
+            app.buttons["Path Catalogue"].tap()
+            XCTAssertTrue(app.navigationBars["Paths"].waitForExistence(timeout: 4.0))
+            element(app, containing: pick.path).tap()
+            XCTAssertTrue(app.navigationBars[pick.path].waitForExistence(timeout: 4.0))
+            for lesson in pick.lessons {
+                let row = element(app, containing: lesson.title)
+                var tries = 0
+                while !(row.exists && row.isHittable) && tries < 12 {
+                    app.swipeUp()
+                    tries += 1
+                }
+                XCTAssertTrue(row.isHittable, "no row for \(lesson.title)")
+                row.tap()
+                XCTAssertTrue(app.navigationBars["Day \(lesson.day)"].waitForExistence(timeout: 6.0))
+                Thread.sleep(forTimeInterval: 0.8) // verse text loads with the Bible
+                let base = "Content_\(pick.shortName)_D\(lesson.day)"
+                saveScreenshot("\(base)_1Top")
+                app.swipeUp()
+                Thread.sleep(forTimeInterval: 0.4)
+                saveScreenshot("\(base)_2Body")
+                app.swipeUp()
+                let quizButton = app.buttons["Take the quiz"]
+                XCTAssertTrue(quizButton.waitForExistence(timeout: 4.0))
+                quizButton.tap()
+                XCTAssertTrue(app.buttons["Check"].waitForExistence(timeout: 4.0))
+                Thread.sleep(forTimeInterval: 0.4)
+                saveScreenshot("\(base)_3Quiz")
+                app.buttons["Close Quiz"].tap()
+                Thread.sleep(forTimeInterval: 0.6)
+                app.navigationBars.buttons.firstMatch.tap() // back to the lesson list
+                XCTAssertTrue(app.navigationBars[pick.path].waitForExistence(timeout: 4.0))
+            }
+            app.navigationBars.buttons.firstMatch.tap() // Paths
+            app.navigationBars.buttons.firstMatch.tap() // Today
+            XCTAssertTrue(app.navigationBars["Today"].waitForExistence(timeout: 4.0))
+        }
     }
 
     @MainActor
@@ -317,9 +385,7 @@ final class RealFlowUITests: XCTestCase {
 
         // 7. Paywall
         XCTAssertTrue(app.staticTexts["Start your 7-day free trial"].waitForExistence(timeout: 6.0))
-        // Both Premium paths hold only their free preview lessons today, so Premium claims no lessons.
-        XCTAssertTrue(app.staticTexts["Premium unlocks: streak freezes"].exists)
-        XCTAssertFalse(element(app, containing: "Premium lesson").exists)
+        XCTAssertTrue(element(app, containing: "38 Premium lessons in 2 paths").exists)
         XCTAssertFalse(app.staticTexts.matching(NSPredicate(format: "label CONTAINS[c] 'outfits' OR label CONTAINS[c] 'widgets' OR label CONTAINS[c] 'full learning paths'")).firstMatch.exists)
         Thread.sleep(forTimeInterval: 0.3)
         saveScreenshot("Paywall_Trial")

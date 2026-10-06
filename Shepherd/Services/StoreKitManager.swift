@@ -89,6 +89,12 @@ public final class StoreKitManager: ObservableObject {
                 }
             }
         }
+        #if DEBUG
+        // UI tests only (see RootView.applyUITestState): render Premium lessons without a purchase.
+        if ProcessInfo.processInfo.arguments.contains("-uitestPremium") {
+            hasActiveEntitlement = true
+        }
+        #endif
         self.isPremium = hasActiveEntitlement
 
         if let context = effectiveContext {
