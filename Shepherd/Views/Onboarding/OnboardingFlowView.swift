@@ -3,6 +3,7 @@ import SwiftData
 
 public struct OnboardingFlowView: View {
     @Environment(\.modelContext) private var modelContext
+    @EnvironmentObject private var content: ContentStore
     @State private var step: Int = 0
     @State private var goal: String = "grow_daily"
     @State private var experienceLevel: String = "beginner"
@@ -226,7 +227,19 @@ public struct OnboardingFlowView: View {
     }
 
     // MARK: - Step 5: Building Plan
+    /// Scrolls when the suggested-path card does not fit (accessibility text sizes), so the
+    /// "See my plan" button below always stays on screen.
     private var buildingPlanStep: some View {
+        ViewThatFits(in: .vertical) {
+            buildingPlanContent
+            ScrollView {
+                buildingPlanContent
+                    .padding(.vertical, 8)
+            }
+        }
+    }
+
+    private var buildingPlanContent: some View {
         VStack(spacing: 20) {
             Spacer()
 
@@ -237,13 +250,33 @@ public struct OnboardingFlowView: View {
                     .font(ShepherdTheme.title1Serif())
                     .foregroundStyle(ShepherdTheme.textPrimary)
 
-                Text("A personalized 7-day start based on your answers.")
+                Text("A first path picked from your answers.")
                     .font(.subheadline)
                     .foregroundStyle(ShepherdTheme.textSecondary)
             }
 
             // Summary Card
             VStack(alignment: .leading, spacing: 10) {
+                if let path = suggestedPath {
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text("Suggested path")
+                            .font(.subheadline)
+                            .foregroundStyle(ShepherdTheme.textSecondary)
+                        Text(path.title)
+                            .font(.headline)
+                            .foregroundStyle(ShepherdTheme.textPrimary)
+                        Text("\(path.lessons.count) lessons · \(PathAccessPolicy.label(for: path))")
+                            .font(.footnote)
+                            .foregroundStyle(path.access == .premium ? ShepherdTheme.accent : ShepherdTheme.textSecondary)
+                        if path.access == .premium, let free = freeAlternative {
+                            Text("Or start free with \(free.title).")
+                                .font(.footnote)
+                                .foregroundStyle(ShepherdTheme.textSecondary)
+                        }
+                    }
+                    .accessibilityElement(children: .combine)
+                    Divider()
+                }
                 summaryRow(title: "Goal", value: goalLabel(goal))
                 summaryRow(title: "Level", value: levelLabel(experienceLevel))
                 summaryRow(title: "Pace", value: "\(dailyMinutes) minutes daily")
@@ -255,6 +288,14 @@ public struct OnboardingFlowView: View {
 
             Spacer()
         }
+    }
+
+    private var suggestedPath: StudyPath? {
+        PathRecommender.recommendedPath(goal: goal, level: experienceLevel, in: content.paths)
+    }
+
+    private var freeAlternative: StudyPath? {
+        content.paths.first { $0.access != .premium }
     }
 
     private func summaryRow(title: String, value: String) -> some View {
@@ -330,6 +371,7 @@ public struct OnboardingFlowView: View {
             experience: experienceLevel,
             minutes: dailyMinutes,
             name: lambName,
+            activePathId: suggestedPath?.id,
             context: modelContext
         )
         showPaywall = false

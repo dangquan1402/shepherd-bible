@@ -7,6 +7,7 @@ public enum OnboardingStore {
         experience: String,
         minutes: Int,
         name: String,
+        activePathId: String? = nil,
         context: ModelContext
     ) {
         let trimmed = name.trimmingCharacters(in: .whitespaces)
@@ -16,7 +17,8 @@ public enum OnboardingStore {
             goal: goal,
             experienceLevel: experience,
             dailyMinutes: minutes,
-            hasCompletedOnboarding: true
+            hasCompletedOnboarding: true,
+            activePathId: activePathId
         )
         context.insert(profile)
 

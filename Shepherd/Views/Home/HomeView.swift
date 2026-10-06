@@ -7,9 +7,13 @@ public struct HomeView: View {
     public var onSelectLesson: ((Lesson) -> Void)? = nil
 
     @EnvironmentObject private var content: ContentStore
+    @ObservedObject private var store = StoreKitManager.shared
     @Query private var streaks: [StreakState]
     @Query private var companions: [Companion]
     @Query private var progress: [LessonProgress]
+    @Query private var profiles: [UserProfile]
+    @Query private var entitlements: [EntitlementState]
+    @State private var showPaywall: Bool = false
 
     private var streak: StreakState? { streaks.first }
     private var companion: Companion? { companions.first }
@@ -18,9 +22,18 @@ public struct HomeView: View {
         Set(progress.map(\.lessonId))
     }
 
+    private var isPremium: Bool {
+        store.isPremium || entitlements.first?.isPremium == true
+    }
+
+    private var activePath: StudyPath? {
+        content.activePath(id: profiles.first?.activePathId)
+    }
+
+    /// nil once every lesson of the path is done (the path-complete state, not "last day again").
     private var currentLesson: Lesson? {
-        guard let path = content.paths.first else { return nil }
-        return path.lessons.first { !completedLessonIDs.contains($0.id) } ?? path.lessons.last
+        guard let path = activePath else { return nil }
+        return PathProgress.nextLesson(in: path, completed: completedLessonIDs)
     }
 
     public init(
@@ -39,20 +52,31 @@ public struct HomeView: View {
                 ZStack(alignment: .top) {
                     // 1. Meadow Hills Background
                     MeadowBackgroundView()
-                        .frame(height: 1050)
+                        .frame(height: max(1050, PathTrailView.height(for: activePath?.lessons.count ?? 0) + 200))
 
                     // 2. The S-Curve Trail & Nodes
-                    if let path = content.paths.first {
-                        PathTrailView(
-                            lessons: path.lessons,
-                            completedIDs: completedLessonIDs,
-                            currentLessonID: currentLesson?.id,
-                            namespace: namespace,
-                            onSelect: { lesson in
-                                onSelectLesson?(lesson)
+                    if let path = activePath {
+                        VStack(spacing: 0) {
+                            if currentLesson == nil {
+                                PathCompleteCard(path: path)
+                                    .padding(.horizontal, 20)
+                                    .padding(.top, 12)
                             }
-                        )
-                        .padding(.top, 40)
+                            PathTrailView(
+                                path: path,
+                                completedIDs: completedLessonIDs,
+                                currentLessonID: currentLesson?.id,
+                                isPremium: isPremium,
+                                namespace: namespace,
+                                onSelect: { lesson in
+                                    onSelectLesson?(lesson)
+                                },
+                                onSelectLocked: { _ in
+                                    showPaywall = true
+                                }
+                            )
+                            .padding(.top, 40)
+                        }
                     }
                 }
                 .frame(maxWidth: .infinity)
@@ -80,7 +104,50 @@ public struct HomeView: View {
                 LessonView(lesson: lesson)
                     .navigationTransition(.zoom(sourceID: lesson.id, in: namespace))
             }
+            .sheet(isPresented: $showPaywall) {
+                PaywallView(
+                    onContinueFree: { showPaywall = false },
+                    onPurchased: { showPaywall = false }
+                )
+            }
         }
+    }
+}
+
+// MARK: - End of Path
+
+/// Shown above the trail once every lesson of the active path is done.
+struct PathCompleteCard: View {
+    let path: StudyPath
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            HStack(spacing: 10) {
+                Image(systemName: "flag.checkered")
+                    .font(.system(size: 18, weight: .semibold))
+                    .foregroundStyle(ShepherdTheme.accentFill)
+                Text("Path complete")
+                    .font(ShepherdTheme.title2Serif())
+                    .foregroundStyle(ShepherdTheme.textPrimary)
+            }
+            Text("You finished all \(path.lessons.count) lessons of \(path.title). Pick the path you want to walk next.")
+                .font(.subheadline)
+                .foregroundStyle(ShepherdTheme.textSecondary)
+                .fixedSize(horizontal: false, vertical: true)
+            NavigationLink {
+                PathOverviewView()
+            } label: {
+                Text("Choose your next path")
+                    .font(.body.weight(.bold))
+                    .frame(maxWidth: .infinity)
+                    .frame(minHeight: 50)
+            }
+            .buttonStyle(.glassProminent)
+            .tint(ShepherdTheme.accentFill)
+        }
+        .padding(18)
+        .shepherdGlassCard(cornerRadius: ShepherdTheme.radiusLG)
+        .accessibilityElement(children: .contain)
     }
 }
 
@@ -127,14 +194,28 @@ struct MeadowBackgroundView: View {
 // MARK: - S-Curve Path Trail with Nodes and Mascot
 
 struct PathTrailView: View {
-    let lessons: [Lesson]
+    let path: StudyPath
     let completedIDs: Set<String>
     let currentLessonID: String?
+    let isPremium: Bool
     let namespace: Namespace.ID
     let onSelect: (Lesson) -> Void
+    let onSelectLocked: (Lesson) -> Void
 
-    private let nodeXCoordinates: [CGFloat] = [306, 201, 96, 201, 306, 201, 96]
-    private let pitchY: CGFloat = 112
+    /// The design's S-curve repeats every 4 nodes: 306, 201, 96, 201, 306, ...
+    static let nodeXPattern: [CGFloat] = [306, 201, 96, 201]
+    static let pitchY: CGFloat = 112
+
+    static func nodeX(_ index: Int) -> CGFloat {
+        nodeXPattern[index % nodeXPattern.count]
+    }
+
+    static func height(for lessonCount: Int) -> CGFloat {
+        CGFloat(lessonCount) * pitchY + 120
+    }
+
+    private var lessons: [Lesson] { path.lessons }
+    private var pitchY: CGFloat { Self.pitchY }
 
     var body: some View {
         GeometryReader { geo in
@@ -143,12 +224,12 @@ struct PathTrailView: View {
 
             ZStack(alignment: .topLeading) {
                 // S-Curve Trail Path
-                TrailCurveShape(nodeX: nodeXCoordinates, pitchY: pitchY, scaleX: scaleX, count: lessons.count)
+                TrailCurveShape(nodeXPattern: Self.nodeXPattern, pitchY: pitchY, scaleX: scaleX, count: lessons.count)
                     .stroke(
                         ShepherdTheme.meadowPathBorder,
                         style: StrokeStyle(lineWidth: 30, lineCap: .round, lineJoin: .round)
                     )
-                TrailCurveShape(nodeX: nodeXCoordinates, pitchY: pitchY, scaleX: scaleX, count: lessons.count)
+                TrailCurveShape(nodeXPattern: Self.nodeXPattern, pitchY: pitchY, scaleX: scaleX, count: lessons.count)
                     .stroke(
                         ShepherdTheme.meadowPath,
                         style: StrokeStyle(lineWidth: 28, lineCap: .round, lineJoin: .round)
@@ -156,22 +237,27 @@ struct PathTrailView: View {
 
                 // Render Nodes
                 ForEach(Array(lessons.enumerated()), id: \.element.id) { index, lesson in
-                    let xPos = nodeXCoordinates[min(index, nodeXCoordinates.count - 1)] * scaleX
+                    let xPos = Self.nodeX(index) * scaleX
                     let yPos = CGFloat(index) * pitchY + 40
 
                     let isDone = completedIDs.contains(lesson.id)
                     let isCurrent = lesson.id == currentLessonID
                     let isMilestone = index == lessons.count - 1
+                    let isOpen = PathAccessPolicy.isUnlocked(lesson, in: path, isPremium: isPremium)
 
                     let nodeState: PathNodeState = {
-                        if isCurrent { return .current }
+                        if isCurrent { return isOpen ? .current : .premiumLocked }
                         if isDone { return .done }
                         if isMilestone { return .milestoneLocked }
                         return .locked
                     }()
 
                     PathNodeView(dayNumber: lesson.dayIndex, state: nodeState) {
-                        onSelect(lesson)
+                        if nodeState == .premiumLocked {
+                            onSelectLocked(lesson)
+                        } else {
+                            onSelect(lesson)
+                        }
                     }
                     .matchedTransitionSource(id: lesson.id, in: namespace)
                     .position(x: xPos, y: yPos)
@@ -191,7 +277,11 @@ struct PathTrailView: View {
                         let lambY = yPos
 
                         VStack(spacing: 8) {
-                            speechBubble(completedCount: completedIDs.count, dayNumber: lesson.dayIndex)
+                            speechBubble(
+                                completedCount: PathProgress.completedCount(in: path, completed: completedIDs),
+                                dayNumber: lesson.dayIndex,
+                                isOpen: isOpen
+                            )
 
                             AnimatedLambView(
                                 stage: 1,
@@ -206,10 +296,10 @@ struct PathTrailView: View {
 
                 // Footer path title
                 VStack(spacing: 4) {
-                    Text("Beginner: 7 Days with God")
+                    Text(path.title)
                         .font(.headline)
                         .foregroundStyle(ShepherdTheme.textPrimary)
-                    Text("7 lessons · Day 7 completes the path")
+                    Text("\(lessons.count) \(lessons.count == 1 ? "lesson" : "lessons") · \(PathAccessPolicy.label(for: path))")
                         .font(.footnote)
                         .foregroundStyle(ShepherdTheme.textSecondary)
                 }
@@ -217,12 +307,14 @@ struct PathTrailView: View {
                 .position(x: screenWidth / 2.0, y: CGFloat(lessons.count) * pitchY + 50)
             }
         }
-        .frame(height: CGFloat(lessons.count) * pitchY + 120)
+        .frame(height: Self.height(for: lessons.count))
     }
 
-    private func speechBubble(completedCount: Int, dayNumber: Int) -> some View {
+    private func speechBubble(completedCount: Int, dayNumber: Int, isOpen: Bool) -> some View {
         let bubbleText: String = {
-            if completedCount == 0 {
+            if !isOpen {
+                return "Day \(dayNumber) is Premium"
+            } else if completedCount == 0 {
                 return "Ready for Day \(dayNumber)?"
             } else if completedCount == 1 {
                 return "1 day down!"
@@ -242,23 +334,27 @@ struct PathTrailView: View {
 // MARK: - Trail S-Curve Geometry
 
 struct TrailCurveShape: Shape {
-    let nodeX: [CGFloat]
+    let nodeXPattern: [CGFloat]
     let pitchY: CGFloat
     let scaleX: CGFloat
     let count: Int
+
+    private func nodeX(_ index: Int) -> CGFloat {
+        nodeXPattern[index % nodeXPattern.count]
+    }
 
     func path(in rect: CGRect) -> Path {
         var path = Path()
         guard count > 0 else { return path }
 
-        let startX = nodeX[0] * scaleX
+        let startX = nodeX(0) * scaleX
         let startY: CGFloat = 40
         path.move(to: CGPoint(x: startX, y: startY))
 
         for i in 1..<count {
-            let prevX = nodeX[i - 1] * scaleX
+            let prevX = nodeX(i - 1) * scaleX
             let prevY = CGFloat(i - 1) * pitchY + 40
-            let toX = nodeX[i] * scaleX
+            let toX = nodeX(i) * scaleX
             let toY = CGFloat(i) * pitchY + 40
 
             let midY = (prevY + toY) / 2.0

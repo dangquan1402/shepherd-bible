@@ -23,7 +23,7 @@ plist_eq() { [ "$(plutil -extract "$1" raw -o - "$PLIST")" = "$2" ]; }
 
 check "Assets.car present" test -f "$APP/Assets.car"
 check "AppIcon files present" sh -c "ls '$APP'/AppIcon*.png"
-for f in paths.json lamb_variants.json sample_bible.json; do check "content $f present" test -s "$APP/$f"; done
+for f in paths.json lamb_variants.json web.json; do check "content $f present" test -s "$APP/$f"; done
 check "CFBundleIcons.CFBundlePrimaryIcon.CFBundleIconName = AppIcon" plist_eq CFBundleIcons.CFBundlePrimaryIcon.CFBundleIconName AppIcon
 check "CFBundlePackageType = APPL" plist_eq CFBundlePackageType APPL
 check "CFBundleVersion = $WANT_BUILD" plist_eq CFBundleVersion "$WANT_BUILD"

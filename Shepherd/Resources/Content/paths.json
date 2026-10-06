@@ -1,10 +1,26 @@
 {
+  "contentVersion": 2,
   "paths": [
     {
-      "id": "beginner-7",
-      "title": "Beginner: 7 Days with God",
+      "id": "beginner-30",
+      "title": "First Steps: 30 Days with God",
+      "subtitle": "The essentials of the faith, one passage a day.",
       "level": "beginner",
-      "estimatedDays": 7,
+      "estimatedDays": 30,
+      "sortOrder": 1,
+      "access": "free",
+      "goals": [
+        "grow_daily",
+        "understand"
+      ],
+      "levels": [
+        "beginner",
+        "some"
+      ],
+      "draft": {
+        "plannedLessons": 30,
+        "note": "Days 1-7 are the original beginner path; days 8-30 come from the lesson-writing task."
+      },
       "lessons": [
         {
           "id": "day1",
@@ -21,25 +37,27 @@
               "id": "day1-q1",
               "prompt": "Who created the heavens and the earth?",
               "choices": [
-                "God",
                 "Angels",
+                "God",
                 "Chance",
                 "Kings"
               ],
-              "correctIndex": 0,
-              "explain": "Genesis 1:1 — God is the Creator."
+              "correctIndex": 1,
+              "answerRef": "GEN.1.1",
+              "explain": "Genesis 1:1: \"In the beginning, God created the heavens and the earth.\""
             },
             {
               "id": "day1-q2",
               "prompt": "What did God say first?",
               "choices": [
-                "Let there be light",
                 "Let there be land",
                 "It is finished",
+                "Let there be light",
                 "Follow me"
               ],
-              "correctIndex": 0,
-              "explain": null
+              "correctIndex": 2,
+              "answerRef": "GEN.1.3",
+              "explain": "Genesis 1:3. God speaks, and light is the first thing he makes."
             }
           ]
         },
@@ -58,13 +76,14 @@
               "id": "day2-q1",
               "prompt": "Humans are made in whose image?",
               "choices": [
-                "God's",
-                "Animals'",
-                "Kings'",
-                "Angels'"
+                "Animals’",
+                "Kings’",
+                "Angels’",
+                "God’s"
               ],
-              "correctIndex": 0,
-              "explain": null
+              "correctIndex": 3,
+              "answerRef": "GEN.1.27",
+              "explain": "Genesis 1:27: \"In God’s image he created him; male and female he created them.\""
             },
             {
               "id": "day2-q2",
@@ -76,7 +95,8 @@
                 "As gods"
               ],
               "correctIndex": 0,
-              "explain": null
+              "answerRef": "GEN.1.27",
+              "explain": "Genesis 1:27. Both the man and the woman are made in God’s image."
             }
           ]
         },
@@ -95,25 +115,27 @@
               "id": "day3-q1",
               "prompt": "In the beginning was the…",
               "choices": [
-                "Word",
                 "Law",
                 "Temple",
+                "Word",
                 "King"
               ],
-              "correctIndex": 0,
-              "explain": null
+              "correctIndex": 2,
+              "answerRef": "JHN.1.1",
+              "explain": "John 1:1: \"In the beginning was the Word, and the Word was with God, and the Word was God.\""
             },
             {
               "id": "day3-q2",
               "prompt": "The Word became…",
               "choices": [
-                "Flesh",
                 "Stone",
+                "Flesh",
                 "Wind",
                 "A book"
               ],
-              "correctIndex": 0,
-              "explain": null
+              "correctIndex": 1,
+              "answerRef": "JHN.1.14",
+              "explain": "John 1:14: \"The Word became flesh and lived among us.\""
             }
           ]
         },
@@ -132,17 +154,18 @@
               "id": "day4-q1",
               "prompt": "God so loved the…",
               "choices": [
-                "World",
                 "Angels",
                 "Temple",
-                "Rich"
+                "Rich",
+                "World"
               ],
-              "correctIndex": 0,
-              "explain": null
+              "correctIndex": 3,
+              "answerRef": "JHN.3.16",
+              "explain": "John 3:16: \"For God so loved the world, that he gave his only born Son\""
             },
             {
               "id": "day4-q2",
-              "prompt": "God sent His Son so the world would be…",
+              "prompt": "God sent his Son so the world would be…",
               "choices": [
                 "Saved",
                 "Judged only",
@@ -150,7 +173,8 @@
                 "Destroyed"
               ],
               "correctIndex": 0,
-              "explain": null
+              "answerRef": "JHN.3.17",
+              "explain": "John 3:17: God didn’t send his Son \"to judge the world, but that the world should be saved through him.\""
             }
           ]
         },
@@ -167,27 +191,29 @@
           "quiz": [
             {
               "id": "day5-q1",
-              "prompt": "Yahweh is my…",
+              "prompt": "The LORD is my…",
               "choices": [
-                "Shepherd",
                 "Judge only",
+                "Shepherd",
                 "Enemy",
                 "Stranger"
               ],
-              "correctIndex": 0,
-              "explain": null
+              "correctIndex": 1,
+              "answerRef": "PSA.23.1",
+              "explain": "Psalm 23:1: \"The LORD is my shepherd; I shall lack nothing.\""
             },
             {
               "id": "day5-q2",
               "prompt": "In the valley, the writer says…",
               "choices": [
-                "I will fear no evil",
                 "I am abandoned",
                 "I run away",
+                "I will fear no evil",
                 "I fight alone"
               ],
-              "correctIndex": 0,
-              "explain": null
+              "correctIndex": 2,
+              "answerRef": "PSA.23.4",
+              "explain": "Psalm 23:4: \"I will fear no evil, for you are with me.\""
             }
           ]
         },
@@ -212,19 +238,21 @@
                 "Temple"
               ],
               "correctIndex": 0,
-              "explain": null
+              "answerRef": "MAT.5.14",
+              "explain": "Matthew 5:14: \"You are the light of the world.\""
             },
             {
               "id": "day6-q2",
               "prompt": "Let your light shine so others…",
               "choices": [
-                "Glorify your Father",
                 "Praise you alone",
                 "Fear you",
-                "Ignore God"
+                "Ignore God",
+                "Glorify your Father"
               ],
-              "correctIndex": 0,
-              "explain": null
+              "correctIndex": 3,
+              "answerRef": "MAT.5.16",
+              "explain": "Matthew 5:16: \"that they may see your good works and glorify your Father who is in heaven.\""
             }
           ]
         },
@@ -245,37 +273,407 @@
               "id": "day7-q1",
               "prompt": "Jesus begins prayer with…",
               "choices": [
-                "Our Father",
                 "O King only",
                 "Listen to me",
+                "Our Father",
                 "Forgive them first"
               ],
-              "correctIndex": 0,
-              "explain": null
+              "correctIndex": 2,
+              "answerRef": "MAT.6.9",
+              "explain": "Matthew 6:9. Jesus teaches his disciples to pray, beginning \"Our Father in heaven\"."
             },
             {
               "id": "day7-q2",
               "prompt": "Paul says: in nothing be…",
               "choices": [
-                "Anxious",
                 "Thankful",
+                "Anxious",
                 "Silent",
                 "Busy"
               ],
-              "correctIndex": 0,
-              "explain": null
+              "correctIndex": 1,
+              "answerRef": "PHP.4.6",
+              "explain": "Philippians 4:6: \"In nothing be anxious, but in everything, by prayer and petition with thanksgiving, let your requests be made known to God.\""
             },
             {
               "id": "day7-q3",
-              "prompt": "God's peace will guard your…",
+              "prompt": "God’s peace will guard your…",
               "choices": [
-                "Hearts and thoughts",
                 "Wallet",
                 "Reputation",
-                "House only"
+                "House only",
+                "Hearts and your thoughts"
+              ],
+              "correctIndex": 3,
+              "answerRef": "PHP.4.7",
+              "explain": "Philippians 4:7: the peace of God \"will guard your hearts and your thoughts in Christ Jesus.\""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "peace-14",
+      "title": "Peace & Prayer: 14 Days",
+      "subtitle": "Worry, rest and trust, and learning to pray honestly.",
+      "level": "beginner",
+      "estimatedDays": 14,
+      "sortOrder": 2,
+      "access": "premium",
+      "freePreviewLessons": 3,
+      "goals": [
+        "peace"
+      ],
+      "levels": [
+        "beginner",
+        "some",
+        "deep"
+      ],
+      "draft": {
+        "plannedLessons": 14,
+        "note": "Stub: lessons 1-3 drafted from report samples; the lesson-writing task completes the path."
+      },
+      "lessons": [
+        {
+          "id": "peace-14.d01",
+          "dayIndex": 1,
+          "title": "Rest for the weary",
+          "verseRefs": [
+            "MAT.11.28",
+            "MAT.11.29",
+            "MAT.11.30"
+          ],
+          "bodyMarkdown": "Jesus' invitation here is short and wide: \"Come to me, all you who labor and are heavily burdened.\" There is no list of requirements first, only tiredness.\n\nA yoke was the wooden frame that joined two animals so they could pull a load together. Jesus does not promise a life without a load. He offers to carry it with you, and to teach you along the way: \"learn from me, for I am gentle and humble in heart.\"\n\n**Reflection:** Name one burden you are carrying today. What would it look like to bring it to him, rather than carry it alone?\n\n*Study aid: in Jewish writing of the period, accepting a teacher's instruction was sometimes pictured as taking on a \"yoke\". Here Jesus calls his own yoke easy.*",
+          "prayerPrompt": "Jesus, I am tired in ways I can name and ways I cannot. I bring you this burden today. Teach me your gentleness.",
+          "quiz": [
+            {
+              "id": "peace-14.d01.q1",
+              "prompt": "Who does Jesus invite in Matthew 11:28?",
+              "choices": [
+                "Only religious leaders",
+                "All you who labor and are heavily burdened",
+                "Those who have never doubted",
+                "People whose lives are in order"
+              ],
+              "correctIndex": 1,
+              "answerRef": "MAT.11.28",
+              "explain": "Matthew 11:28. The invitation is to everyone who is weary, with no qualifications listed."
+            },
+            {
+              "id": "peace-14.d01.q2",
+              "prompt": "How does Jesus describe himself in verse 29?",
+              "choices": [
+                "Strict and demanding",
+                "Distant and silent",
+                "Gentle and humble in heart",
+                "Busy but patient"
+              ],
+              "correctIndex": 2,
+              "answerRef": "MAT.11.29",
+              "explain": "Matthew 11:29: \"I am gentle and humble in heart; and you will find rest for your souls.\""
+            },
+            {
+              "id": "peace-14.d01.q3",
+              "prompt": "\"For my yoke is easy, and my burden is ___.\"",
+              "choices": [
+                "light",
+                "heavy",
+                "yours alone",
+                "shared by all"
               ],
               "correctIndex": 0,
-              "explain": null
+              "answerRef": "MAT.11.30",
+              "explain": "Matthew 11:30: \"For my yoke is easy, and my burden is light.\""
+            }
+          ]
+        },
+        {
+          "id": "peace-14.d02",
+          "dayIndex": 2,
+          "title": "Look at the birds",
+          "verseRefs": [
+            "MAT.6.25",
+            "MAT.6.26",
+            "MAT.6.27"
+          ],
+          "bodyMarkdown": "Jesus speaks to ordinary worries: food, drink, clothes. He does not say these things don't matter. He asks a question instead: \"Isn’t life more than food, and the body more than clothing?\"\n\nThen he points at the birds. They do not plant or harvest, yet \"Your heavenly Father feeds them.\" Worry, he says, cannot add a single moment to a life (Matthew 6:27).\n\n**Reflection:** Which worry has taken up the most room in your mind this week? What changes if you hold it next to verse 26?\n\n*Study aid: in Matthew this teaching comes soon after the Lord's Prayer, with its request for daily bread (Matthew 6:11).*",
+          "prayerPrompt": "Father, you feed the birds. I bring you the worries I am carrying today, one at a time.",
+          "quiz": [
+            {
+              "id": "peace-14.d02.q1",
+              "prompt": "Fill in the blank: \"Your heavenly Father ___ them.\"",
+              "choices": [
+                "counts",
+                "warns",
+                "names",
+                "feeds"
+              ],
+              "correctIndex": 3,
+              "answerRef": "MAT.6.26",
+              "explain": "Matthew 6:26: \"Your heavenly Father feeds them.\""
+            },
+            {
+              "id": "peace-14.d02.q2",
+              "prompt": "What does Jesus tell his listeners to look at?",
+              "choices": [
+                "The birds of the sky",
+                "The stars at night",
+                "The temple walls",
+                "The fields of wheat"
+              ],
+              "correctIndex": 0,
+              "answerRef": "MAT.6.26",
+              "explain": "Matthew 6:26: \"See the birds of the sky, that they don’t sow, neither do they reap, nor gather into barns.\""
+            },
+            {
+              "id": "peace-14.d02.q3",
+              "prompt": "\"Which of you by being anxious, can add one ___ to his lifespan?\"",
+              "choices": [
+                "year",
+                "coin",
+                "moment",
+                "friend"
+              ],
+              "correctIndex": 2,
+              "answerRef": "MAT.6.27",
+              "explain": "Matthew 6:27. Worry cannot add even one moment to a life."
+            }
+          ]
+        },
+        {
+          "id": "peace-14.d03",
+          "dayIndex": 3,
+          "title": "Be still",
+          "verseRefs": [
+            "PSA.46.1",
+            "PSA.46.2",
+            "PSA.46.10"
+          ],
+          "bodyMarkdown": "Psalm 46 is a song for days when everything seems to shake, \"though the earth changes, though the mountains are shaken into the heart of the seas.\" It begins not with the trouble but with God: \"God is our refuge and strength, a very present help in trouble.\"\n\nNear the end, God speaks: \"Be still, and know that I am God.\" Stillness here is not pretending all is well. It is stopping long enough to remember who is with you.\n\n**Reflection:** Where could you take two quiet minutes today, with no phone and no plan?\n\n*Study aid: the word \"Selah\" in this psalm (Psalm 46:3) is of uncertain meaning; many readers take it as a pause.*",
+          "prayerPrompt": "God, you are my refuge. When everything shakes, help me to be still and remember that you are here.",
+          "quiz": [
+            {
+              "id": "peace-14.d03.q1",
+              "prompt": "\"God is our refuge and ___, a very present help in trouble.\"",
+              "choices": [
+                "silence",
+                "strength",
+                "reward",
+                "army"
+              ],
+              "correctIndex": 1,
+              "answerRef": "PSA.46.1",
+              "explain": "Psalm 46:1: \"God is our refuge and strength, a very present help in trouble.\""
+            },
+            {
+              "id": "peace-14.d03.q2",
+              "prompt": "In Psalm 46:10, what does God say?",
+              "choices": [
+                "Work harder and I will answer",
+                "Wait until the trouble passes",
+                "Leave the city before it falls",
+                "Be still, and know that I am God"
+              ],
+              "correctIndex": 3,
+              "answerRef": "PSA.46.10",
+              "explain": "Psalm 46:10: \"Be still, and know that I am God.\""
+            },
+            {
+              "id": "peace-14.d03.q3",
+              "prompt": "According to verse 2, what will we not do, though the earth changes?",
+              "choices": [
+                "Be afraid",
+                "Give thanks",
+                "Keep watch",
+                "Call for help"
+              ],
+              "correctIndex": 0,
+              "answerRef": "PSA.46.2",
+              "explain": "Psalm 46:2: \"Therefore we won’t be afraid, though the earth changes\""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mark-30",
+      "title": "Meet Jesus: Mark in 30 Days",
+      "subtitle": "Read the shortest Gospel as one story.",
+      "level": "some",
+      "estimatedDays": 30,
+      "sortOrder": 3,
+      "access": "premium",
+      "freePreviewLessons": 3,
+      "goals": [
+        "understand",
+        "grow_daily"
+      ],
+      "levels": [
+        "some",
+        "deep"
+      ],
+      "draft": {
+        "plannedLessons": 30,
+        "note": "Stub: lessons 1-3 drafted (lesson 2 is the report sample); the lesson-writing task completes the path."
+      },
+      "lessons": [
+        {
+          "id": "mark-30.d01",
+          "dayIndex": 1,
+          "title": "The beginning of the Good News",
+          "verseRefs": [
+            "MRK.1.1",
+            "MRK.1.14",
+            "MRK.1.15"
+          ],
+          "bodyMarkdown": "Mark wastes no words. His first line is a title for the whole book: \"The beginning of the Good News of Jesus Christ, the Son of God.\"\n\nA few verses later Jesus begins to speak in Galilee, and his first message is short: \"The time is fulfilled, and God’s Kingdom is at hand! Repent, and believe in the Good News.\" This path reads Mark one short passage at a time, as one story.\n\n**Reflection:** When you hear the words Good News, what do you expect them to mean? Keep that question with you as you read Mark.\n\n*Study aid: \"Repent\" translates a Greek word for a change of mind or direction. Christian traditions explain it in different ways; Mark places it beside \"believe\".*",
+          "prayerPrompt": "Jesus, as I read Mark, show me who you are. Help me hear the Good News as if for the first time.",
+          "quiz": [
+            {
+              "id": "mark-30.d01.q1",
+              "prompt": "Mark calls his book the beginning of the…",
+              "choices": [
+                "Law of Moses",
+                "Kingdom of David",
+                "Good News",
+                "Book of Wisdom"
+              ],
+              "correctIndex": 2,
+              "answerRef": "MRK.1.1",
+              "explain": "Mark 1:1: \"The beginning of the Good News of Jesus Christ, the Son of God.\""
+            },
+            {
+              "id": "mark-30.d01.q2",
+              "prompt": "Where did Jesus go to preach after John was taken into custody?",
+              "choices": [
+                "Galilee",
+                "Jerusalem",
+                "Egypt",
+                "Rome"
+              ],
+              "correctIndex": 0,
+              "answerRef": "MRK.1.14",
+              "explain": "Mark 1:14: \"Jesus came into Galilee, preaching the Good News of God’s Kingdom\""
+            },
+            {
+              "id": "mark-30.d01.q3",
+              "prompt": "\"The time is fulfilled, and God’s Kingdom is at ___!\"",
+              "choices": [
+                "rest",
+                "hand",
+                "war",
+                "an end"
+              ],
+              "correctIndex": 1,
+              "answerRef": "MRK.1.15",
+              "explain": "Mark 1:15. These are the first words Jesus speaks in Mark."
+            }
+          ]
+        },
+        {
+          "id": "mark-30.d02",
+          "dayIndex": 2,
+          "title": "Come after me",
+          "verseRefs": [
+            "MRK.1.16",
+            "MRK.1.17",
+            "MRK.1.18"
+          ],
+          "bodyMarkdown": "Mark tells this story fast. Two brothers are at work, casting a net into the Sea of Galilee. Jesus walks by, speaks one sentence, and they leave their nets.\n\nNotice what Jesus offers. Not a list of rules first, but an invitation to come after him, and a new purpose: \"I will make you into fishers for men.\" He meets Simon and Andrew in the middle of an ordinary workday and speaks in the language of their own trade.\n\n**Reflection:** Following often begins inside something ordinary you are already doing. What \"net\" might you set down today to pay attention?\n\n*Study aid: Simon is better known by the name Jesus later gives him, Peter (Mark 3:16).*",
+          "prayerPrompt": "Jesus, meet me in my ordinary day. Give me the courage to follow when you call.",
+          "quiz": [
+            {
+              "id": "mark-30.d02.q1",
+              "prompt": "What were Simon and Andrew doing when Jesus saw them?",
+              "choices": [
+                "Mending a boat",
+                "Casting a net into the sea",
+                "Selling fish at the market",
+                "Praying in the synagogue"
+              ],
+              "correctIndex": 1,
+              "answerRef": "MRK.1.16",
+              "explain": "Mark 1:16. They were fishermen, at work."
+            },
+            {
+              "id": "mark-30.d02.q2",
+              "prompt": "Jesus said he would make them into…",
+              "choices": [
+                "kings of Israel",
+                "teachers of the law",
+                "fishers for men",
+                "wealthy merchants"
+              ],
+              "correctIndex": 2,
+              "answerRef": "MRK.1.17",
+              "explain": "Mark 1:17. Jesus uses the language of their trade to describe a new purpose."
+            },
+            {
+              "id": "mark-30.d02.q3",
+              "prompt": "How quickly did they respond?",
+              "choices": [
+                "After a week of thinking",
+                "After asking their father",
+                "Immediately",
+                "Not until the next day"
+              ],
+              "correctIndex": 2,
+              "answerRef": "MRK.1.18",
+              "explain": "Mark 1:18: \"Immediately they left their nets, and followed him.\""
+            }
+          ]
+        },
+        {
+          "id": "mark-30.d03",
+          "dayIndex": 3,
+          "title": "A deserted place",
+          "verseRefs": [
+            "MRK.1.35",
+            "MRK.1.36",
+            "MRK.1.37",
+            "MRK.1.38"
+          ],
+          "bodyMarkdown": "The evening before was crowded: \"All the city was gathered together at the door\" (Mark 1:33). Then, \"Early in the morning, while it was still dark,\" Jesus goes out alone to a deserted place and prays.\n\nHis friends come looking for him: \"Everyone is looking for you.\" Jesus does not go back to the crowd. He says, \"Let’s go elsewhere into the next towns, that I may preach there also.\" Time alone with God comes before the next step, not after everything is done.\n\n**Reflection:** When in your day could you step away, even for a few minutes, to pray before the next thing?\n\n*Study aid: Mark shows Jesus going away to pray at other turning points too (Mark 6:46 and Mark 14:32).*",
+          "prayerPrompt": "Jesus, you made room to pray even on busy days. Help me find a quiet place with you today.",
+          "quiz": [
+            {
+              "id": "mark-30.d03.q1",
+              "prompt": "When did Jesus get up to pray?",
+              "choices": [
+                "At midday, in the market",
+                "After the evening meal",
+                "Late at night, by the sea",
+                "Early in the morning, while it was still dark"
+              ],
+              "correctIndex": 3,
+              "answerRef": "MRK.1.35",
+              "explain": "Mark 1:35: \"Early in the morning, while it was still dark, he rose up and went out, and departed into a deserted place, and prayed there.\""
+            },
+            {
+              "id": "mark-30.d03.q2",
+              "prompt": "Where did Jesus go to pray?",
+              "choices": [
+                "A deserted place",
+                "The synagogue",
+                "Simon’s house",
+                "The temple"
+              ],
+              "correctIndex": 0,
+              "answerRef": "MRK.1.35",
+              "explain": "Mark 1:35. He went out alone, away from the crowd."
+            },
+            {
+              "id": "mark-30.d03.q3",
+              "prompt": "What did Simon and the others tell Jesus when they found him?",
+              "choices": [
+                "Come and eat with us",
+                "Everyone is looking for you",
+                "The crowd has gone home",
+                "The sick are all healed"
+              ],
+              "correctIndex": 1,
+              "answerRef": "MRK.1.37",
+              "explain": "Mark 1:37: \"Everyone is looking for you.\""
             }
           ]
         }

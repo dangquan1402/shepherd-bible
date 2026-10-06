@@ -79,12 +79,12 @@ public struct SettingsView: View {
                 }
 
                 // About Section
-                Section("About") {
+                Section {
                     HStack {
                         Text("Bible text")
                             .foregroundStyle(ShepherdTheme.textPrimary)
                         Spacer()
-                        Text("WEB (public domain)")
+                        Text("World English Bible")
                             .foregroundStyle(ShepherdTheme.textSecondary)
                     }
 
@@ -101,6 +101,12 @@ public struct SettingsView: View {
 
                     Link("Privacy Policy", destination: ShepherdConstants.privacyPolicyURL)
                         .foregroundStyle(ShepherdTheme.accentFill)
+                } header: {
+                    Text("About")
+                } footer: {
+                    Text(ShepherdConstants.bibleAttribution)
+                        .font(.footnote)
+                        .foregroundStyle(ShepherdTheme.textTertiary)
                 }
             }
             .navigationTitle("Settings")

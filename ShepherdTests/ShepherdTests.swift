@@ -23,6 +23,7 @@ final class ShepherdTests: XCTestCase {
         context.insert(streak)
         try context.save()
 
+        ContentStore.shared.loadIfNeeded()
         guard let lesson = ContentStore.shared.paths.first?.lessons.first else {
             XCTFail("Missing day 1 lesson in ContentStore")
             return
@@ -149,25 +150,21 @@ final class ShepherdTests: XCTestCase {
 
     // MARK: - 4. Explain and Answering Verse Selection (M5 Rule) with Real Content
     @MainActor
-    func testExplainAndVerseSelectionRule() {
+    func testExplainAndVerseSelectionRule() async throws {
         let store = ContentStore.shared
-        guard let day1Lesson = store.paths.first?.lessons.first else {
-            XCTFail("Missing day 1 lesson")
-            return
-        }
+        await store.ensureBibleLoaded()
+        let day1Lesson = try XCTUnwrap(store.path(id: "beginner-30")?.lessons.first, "Missing day 1 lesson")
         XCTAssertGreaterThanOrEqual(day1Lesson.quiz.count, 2)
 
-        // Question 1: "Who created the heavens and the earth?" -> Correct choice "God"
-        // Genesis 1:1 text contains "God" -> Must resolve to GEN.1.1
+        // Question 1: "Who created the heavens and the earth?" -> "God", proved by Genesis 1:1
         let q1 = day1Lesson.quiz[0]
-        let v1 = QuizRules.answeringVerse(for: q1, in: day1Lesson) { store.verse(ref: $0) }
+        let v1 = try XCTUnwrap(QuizRules.answeringVerse(for: q1, in: day1Lesson) { store.verse(ref: $0) })
         XCTAssertEqual(v1.ref, "GEN.1.1", "Question 1 answering verse must be GEN.1.1")
         XCTAssertTrue(v1.text.localizedCaseInsensitiveContains("God"))
 
-        // Question 2: "What did God say first?" -> Correct choice "Let there be light"
-        // Genesis 1:3 contains "Let there be light" -> Must resolve to GEN.1.3
+        // Question 2: "What did God say first?" -> "Let there be light", proved by Genesis 1:3
         let q2 = day1Lesson.quiz[1]
-        let v2 = QuizRules.answeringVerse(for: q2, in: day1Lesson) { store.verse(ref: $0) }
+        let v2 = try XCTUnwrap(QuizRules.answeringVerse(for: q2, in: day1Lesson) { store.verse(ref: $0) })
         XCTAssertEqual(v2.ref, "GEN.1.3", "Question 2 answering verse must be GEN.1.3")
         XCTAssertTrue(v2.text.localizedCaseInsensitiveContains("Let there be light"))
     }
@@ -287,6 +284,7 @@ final class ShepherdTests: XCTestCase {
         context.insert(streak)
         try context.save()
 
+        ContentStore.shared.loadIfNeeded()
         guard let lesson = ContentStore.shared.paths.first?.lessons.first else {
             XCTFail("Missing day 1 lesson in ContentStore")
             return

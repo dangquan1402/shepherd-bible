@@ -3,14 +3,19 @@ import SwiftUI
 public struct BibleReaderView: View {
     @EnvironmentObject private var content: ContentStore
     @State private var showPicker: Bool = false
-    @State private var selectedBookAbbrev: String = "GEN"
-    @State private var selectedChapterNum: Int = 1
+    @AppStorage("bible.book") private var selectedBookAbbrev: String = "GEN"
+    @AppStorage("bible.chapter") private var selectedChapterNum: Int = 1
 
     public init() {}
 
+    private var books: [BibleBook] { content.bible?.books ?? [] }
+
+    private var currentBookIndex: Int? {
+        books.firstIndex { $0.abbrev == selectedBookAbbrev } ?? (books.isEmpty ? nil : 0)
+    }
+
     private var currentBook: BibleBook? {
-        content.bible?.books.first { $0.abbrev == selectedBookAbbrev }
-            ?? content.bible?.books.first
+        currentBookIndex.map { books[$0] }
     }
 
     private var currentChapter: BibleChapter? {
@@ -20,68 +25,31 @@ public struct BibleReaderView: View {
 
     public var body: some View {
         NavigationStack {
-            ScrollView {
-                VStack(alignment: .leading, spacing: 20) {
-                    // Eyebrow
-                    Text("WEB · \(currentBook?.name.uppercased() ?? "GENESIS")")
-                        .font(ShepherdTheme.scriptureEyebrow())
-                        .foregroundStyle(ShepherdTheme.accent)
-                        .padding(.top, 8)
+            ScrollViewReader { proxy in
+                ScrollView {
+                    VStack(alignment: .leading, spacing: 20) {
+                        // Eyebrow
+                        Text("WEB · \(currentBook?.name.uppercased() ?? "GENESIS")")
+                            .font(ShepherdTheme.scriptureEyebrow())
+                            .foregroundStyle(ShepherdTheme.accent)
+                            .padding(.top, 8)
+                            .id("top")
 
-                    if let chapter = currentChapter {
-                        VStack(alignment: .leading, spacing: 18) {
-                            ForEach(Array(chapter.verses.enumerated()), id: \.element.id) { index, verse in
-                                VStack(alignment: .leading, spacing: 18) {
-                                    HStack(alignment: .top, spacing: 10) {
-                                        Text("\(verse.number)")
-                                            .font(.subheadline.weight(.bold))
-                                            .foregroundStyle(ShepherdTheme.accent)
-                                            .frame(width: 24, alignment: .trailing)
-
-                                        Text(verse.text)
-                                            .font(ShepherdTheme.scriptureBody())
-                                            .foregroundStyle(ShepherdTheme.textPrimary)
-                                            .lineSpacing(7)
-                                    }
-
-                                    // Generic gap marker between consecutive verses in sample
-                                    if index < chapter.verses.count - 1 {
-                                        let nextVerse = chapter.verses[index + 1]
-                                        if nextVerse.number > verse.number + 1 {
-                                            let gapText = (nextVerse.number == verse.number + 2)
-                                                ? "Verse \(verse.number + 1) isn't in this sample"
-                                                : "Verses \(verse.number + 1)–\(nextVerse.number - 1) aren't in this sample"
-                                            HStack {
-                                                Spacer()
-                                                Text(gapText)
-                                                    .font(.footnote)
-                                                    .foregroundStyle(ShepherdTheme.textTertiary)
-                                                    .padding(.vertical, 10)
-                                                    .padding(.horizontal, 16)
-                                                    .background(ShepherdTheme.surfaceSunken)
-                                                    .clipShape(Capsule())
-                                                Spacer()
-                                            }
-                                            .padding(.vertical, 8)
-                                        }
-                                    }
-                                }
+                        if let book = currentBook, let chapter = currentChapter {
+                            chapterBody(book: book, chapter: chapter)
+                        } else {
+                            HStack {
+                                Spacer()
+                                ProgressView("Opening the Bible…")
+                                    .padding(.top, 80)
+                                Spacer()
                             }
                         }
-
-                        // Quiet Footer
-                        HStack {
-                            Spacer()
-                            Text("\(currentBook?.name ?? "Genesis") \(chapter.number) · \(chapter.verses.count) verses in sample")
-                                .font(.footnote)
-                                .foregroundStyle(ShepherdTheme.textTertiary)
-                                .padding(.top, 32)
-                                .padding(.bottom, 60)
-                            Spacer()
-                        }
                     }
+                    .padding(.horizontal, 20)
                 }
-                .padding(.horizontal, 20)
+                .onChange(of: selectedChapterNum) { _, _ in proxy.scrollTo("top", anchor: .top) }
+                .onChange(of: selectedBookAbbrev) { _, _ in proxy.scrollTo("top", anchor: .top) }
             }
             .background(ShepherdTheme.canvasBg.ignoresSafeArea())
             .scrollEdgeEffectStyle(.soft, for: .top)
@@ -106,6 +74,105 @@ public struct BibleReaderView: View {
             }
         }
     }
+
+    @ViewBuilder
+    private func chapterBody(book: BibleBook, chapter: BibleChapter) -> some View {
+        Text("Chapter \(chapter.number)")
+            .font(ShepherdTheme.title2Serif())
+            .foregroundStyle(ShepherdTheme.textPrimary)
+
+        if let heading = chapter.heading {
+            Text(heading)
+                .font(.subheadline.italic())
+                .foregroundStyle(ShepherdTheme.textSecondary)
+        }
+
+        LazyVStack(alignment: .leading, spacing: 18) {
+            ForEach(chapter.verses) { verse in
+                HStack(alignment: .top, spacing: 10) {
+                    Text("\(verse.number)")
+                        .font(.subheadline.weight(.bold))
+                        .foregroundStyle(ShepherdTheme.accent)
+                        .frame(minWidth: 24, alignment: .trailing)
+
+                    Text(verse.text)
+                        .font(ShepherdTheme.scriptureBody())
+                        .foregroundStyle(ShepherdTheme.textPrimary)
+                        .lineSpacing(7)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                }
+                .accessibilityElement(children: .combine)
+            }
+        }
+
+        chapterNavigation(book: book, chapter: chapter)
+            .padding(.top, 24)
+
+        // Quiet Footer
+        Text("\(book.name) \(chapter.number) · World English Bible (public domain)")
+            .font(.footnote)
+            .foregroundStyle(ShepherdTheme.textTertiary)
+            .frame(maxWidth: .infinity)
+            .multilineTextAlignment(.center)
+            .padding(.bottom, 60)
+    }
+
+    private func chapterNavigation(book: BibleBook, chapter: BibleChapter) -> some View {
+        let previous = BibleNavigation.previous(book: book.abbrev, chapter: chapter.number, in: books)
+        let next = BibleNavigation.next(book: book.abbrev, chapter: chapter.number, in: books)
+        return HStack(spacing: 12) {
+            if let previous {
+                SecondaryGlassButton(previous.label, icon: "chevron.left") {
+                    select(previous)
+                }
+                .accessibilityLabel("Previous chapter, \(previous.label)")
+            }
+            if let next {
+                SecondaryGlassButton(next.label, icon: "chevron.right") {
+                    select(next)
+                }
+                .accessibilityLabel("Next chapter, \(next.label)")
+            }
+        }
+    }
+
+    private func select(_ location: BibleNavigation.Location) {
+        selectedBookAbbrev = location.book
+        selectedChapterNum = location.chapter
+    }
+}
+
+/// Previous / next chapter across book boundaries.
+public enum BibleNavigation {
+    public struct Location: Equatable {
+        public let book: String
+        public let chapter: Int
+        public let label: String
+    }
+
+    public static func next(book: String, chapter: Int, in books: [BibleBook]) -> Location? {
+        guard let bi = books.firstIndex(where: { $0.abbrev == book }) else { return nil }
+        let b = books[bi]
+        if let ci = b.chapters.firstIndex(where: { $0.number == chapter }), ci + 1 < b.chapters.count {
+            return location(b, b.chapters[ci + 1].number)
+        }
+        guard bi + 1 < books.count, let first = books[bi + 1].chapters.first else { return nil }
+        return location(books[bi + 1], first.number)
+    }
+
+    public static func previous(book: String, chapter: Int, in books: [BibleBook]) -> Location? {
+        guard let bi = books.firstIndex(where: { $0.abbrev == book }) else { return nil }
+        let b = books[bi]
+        if let ci = b.chapters.firstIndex(where: { $0.number == chapter }), ci > 0 {
+            return location(b, b.chapters[ci - 1].number)
+        }
+        guard bi > 0, let last = books[bi - 1].chapters.last else { return nil }
+        return location(books[bi - 1], last.number)
+    }
+
+    private static func location(_ book: BibleBook, _ chapter: Int) -> Location {
+        Location(book: book.abbrev, chapter: chapter, label: "\(book.name) \(chapter)")
+    }
 }
 
 // MARK: - Book & Chapter Picker Sheet
@@ -115,12 +182,33 @@ struct BiblePickerSheet: View {
     @Binding var selectedBook: String
     @Binding var selectedChapter: Int
     @Environment(\.dismiss) private var dismiss
+    @State private var testament: String = "OT"
+    @State private var query: String = ""
+
+    private var books: [BibleBook] {
+        let all = content.bible?.books ?? []
+        let trimmed = query.trimmingCharacters(in: .whitespaces)
+        if !trimmed.isEmpty {
+            return all.filter { $0.name.localizedCaseInsensitiveContains(trimmed) }
+        }
+        return all.filter { $0.testament == testament }
+    }
 
     var body: some View {
         NavigationStack {
             List {
-                Section("Sample Books") {
-                    ForEach(content.bible?.books ?? []) { book in
+                if query.isEmpty {
+                    Picker("Testament", selection: $testament) {
+                        Text("Old Testament").tag("OT")
+                        Text("New Testament").tag("NT")
+                    }
+                    .pickerStyle(.segmented)
+                    .listRowBackground(Color.clear)
+                    .listRowInsets(EdgeInsets(top: 4, leading: 0, bottom: 4, trailing: 0))
+                }
+
+                Section {
+                    ForEach(books) { book in
                         NavigationLink {
                             ChapterSelectionList(book: book, selectedChapter: $selectedChapter, onSelected: {
                                 selectedBook = book.abbrev
@@ -132,15 +220,18 @@ struct BiblePickerSheet: View {
                                     .font(.headline)
                                     .foregroundStyle(ShepherdTheme.textPrimary)
                                 Spacer()
-                                Text(book.testament == "OT" ? "Old Testament" : "New Testament")
+                                Text(book.chapters.count == 1 ? "1 chapter" : "\(book.chapters.count) chapters")
                                     .font(.subheadline)
                                     .foregroundStyle(ShepherdTheme.textTertiary)
                             }
                             .padding(.vertical, 4)
                         }
                     }
+                } footer: {
+                    Text("World English Bible, 66 books (public domain)")
                 }
             }
+            .searchable(text: $query, placement: .navigationBarDrawer(displayMode: .always), prompt: "Find a book")
             .navigationTitle("Select Scripture")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
@@ -155,7 +246,11 @@ struct BiblePickerSheet: View {
                             .background(ShepherdTheme.surfaceSunken)
                             .clipShape(Circle())
                     }
+                    .accessibilityLabel("Close")
                 }
+            }
+            .onAppear {
+                testament = content.bible?.books.first { $0.abbrev == selectedBook }?.testament ?? "OT"
             }
         }
         .presentationDetents([.medium, .large])
@@ -167,24 +262,34 @@ struct ChapterSelectionList: View {
     @Binding var selectedChapter: Int
     var onSelected: () -> Void
 
+    private let columns = [GridItem(.adaptive(minimum: 56), spacing: 10)]
+
     var body: some View {
-        List(book.chapters) { chapter in
-            Button {
-                selectedChapter = chapter.number
-                onSelected()
-            } label: {
-                HStack {
-                    Text("Chapter \(chapter.number)")
-                        .font(.headline)
-                        .foregroundStyle(ShepherdTheme.textPrimary)
-                    Spacer()
-                    Text("\(chapter.verses.count) verses")
-                        .font(.subheadline)
-                        .foregroundStyle(ShepherdTheme.textTertiary)
+        ScrollView {
+            LazyVGrid(columns: columns, spacing: 10) {
+                ForEach(book.chapters) { chapter in
+                    Button {
+                        selectedChapter = chapter.number
+                        onSelected()
+                    } label: {
+                        Text("\(chapter.number)")
+                            .font(.headline)
+                            .foregroundStyle(ShepherdTheme.textPrimary)
+                            .frame(maxWidth: .infinity, minHeight: 52)
+                            .background(ShepherdTheme.cardSurface)
+                            .clipShape(RoundedRectangle(cornerRadius: ShepherdTheme.radiusMD))
+                            .overlay(
+                                RoundedRectangle(cornerRadius: ShepherdTheme.radiusMD)
+                                    .stroke(ShepherdTheme.surfaceBorder, lineWidth: 1)
+                            )
+                    }
+                    .buttonStyle(.plain)
+                    .accessibilityLabel("Chapter \(chapter.number)")
                 }
-                .padding(.vertical, 4)
             }
+            .padding(20)
         }
+        .background(ShepherdTheme.canvasBg.ignoresSafeArea())
         .navigationTitle(book.name)
     }
 }
