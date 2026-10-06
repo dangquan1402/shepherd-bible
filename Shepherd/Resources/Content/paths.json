@@ -35,7 +35,7 @@
               "choices": [
                 "Angels",
                 "God",
-                "Chance",
+                "Moses",
                 "Kings"
               ],
               "correctIndex": 1,
@@ -164,7 +164,7 @@
               "prompt": "God sent his Son so the world would be…",
               "choices": [
                 "Saved",
-                "Judged only",
+                "Condemned",
                 "Ignored",
                 "Destroyed"
               ],
@@ -182,14 +182,14 @@
             "PSA.23.1",
             "PSA.23.4"
           ],
-          "bodyMarkdown": "Psalm 23 is a song of trust in the language of a shepherd's life: \"The LORD is my shepherd; I shall lack nothing.\" A shepherd leads, feeds, protects and goes looking for the lost. The writer says God is like that, and that he is his own shepherd.\n\nThe psalm doesn't pretend life is all green pastures. Verse 4 walks \"through the valley of the shadow of death.\" What changes there is not the valley but the company: \"I will fear no evil, for you are with me.\" Notice that at exactly this point the psalm stops talking about God and starts talking to him.\n\n**Reflection:** What valley are you walking through, or have you walked through? Where did you notice you were not alone?\n\n*Study aid: in this Bible, as in most English Bibles, \"LORD\" in capitals stands for God's personal name in Hebrew.*",
+          "bodyMarkdown": "Psalm 23 is a song of trust in the language of a shepherd's life: \"The LORD is my shepherd; I shall lack nothing.\" A shepherd leads, feeds, protects and goes looking for the lost. The writer says God is like that, and that God is his shepherd.\n\nThe psalm doesn't pretend life is all green pastures. Verse 4 walks \"through the valley of the shadow of death.\" What changes there is not the valley but the company: \"I will fear no evil, for you are with me.\" Notice that at exactly this point the psalm stops talking about God and starts talking to him.\n\n**Reflection:** What valley are you walking through, or have you walked through? Where did you notice you were not alone?\n\n*Study aid: in this Bible, as in most English Bibles, \"LORD\" in capitals stands for God's personal name in Hebrew.*",
           "prayerPrompt": "Shepherd me today. Lead me beside still waters and calm my fear.",
           "quiz": [
             {
               "id": "day5-q1",
               "prompt": "The LORD is my…",
               "choices": [
-                "Judge only",
+                "King",
                 "Shepherd",
                 "Enemy",
                 "Stranger"
@@ -230,7 +230,7 @@
               "choices": [
                 "World",
                 "Moon",
-                "Past only",
+                "Nations",
                 "Temple"
               ],
               "correctIndex": 0,
@@ -295,7 +295,7 @@
               "id": "day7-q3",
               "prompt": "God’s peace will guard your…",
               "choices": [
-                "Wallet",
+                "Plans",
                 "Reputation",
                 "House only",
                 "Hearts and your thoughts"
@@ -1066,7 +1066,7 @@
             "LUK.10.36",
             "LUK.10.37"
           ],
-          "bodyMarkdown": "A lawyer asks Jesus, \"Who is my neighbor?\" Jesus answers with a story. A man is beaten and left on the road (Luke 10:30). A priest and a Levite, both respected religious men, see him and pass by on the other side (Luke 10:31). Then a Samaritan comes along, and \"he was moved with compassion.\"\n\nHis compassion is practical. He treats the wounds, puts the man on his own animal, and pays an innkeeper to look after him (Luke 10:35). At the end Jesus turns the question around. The lawyer asked who counts as his neighbor; Jesus asks who acted like one. Then: \"Go and do likewise.\"\n\n**Reflection:** Who is by the side of your road this week, someone it would be easy to pass by?\n\n*Study aid: Jews and Samaritans at the time were deeply divided (John 4:9). Jesus' first hearers probably did not expect the Samaritan to be the hero.*",
+          "bodyMarkdown": "A lawyer asks Jesus, \"Who is my neighbor?\" Jesus answers with a story. A man is beaten and left on the road (Luke 10:30). A priest and a Levite, both respected religious men, see him and pass by on the other side (Luke 10:31-32). Then a Samaritan comes along, and \"he was moved with compassion.\"\n\nHis compassion is practical. He treats the wounds, puts the man on his own animal, and pays an innkeeper to look after him (Luke 10:35). At the end Jesus turns the question around. The lawyer asked who counts as his neighbor; Jesus asks who acted like one. Then: \"Go and do likewise.\"\n\n**Reflection:** Who is by the side of your road this week, someone it would be easy to pass by?\n\n*Study aid: Jews and Samaritans at the time were deeply divided (John 4:9). Jesus' first hearers probably did not expect the Samaritan to be the hero.*",
           "prayerPrompt": "Jesus, open my eyes to the person by the road, and give me compassion that acts.",
           "quiz": [
             {
@@ -1673,7 +1673,7 @@
             "PSA.46.2",
             "PSA.46.10"
           ],
-          "bodyMarkdown": "Psalm 46 is a song for days when everything seems to shake, \"though the earth changes, though the mountains are shaken into the heart of the seas.\" It begins not with the trouble but with God: \"God is our refuge and strength, a very present help in trouble.\"\n\nNear the end, God speaks: \"Be still, and know that I am God.\" Stillness here is not pretending all is well. It is stopping long enough to remember who is with you.\n\n**Reflection:** Where could you take two quiet minutes today, with no phone and no plan?\n\n*Study aid: the word \"Selah\" in this psalm (Psalm 46:3) is of uncertain meaning; many readers take it as a pause.*",
+          "bodyMarkdown": "Psalm 46 is a song for days when everything seems to shake, \"though the earth changes, though the mountains are shaken into the heart of the seas.\" It begins not with the trouble but with God: \"God is our refuge and strength, a very present help in trouble.\"\n\nNear the end, with nations in uproar and wars all around (Psalm 46:6 and Psalm 46:9), God speaks: \"Be still, and know that I am God.\" Stillness here is not pretending all is well. It is stopping long enough to remember who is with you.\n\n**Reflection:** Where could you take two quiet minutes today, with no phone and no plan?\n\n*Study aid: the word \"Selah\" in this psalm (Psalm 46:3) is of uncertain meaning; many readers take it as a pause.*",
           "prayerPrompt": "God, you are my refuge. When everything shakes, help me to be still and remember that you are here.",
           "quiz": [
             {
@@ -2330,7 +2330,7 @@
         {
           "id": "mark-30.d01",
           "dayIndex": 1,
-          "title": "The beginning of the Good News",
+          "title": "The Good News begins",
           "verseRefs": [
             "MRK.1.1",
             "MRK.1.14",
@@ -3252,7 +3252,7 @@
             "MRK.9.23",
             "MRK.9.24"
           ],
-          "bodyMarkdown": "Down from the mountain, a desperate father is waiting. His son has suffered since childhood, and the disciples could not help. He says to Jesus, \"if you can do anything, have compassion on us and help us.\"\n\nJesus picks up his words: \"If you can believe, all things are possible to him who believes.\" The father's reply is a prayer many people have made their own: \"I believe. Help my unbelief!\" He doesn't pretend to have perfect faith. He brings the faith he has, mixed with doubt, and asks for help with both. And Jesus helps him.\n\n**Reflection:** Is there an area where your faith and your doubt live side by side? You can pray this father's prayer, just as it is.\n\n*Study aid: afterwards the disciples ask privately why they could not help the boy, and Jesus speaks to them about prayer (Mark 9:28).*",
+          "bodyMarkdown": "Down from the mountain, a desperate father is waiting. His son has suffered since childhood, and the disciples could not help. He says to Jesus, \"if you can do anything, have compassion on us and help us.\"\n\nJesus picks up his words: \"If you can believe, all things are possible to him who believes.\" The father's reply is a prayer many people have made their own: \"I believe. Help my unbelief!\" He doesn't pretend to have perfect faith. He brings the faith he has, mixed with doubt, and asks for help with both. And Jesus helps him.\n\n**Reflection:** Is there an area where your faith and your doubt live side by side? You can pray this father's prayer, just as it is.\n\n*Study aid: afterwards the disciples ask privately why they could not help the boy, and Jesus speaks to them about prayer (Mark 9:28-29).*",
           "prayerPrompt": "Lord, I believe. Help my unbelief.",
           "quiz": [
             {
@@ -3630,7 +3630,7 @@
             "MRK.14.8",
             "MRK.14.9"
           ],
-          "bodyMarkdown": "A few days before his death, Jesus is at dinner in Bethany when a woman breaks open a jar of very costly perfume and pours it over his head. Some guests are indignant. They work out the cost and say it could have been sold for the poor (Mark 14:5).\n\nJesus defends her: \"Leave her alone. Why do you trouble her? She has done a good work for me.\" Then he says what her gift means: \"She has done what she could. She has anointed my body beforehand for the burying.\" Whether or not she knew it, her love prepared him for his death. Jesus promises she will be remembered wherever the Good News is told.\n\n**Reflection:** What is one generous, even extravagant, act of love you could offer Jesus or someone else this week?\n\n*Study aid: in a similar scene, John's Gospel names the woman Mary, the sister of Martha and Lazarus (John 12:3). Many readers take the two accounts as the same event; Mark leaves her unnamed.*",
+          "bodyMarkdown": "Jesus has just warned his disciples about hard days ahead and told them to stay alert, since \"of that day or that hour no one knows\" (Mark 13:32). A few days before his death, he is at dinner in Bethany when a woman breaks open a jar of very costly perfume and pours it over his head. Some guests are indignant. They say it could have been sold for the poor (Mark 14:5).\n\nJesus defends her: \"Leave her alone. Why do you trouble her? She has done a good work for me.\" Then he says what her gift means: \"She has done what she could. She has anointed my body beforehand for the burying.\" Whether or not she knew it, her love prepared him for his death. Jesus promises she will be remembered wherever the Good News is told.\n\n**Reflection:** What is one generous, even extravagant, act of love you could offer Jesus or someone else this week?\n\n*Study aid: in a similar scene, John's Gospel names the woman Mary, the sister of Martha and Lazarus (John 12:3). Many readers take the two accounts as the same event; Mark leaves her unnamed.*",
           "prayerPrompt": "Jesus, you are worth more than anything I could give. Help me love you generously and do what I can.",
           "quiz": [
             {
@@ -3845,7 +3845,7 @@
             "MRK.15.37",
             "MRK.15.39"
           ],
-          "bodyMarkdown": "At midday, darkness covers the land for three hours. Then Jesus cries out, \"My God, my God, why have you forsaken me?\" These are the opening words of Psalm 22, a psalm that begins in abandonment and ends in praise. Even on the cross, Jesus prays the Psalms.\n\nJesus cries out again and dies. Then someone speaks, and in Mark it is not one of his disciples but the Roman centurion who watched him die: \"Truly this man was the Son of God!\" Mark's first line called Jesus \"the Son of God\" (Mark 1:1). Here, at the cross, an outsider says it.\n\n**Reflection:** Take a quiet minute with this scene. What do you want to say to Jesus?\n\n*Study aid: Mark notes that women who had followed Jesus from Galilee were watching from a distance (Mark 15:40). They will be the first at the tomb.*",
+          "bodyMarkdown": "After a night of questioning, Pilate hands Jesus over to be crucified (Mark 15:15). At midday, darkness covers the land for three hours. Then Jesus cries out, \"My God, my God, why have you forsaken me?\" These are the opening words of Psalm 22, a psalm that begins in abandonment and ends in praise. Even on the cross, Jesus prays the Psalms.\n\nJesus cries out again and dies. Then someone speaks, and in Mark it is not one of his disciples but the Roman centurion who watched him die: \"Truly this man was the Son of God!\" Mark's first line called Jesus \"the Son of God\" (Mark 1:1). Here, at the cross, an outsider says it.\n\n**Reflection:** Take a quiet minute with this scene. What do you want to say to Jesus?\n\n*Study aid: Mark notes that women who had followed Jesus from Galilee were watching from a distance (Mark 15:40). They will be the first at the tomb.*",
           "prayerPrompt": "Jesus, you went into the darkness for us. Thank you. Truly you are the Son of God.",
           "quiz": [
             {
