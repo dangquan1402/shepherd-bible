@@ -19,7 +19,7 @@ Sections marked *generated* are written by `python3 design/tools/readme_tables.p
 
 - **D1, deployment target: iOS 26.** The app's minimum target moves from iOS 17 (the repo README) to **iOS 26**. Liquid Glass (`.glassEffect`, `GlassEffectContainer`, `.buttonStyle(.glass)` / `.glassProminent`, `tabViewBottomAccessory`, `.tabBarMinimizeBehavior`, `scrollEdgeEffectStyle`) is iOS 26 only. No `.ultraThinMaterial` fallback is designed. The SwiftUI animators used for the lamb (`phaseAnimator`, `keyframeAnimator`, `sensoryFeedback`) exist from iOS 17.
 - **D2, path catalogue:** the real path (`beginner-7`) plus one honest "More paths are coming" row, with no titles and no counts (`Path_Overview`).
-- **D3, trial reminder:** no reminder promise. The paywall's Day 5 row reads "Cancel anytime before Day 7". There is no trial-ending reminder anywhere. (The opt-in **daily lesson reminder** in Settings and the skippable onboarding step "Want a gentle daily reminder?", added in the pre-launch polish, are free, local notifications and not part of this decision; they are not drawn in the `.pen` frames yet.)
+- **D3, trial reminder:** no reminder promise. The paywall's Day 5 row reads "Cancel anytime before Day 7". There is no trial-ending reminder anywhere. (The opt-in **daily lesson reminder** in Settings and the skippable onboarding step "Want a gentle daily reminder?", added in the pre-launch polish, are free, local notifications and not part of this decision; they are drawn in `Onboarding_Reminder_*` and the REMINDER section of the `Settings_*` frames.)
 
 ## 2. Design inputs
 
@@ -436,7 +436,7 @@ A first-time user names the lamb **Barnaby** in onboarding (sample name only; th
 ### 7.3 Frames (*generated*)
 
 <!-- gen:frames -->
-86 top-level frames (43 screens × light/dark), 728 library instances in the file.
+88 top-level frames (44 screens × light/dark), 748 library instances in the file.
 
 | Screen | Size | Instances per frame | Exports |
 |---|---|---|---|
@@ -444,7 +444,7 @@ A first-time user names the lamb **Barnaby** in onboarding (sample name only; th
 | `Home_DailyPath` | 402×874 | 13 | [Light](exports/Home_DailyPath_Light.png) · [Dark](exports/Home_DailyPath_Dark.png) |
 | `Home_Scrolled` | 402×874 | 10 | [Light](exports/Home_Scrolled_Light.png) · [Dark](exports/Home_Scrolled_Dark.png) |
 | `Lesson_Reading` | 402×874 | 6 | [Light](exports/Lesson_Reading_Light.png) · [Dark](exports/Lesson_Reading_Dark.png) |
-| `Settings` | 402×874 | 9 | [Light](exports/Settings_Light.png) · [Dark](exports/Settings_Dark.png) |
+| `Settings` | 402×874 | 11 | [Light](exports/Settings_Light.png) · [Dark](exports/Settings_Dark.png) |
 | `Onboarding_BuildingPlan` | 402×874 | 5 | [Light](exports/Onboarding_BuildingPlan_Light.png) · [Dark](exports/Onboarding_BuildingPlan_Dark.png) |
 | `Onboarding_NameLamb` | 402×874 | 5 | [Light](exports/Onboarding_NameLamb_Light.png) · [Dark](exports/Onboarding_NameLamb_Dark.png) |
 | `Quiz_Unanswered` | 402×874 | 10 | [Light](exports/Quiz_Unanswered_Light.png) · [Dark](exports/Quiz_Unanswered_Dark.png) |
@@ -452,7 +452,7 @@ A first-time user names the lamb **Barnaby** in onboarding (sample name only; th
 | `Quiz_Correct` | 402×874 | 9 | [Light](exports/Quiz_Correct_Light.png) · [Dark](exports/Quiz_Correct_Dark.png) |
 | `Quiz_Wrong` | 402×874 | 9 | [Light](exports/Quiz_Wrong_Light.png) · [Dark](exports/Quiz_Wrong_Dark.png) |
 | `Quiz_Q2_Wrong` | 402×874 | 9 | [Light](exports/Quiz_Q2_Wrong_Light.png) · [Dark](exports/Quiz_Q2_Wrong_Dark.png) |
-| `Settings_RestoreResult` | 402×874 | 9 | [Light](exports/Settings_RestoreResult_Light.png) · [Dark](exports/Settings_RestoreResult_Dark.png) |
+| `Settings_RestoreResult` | 402×874 | 11 | [Light](exports/Settings_RestoreResult_Light.png) · [Dark](exports/Settings_RestoreResult_Dark.png) |
 | `Accessibility_AX3` | 402×874 | 5 | [Light](exports/Accessibility_AX3_Light.png) · [Dark](exports/Accessibility_AX3_Dark.png) |
 | `Motion_QuizMorph_Start` | 402×874 | 10 | [Light](exports/Motion_QuizMorph_Start_Light.png) · [Dark](exports/Motion_QuizMorph_Start_Dark.png) |
 | `Motion_QuizMorph_End` | 402×874 | 9 | [Light](exports/Motion_QuizMorph_End_Light.png) · [Dark](exports/Motion_QuizMorph_End_Dark.png) |
@@ -483,6 +483,7 @@ A first-time user names the lamb **Barnaby** in onboarding (sample name only; th
 | `Home_Day1Done` | 402×874 | 13 | [Light](exports/Home_Day1Done_Light.png) · [Dark](exports/Home_Day1Done_Dark.png) |
 | `Path_Lessons` | 402×874 | 4 | [Light](exports/Path_Lessons_Light.png) · [Dark](exports/Path_Lessons_Dark.png) |
 | `Brand_System` | 1240×700 | 5 | [Light](exports/Brand_System_Light.png) · [Dark](exports/Brand_System_Dark.png) |
+| `Onboarding_Reminder` | 402×874 | 6 | [Light](exports/Onboarding_Reminder_Light.png) · [Dark](exports/Onboarding_Reminder_Dark.png) |
 <!-- /gen:frames -->
 
 Notes per screen:
