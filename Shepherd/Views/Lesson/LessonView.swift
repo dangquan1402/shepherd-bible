@@ -1,11 +1,13 @@
 import SwiftUI
 import SwiftData
+import StoreKit
 
 public struct LessonView: View {
     public let lesson: Lesson
     @EnvironmentObject private var content: ContentStore
     @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.requestReview) private var requestReview
 
     @Query private var streaks: [StreakState]
     @Query private var companions: [Companion]
@@ -198,7 +200,24 @@ public struct LessonView: View {
                 companionName: companions.first?.name ?? "Lamb"
             ) {
                 showComplete = false
+                let askForReview = completionResult.map { result in
+                    ReviewPrompter.shouldRequest(.lessonCompleted(
+                        dayIndex: lesson.dayIndex,
+                        score: finishedScore,
+                        totalQuestions: lesson.quiz.count,
+                        oldXP: result.oldXP,
+                        newXP: result.newXP,
+                        wasAlreadyCompleted: result.wasAlreadyCompleted
+                    ))
+                } ?? false
                 dismiss()
+                if askForReview {
+                    // After the reward (and any stage-up) has closed, back on Today.
+                    Task {
+                        try? await Task.sleep(for: .seconds(0.8))
+                        requestReview()
+                    }
+                }
             }
         }
     }

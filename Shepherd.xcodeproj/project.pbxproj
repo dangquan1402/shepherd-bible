@@ -21,6 +21,7 @@
 		363C66819B8280C7CBC59CB9 /* ReminderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF6D46DB5B577BAE885F311B /* ReminderTests.swift */; };
 		37D4CFA367CEB521E7EE1A64 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 05509D2D188904833C28F5AD /* StoreKit.framework */; };
 		3DA312CB2380372CB91E6EBF /* StoreKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3736069C11269D9C4C99FA2B /* StoreKitTests.swift */; };
+		3E6D113D9013BE976C424E26 /* ReviewPromptTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6647901EFEE627F669045161 /* ReviewPromptTests.swift */; };
 		451358B2BA541C0A8C7408CE /* Shepherd.storekit in Resources */ = {isa = PBXBuildFile; fileRef = AF3DDC905B95F20434D620C0 /* Shepherd.storekit */; };
 		4A0F965DE88C2378F91DD772 /* DailyReminder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6BE6D08FF707951B7D618B3 /* DailyReminder.swift */; };
 		4B889C32EF77017E1ADE9C0C /* ContentStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEFEB075297B25E3F78E1951 /* ContentStore.swift */; };
@@ -49,6 +50,7 @@
 		E2730F1D424EA54D4B106459 /* lamb_variants.json in Resources */ = {isa = PBXBuildFile; fileRef = DE3F92350EF7E0EEC93EEDFF /* lamb_variants.json */; };
 		E31F964A9C2877AAEFEF856A /* LessonCompleteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8D0BFCF6D331443E53A0F4D /* LessonCompleteView.swift */; };
 		F0534756FF6FDD45D98489E8 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46724CD2BD612565CCD2F492 /* SettingsView.swift */; };
+		FCDFB6B715817D2508AFDB46 /* ReviewPrompt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F064060B005F6799DD01F8C /* ReviewPrompt.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -89,6 +91,8 @@
 		3EDABF08E64DD679B981D39C /* LessonProgressRecorder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LessonProgressRecorder.swift; sourceTree = "<group>"; };
 		46724CD2BD612565CCD2F492 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		4A0E5855986A6E7E3F46AFAB /* ShepherdConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShepherdConstants.swift; sourceTree = "<group>"; };
+		5F064060B005F6799DD01F8C /* ReviewPrompt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewPrompt.swift; sourceTree = "<group>"; };
+		6647901EFEE627F669045161 /* ReviewPromptTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewPromptTests.swift; sourceTree = "<group>"; };
 		708A96F4A3D915BC760AF160 /* ContentModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentModels.swift; sourceTree = "<group>"; };
 		7C7391F1E61B6D45E7498003 /* OnboardingFlowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingFlowView.swift; sourceTree = "<group>"; };
 		8BD1E9E0CAF5A76DE883F724 /* SeedData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeedData.swift; sourceTree = "<group>"; };
@@ -144,6 +148,7 @@
 				F42534D58BA4976C8D26FD6A /* Entitlements.swift */,
 				3EDABF08E64DD679B981D39C /* LessonProgressRecorder.swift */,
 				15A18DD64B32A5FD3DD8AABD /* OnboardingStore.swift */,
+				5F064060B005F6799DD01F8C /* ReviewPrompt.swift */,
 				8BD1E9E0CAF5A76DE883F724 /* SeedData.swift */,
 				4A0E5855986A6E7E3F46AFAB /* ShepherdConstants.swift */,
 				A6748B96F2755258AF0768F0 /* StoreKitManager.swift */,
@@ -257,6 +262,7 @@
 			children = (
 				00B903FC1823760FEB4F671A /* ContentTests.swift */,
 				CF6D46DB5B577BAE885F311B /* ReminderTests.swift */,
+				6647901EFEE627F669045161 /* ReviewPromptTests.swift */,
 				9CE4BBC57FDEA303093E3E67 /* ShepherdTests.swift */,
 				3736069C11269D9C4C99FA2B /* StoreKitTests.swift */,
 			);
@@ -462,6 +468,7 @@
 			files = (
 				7EEEB6E2F264705768A8DAD2 /* ContentTests.swift in Sources */,
 				363C66819B8280C7CBC59CB9 /* ReminderTests.swift in Sources */,
+				3E6D113D9013BE976C424E26 /* ReviewPromptTests.swift in Sources */,
 				2E139ED7F7F5E9C6CDE89C72 /* ShepherdTests.swift in Sources */,
 				3DA312CB2380372CB91E6EBF /* StoreKitTests.swift in Sources */,
 			);
@@ -501,6 +508,7 @@
 				2229E2727757B5C9F94792AF /* Progression.swift in Sources */,
 				12FFC8F830DFC3E53AE2B0FA /* QuizRules.swift in Sources */,
 				62DCD913CC85FFC2BE412965 /* QuizView.swift in Sources */,
+				FCDFB6B715817D2508AFDB46 /* ReviewPrompt.swift in Sources */,
 				2D202EE9DCBED7408CA90ED0 /* RootView.swift in Sources */,
 				968B67144263FE9578B3C208 /* SeedData.swift in Sources */,
 				F0534756FF6FDD45D98489E8 /* SettingsView.swift in Sources */,
