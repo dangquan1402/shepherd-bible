@@ -1,5 +1,6 @@
 import XCTest
 import SwiftData
+import UIKit
 @testable import Shepherd
 
 final class ShepherdTests: XCTestCase {
@@ -330,6 +331,37 @@ final class ShepherdTests: XCTestCase {
             XCTAssertEqual(url.host, "dangquan1402.github.io", url.absoluteString)
             XCTAssertTrue(url.path.hasPrefix("/pasture/"), url.absoluteString)
             XCTAssertFalse(url.absoluteString.contains("shepherd.bible"), url.absoluteString)
+        }
+    }
+
+    // MARK: - Contrast: quiz letter badge (WCAG AA, 4.5:1 for 16 pt bold text)
+    func testChoiceLetterBadgeMeetsAA() throws {
+        func luminance(_ c: UIColor) -> Double {
+            var r: CGFloat = 0, g: CGFloat = 0, b: CGFloat = 0, a: CGFloat = 0
+            c.getRed(&r, green: &g, blue: &b, alpha: &a)
+            func lin(_ v: CGFloat) -> Double {
+                let v = Double(v)
+                return v <= 0.04045 ? v / 12.92 : pow((v + 0.055) / 1.055, 2.4)
+            }
+            return 0.2126 * lin(r) + 0.7152 * lin(g) + 0.0722 * lin(b)
+        }
+        // The probe must see the dark variant, or a dark-only failure could never show up.
+        let canvasLight = try XCTUnwrap(UIColor(named: "CanvasBg", in: .main, compatibleWith: nil)).resolvedColor(with: UITraitCollection(userInterfaceStyle: .light))
+        let canvasDark = try XCTUnwrap(UIColor(named: "CanvasBg", in: .main, compatibleWith: nil)).resolvedColor(with: UITraitCollection(userInterfaceStyle: .dark))
+        XCTAssertLessThan(luminance(canvasDark), 0.05)
+        XCTAssertGreaterThan(luminance(canvasLight), 0.9)
+
+        for style in [UIUserInterfaceStyle.light, .dark] {
+            let traits = UITraitCollection(userInterfaceStyle: style)
+            for state in [ChoiceRowState.neutral, .selected, .correct, .revealed, .wrong] {
+                let names = state.letterBadgeColorNames
+                // resolvedColor: a named colour is dynamic, and getRed would otherwise read the light variant.
+                let text = try XCTUnwrap(UIColor(named: names.text, in: .main, compatibleWith: traits), names.text).resolvedColor(with: traits)
+                let fill = try XCTUnwrap(UIColor(named: names.fill, in: .main, compatibleWith: traits), names.fill).resolvedColor(with: traits)
+                let l = [luminance(text), luminance(fill)].sorted(by: >)
+                let ratio = (l[0] + 0.05) / (l[1] + 0.05)
+                XCTAssertGreaterThanOrEqual(ratio, 4.5, "\(state) badge \(names.text) on \(names.fill), \(style == .dark ? "dark" : "light"): \(String(format: "%.2f", ratio))")
+            }
         }
     }
 }

@@ -52,6 +52,7 @@ public struct SettingsView: View {
                         }
                     }
                 }
+                .listRowBackground(ShepherdTheme.cardSurface)
 
                 // Privacy Section
                 Section {
@@ -77,6 +78,7 @@ public struct SettingsView: View {
                         .font(.footnote)
                         .foregroundStyle(ShepherdTheme.textTertiary)
                 }
+                .listRowBackground(ShepherdTheme.cardSurface)
 
                 // About Section
                 Section {
@@ -111,7 +113,10 @@ public struct SettingsView: View {
                         .font(.footnote)
                         .foregroundStyle(ShepherdTheme.textTertiary)
                 }
+                .listRowBackground(ShepherdTheme.cardSurface)
             }
+            .scrollContentBackground(.hidden)
+            .background(ShepherdTheme.canvasBg.ignoresSafeArea())
             .navigationTitle("Settings")
             .sheet(isPresented: $showPaywall) {
                 PaywallView(
