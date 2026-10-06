@@ -39,7 +39,7 @@ public struct ContinueLessonAccessory: View {
                     }
 
                     VStack(alignment: .leading, spacing: 2) {
-                        Text("TODAY'S LESSON")
+                        Text("TODAY’S LESSON")
                             .font(.caption2.weight(.bold))
                             .foregroundStyle(ShepherdTheme.accent)
 

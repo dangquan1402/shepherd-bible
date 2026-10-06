@@ -426,11 +426,11 @@ A first-time user names the lamb **Barnaby** in onboarding (sample name only; th
 
 1. **Path unlock (a design addition):** a node is current when it is the first lesson without `LessonProgress` (the code's `nextLesson`), done when it has progress, and locked otherwise. `PathListView` does not gate lessons today; add `isUnlocked = lesson.dayIndex <= nextLesson.dayIndex`.
 2. **Quiz progress:** `progress = answeredCount / quiz.count`. It shows 0% on unanswered and selected, and moves to 50% when Check is tapped on question 1.
-3. **Feedback content:** title ("Correct!" / "Keep going! You're learning."), then `explain` when it is non-null. The wrong sheet also says "Answer: {correct choice}.". Always show one verse: the lesson's first verse whose text contains the correct choice (case-insensitive), else `lesson.verseRefs[0]`. `Quiz_Q2_Wrong` proves the null-`explain` case: `day1-q2` → Genesis 1:3.
+3. **Feedback content:** title ("Correct!" / "Keep going! You’re learning."), then `explain` when it is non-null. The wrong sheet also says "Answer: {correct choice}.". Always show one verse: the lesson's first verse whose text contains the correct choice (case-insensitive), else `lesson.verseRefs[0]`. `Quiz_Q2_Wrong` proves the null-`explain` case: `day1-q2` → Genesis 1:3.
 4. **Feedback sheet:** glass, corner 28, inset 8 pt from the screen edges, a 56 pt lamb avatar (Happy or Encouraging), Continue inside the sheet.
 5. **Reward:** `+{10 + score} XP`, streak from `StreakState.current`, the XP bar to the next multiple of 50, and the "N XP to Stage k" remainder.
 6. **Stages:** 1 Newborn (0–49), 2 Lamb (50–99), 3 Young sheep (100–149), 4 Yearling (150–199), 5 Grown sheep (200+). The same names are used everywhere.
-7. **Paywall:** prices come from `Product.displayPrice`. `$29.99/year` and `$4.99/month` in the frames are placeholders, tagged on screen. The disclosure under the plans: "Free for 7 days, then {price}/year. Auto-renews until cancelled. Cancel anytime in Settings › Apple ID at least 24 hours before the trial ends." Purchasing, pending (Ask to Buy), failed ("You haven't been charged.") and restored are glass dialogs over the dimmed paywall.
+7. **Paywall:** prices come from `Product.displayPrice`. `$29.99/year` and `$4.99/month` in the frames are placeholders, tagged on screen. The disclosure under the plans: "Free for 7 days, then {price}/year. Auto-renews until cancelled. Cancel anytime in Settings › Apple ID at least 24 hours before the trial ends." Purchasing, pending (Ask to Buy), failed ("You haven’t been charged.") and restored are glass dialogs over the dimmed paywall.
 8. **Bible sample gaps:** the bundle has Genesis 1:1–5, 26, 27, 31. After verse 5 the reader shows "Verses 6–25 aren't in this sample", and a quiet footer counts the sample's verses.
 
 ### 7.3 Frames (*generated*)
@@ -547,7 +547,7 @@ The lamb is a humble study companion walking the path with you: it cheers small 
 
 1. "Ready for Day 1?" (Home, first launch)
 2. "1 day down!" (Home after Day 1)
-3. "Keep going! You're learning." (wrong answer)
+3. "Keep going! You’re learning." (wrong answer)
 4. "Correct!" (right answer; the verse does the teaching)
 5. "Rest well. Tomorrow's path will be waiting." (Sleepy, evening)
 6. "No rush. Five quiet minutes is enough." (a gentle habit nudge)

@@ -190,7 +190,7 @@ public struct QuizView: View {
 
         feedbackResult = QuizFeedbackData(
             isCorrect: correct,
-            title: correct ? "Correct!" : "Keep going! You're learning.",
+            title: correct ? "Correct!" : "Keep going! You’re learning.",
             explain: currentQuestion.explain.map(LessonText.curlyQuotes),
             correctChoice: LessonText.curlyQuotes(correctChoiceText),
             verseRef: verseInfo?.ref,

@@ -319,7 +319,7 @@ final class RealFlowUITests: XCTestCase {
             }
             Thread.sleep(forTimeInterval: 1.0)
             app.buttons["Check"].tap()
-            XCTAssertTrue(app.staticTexts["Keep going! You're learning."].waitForExistence(timeout: 4.0))
+            XCTAssertTrue(app.staticTexts["Keep going! You’re learning."].waitForExistence(timeout: 4.0))
             Thread.sleep(forTimeInterval: 2.0)
         }
     }
@@ -476,7 +476,7 @@ final class RealFlowUITests: XCTestCase {
 
         // Check Answer -> Wrong Feedback
         app.buttons["Check"].tap()
-        XCTAssertTrue(app.staticTexts["Keep going! You're learning."].waitForExistence(timeout: 4.0))
+        XCTAssertTrue(app.staticTexts["Keep going! You’re learning."].waitForExistence(timeout: 4.0))
         Thread.sleep(forTimeInterval: 0.4)
         saveScreenshot("Quiz_Wrong")
         app.buttons["Continue"].tap()
@@ -604,7 +604,7 @@ final class RealFlowUITests: XCTestCase {
                 wrongChoice.tap()
             }
             app.buttons["Check"].tap()
-            _ = app.staticTexts["Keep going! You're learning."].waitForExistence(timeout: 4.0)
+            _ = app.staticTexts["Keep going! You’re learning."].waitForExistence(timeout: 4.0)
             Thread.sleep(forTimeInterval: 0.4)
             saveScreenshot("Accessibility_AX3_QuizWrong")
         }

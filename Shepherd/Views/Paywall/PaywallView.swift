@@ -96,7 +96,7 @@ public struct PaywallView: View {
                         if store.products.isEmpty {
                             VStack(spacing: 12) {
                                 if store.lastErrorMessage != nil {
-                                    Text("Couldn't load prices")
+                                    Text("Couldn’t load prices")
                                         .font(.subheadline)
                                         .foregroundStyle(ShepherdTheme.textSecondary)
                                     SecondaryGlassButton("Retry") {
@@ -345,10 +345,10 @@ public struct PaywallView: View {
                     Image(systemName: "exclamationmark.circle.fill")
                         .font(.system(size: 32))
                         .foregroundStyle(ShepherdTheme.error)
-                    Text("Purchase didn't go through")
+                    Text("Purchase didn’t go through")
                         .font(.headline)
                         .foregroundStyle(ShepherdTheme.textPrimary)
-                    Text("You haven't been charged. \(error)")
+                    Text("You haven’t been charged. \(error)")
                         .font(.subheadline)
                         .foregroundStyle(ShepherdTheme.textSecondary)
                         .multilineTextAlignment(.center)
