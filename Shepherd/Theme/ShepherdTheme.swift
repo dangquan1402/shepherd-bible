@@ -37,6 +37,13 @@ public enum ShepherdTheme {
     public static let error = Color("Error")
     public static let errorSubtle = Color("ErrorSubtle")
 
+    // MARK: - Colors: Scripture Highlights
+    public static let highlightYellow = Color("HighlightYellow")
+    public static let highlightBlue = Color("HighlightBlue")
+    public static let highlightPurple = Color("HighlightPurple")
+    public static let highlightRose = Color("HighlightRose")
+    public static let highlightAmber = Color("HighlightAmber")
+
     // MARK: - Colors: Liquid Glass
     public static let glassFill = Color("GlassFill")
     public static let glassStroke = Color("GlassStroke")
@@ -143,6 +150,11 @@ public extension Color {
     static var shepherdSuccess: Color { ShepherdTheme.success }
     static var shepherdError: Color { ShepherdTheme.error }
     static var shepherdGlassStroke: Color { ShepherdTheme.glassStroke }
+    static var shepherdHighlightYellow: Color { ShepherdTheme.highlightYellow }
+    static var shepherdHighlightBlue: Color { ShepherdTheme.highlightBlue }
+    static var shepherdHighlightPurple: Color { ShepherdTheme.highlightPurple }
+    static var shepherdHighlightRose: Color { ShepherdTheme.highlightRose }
+    static var shepherdHighlightAmber: Color { ShepherdTheme.highlightAmber }
 }
 
 // MARK: - Liquid Glass View Modifier with Accessibility Fallback

@@ -234,6 +234,19 @@ final class RealFlowUITests: XCTestCase {
         try executeAX3Flow()
     }
 
+    // MARK: - Issue #13: Bible Reader Highlights, Bookmarks, Notes, Saved Flow
+    @MainActor
+    func testBibleReaderHighlightsBookmarksNotesLight() throws {
+        modeOverride = "Light"
+        try executeBibleSavedFlow()
+    }
+
+    @MainActor
+    func testBibleReaderHighlightsBookmarksNotesDark() throws {
+        modeOverride = "Dark"
+        try executeBibleSavedFlow()
+    }
+
     @MainActor
     func testBibleKeepsChapterAcrossTabs() throws {
         let app = XCUIApplication()
@@ -572,6 +585,98 @@ final class RealFlowUITests: XCTestCase {
             _ = app.staticTexts["Keep going! You're learning."].waitForExistence(timeout: 4.0)
             Thread.sleep(forTimeInterval: 0.4)
             saveScreenshot("Accessibility_AX3_QuizWrong")
+        }
+    }
+
+    @MainActor
+    private func executeBibleSavedFlow() throws {
+        let app = XCUIApplication()
+        let appearance = (modeOverride == "Dark") ? "dark" : "light"
+        app.launchArguments += ["-appearance", appearance]
+        app.launchArguments += ["-uitestCompleted", "beginner-30:1"]
+        app.launchArguments += ["-uitestResetBibleUserData"]
+        app.launch()
+        passOnboardingIfNeeded(app)
+
+        ensureTabBarExpanded(app)
+        let bibleTab = app.tabBars.buttons["Bible"]
+        XCTAssertTrue(bibleTab.waitForExistence(timeout: 6.0))
+        bibleTab.tap()
+
+        XCTAssertTrue(app.navigationBars["Genesis"].waitForExistence(timeout: 6.0))
+        XCTAssertTrue(app.staticTexts["Chapter 1"].waitForExistence(timeout: 6.0))
+        Thread.sleep(forTimeInterval: 0.4)
+        saveScreenshot("Bible_Reader")
+
+        // 1. Select Verse 1
+        let v1 = app.descendants(matching: .any).matching(NSPredicate(format: "label CONTAINS[c] 'In the beginning'")).firstMatch
+        XCTAssertTrue(v1.waitForExistence(timeout: 5.0), "Verse 1 element should exist")
+        v1.tap()
+
+        // Verify action menu
+        let yellowBtn = app.buttons["Highlight in Yellow"]
+        XCTAssertTrue(yellowBtn.waitForExistence(timeout: 4.0), "Action menu should appear")
+        Thread.sleep(forTimeInterval: 0.3)
+        saveScreenshot("Bible_Reader_Selected")
+
+        // 2. Apply yellow highlight
+        yellowBtn.tap()
+        Thread.sleep(forTimeInterval: 0.5)
+        saveScreenshot("Bible_Reader_Highlighted")
+
+        // 3. Select Verse 3 and Bookmark
+        let v3 = app.descendants(matching: .any).matching(NSPredicate(format: "label CONTAINS[c] 'Let there be light'")).firstMatch
+        XCTAssertTrue(v3.waitForExistence(timeout: 5.0), "Verse 3 should exist")
+        v3.tap()
+        let bookmarkBtn = app.buttons["BookmarkActionButton"]
+        XCTAssertTrue(bookmarkBtn.waitForExistence(timeout: 4.0), "Bookmark button should exist")
+        bookmarkBtn.tap()
+        Thread.sleep(forTimeInterval: 0.5)
+
+        // 4. Select Verse 2 and Add Note
+        let v2 = app.descendants(matching: .any).matching(NSPredicate(format: "label CONTAINS[c] 'formless and empty'")).firstMatch
+        XCTAssertTrue(v2.waitForExistence(timeout: 5.0), "Verse 2 should exist")
+        v2.tap()
+        let noteBtn = app.buttons["NoteActionButton"]
+        XCTAssertTrue(noteBtn.waitForExistence(timeout: 4.0), "Add Note button should exist")
+        noteBtn.tap()
+
+        let cancelBtn = app.buttons["NoteCancelButton"]
+        XCTAssertTrue(cancelBtn.waitForExistence(timeout: 5.0), "Note sheet should appear with Cancel button")
+        let textEditor = app.textViews["NoteTextEditor"]
+        XCTAssertTrue(textEditor.waitForExistence(timeout: 3.0))
+        textEditor.tap()
+        textEditor.typeText("Formless and void before God speaks light into darkness.")
+        Thread.sleep(forTimeInterval: 0.3)
+        saveScreenshot("Bible_Note")
+        let saveButton = app.buttons["NoteSaveButton"]
+        XCTAssertTrue(saveButton.waitForExistence(timeout: 3.0))
+        saveButton.tap()
+        Thread.sleep(forTimeInterval: 0.5)
+
+        // 5. Open Saved Scripture Screen
+        let savedBtn = app.buttons["Saved Scripture"]
+        XCTAssertTrue(savedBtn.waitForExistence(timeout: 4.0))
+        savedBtn.tap()
+
+        let savedTitle = app.staticTexts["Saved"].firstMatch
+        let savedNav = app.navigationBars["Saved"]
+        XCTAssertTrue(savedNav.waitForExistence(timeout: 5.0) || savedTitle.waitForExistence(timeout: 5.0))
+        Thread.sleep(forTimeInterval: 0.4)
+        saveScreenshot("Bible_Saved")
+
+        // Filter by Highlights
+        let highlightsFilter = app.buttons["Highlights"]
+        if highlightsFilter.waitForExistence(timeout: 3.0) {
+            highlightsFilter.tap()
+            Thread.sleep(forTimeInterval: 0.3)
+        }
+
+        // Tap on the item to jump back to reader
+        let itemRow = app.buttons.matching(NSPredicate(format: "label CONTAINS[c] 'Genesis 1'")).firstMatch
+        if itemRow.waitForExistence(timeout: 4.0) {
+            itemRow.tap()
+            XCTAssertTrue(app.navigationBars["Genesis"].waitForExistence(timeout: 5.0))
         }
     }
 }

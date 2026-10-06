@@ -57,6 +57,11 @@ public struct RootView: View {
                 modelContext.insert(LessonProgress(lessonId: id, quizScore: 3))
             }
         }
+        if args.contains("-uitestResetBibleUserData") {
+            try? modelContext.delete(model: BibleHighlight.self)
+            try? modelContext.delete(model: BibleBookmark.self)
+            try? modelContext.delete(model: BibleNote.self)
+        }
         try? modelContext.save()
     }
 

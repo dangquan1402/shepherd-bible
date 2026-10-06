@@ -1,8 +1,22 @@
 import SwiftUI
+import SwiftData
 
 public struct BibleReaderView: View {
     @EnvironmentObject private var content: ContentStore
-    @State private var showPicker: Bool = false
+    @Environment(\.modelContext) private var modelContext
+
+    @Query private var allHighlights: [BibleHighlight]
+    @Query private var allBookmarks: [BibleBookmark]
+    @Query private var allNotes: [BibleNote]
+
+    @State private var showPickerSheet: Bool = false
+    @State private var editingNoteConfig: NoteEditorConfig? = nil
+    @State private var showSavedScreen: Bool = false
+    @State private var selectedVerses: Set<Int> = []
+    @State private var targetScrollVerse: Int? = nil
+    @State private var flashedVerse: Int? = nil
+    @State private var showCopiedToast: Bool = false
+
     @AppStorage("bible.book") private var selectedBookAbbrev: String = "GEN"
     @AppStorage("bible.chapter") private var selectedChapterNum: Int = 1
 
@@ -23,42 +37,199 @@ public struct BibleReaderView: View {
             ?? currentBook?.chapters.first
     }
 
+    // MARK: - Fast In-Memory Lookups for Current Chapter (O(1) per verse, 0 DB queries in loop)
+
+    private var chapterHighlightsMap: [Int: BibleHighlight] {
+        var map: [Int: BibleHighlight] = [:]
+        let chapterHighlights = allHighlights.filter {
+            $0.book == selectedBookAbbrev && $0.chapter == selectedChapterNum
+        }
+        for h in chapterHighlights {
+            for v in h.startVerse...h.endVerse {
+                map[v] = h
+            }
+        }
+        return map
+    }
+
+    private var chapterBookmarksMap: [Int: BibleBookmark] {
+        var map: [Int: BibleBookmark] = [:]
+        let chapterBookmarks = allBookmarks.filter {
+            $0.book == selectedBookAbbrev && $0.chapter == selectedChapterNum
+        }
+        for b in chapterBookmarks {
+            for v in b.startVerse...b.endVerse {
+                map[v] = b
+            }
+        }
+        return map
+    }
+
+    private var chapterNotesMap: [Int: [BibleNote]] {
+        var map: [Int: [BibleNote]] = [:]
+        let chapterNotes = allNotes.filter {
+            $0.book == selectedBookAbbrev && $0.chapter == selectedChapterNum
+        }
+        for n in chapterNotes {
+            for v in n.startVerse...n.endVerse {
+                map[v, default: []].append(n)
+            }
+        }
+        return map
+    }
+
+    // MARK: - Selection Helpers
+
+    private var sortedSelectedVerses: [Int] {
+        selectedVerses.sorted()
+    }
+
+    private var selectionStartVerse: Int {
+        sortedSelectedVerses.first ?? 1
+    }
+
+    private var selectionEndVerse: Int {
+        sortedSelectedVerses.last ?? selectionStartVerse
+    }
+
+    private var selectionReferenceText: String {
+        BibleFormatter.referenceString(
+            bookName: currentBook?.name ?? selectedBookAbbrev,
+            chapter: selectedChapterNum,
+            startVerse: selectionStartVerse,
+            endVerse: selectionEndVerse
+        )
+    }
+
+    private var selectionFormattedText: String {
+        guard let chapter = currentChapter else { return "" }
+        let texts = sortedSelectedVerses.compactMap { v in
+            chapter.verses.first { $0.number == v }?.text
+        }
+        return BibleFormatter.formattedText(
+            bookName: currentBook?.name ?? selectedBookAbbrev,
+            chapter: selectedChapterNum,
+            startVerse: selectionStartVerse,
+            endVerse: selectionEndVerse,
+            verseTexts: texts
+        )
+    }
+
+    private var selectionHasHighlight: Bool {
+        let hMap = chapterHighlightsMap
+        return selectedVerses.contains { hMap[$0] != nil }
+    }
+
+    private var selectionIsBookmarked: Bool {
+        let bMap = chapterBookmarksMap
+        return selectedVerses.contains { bMap[$0] != nil }
+    }
+
+    private var selectionExistingNote: BibleNote? {
+        let nMap = chapterNotesMap
+        for v in sortedSelectedVerses {
+            if let note = nMap[v]?.first {
+                return note
+            }
+        }
+        return nil
+    }
+
+    // MARK: - Body
+
     public var body: some View {
         NavigationStack {
-            ScrollViewReader { proxy in
-                ScrollView {
-                    VStack(alignment: .leading, spacing: 20) {
-                        // Eyebrow
-                        Text("WEB · \(currentBook?.name.uppercased() ?? "GENESIS")")
-                            .font(ShepherdTheme.scriptureEyebrow())
-                            .foregroundStyle(ShepherdTheme.accent)
-                            .padding(.top, 8)
-                            .id("top")
+            ZStack(alignment: .bottom) {
+                ScrollViewReader { proxy in
+                    ScrollView {
+                        VStack(alignment: .leading, spacing: 20) {
+                            // Eyebrow
+                            Text("WEB · \(currentBook?.name.uppercased() ?? "GENESIS")")
+                                .font(ShepherdTheme.scriptureEyebrow())
+                                .foregroundStyle(ShepherdTheme.accent)
+                                .padding(.top, 8)
+                                .id("top")
 
-                        if let book = currentBook, let chapter = currentChapter {
-                            chapterBody(book: book, chapter: chapter)
-                        } else {
-                            HStack {
-                                Spacer()
-                                ProgressView("Opening the Bible…")
-                                    .padding(.top, 80)
-                                Spacer()
+                            if let book = currentBook, let chapter = currentChapter {
+                                chapterBody(book: book, chapter: chapter)
+                            } else {
+                                HStack {
+                                    Spacer()
+                                    ProgressView("Opening the Bible…")
+                                        .padding(.top, 80)
+                                    Spacer()
+                                }
+                            }
+                        }
+                        .padding(.horizontal, 20)
+                        .padding(.bottom, selectedVerses.isEmpty ? 60 : 180)
+                    }
+                    .onChange(of: selectedChapterNum) { _, _ in
+                        selectedVerses.removeAll()
+                        proxy.scrollTo("top", anchor: .top)
+                    }
+                    .onChange(of: selectedBookAbbrev) { _, _ in
+                        selectedVerses.removeAll()
+                        proxy.scrollTo("top", anchor: .top)
+                    }
+                    .onChange(of: targetScrollVerse) { _, newTarget in
+                        if let target = newTarget {
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                                withAnimation(.spring(duration: 0.4)) {
+                                    proxy.scrollTo("verse-\(target)", anchor: .center)
+                                }
+                                flashVerse(target)
                             }
                         }
                     }
-                    .padding(.horizontal, 20)
                 }
-                .onChange(of: selectedChapterNum) { _, _ in proxy.scrollTo("top", anchor: .top) }
-                .onChange(of: selectedBookAbbrev) { _, _ in proxy.scrollTo("top", anchor: .top) }
+
+                // Toast Pill
+                if showCopiedToast {
+                    VStack {
+                        HStack(spacing: 8) {
+                            Image(systemName: "checkmark.circle.fill")
+                                .foregroundStyle(ShepherdTheme.success)
+                            Text("Copied to clipboard")
+                                .font(.subheadline.weight(.semibold))
+                                .foregroundStyle(ShepherdTheme.textPrimary)
+                        }
+                        .padding(.horizontal, 16)
+                        .padding(.vertical, 10)
+                        .shepherdGlassCard(cornerRadius: ShepherdTheme.radiusPill)
+                        .transition(.move(edge: .top).combined(with: .opacity))
+                        .padding(.top, 12)
+                        Spacer()
+                    }
+                    .allowsHitTesting(false)
+                }
+
+                // Floating Action Menu
+                if !selectedVerses.isEmpty {
+                    actionMenuView
+                        .transition(.move(edge: .bottom).combined(with: .opacity))
+                }
             }
+            .animation(ShepherdTheme.morphSpring, value: selectedVerses)
+            .animation(ShepherdTheme.morphSpring, value: showCopiedToast)
             .background(ShepherdTheme.canvasBg.ignoresSafeArea())
             .scrollEdgeEffectStyle(.soft, for: .top)
             .navigationTitle(currentBook?.name ?? "Genesis")
             .navigationBarTitleDisplayMode(.large)
             .toolbar {
+                ToolbarItem(placement: .topBarLeading) {
+                    Button {
+                        showSavedScreen = true
+                    } label: {
+                        Image(systemName: "bookmark")
+                            .font(.system(size: 16, weight: .semibold))
+                    }
+                    .accessibilityLabel("Saved Scripture")
+                }
+
                 ToolbarItem(placement: .topBarTrailing) {
                     Button {
-                        showPicker = true
+                        showPickerSheet = true
                     } label: {
                         Image(systemName: "book")
                             .font(.system(size: 16, weight: .semibold))
@@ -66,14 +237,38 @@ public struct BibleReaderView: View {
                     .accessibilityLabel("Select Book and Chapter")
                 }
             }
-            .sheet(isPresented: $showPicker) {
+            .navigationDestination(isPresented: $showSavedScreen) {
+                SavedScriptureView { book, chapter, verse in
+                    selectedBookAbbrev = book
+                    selectedChapterNum = chapter
+                    targetScrollVerse = verse
+                }
+            }
+            .sheet(isPresented: $showPickerSheet) {
                 BiblePickerSheet(
                     selectedBook: $selectedBookAbbrev,
                     selectedChapter: $selectedChapterNum
                 )
             }
+            .sheet(item: $editingNoteConfig, onDismiss: {
+                withAnimation(ShepherdTheme.morphSpring) {
+                    selectedVerses.removeAll()
+                }
+            }) { config in
+                BibleNoteEditorSheet(
+                    bookName: config.bookName,
+                    bookAbbrev: config.bookAbbrev,
+                    chapter: config.chapter,
+                    startVerse: config.startVerse,
+                    endVerse: config.endVerse,
+                    verseText: config.verseText,
+                    existingNote: config.existingNote
+                )
+            }
         }
     }
+
+    // MARK: - Chapter Body
 
     @ViewBuilder
     private func chapterBody(book: BibleBook, chapter: BibleChapter) -> some View {
@@ -87,21 +282,30 @@ public struct BibleReaderView: View {
                 .foregroundStyle(ShepherdTheme.textSecondary)
         }
 
-        LazyVStack(alignment: .leading, spacing: 18) {
-            ForEach(chapter.verses) { verse in
-                HStack(alignment: .top, spacing: 10) {
-                    Text("\(verse.number)")
-                        .font(.subheadline.weight(.bold))
-                        .foregroundStyle(ShepherdTheme.accent)
-                        .frame(minWidth: 24, alignment: .trailing)
+        let hMap = chapterHighlightsMap
+        let bMap = chapterBookmarksMap
+        let nMap = chapterNotesMap
 
-                    Text(verse.text)
-                        .font(ShepherdTheme.scriptureBody())
-                        .foregroundStyle(ShepherdTheme.textPrimary)
-                        .lineSpacing(7)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                }
-                .accessibilityElement(children: .combine)
+        LazyVStack(alignment: .leading, spacing: 14) {
+            ForEach(chapter.verses) { verse in
+                let isSelected = selectedVerses.contains(verse.number)
+                let highlight = hMap[verse.number]
+                let isBookmarked = bMap[verse.number] != nil
+                let hasNote = !(nMap[verse.number]?.isEmpty ?? true)
+                let isFlashed = (flashedVerse == verse.number)
+
+                VerseRowView(
+                    verse: verse,
+                    highlightColor: highlight?.highlightColor.color,
+                    isBookmarked: isBookmarked,
+                    hasNote: hasNote,
+                    isSelected: isSelected,
+                    isFlashed: isFlashed,
+                    onTap: {
+                        toggleVerseSelection(verse.number)
+                    }
+                )
+                .id("verse-\(verse.number)")
             }
         }
 
@@ -140,9 +344,395 @@ public struct BibleReaderView: View {
         selectedBookAbbrev = location.book
         selectedChapterNum = location.chapter
     }
+
+    // MARK: - Action Menu View
+
+    private var actionMenuView: some View {
+        VStack(spacing: 14) {
+            // Header Row: Reference + Close Button
+            HStack {
+                Text(selectionReferenceText)
+                    .font(.headline)
+                    .foregroundStyle(ShepherdTheme.textPrimary)
+
+                Spacer()
+
+                Button {
+                    withAnimation(ShepherdTheme.morphSpring) {
+                        selectedVerses.removeAll()
+                    }
+                } label: {
+                    Image(systemName: "xmark.circle.fill")
+                        .font(.system(size: 20))
+                        .foregroundStyle(ShepherdTheme.textSecondary)
+                }
+                .accessibilityLabel("Dismiss selection")
+            }
+
+            // Highlight Colors Row
+            HStack(spacing: 16) {
+                ForEach(BibleHighlightColor.allCases) { hColor in
+                    Button {
+                        applyHighlight(hColor)
+                    } label: {
+                        Circle()
+                            .fill(hColor.color)
+                            .frame(width: 32, height: 32)
+                            .overlay(
+                                Circle()
+                                    .stroke(ShepherdTheme.surfaceBorder, lineWidth: 1)
+                            )
+                            .overlay(
+                                Circle()
+                                    .fill(hColor.swatchColor)
+                                    .frame(width: 12, height: 12)
+                            )
+                    }
+                    .accessibilityLabel("Highlight in \(hColor.displayName)")
+                }
+
+                if selectionHasHighlight {
+                    Button {
+                        removeHighlight()
+                    } label: {
+                        Image(systemName: "slash.circle")
+                            .font(.system(size: 24))
+                            .foregroundStyle(ShepherdTheme.textTertiary)
+                            .frame(width: 32, height: 32)
+                    }
+                    .accessibilityLabel("Remove highlight")
+                }
+            }
+            .padding(.vertical, 2)
+
+            Divider()
+                .background(ShepherdTheme.surfaceBorder)
+
+            // Actions Row: Bookmark, Note, Copy, Share
+            HStack(spacing: 18) {
+                // Bookmark Action
+                Button {
+                    toggleBookmark()
+                } label: {
+                    VStack(spacing: 4) {
+                        Image(systemName: selectionIsBookmarked ? "bookmark.fill" : "bookmark")
+                            .font(.system(size: 18, weight: .semibold))
+                            .foregroundStyle(selectionIsBookmarked ? ShepherdTheme.accent : ShepherdTheme.textPrimary)
+                        Text(selectionIsBookmarked ? "Bookmarked" : "Bookmark")
+                            .font(.caption2.weight(.medium))
+                            .foregroundStyle(ShepherdTheme.textSecondary)
+                    }
+                    .frame(maxWidth: .infinity, minHeight: 44)
+                    .contentShape(Rectangle())
+                }
+                .buttonStyle(.plain)
+                .accessibilityIdentifier("BookmarkActionButton")
+                .accessibilityLabel(selectionIsBookmarked ? "Remove Bookmark" : "Add Bookmark")
+
+                // Note Action
+                Button {
+                    openNoteEditor()
+                } label: {
+                    VStack(spacing: 4) {
+                        Image(systemName: selectionExistingNote != nil ? "note.text.badge.plus" : "square.and.pencil")
+                            .font(.system(size: 18, weight: .semibold))
+                            .foregroundStyle(selectionExistingNote != nil ? Color("Note") : ShepherdTheme.textPrimary)
+                        Text(selectionExistingNote != nil ? "Edit Note" : "Note")
+                            .font(.caption2.weight(.medium))
+                            .foregroundStyle(ShepherdTheme.textSecondary)
+                    }
+                    .frame(maxWidth: .infinity, minHeight: 44)
+                    .contentShape(Rectangle())
+                }
+                .buttonStyle(.plain)
+                .accessibilityIdentifier("NoteActionButton")
+                .accessibilityLabel(selectionExistingNote != nil ? "Edit Note" : "Add Note")
+
+                // Copy Action
+                Button {
+                    copySelection()
+                } label: {
+                    VStack(spacing: 4) {
+                        Image(systemName: "doc.on.doc")
+                            .font(.system(size: 18, weight: .semibold))
+                            .foregroundStyle(ShepherdTheme.textPrimary)
+                        Text("Copy")
+                            .font(.caption2.weight(.medium))
+                            .foregroundStyle(ShepherdTheme.textSecondary)
+                    }
+                    .frame(maxWidth: .infinity, minHeight: 44)
+                    .contentShape(Rectangle())
+                }
+                .buttonStyle(.plain)
+                .accessibilityIdentifier("CopyActionButton")
+                .accessibilityLabel("Copy Scripture with attribution")
+
+                // Share Action
+                ShareLink(item: selectionFormattedText) {
+                    VStack(spacing: 4) {
+                        Image(systemName: "square.and.arrow.up")
+                            .font(.system(size: 18, weight: .semibold))
+                            .foregroundStyle(ShepherdTheme.textPrimary)
+                        Text("Share")
+                            .font(.caption2.weight(.medium))
+                            .foregroundStyle(ShepherdTheme.textSecondary)
+                    }
+                    .frame(maxWidth: .infinity, minHeight: 44)
+                    .contentShape(Rectangle())
+                }
+                .buttonStyle(.plain)
+                .accessibilityIdentifier("ShareActionButton")
+                .accessibilityLabel("Share Scripture with attribution")
+            }
+        }
+        .padding(.horizontal, 20)
+        .padding(.vertical, 16)
+        .shepherdGlassCard(cornerRadius: ShepherdTheme.radiusXL)
+        .padding(.horizontal, 16)
+        .padding(.bottom, 68)
+    }
+
+    // MARK: - Actions Logic
+
+    private func toggleVerseSelection(_ number: Int) {
+        withAnimation(ShepherdTheme.morphSpring) {
+            if selectedVerses.contains(number) {
+                selectedVerses.remove(number)
+            } else {
+                selectedVerses.insert(number)
+            }
+        }
+    }
+
+    private func applyHighlight(_ color: BibleHighlightColor) {
+        guard let chapter = currentChapter, !selectedVerses.isEmpty else { return }
+        let start = selectionStartVerse
+        let end = selectionEndVerse
+
+        // Remove overlapping existing highlights
+        let existing = allHighlights.filter {
+            $0.book == selectedBookAbbrev && $0.chapter == selectedChapterNum && $0.overlaps(start: start, end: end)
+        }
+        for old in existing {
+            modelContext.delete(old)
+        }
+
+        let texts = (start...end).compactMap { v in
+            chapter.verses.first { $0.number == v }?.text
+        }
+        let highlight = BibleHighlight(
+            book: selectedBookAbbrev,
+            chapter: selectedChapterNum,
+            startVerse: start,
+            endVerse: end,
+            colorName: color.rawValue,
+            verseText: texts.joined(separator: " ")
+        )
+        modelContext.insert(highlight)
+        try? modelContext.save()
+
+        withAnimation(ShepherdTheme.morphSpring) {
+            selectedVerses.removeAll()
+        }
+    }
+
+    private func removeHighlight() {
+        let start = selectionStartVerse
+        let end = selectionEndVerse
+        let existing = allHighlights.filter {
+            $0.book == selectedBookAbbrev && $0.chapter == selectedChapterNum && $0.overlaps(start: start, end: end)
+        }
+        for old in existing {
+            modelContext.delete(old)
+        }
+        try? modelContext.save()
+
+        withAnimation(ShepherdTheme.morphSpring) {
+            selectedVerses.removeAll()
+        }
+    }
+
+    private func toggleBookmark() {
+        guard let chapter = currentChapter, !selectedVerses.isEmpty else { return }
+        let start = selectionStartVerse
+        let end = selectionEndVerse
+
+        let existing = allBookmarks.filter {
+            $0.book == selectedBookAbbrev && $0.chapter == selectedChapterNum && $0.overlaps(start: start, end: end)
+        }
+
+        if !existing.isEmpty {
+            for old in existing {
+                modelContext.delete(old)
+            }
+        } else {
+            let texts = (start...end).compactMap { v in
+                chapter.verses.first { $0.number == v }?.text
+            }
+            let bookmark = BibleBookmark(
+                book: selectedBookAbbrev,
+                chapter: selectedChapterNum,
+                startVerse: start,
+                endVerse: end,
+                verseText: texts.joined(separator: " ")
+            )
+            modelContext.insert(bookmark)
+        }
+        try? modelContext.save()
+
+        withAnimation(ShepherdTheme.morphSpring) {
+            selectedVerses.removeAll()
+        }
+    }
+
+    private func openNoteEditor() {
+        guard let chapter = currentChapter, !selectedVerses.isEmpty else { return }
+        let start = selectionStartVerse
+        let end = selectionEndVerse
+        let texts = (start...end).compactMap { v in
+            chapter.verses.first { $0.number == v }?.text
+        }
+        let config = NoteEditorConfig(
+            bookName: currentBook?.name ?? selectedBookAbbrev,
+            bookAbbrev: selectedBookAbbrev,
+            chapter: selectedChapterNum,
+            startVerse: start,
+            endVerse: end,
+            verseText: texts.joined(separator: " "),
+            existingNote: selectionExistingNote
+        )
+        editingNoteConfig = config
+    }
+
+    private func copySelection() {
+        UIPasteboard.general.string = selectionFormattedText
+        showCopiedToast = true
+        withAnimation(ShepherdTheme.morphSpring) {
+            selectedVerses.removeAll()
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+            withAnimation(ShepherdTheme.morphSpring) {
+                showCopiedToast = false
+            }
+        }
+    }
+
+    private func flashVerse(_ number: Int) {
+        flashedVerse = number
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+            withAnimation(.easeOut(duration: 0.5)) {
+                if flashedVerse == number {
+                    flashedVerse = nil
+                }
+            }
+        }
+    }
 }
 
-/// Previous / next chapter across book boundaries.
+// MARK: - Note Editor Configuration
+
+private struct NoteEditorConfig: Identifiable {
+    var id: String { "\(bookAbbrev).\(chapter).\(startVerse)-\(endVerse)" }
+    let bookName: String
+    let bookAbbrev: String
+    let chapter: Int
+    let startVerse: Int
+    let endVerse: Int
+    let verseText: String
+    let existingNote: BibleNote?
+}
+
+// MARK: - Verse Row View
+
+private struct VerseRowView: View {
+    let verse: BibleVerse
+    let highlightColor: Color?
+    let isBookmarked: Bool
+    let hasNote: Bool
+    let isSelected: Bool
+    let isFlashed: Bool
+    let onTap: () -> Void
+
+    var body: some View {
+        HStack(alignment: .top, spacing: 10) {
+            // Verse number + badges
+            VStack(alignment: .trailing, spacing: 3) {
+                Text("\(verse.number)")
+                    .font(.subheadline.weight(.bold))
+                    .foregroundStyle(isSelected ? ShepherdTheme.accent : ShepherdTheme.accent.opacity(0.85))
+
+                if isBookmarked {
+                    Image(systemName: "bookmark.fill")
+                        .font(.system(size: 10, weight: .bold))
+                        .foregroundStyle(ShepherdTheme.accent)
+                }
+
+                if hasNote {
+                    Image(systemName: "square.and.pencil")
+                        .font(.system(size: 10, weight: .bold))
+                        .foregroundStyle(Color("Note"))
+                }
+            }
+            .frame(minWidth: 28, alignment: .trailing)
+            .padding(.top, 2)
+
+            Text(verse.text)
+                .font(ShepherdTheme.scriptureBody())
+                .foregroundStyle(ShepherdTheme.textPrimary)
+                .lineSpacing(7)
+                .frame(maxWidth: .infinity, alignment: .leading)
+        }
+        .padding(.horizontal, 10)
+        .padding(.vertical, 8)
+        .background(
+            RoundedRectangle(cornerRadius: ShepherdTheme.radiusSM)
+                .fill(rowBackground)
+        )
+        .overlay(
+            RoundedRectangle(cornerRadius: ShepherdTheme.radiusSM)
+                .fill(isSelected ? ShepherdTheme.tabSelection : Color.clear)
+        )
+        .overlay(
+            RoundedRectangle(cornerRadius: ShepherdTheme.radiusSM)
+                .stroke(rowBorder, lineWidth: isSelected || isFlashed ? 1.5 : 0)
+        )
+        .contentShape(Rectangle())
+        .onTapGesture {
+            onTap()
+        }
+        .simultaneousGesture(
+            LongPressGesture(minimumDuration: 0.5).onEnded { _ in
+                onTap()
+            }
+        )
+        .accessibilityElement(children: .combine)
+        .accessibilityLabel("Verse \(verse.number), \(verse.text)\(isBookmarked ? ", Bookmarked" : "")\(hasNote ? ", Has note" : "")\(highlightColor != nil ? ", Highlighted" : "")")
+        .accessibilityHint("Double tap to select this verse")
+    }
+
+    private var rowBackground: Color {
+        if let highlightColor {
+            return highlightColor
+        }
+        if isFlashed {
+            return ShepherdTheme.goldSubtle
+        }
+        return Color.clear
+    }
+
+    private var rowBorder: Color {
+        if isSelected {
+            return ShepherdTheme.accent
+        }
+        if isFlashed {
+            return ShepherdTheme.gold
+        }
+        return Color.clear
+    }
+}
+
+// MARK: - Navigation Helpers
+
 public enum BibleNavigation {
     public struct Location: Equatable {
         public let book: String
