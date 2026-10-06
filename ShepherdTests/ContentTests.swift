@@ -226,18 +226,36 @@ final class ContentTests: XCTestCase {
     // MARK: - Honest paywall
 
     func testPaywallCountsComeFromContent() {
+        // Today both Premium paths hold only their 3 free preview lessons: Premium opens no
+        // lesson yet, so the paywall must not claim any.
         let offer = PremiumOffer(paths: store.paths)
-        let premium = store.paths.filter { $0.access == .premium }
-        XCTAssertEqual(offer.pathTitles, premium.map(\.title))
-        XCTAssertEqual(offer.lessonCount, premium.reduce(0) { $0 + $1.lessons.count })
-        XCTAssertEqual(offer.pathsSummary, "2 more paths, 6 lessons")
+        let premiumOnly = store.paths
+            .filter { $0.access == .premium }
+            .reduce(0) { $0 + max(0, $1.lessons.count - $1.freePreviewLessons) }
+        XCTAssertEqual(offer.lessonCount, premiumOnly)
+        XCTAssertEqual(offer.lessonCount, 0)
+        XCTAssertNil(offer.pathsSummary)
+        XCTAssertEqual(offer.unlocksLine, "Premium unlocks: streak freezes")
 
-        let line = offer.unlocksLine
-        XCTAssertTrue(line.contains("2 more paths, 6 lessons"))
-        XCTAssertTrue(line.contains("Peace & Prayer: 14 Days"))
         for claim in ["full learning paths", "outfits", "widgets", "reminders"] {
-            XCTAssertFalse(line.localizedCaseInsensitiveContains(claim), "paywall claims '\(claim)', which this build does not offer")
+            XCTAssertFalse(offer.unlocksLine.localizedCaseInsensitiveContains(claim), "paywall claims '\(claim)', which this build does not offer")
         }
-        XCTAssertNil(PremiumOffer(paths: store.paths.filter { $0.access != .premium }).pathsSummary)
+    }
+
+    func testPaywallCountsOnlyLessonsBeyondTheFreePreview() {
+        // Launch shape: Peace 14 and Mark 30 with 3 free each -> 38 Premium lessons, not 44.
+        let peace = StudyPath(id: "peace", title: "Peace", level: "beginner", estimatedDays: 14, sortOrder: 2, access: .premium, freePreviewLessons: 3, lessons: lessons(14, prefix: "peace"))
+        let mark = StudyPath(id: "mark", title: "Mark", level: "some", estimatedDays: 30, sortOrder: 3, access: .premium, freePreviewLessons: 3, lessons: lessons(30, prefix: "mark"))
+        let free = StudyPath(id: "free", title: "Free", level: "beginner", estimatedDays: 30, sortOrder: 1, lessons: lessons(30, prefix: "free"))
+        let offer = PremiumOffer(paths: [free, peace, mark])
+        XCTAssertEqual(offer.lessonCount, 38)
+        XCTAssertEqual(offer.pathsSummary, "38 Premium lessons in 2 paths")
+        XCTAssertEqual(offer.unlocksLine, "Premium unlocks: 38 Premium lessons in 2 paths (Peace; Mark), streak freezes")
+
+        // A Premium path with one lesson past its preview, and one with none.
+        let stub = StudyPath(id: "stub", title: "Stub", level: "beginner", estimatedDays: 3, access: .premium, freePreviewLessons: 3, lessons: lessons(3, prefix: "stub"))
+        let four = StudyPath(id: "four", title: "Four", level: "beginner", estimatedDays: 4, access: .premium, freePreviewLessons: 3, lessons: lessons(4, prefix: "four"))
+        XCTAssertEqual(PremiumOffer(paths: [stub, four]).pathsSummary, "1 Premium lesson in 1 path")
+        XCTAssertEqual(PremiumOffer(paths: [stub, four]).pathTitles, ["Four"])
     }
 }
