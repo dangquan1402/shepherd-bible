@@ -1557,10 +1557,6 @@
         "some",
         "deep"
       ],
-      "draft": {
-        "plannedLessons": 14,
-        "note": "Stub: lessons 1-3 drafted from report samples; the lesson-writing task completes the path."
-      },
       "lessons": [
         {
           "id": "peace-14.d01",
@@ -1718,6 +1714,596 @@
               "correctIndex": 0,
               "answerRef": "PSA.46.2",
               "explain": "Psalm 46:2: \"Therefore we won’t be afraid, though the earth changes\""
+            }
+          ]
+        },
+        {
+          "id": "peace-14.d04",
+          "dayIndex": 4,
+          "title": "Enough for today",
+          "verseRefs": [
+            "MAT.6.31",
+            "MAT.6.32",
+            "MAT.6.33",
+            "MAT.6.34"
+          ],
+          "bodyMarkdown": "Jesus names the worries out loud: \"What will we eat?\" \"What will we drink?\" He doesn't pretend these needs are unreal. Instead he says who is paying attention: \"your heavenly Father knows that you need all these things.\"\n\nThen he speaks about time. \"Therefore don’t be anxious for tomorrow, for tomorrow will be anxious for itself.\" So much worry lives in a day that has not arrived yet. Jesus invites his listeners to put first things first, God's Kingdom and his way, and to meet today with today's strength.\n\n**Reflection:** What part of tomorrow are you carrying today? Could you set it down until tomorrow comes?\n\n*A note: these words are an invitation, not a scolding. If anxiety is heavy or won't lift, talking with a doctor or counselor is a wise step, and it is not a failure of faith.*",
+          "prayerPrompt": "Father, you know what I need. Help me put you first, and meet today with today's strength.",
+          "quiz": [
+            {
+              "id": "peace-14.d04.q1",
+              "prompt": "\"But seek first God’s Kingdom and his ___\"",
+              "choices": [
+                "righteousness",
+                "blessing",
+                "temple",
+                "glory"
+              ],
+              "correctIndex": 0,
+              "answerRef": "MAT.6.33",
+              "explain": "Matthew 6:33. First things first: God's Kingdom and his way."
+            },
+            {
+              "id": "peace-14.d04.q2",
+              "prompt": "According to Matthew 6:32, what does your heavenly Father know?",
+              "choices": [
+                "what you did yesterday",
+                "that you need all these things",
+                "how long you will live",
+                "who will help you"
+              ],
+              "correctIndex": 1,
+              "answerRef": "MAT.6.32",
+              "explain": "Matthew 6:32: \"your heavenly Father knows that you need all these things.\""
+            },
+            {
+              "id": "peace-14.d04.q3",
+              "prompt": "Why does Jesus say not to be anxious for tomorrow?",
+              "choices": [
+                "tomorrow is already decided",
+                "tomorrow may never come",
+                "tomorrow will be easier",
+                "tomorrow will be anxious for itself"
+              ],
+              "correctIndex": 3,
+              "answerRef": "MAT.6.34",
+              "explain": "Matthew 6:34. Each day has enough of its own; tomorrow's worries can wait for tomorrow."
+            }
+          ]
+        },
+        {
+          "id": "peace-14.d05",
+          "dayIndex": 5,
+          "title": "How long?",
+          "verseRefs": [
+            "PSA.13.1",
+            "PSA.13.2",
+            "PSA.13.5",
+            "PSA.13.6"
+          ],
+          "bodyMarkdown": "Psalm 13 opens with a complaint, and it is in the Bible: \"How long, LORD? Will you forget me forever?\" Four times the writer asks how long. He feels forgotten and sad every day, and he says so to God directly.\n\nNotice where the psalm goes. Nothing tells us the situation has changed. Yet by verse 5 he can say, \"But I trust in your loving kindness.\" Lament, the honest prayer of someone who is hurting, is not the opposite of faith. In the Psalms it is often the road faith walks on.\n\n**Reflection:** Is there a situation where you have been asking God how long? You are allowed to say it to God, plainly, in your own words.\n\n*Study aid: laments are among the most common kinds of psalm. Many of them, like this one, move from complaint toward trust without pretending the pain was small.*",
+          "prayerPrompt": "LORD, some days I want to ask how long. Thank you that I can say so to you, and still trust your loving kindness.",
+          "quiz": [
+            {
+              "id": "peace-14.d05.q1",
+              "prompt": "\"How long, LORD? Will you ___ me forever?\"",
+              "choices": [
+                "test",
+                "leave",
+                "forget",
+                "punish"
+              ],
+              "correctIndex": 2,
+              "answerRef": "PSA.13.1",
+              "explain": "Psalm 13:1. The psalm begins with an honest complaint."
+            },
+            {
+              "id": "peace-14.d05.q2",
+              "prompt": "In verse 5, what does the writer say he trusts in?",
+              "choices": [
+                "my own strength",
+                "my good name",
+                "your loving kindness",
+                "the king's army"
+              ],
+              "correctIndex": 2,
+              "answerRef": "PSA.13.5",
+              "explain": "Psalm 13:5: \"But I trust in your loving kindness.\""
+            },
+            {
+              "id": "peace-14.d05.q3",
+              "prompt": "Why does the writer say he will sing in verse 6?",
+              "choices": [
+                "he has been rewarded",
+                "his troubles are over",
+                "his enemies have fled",
+                "he has been good to me"
+              ],
+              "correctIndex": 3,
+              "answerRef": "PSA.13.6",
+              "explain": "Psalm 13:6: \"I will sing to the LORD, because he has been good to me.\""
+            }
+          ]
+        },
+        {
+          "id": "peace-14.d06",
+          "dayIndex": 6,
+          "title": "Thirsty",
+          "verseRefs": [
+            "PSA.42.1",
+            "PSA.42.2",
+            "PSA.42.3",
+            "PSA.42.5"
+          ],
+          "bodyMarkdown": "The writer of Psalm 42 remembers worshiping with a joyful crowd (Psalm 42:4), and now God feels far away. He uses the picture of a deer searching for water: \"so my soul pants after you, God.\" His tears have been his food day and night.\n\nThen he does something worth copying. He talks to himself: \"Why are you in despair, my soul? Why are you disturbed within me? Hope in God!\" He doesn't deny the despair. He questions it, and points his own heart toward hope. The same words come back at the end of the psalm (Psalm 42:11), as if hope has to be chosen more than once.\n\n**Reflection:** If you spoke to your own soul today the way this psalm does, what would you say?\n\n*A note: if low mood or despair stays with you for weeks, talk to someone: a doctor, a counselor, a pastor or a trusted friend. If you are thinking of harming yourself, contact your local emergency number or a crisis line now. Asking for help is part of hope.*",
+          "prayerPrompt": "God, my soul is thirsty for you. When I am in despair, help me hope in you again.",
+          "quiz": [
+            {
+              "id": "peace-14.d06.q1",
+              "prompt": "\"As the deer pants for the water brooks, so my ___ pants after you, God.\"",
+              "choices": [
+                "heart",
+                "soul",
+                "voice",
+                "flock"
+              ],
+              "correctIndex": 1,
+              "answerRef": "PSA.42.1",
+              "explain": "Psalm 42:1. The writer longs for God the way a thirsty animal longs for water."
+            },
+            {
+              "id": "peace-14.d06.q2",
+              "prompt": "What does the writer say his tears have been?",
+              "choices": [
+                "my food day and night",
+                "hidden from everyone",
+                "few and far between",
+                "gone by morning"
+              ],
+              "correctIndex": 0,
+              "answerRef": "PSA.42.3",
+              "explain": "Psalm 42:3: \"My tears have been my food day and night.\""
+            },
+            {
+              "id": "peace-14.d06.q3",
+              "prompt": "What does the writer tell his own soul in verse 5?",
+              "choices": [
+                "Try harder",
+                "Hope in God",
+                "Forget the past",
+                "Stop feeling sad"
+              ],
+              "correctIndex": 1,
+              "answerRef": "PSA.42.5",
+              "explain": "Psalm 42:5: \"Why are you in despair, my soul? Why are you disturbed within me? Hope in God!\""
+            }
+          ]
+        },
+        {
+          "id": "peace-14.d07",
+          "dayIndex": 7,
+          "title": "Pour out your heart",
+          "verseRefs": [
+            "PSA.62.5",
+            "PSA.62.6",
+            "PSA.62.7",
+            "PSA.62.8"
+          ],
+          "bodyMarkdown": "Psalm 62 is quiet and steady. \"My soul, wait in silence for God alone.\" The writer keeps coming back to the same few words: rock, salvation, fortress, refuge. \"I will not be shaken\" is not a boast about his own strength. It is a statement about where he is standing.\n\nThen he turns to everyone listening: \"Trust in him at all times, you people. Pour out your heart before him.\" Trust and honesty belong together here. You don't have to tidy up your feelings before you pray. You can pour them out, all of them, before the one who is a refuge.\n\n**Reflection:** What would it look like to pour out your heart to God today, without editing it first?\n\n*Study aid: calling God a \"rock\" is common in the Psalms (for example Psalm 18:2). It pictures something solid that does not move when everything else does.*",
+          "prayerPrompt": "God, you are my rock. I pour out my heart before you, just as it is.",
+          "quiz": [
+            {
+              "id": "peace-14.d07.q1",
+              "prompt": "\"My soul, wait in ___ for God alone\"",
+              "choices": [
+                "fear",
+                "comfort",
+                "hurry",
+                "silence"
+              ],
+              "correctIndex": 3,
+              "answerRef": "PSA.62.5",
+              "explain": "Psalm 62:5. The psalm begins its second half with quiet waiting."
+            },
+            {
+              "id": "peace-14.d07.q2",
+              "prompt": "In verse 8, what does the writer invite people to pour out before God?",
+              "choices": [
+                "your heart",
+                "your plans",
+                "your silver",
+                "your offerings"
+              ],
+              "correctIndex": 0,
+              "answerRef": "PSA.62.8",
+              "explain": "Psalm 62:8: \"Trust in him at all times, you people. Pour out your heart before him.\""
+            },
+            {
+              "id": "peace-14.d07.q3",
+              "prompt": "What does the writer call God in verse 6?",
+              "choices": [
+                "my judge and my ruler",
+                "my song and my dance",
+                "my rock and my salvation",
+                "my teacher and my guide"
+              ],
+              "correctIndex": 2,
+              "answerRef": "PSA.62.6",
+              "explain": "Psalm 62:6: \"He alone is my rock and my salvation, my fortress. I will not be shaken.\""
+            }
+          ]
+        },
+        {
+          "id": "peace-14.d08",
+          "dayIndex": 8,
+          "title": "Hannah's prayer",
+          "verseRefs": [
+            "1SA.1.10",
+            "1SA.1.13",
+            "1SA.1.15",
+            "1SA.1.18"
+          ],
+          "bodyMarkdown": "Yesterday's psalm said to pour out your heart. Hannah shows what that can look like. She longed for a child and had none, and year after year a rival taunted her for it (1 Samuel 1:7). At the house of the LORD she prays, \"weeping bitterly.\" Her lips move but no sound comes out, and the priest Eli thinks she is drunk.\n\nHer answer is one of the most honest descriptions of prayer in the Bible: \"I poured out my soul before the LORD.\" She had no polished words, only grief. Eli blesses her, and something changes before anything in her situation does: \"her facial expression wasn’t sad any more.\"\n\n**Reflection:** Prayer doesn't have to be eloquent. What would you say to God if you said it exactly as it is?\n\n*Study aid: Hannah's son Samuel is born later in the chapter (1 Samuel 1:20). Not every prayer like hers is answered that way, and the passage does not promise it. Its focus here is how Hannah prayed.*",
+          "prayerPrompt": "LORD, I don't always have the right words. Here is my heart, poured out before you.",
+          "quiz": [
+            {
+              "id": "peace-14.d08.q1",
+              "prompt": "How did Hannah pray, according to 1 Samuel 1:10?",
+              "choices": [
+                "dancing for joy",
+                "weeping bitterly",
+                "singing a hymn",
+                "reading from a scroll"
+              ],
+              "correctIndex": 1,
+              "answerRef": "1SA.1.10",
+              "explain": "1 Samuel 1:10: \"She was in bitterness of soul, and prayed to the LORD, weeping bitterly.\""
+            },
+            {
+              "id": "peace-14.d08.q2",
+              "prompt": "What did Eli think when he saw Hannah's lips moving?",
+              "choices": [
+                "she was drunk",
+                "she was sick",
+                "she was singing",
+                "she was asleep"
+              ],
+              "correctIndex": 0,
+              "answerRef": "1SA.1.13",
+              "explain": "1 Samuel 1:13. Her voice was not heard, and Eli misunderstood her."
+            },
+            {
+              "id": "peace-14.d08.q3",
+              "prompt": "How did Hannah describe what she had been doing?",
+              "choices": [
+                "I asked the priest to pray for me",
+                "I offered a sacrifice for my sins",
+                "I recited the prayers of my fathers",
+                "I poured out my soul before the LORD"
+              ],
+              "correctIndex": 3,
+              "answerRef": "1SA.1.15",
+              "explain": "1 Samuel 1:15: \"I poured out my soul before the LORD.\""
+            }
+          ]
+        },
+        {
+          "id": "peace-14.d09",
+          "dayIndex": 9,
+          "title": "Cast your burden",
+          "verseRefs": [
+            "PSA.55.4",
+            "PSA.55.6",
+            "PSA.55.22",
+            "1PE.5.7"
+          ],
+          "bodyMarkdown": "Psalm 55 is written by someone in real distress: \"My heart is severely pained within me.\" He admits he would like to escape: \"Oh that I had wings like a dove! Then I would fly away, and be at rest.\" Many people know that feeling.\n\nLater in the same psalm comes a different answer: \"Cast your burden on the LORD and he will sustain you.\" Peter seems to echo it in a letter to Christians facing hard times: cast \"all your worries on him, because he cares for you.\" The reason given is not that worries are small. It is that God cares.\n\n**Reflection:** If you could fly away from one thing today, what would it be? What would it mean to cast that burden on God instead?\n\n*Study aid: to cast is to throw something off. Both passages use the same picture: not carrying the weight more carefully, but handing it over.*",
+          "prayerPrompt": "LORD, I cast this burden on you, because you care for me. Sustain me today.",
+          "quiz": [
+            {
+              "id": "peace-14.d09.q1",
+              "prompt": "\"Cast your ___ on the LORD and he will sustain you.\"",
+              "choices": [
+                "sacrifice",
+                "voice",
+                "burden",
+                "crown"
+              ],
+              "correctIndex": 2,
+              "answerRef": "PSA.55.22",
+              "explain": "Psalm 55:22. The burden is handed over to the LORD, who sustains."
+            },
+            {
+              "id": "peace-14.d09.q2",
+              "prompt": "Why does 1 Peter 5:7 say we can cast our worries on God?",
+              "choices": [
+                "because worries are small",
+                "because we deserve it",
+                "because he cares for you",
+                "because he is far away"
+              ],
+              "correctIndex": 2,
+              "answerRef": "1PE.5.7",
+              "explain": "1 Peter 5:7: \"casting all your worries on him, because he cares for you.\""
+            },
+            {
+              "id": "peace-14.d09.q3",
+              "prompt": "What did the writer wish for in Psalm 55:6?",
+              "choices": [
+                "a ship to sail away",
+                "a quiet house",
+                "a strong army",
+                "wings like a dove"
+              ],
+              "correctIndex": 3,
+              "answerRef": "PSA.55.6",
+              "explain": "Psalm 55:6: \"Oh that I had wings like a dove! Then I would fly away, and be at rest.\""
+            }
+          ]
+        },
+        {
+          "id": "peace-14.d10",
+          "dayIndex": 10,
+          "title": "Prayer with thanksgiving",
+          "verseRefs": [
+            "PHP.4.5",
+            "PHP.4.6",
+            "PHP.4.7"
+          ],
+          "bodyMarkdown": "Paul wrote these words while he was in chains (Philippians 1:13), which makes them more than a slogan. \"The Lord is at hand,\" he says, and then: \"In nothing be anxious, but in everything, by prayer and petition with thanksgiving, let your requests be made known to God.\"\n\nHe doesn't simply tell people to stop feeling anxious. He says what to do with the anxiety: turn it into prayer, specific requests, mixed with thanks for what God has already done. And he describes the result not as answers on demand but as peace: \"the peace of God, which surpasses all understanding, will guard your hearts and your thoughts.\" Guard is a soldier's word, like a sentry at a gate.\n\n**Reflection:** Name three requests and three things you are thankful for. Notice how it feels to hold them side by side.\n\n*Study aid: \"The Lord is at hand\" may mean the Lord is near now, or that he will come soon. Christians read it both ways.*",
+          "prayerPrompt": "God, here are my worries, turned into requests. Thank you for what you have already done. Guard my heart with your peace.",
+          "quiz": [
+            {
+              "id": "peace-14.d10.q1",
+              "prompt": "\"In nothing be ___, but in everything, by prayer and petition with thanksgiving\"",
+              "choices": [
+                "idle",
+                "anxious",
+                "proud",
+                "silent"
+              ],
+              "correctIndex": 1,
+              "answerRef": "PHP.4.6",
+              "explain": "Philippians 4:6. Anxiety is turned into prayer."
+            },
+            {
+              "id": "peace-14.d10.q2",
+              "prompt": "According to verse 6, what should go with our prayer and petition?",
+              "choices": [
+                "thanksgiving",
+                "fasting",
+                "sacrifice",
+                "a vow"
+              ],
+              "correctIndex": 0,
+              "answerRef": "PHP.4.6",
+              "explain": "Philippians 4:6: \"by prayer and petition with thanksgiving, let your requests be made known to God.\""
+            },
+            {
+              "id": "peace-14.d10.q3",
+              "prompt": "What does Philippians 4:7 say the peace of God will do?",
+              "choices": [
+                "remove every problem",
+                "explain every mystery",
+                "make you never feel afraid",
+                "guard your hearts and your thoughts"
+              ],
+              "correctIndex": 3,
+              "answerRef": "PHP.4.7",
+              "explain": "Philippians 4:7: the peace of God \"will guard your hearts and your thoughts in Christ Jesus.\""
+            }
+          ]
+        },
+        {
+          "id": "peace-14.d11",
+          "dayIndex": 11,
+          "title": "Think about these things",
+          "verseRefs": [
+            "PHP.4.8",
+            "PHP.4.9"
+          ],
+          "bodyMarkdown": "An anxious mind often replays the same worst-case scenes. Paul gives his readers a different list to dwell on: whatever is true, honorable, just, pure, lovely and of good report, and \"think about these things.\"\n\nThis is not pretending that bad things aren't real; the first word on the list is true. It is choosing where to let your attention rest. Then verse 9 moves from thinking to doing: practice what you have learned, \"and the God of peace will be with you.\" A few lines earlier Paul promised the peace of God (Philippians 4:7). Here he promises the God of peace himself.\n\n**Reflection:** Pick one thing today that is true and lovely, and give it your full attention for a minute. What do you notice?\n\n*Study aid: many scholars note that Paul's list uses words moral teachers of his day also used. He gathers them up and connects them to the God of peace.*",
+          "prayerPrompt": "God of peace, turn my thoughts toward what is true and lovely. Be with me as I practice what I have learned.",
+          "quiz": [
+            {
+              "id": "peace-14.d11.q1",
+              "prompt": "\"whatever things are true, whatever things are ___\"",
+              "choices": [
+                "simple",
+                "profitable",
+                "honorable",
+                "popular"
+              ],
+              "correctIndex": 2,
+              "answerRef": "PHP.4.8",
+              "explain": "Philippians 4:8. Paul's list begins with what is true and honorable."
+            },
+            {
+              "id": "peace-14.d11.q2",
+              "prompt": "What does Paul tell his readers to do with these things, in verse 8?",
+              "choices": [
+                "think about these things",
+                "debate these things",
+                "warn others about these things",
+                "store these things away"
+              ],
+              "correctIndex": 0,
+              "answerRef": "PHP.4.8",
+              "explain": "Philippians 4:8 ends: \"think about these things.\""
+            },
+            {
+              "id": "peace-14.d11.q3",
+              "prompt": "Who does Philippians 4:9 say will be with you?",
+              "choices": [
+                "the elders of the church",
+                "the God of peace",
+                "the apostle Paul",
+                "the angels of heaven"
+              ],
+              "correctIndex": 1,
+              "answerRef": "PHP.4.9",
+              "explain": "Philippians 4:9: \"and the God of peace will be with you.\""
+            }
+          ]
+        },
+        {
+          "id": "peace-14.d12",
+          "dayIndex": 12,
+          "title": "Lie down in peace",
+          "verseRefs": [
+            "PSA.4.1",
+            "PSA.4.4",
+            "PSA.4.8"
+          ],
+          "bodyMarkdown": "Many readers pray Psalm 4 in the evening. It starts in distress: \"Answer me when I call, God of my righteousness.\" By the end, the writer is ready to sleep.\n\nIn between he gives advice for a restless night: \"Search your own heart on your bed, and be still.\" Lying awake can become time spent with God instead of replaying the day. The last line is a quiet decision: \"In peace I will both lay myself down and sleep, for you alone, LORD, make me live in safety.\" Here, going to sleep is an act of trust. You can stop keeping watch, because God is watching.\n\n**Reflection:** Tonight, before you sleep, try praying verse 8 slowly, one phrase at a time. If sleep is hard for you, that is not a test you are failing.\n\n*Study aid: Psalm 3 makes a similar point: \"I laid myself down and slept. I awakened, for the LORD sustains me\" (Psalm 3:5).*",
+          "prayerPrompt": "LORD, as I lie down tonight, I give you this day. You alone keep me safe. Let me sleep in peace.",
+          "quiz": [
+            {
+              "id": "peace-14.d12.q1",
+              "prompt": "\"In peace I will both lay myself down and ___\"",
+              "choices": [
+                "sleep",
+                "watch",
+                "wait",
+                "weep"
+              ],
+              "correctIndex": 0,
+              "answerRef": "PSA.4.8",
+              "explain": "Psalm 4:8. The psalm ends with rest."
+            },
+            {
+              "id": "peace-14.d12.q2",
+              "prompt": "Why can the writer sleep in peace, according to verse 8?",
+              "choices": [
+                "his doors are locked",
+                "you alone, LORD, make me live in safety",
+                "his troubles are solved",
+                "his enemies are asleep"
+              ],
+              "correctIndex": 1,
+              "answerRef": "PSA.4.8",
+              "explain": "Psalm 4:8: \"for you alone, LORD, make me live in safety.\""
+            },
+            {
+              "id": "peace-14.d12.q3",
+              "prompt": "What does verse 4 suggest doing on your bed?",
+              "choices": [
+                "Count your money",
+                "Replay the day's mistakes",
+                "Plan tomorrow's work",
+                "Search your own heart"
+              ],
+              "correctIndex": 3,
+              "answerRef": "PSA.4.4",
+              "explain": "Psalm 4:4: \"Search your own heart on your bed, and be still.\""
+            }
+          ]
+        },
+        {
+          "id": "peace-14.d13",
+          "dayIndex": 13,
+          "title": "When words run out",
+          "verseRefs": [
+            "ROM.8.26",
+            "ROM.8.27",
+            "ROM.8.38",
+            "ROM.8.39"
+          ],
+          "bodyMarkdown": "Sometimes prayer is hard because the words won't come. Paul admits this happens: \"we don’t know how to pray as we ought.\" He doesn't treat it as a failure. He says \"the Spirit also helps our weaknesses,\" praying for us \"with groanings which can’t be uttered.\"\n\nSo even a sigh can be a prayer. You are not left to pray alone, or to get the words right. At the end of the same chapter, Paul lists everything he can think of, death and life, present and future, height and depth, and says none of it \"will be able to separate us from God’s love which is in Christ Jesus our Lord.\"\n\n**Reflection:** If you have no words today, try simply sitting with God for a minute. Let that be your prayer.\n\n*Study aid: Christians understand the Holy Spirit's part in prayer in a range of ways. This passage simply says the Spirit helps when we are weak.*",
+          "prayerPrompt": "God, when I don't know how to pray, thank you that your Spirit helps me. Thank you that nothing can separate me from your love.",
+          "quiz": [
+            {
+              "id": "peace-14.d13.q1",
+              "prompt": "\"In the same way, the Spirit also helps our ___\"",
+              "choices": [
+                "leaders",
+                "plans",
+                "weaknesses",
+                "enemies"
+              ],
+              "correctIndex": 2,
+              "answerRef": "ROM.8.26",
+              "explain": "Romans 8:26. The Spirit helps where we are weak."
+            },
+            {
+              "id": "peace-14.d13.q2",
+              "prompt": "According to Romans 8:26, how does the Spirit intercede for us?",
+              "choices": [
+                "with groanings which can’t be uttered",
+                "through the voices of angels",
+                "only when we pray correctly",
+                "with long and perfect sentences"
+              ],
+              "correctIndex": 0,
+              "answerRef": "ROM.8.26",
+              "explain": "Romans 8:26. Prayer does not depend on finding the right words."
+            },
+            {
+              "id": "peace-14.d13.q3",
+              "prompt": "Romans 8:39 says nothing will be able to separate us from…",
+              "choices": [
+                "the law",
+                "our past",
+                "our own plans",
+                "God’s love"
+              ],
+              "correctIndex": 3,
+              "answerRef": "ROM.8.39",
+              "explain": "Romans 8:39: nothing \"will be able to separate us from God’s love which is in Christ Jesus our Lord.\""
+            }
+          ]
+        },
+        {
+          "id": "peace-14.d14",
+          "dayIndex": 14,
+          "title": "Go in peace",
+          "verseRefs": [
+            "JHN.14.27",
+            "NUM.6.24",
+            "NUM.6.25",
+            "NUM.6.26"
+          ],
+          "bodyMarkdown": "This path ends with two gifts of peace. The first is from Jesus on the night before he died: \"Peace I leave with you. My peace I give to you; not as the world gives.\" The world's peace often depends on everything going well. His is given in the middle of trouble, by someone who knew what was coming.\n\nThe second is a blessing God gave Aaron and his sons to speak over the people (Numbers 6:23). You can read it slowly, as if it were spoken over you: \"The LORD bless you, and keep you.\" It ends with the word this path has been about: peace.\n\nFourteen days don't make worry vanish. But you now have places to go when it comes: the Psalms, honest prayer, and these promises.\n\n**Reflection:** Which lesson from these two weeks will you go back to the next time worry comes?",
+          "prayerPrompt": "LORD, bless me and keep me. Give me your peace, not as the world gives, and let me carry it into tomorrow.",
+          "quiz": [
+            {
+              "id": "peace-14.d14.q1",
+              "prompt": "\"Peace I leave with you. My ___ I give to you\"",
+              "choices": [
+                "kingdom",
+                "wisdom",
+                "peace",
+                "power"
+              ],
+              "correctIndex": 2,
+              "answerRef": "JHN.14.27",
+              "explain": "John 14:27. Jesus leaves his own peace with his friends."
+            },
+            {
+              "id": "peace-14.d14.q2",
+              "prompt": "How does Jesus say he gives, in John 14:27?",
+              "choices": [
+                "only to the worthy",
+                "not as the world gives",
+                "as much as you ask",
+                "once and never again"
+              ],
+              "correctIndex": 1,
+              "answerRef": "JHN.14.27",
+              "explain": "John 14:27: \"My peace I give to you; not as the world gives, I give to you.\""
+            },
+            {
+              "id": "peace-14.d14.q3",
+              "prompt": "How does the blessing end, in Numbers 6:26?",
+              "choices": [
+                "give you riches",
+                "give you victory",
+                "give you long life",
+                "give you peace"
+              ],
+              "correctIndex": 3,
+              "answerRef": "NUM.6.26",
+              "explain": "Numbers 6:26: \"The LORD lift up his face toward you, and give you peace.\""
             }
           ]
         }

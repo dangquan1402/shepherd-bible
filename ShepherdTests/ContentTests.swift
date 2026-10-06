@@ -230,10 +230,10 @@ final class ContentTests: XCTestCase {
         let premium = store.paths.filter { $0.access == .premium }
         XCTAssertEqual(offer.pathTitles, premium.map(\.title))
         XCTAssertEqual(offer.lessonCount, premium.reduce(0) { $0 + $1.lessons.count })
-        XCTAssertEqual(offer.pathsSummary, "2 more paths, 6 lessons")
+        XCTAssertEqual(offer.pathsSummary, "2 more paths, 17 lessons")
 
         let line = offer.unlocksLine
-        XCTAssertTrue(line.contains("2 more paths, 6 lessons"))
+        XCTAssertTrue(line.contains("2 more paths, 17 lessons"))
         XCTAssertTrue(line.contains("Peace & Prayer: 14 Days"))
         for claim in ["full learning paths", "outfits", "widgets", "reminders"] {
             XCTAssertFalse(line.localizedCaseInsensitiveContains(claim), "paywall claims '\(claim)', which this build does not offer")
