@@ -115,7 +115,7 @@ public struct SettingsView: View {
                         Text("Ad trackers")
                             .foregroundStyle(ShepherdTheme.textPrimary)
                         Spacer()
-                        Text("None in v1")
+                        Text("None")
                             .foregroundStyle(ShepherdTheme.textSecondary)
                     }
                 } header: {

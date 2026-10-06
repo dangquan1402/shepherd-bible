@@ -539,6 +539,8 @@ final class RealFlowUITests: XCTestCase {
         ensureTabBarExpanded(app)
         app.tabBars.buttons["Settings"].tap()
         XCTAssertTrue(app.navigationBars["Settings"].waitForExistence(timeout: 4.0))
+        XCTAssertTrue(app.staticTexts["None"].exists)
+        XCTAssertFalse(element(app, containing: "in v1").exists, "Settings still says 'in v1'")
         Thread.sleep(forTimeInterval: 0.3)
         saveScreenshot("Settings")
 
