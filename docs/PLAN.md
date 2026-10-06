@@ -26,7 +26,7 @@ Differentiator vs Manna: no account, no trackers, no cloud AI as authority.
 
 ### M3 — Polish (week 3–4)
 - [ ] Widgets (verse + streak)
-- [ ] Notifications (local only)
+- [x] Notifications (local only): opt-in daily reminder, free (`DailyReminder`)
 - [ ] Full beginner path (7–30 days)
 - [ ] App icon + lamb illustrations
 - [ ] Privacy Nutrition Labels (Data Not Collected / on-device only)

@@ -215,6 +215,8 @@ public struct LessonView: View {
         let result = LessonProgressRecorder.complete(lesson: lesson, score: score, context: modelContext, isPremium: isPremium)
         completionResult = result
         finishedScore = score
+        // Today's lesson is done: skip today's reminder.
+        Task { await DailyReminder.shared.refresh(context: modelContext) }
         pendingComplete = true
         showQuiz = false
     }

@@ -45,6 +45,8 @@ final class RealFlowUITests: XCTestCase {
             }
             _ = app.buttons["Continue"].waitForExistence(timeout: 2.0)
             app.buttons["Continue"].tap()
+            _ = app.buttons["Not now"].waitForExistence(timeout: 2.0)
+            app.buttons["Not now"].tap()
             _ = app.buttons["See my plan"].waitForExistence(timeout: 2.0)
             app.buttons["See my plan"].tap()
             _ = app.buttons["Continue with free path"].waitForExistence(timeout: 2.0)
@@ -374,7 +376,17 @@ final class RealFlowUITests: XCTestCase {
         }
         app.buttons["Continue"].tap()
 
-        // 6. Onboarding Step 5: Building Plan
+        // 6. Onboarding Step 5: optional daily reminder. "Not now" skips it without asking iOS
+        // for permission (no system alert may appear here).
+        XCTAssertTrue(app.staticTexts["Want a gentle daily reminder?"].waitForExistence(timeout: 4.0))
+        XCTAssertTrue(app.buttons["Remind me"].exists)
+        Thread.sleep(forTimeInterval: 0.3)
+        saveScreenshot("Onboarding_Reminder")
+        app.buttons["Not now"].tap()
+        XCTAssertFalse(XCUIApplication(bundleIdentifier: "com.apple.springboard").alerts.firstMatch.waitForExistence(timeout: 1.0),
+                       "skipping the reminder asked for notification permission")
+
+        // 7. Onboarding Step 6: Building Plan
         XCTAssertTrue(app.staticTexts["Preparing your path…"].waitForExistence(timeout: 4.0))
         // goal 'peace' -> Peace & Prayer, and the screen says honestly that it is Premium
         XCTAssertTrue(element(app, containing: "Peace & Prayer: 14 Days").exists)
@@ -442,8 +454,10 @@ final class RealFlowUITests: XCTestCase {
         Thread.sleep(forTimeInterval: 0.4)
         saveScreenshot("Lesson_Reading")
 
-        // Scroll down to "Take the quiz"
+        // Scroll down to "Take the quiz" (past the body and its Reflection heading)
         app.swipeUp()
+        Thread.sleep(forTimeInterval: 0.4)
+        saveScreenshot("Lesson_Body")
         let quizButton = app.buttons["Take the quiz"]
         XCTAssertTrue(quizButton.waitForExistence(timeout: 4.0))
         quizButton.tap()
@@ -539,6 +553,20 @@ final class RealFlowUITests: XCTestCase {
             Thread.sleep(forTimeInterval: 0.8)
             saveScreenshot("Settings_RestoreResult")
         }
+
+        // Daily reminder: off by default; turning it on asks iOS once, then shows the time.
+        let reminderSwitch = app.switches["Daily reminder"]
+        XCTAssertTrue(reminderSwitch.waitForExistence(timeout: 4.0))
+        XCTAssertEqual(reminderSwitch.value as? String, "0", "the reminder is on before the user asked")
+        XCTAssertFalse(app.datePickers.firstMatch.exists)
+        reminderSwitch.switches.firstMatch.tap()
+        let allow = XCUIApplication(bundleIdentifier: "com.apple.springboard").alerts.buttons["Allow"]
+        XCTAssertTrue(allow.waitForExistence(timeout: 5.0), "turning the reminder on did not ask for permission")
+        allow.tap()
+        XCTAssertTrue(app.datePickers.firstMatch.waitForExistence(timeout: 4.0))
+        XCTAssertEqual(reminderSwitch.value as? String, "1")
+        Thread.sleep(forTimeInterval: 0.4)
+        saveScreenshot("Settings_Reminder")
 
         // 19. Terminate and Relaunch to Prove Persistence
         app.terminate()

@@ -3,7 +3,15 @@ import SwiftData
 
 public struct SettingsView: View {
     @ObservedObject private var store = StoreKitManager.shared
+    @ObservedObject private var reminder = DailyReminder.shared
+    @Environment(\.modelContext) private var modelContext
+    @Environment(\.scenePhase) private var scenePhase
+    @Environment(\.openURL) private var openURL
     @Query private var entitlements: [EntitlementState]
+    /// Notifications are off for Pasture in iOS Settings.
+    @State private var notificationsDenied: Bool = false
+    /// The user asked for the reminder, and iOS said no (now or earlier).
+    @State private var reminderRefused: Bool = false
     @State private var showPaywall: Bool = false
     @State private var restoreToastMessage: String? = nil
     @State private var isRestoring: Bool = false
@@ -51,6 +59,45 @@ public struct SettingsView: View {
                             }
                         }
                     }
+                }
+                .listRowBackground(ShepherdTheme.cardSurface)
+
+                // Daily reminder (local notification, opt-in)
+                Section {
+                    Toggle(isOn: reminderBinding) {
+                        Text("Daily reminder")
+                            .foregroundStyle(ShepherdTheme.textPrimary)
+                    }
+                    .tint(ShepherdTheme.accentFill)
+
+                    if reminder.settings.isEnabled {
+                        DatePicker(selection: reminderTimeBinding, displayedComponents: .hourAndMinute) {
+                            Text("Time")
+                                .foregroundStyle(ShepherdTheme.textPrimary)
+                        }
+                    }
+
+                    if notificationsDenied && (reminder.settings.isEnabled || reminderRefused) {
+                        VStack(alignment: .leading, spacing: 8) {
+                            Text("Notifications are off for Pasture, so the reminder can’t appear. You can allow them in the Settings app.")
+                                .font(.subheadline)
+                                .foregroundStyle(ShepherdTheme.textSecondary)
+                            Button("Open Settings") {
+                                if let url = URL(string: UIApplication.openNotificationSettingsURLString) {
+                                    openURL(url)
+                                }
+                            }
+                            .font(.subheadline.weight(.semibold))
+                            .foregroundStyle(ShepherdTheme.accentFill)
+                        }
+                        .padding(.vertical, 4)
+                    }
+                } header: {
+                    Text("Reminder")
+                } footer: {
+                    Text("One gentle notification a day, skipped once you’ve done that day’s lesson. It’s scheduled on this device; nothing is sent anywhere.")
+                        .font(.footnote)
+                        .foregroundStyle(ShepherdTheme.textTertiary)
                 }
                 .listRowBackground(ShepherdTheme.cardSurface)
 
@@ -118,6 +165,13 @@ public struct SettingsView: View {
             .scrollContentBackground(.hidden)
             .background(ShepherdTheme.canvasBg.ignoresSafeArea())
             .navigationTitle("Settings")
+            .task { await refreshNotificationStatus() }
+            .onChange(of: scenePhase) { _, phase in
+                // Back from the Settings app: notifications may have been allowed.
+                if phase == .active {
+                    Task { await refreshNotificationStatus() }
+                }
+            }
             .sheet(isPresented: $showPaywall) {
                 PaywallView(
                     onContinueFree: { showPaywall = false },
@@ -142,6 +196,46 @@ public struct SettingsView: View {
                 }
             }
         }
+    }
+
+    private var completedToday: Bool {
+        DailyReminder.hasCompletedLesson(on: .now, in: modelContext)
+    }
+
+    private var reminderBinding: Binding<Bool> {
+        Binding(
+            get: { reminder.settings.isEnabled },
+            set: { isOn in
+                Task {
+                    if isOn {
+                        let result = await reminder.enable(completedToday: completedToday)
+                        reminderRefused = (result == .denied)
+                    } else {
+                        reminderRefused = false
+                        await reminder.disable()
+                    }
+                    await refreshNotificationStatus()
+                }
+            }
+        )
+    }
+
+    private var reminderTimeBinding: Binding<Date> {
+        Binding(
+            get: {
+                Calendar.current.date(bySettingHour: reminder.settings.hour, minute: reminder.settings.minute, second: 0, of: .now) ?? .now
+            },
+            set: { date in
+                let parts = Calendar.current.dateComponents([.hour, .minute], from: date)
+                Task {
+                    await reminder.setTime(hour: parts.hour ?? 8, minute: parts.minute ?? 0, completedToday: completedToday)
+                }
+            }
+        )
+    }
+
+    private func refreshNotificationStatus() async {
+        notificationsDenied = await reminder.authorizationStatus() == .denied
     }
 
     private func restore() {

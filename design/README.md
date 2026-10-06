@@ -19,7 +19,7 @@ Sections marked *generated* are written by `python3 design/tools/readme_tables.p
 
 - **D1, deployment target: iOS 26.** The app's minimum target moves from iOS 17 (the repo README) to **iOS 26**. Liquid Glass (`.glassEffect`, `GlassEffectContainer`, `.buttonStyle(.glass)` / `.glassProminent`, `tabViewBottomAccessory`, `.tabBarMinimizeBehavior`, `scrollEdgeEffectStyle`) is iOS 26 only. No `.ultraThinMaterial` fallback is designed. The SwiftUI animators used for the lamb (`phaseAnimator`, `keyframeAnimator`, `sensoryFeedback`) exist from iOS 17.
 - **D2, path catalogue:** the real path (`beginner-7`) plus one honest "More paths are coming" row, with no titles and no counts (`Path_Overview`).
-- **D3, trial reminder:** no reminder promise. The paywall's Day 5 row reads "Cancel anytime before Day 7". Settings has no reminder row.
+- **D3, trial reminder:** no reminder promise. The paywall's Day 5 row reads "Cancel anytime before Day 7". There is no trial-ending reminder anywhere. (The opt-in **daily lesson reminder** in Settings and the skippable onboarding step "Want a gentle daily reminder?", added in the pre-launch polish, are free, local notifications and not part of this decision; they are not drawn in the `.pen` frames yet.)
 
 ## 2. Design inputs
 
@@ -38,7 +38,7 @@ Sections marked *generated* are written by `python3 design/tools/readme_tables.p
 
 ### 2.2 Verbatim copy kept from the scaffold
 
-Onboarding: "Welcome to Pasture", "A few minutes a day. Scripture that sticks. Everything stays on your phone.", "What’s your goal?", "How familiar are you?", "How many minutes a day?", "Name your companion", "Continue", "See my plan". Paywall: "Grow with Shepherd Premium", the four features "Full learning paths", "Streak freezes", "Companion outfits", "Widgets & reminders", "Yearly · 7-day free trial · Best value · Most popular", "Monthly · 7-day free trial", "Start free trial", "Continue with free path". Lesson: "Take the quiz", "Prayer". Settings: "No account. Progress stays on this device.", "No ad trackers in v1." (shown as "Ad trackers · None in v1").
+Onboarding: "Welcome to Pasture", "A few minutes a day. Scripture that sticks. Everything stays on your phone.", "What’s your goal?", "How familiar are you?", "How many minutes a day?", "Name your companion", "Continue", "See my plan". Paywall: "Grow with Shepherd Premium", the four features "Full learning paths", "Streak freezes", "Companion outfits", "Widgets & reminders" (scaffold copy only: the shipped paywall lists just the Premium paths, counted from content, and streak freezes; outfits, widgets and reminders are not Premium), "Yearly · 7-day free trial · Best value · Most popular", "Monthly · 7-day free trial", "Start free trial", "Continue with free path". Lesson: "Take the quiz", "Prayer". Settings: "No account. Progress stays on this device.", "No ad trackers in v1." (shown as "Ad trackers · None in v1").
 
 Copy changed on purpose: the building step reads "Preparing your path…" (one path exists, nothing is personalised) and its rows read "Goal: Grow a daily habit" and "Daily goal: 5 min". The quiz drops "Question 1 of 2" for a progress bar plus "Day 1".
 

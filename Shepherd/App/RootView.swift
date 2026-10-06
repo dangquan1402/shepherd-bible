@@ -3,6 +3,7 @@ import SwiftData
 
 public struct RootView: View {
     @Environment(\.modelContext) private var modelContext
+    @Environment(\.scenePhase) private var scenePhase
     @Query private var profiles: [UserProfile]
     @StateObject private var content = ContentStore.shared
 
@@ -31,6 +32,12 @@ public struct RootView: View {
             #if DEBUG
             applyUITestState()
             #endif
+            await DailyReminder.shared.refresh(context: modelContext)
+        }
+        .onChange(of: scenePhase) { _, phase in
+            // A new day may have started: refill the reminder window and re-check today's lesson.
+            guard phase == .active else { return }
+            Task { await DailyReminder.shared.refresh(context: modelContext) }
         }
     }
 
