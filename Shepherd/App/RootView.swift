@@ -26,6 +26,15 @@ public struct RootView: View {
             #endif
             content.loadIfNeeded()
             SeedData.ensureDefaults(in: modelContext)
+            let activePath = content.activePath(id: profiles.first?.activePathId)
+            let completedIDs = Set(((try? modelContext.fetch(FetchDescriptor<LessonProgress>())) ?? []).map(\.lessonId))
+            let nextLesson = activePath.flatMap { PathProgress.nextLesson(in: $0, completed: completedIDs) }
+            WidgetSyncService.sync(
+                context: modelContext,
+                activePathTitle: activePath?.title ?? "Pasture",
+                nextLessonTitle: nextLesson?.title,
+                nextLessonDayIndex: nextLesson?.dayIndex
+            )
             StoreKitManager.shared.attach(modelContext)
             await StoreKitManager.shared.updateCustomerProductStatus(context: modelContext)
             #if DEBUG

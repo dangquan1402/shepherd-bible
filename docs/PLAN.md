@@ -25,7 +25,7 @@ Differentiator vs Manna: no account, no trackers, no cloud AI as authority.
 - [ ] Soft paywall (annual highlighted)
 
 ### M3 — Polish (week 3–4)
-- [ ] Widgets (verse + streak)
+- [x] Widgets (verse + streak)
 - [ ] Notifications (local only)
 - [ ] Full beginner path (7–30 days)
 - [ ] App icon + lamb illustrations

@@ -7,19 +7,26 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		051D71A42C2A17D3135093AD /* WidgetDataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0630E5A34CABF8094C1C336 /* WidgetDataStore.swift */; };
 		068D9FB511D797774B6FAFAA /* BibleReaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CACF575DB53A2BF8502BD9B /* BibleReaderView.swift */; };
+		08A32EC9414B8B8D65BD9C4B /* WidgetSyncService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEC80D94F2B54271DACFDABE /* WidgetSyncService.swift */; };
 		0A030F320CF19B71C5B87B89 /* ShepherdConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A0E5855986A6E7E3F46AFAB /* ShepherdConstants.swift */; };
 		12FFC8F830DFC3E53AE2B0FA /* QuizRules.swift in Sources */ = {isa = PBXBuildFile; fileRef = D624EA03F0084E2213D941E9 /* QuizRules.swift */; };
+		144BB2CA4C71E6980237CE0E /* WidgetTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD8C615FFC62E12565479603 /* WidgetTests.swift */; };
 		14B4CBC57E12EB7BCCE1ED8A /* ContinueLessonAccessory.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3FB1F06E6441697174E7CA2 /* ContinueLessonAccessory.swift */; };
 		15FDFD6DA0A5B9D0AA6375AE /* StoreKitManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6748B96F2755258AF0768F0 /* StoreKitManager.swift */; };
 		17EB76049B3952227160A562 /* LambSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD25E57594DED53C58E6744C /* LambSystem.swift */; };
 		2229E2727757B5C9F94792AF /* Progression.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA489847C8760DE6F0D9EB49 /* Progression.swift */; };
+		2579D04C60E62ADBECAA1F6C /* daily_verses.json in Resources */ = {isa = PBXBuildFile; fileRef = E456694C3D533FF6931CC029 /* daily_verses.json */; };
+		2B01928E384752A2EFD274B6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BA6E0B74DAE435F2DA4998EE /* Assets.xcassets */; };
 		2D202EE9DCBED7408CA90ED0 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15E6C3E3FB61F8BAA592A7BA /* RootView.swift */; };
 		2E139ED7F7F5E9C6CDE89C72 /* ShepherdTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CE4BBC57FDEA303093E3E67 /* ShepherdTests.swift */; };
 		2EEA46F488FBA5B6A5585F5B /* ContentModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708A96F4A3D915BC760AF160 /* ContentModels.swift */; };
 		31F7D185710633B12E98D1A3 /* PathCatalog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D02731B22192A0C9C8AAA35 /* PathCatalog.swift */; };
 		37D4CFA367CEB521E7EE1A64 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 05509D2D188904833C28F5AD /* StoreKit.framework */; };
 		3DA312CB2380372CB91E6EBF /* StoreKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3736069C11269D9C4C99FA2B /* StoreKitTests.swift */; };
+		3EAB0F05E1B1C509C236340F /* DailyVerseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71C021F5748F8FFE33002C5E /* DailyVerseService.swift */; };
+		43BD1A1D8A6FE701A88B3E9B /* WidgetDataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0630E5A34CABF8094C1C336 /* WidgetDataStore.swift */; };
 		451358B2BA541C0A8C7408CE /* Shepherd.storekit in Resources */ = {isa = PBXBuildFile; fileRef = AF3DDC905B95F20434D620C0 /* Shepherd.storekit */; };
 		4B889C32EF77017E1ADE9C0C /* ContentStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEFEB075297B25E3F78E1951 /* ContentStore.swift */; };
 		4BE8393361D409629B39C482 /* web.json in Resources */ = {isa = PBXBuildFile; fileRef = D4183D8FD4248CEB38FD2532 /* web.json */; };
@@ -28,6 +35,10 @@
 		5EE37B181DC0E2EA6A29F0D6 /* DailyVerse.swift in Sources */ = {isa = PBXBuildFile; fileRef = F985DECE1319C9A3BB9DB5FF /* DailyVerse.swift */; };
 		5F1DC930BE92575E3158D14A /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D74EB0E09166077803402C5 /* MainTabView.swift */; };
 		62DCD913CC85FFC2BE412965 /* QuizView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C10B446B167E44C35DF40746 /* QuizView.swift */; };
+		6634B6CBB7232C121A31C76C /* ShepherdTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6318DDCB619E65C7710F7E1 /* ShepherdTheme.swift */; };
+		6AC94F6512F46028AC7C0FA9 /* DailyVerse.swift in Sources */ = {isa = PBXBuildFile; fileRef = F985DECE1319C9A3BB9DB5FF /* DailyVerse.swift */; };
+		7A25E223E33C4E52EB837E53 /* LockScreenStreakWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 102E260D81D7D23645AA7EEA /* LockScreenStreakWidget.swift */; };
+		7A5678661E6A694E45752203 /* ShepherdWidgets.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 589780701F73DFA4B6218C64 /* ShepherdWidgets.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		7E1A14B888C678478B811388 /* Entitlements.swift in Sources */ = {isa = PBXBuildFile; fileRef = F42534D58BA4976C8D26FD6A /* Entitlements.swift */; };
 		7EEEB6E2F264705768A8DAD2 /* ContentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B903FC1823760FEB4F671A /* ContentTests.swift */; };
 		858610F6CBDC971A354F86C0 /* OnboardingStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15A18DD64B32A5FD3DD8AABD /* OnboardingStore.swift */; };
@@ -40,13 +51,18 @@
 		A26E7085B8DD68D3ADBCCE01 /* CompanionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33625C550888B0A6637204C4 /* CompanionView.swift */; };
 		AC8FA50675FFD4A9782FA22A /* PathOverviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2697AEAE9427FF678613DDCE /* PathOverviewView.swift */; };
 		AEEEB2AE897446D9A9468986 /* PaywallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCBBB1FB51A505E798F33BFF /* PaywallView.swift */; };
+		B10D72C9BCE137D73B270315 /* VerseWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7343179E138A7506186F8F62 /* VerseWidget.swift */; };
+		B137C5EC9183C982B8F35607 /* StreakWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A32D1034AD946BA8726B980 /* StreakWidget.swift */; };
 		B7826112544FE3F520B95226 /* UserModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9C580C2CCCA012A15F5F4F /* UserModels.swift */; };
 		C2DEDA832974E1CD1377E91D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BA6E0B74DAE435F2DA4998EE /* Assets.xcassets */; };
 		C3634D2307DA82757EE6E674 /* VerseOfTheDayCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1629563DBCFBA94162CF133A /* VerseOfTheDayCard.swift */; };
 		CB6F44D2B5B7DFAE05F0EA28 /* ShepherdTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6318DDCB619E65C7710F7E1 /* ShepherdTheme.swift */; };
+		CE57192AEC998C95C12AFF81 /* ShepherdWidgetBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E4671E57516D23AA6C9C723 /* ShepherdWidgetBundle.swift */; };
 		CFAB18160EE6BC95EE87BB86 /* OnboardingFlowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C7391F1E61B6D45E7498003 /* OnboardingFlowView.swift */; };
+		D42DB5E09BABB515A5AA2998 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69F8864847096BDA13F14C0A /* WidgetKit.framework */; };
 		D4C244FCF0AD71172533D812 /* daily_verses.json in Resources */ = {isa = PBXBuildFile; fileRef = E456694C3D533FF6931CC029 /* daily_verses.json */; };
 		D520A64F6CB87366694D27BE /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099E256D3D4E4BF107CF7DDC /* HomeView.swift */; };
+		DE20F4837E380620F8980DA0 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AB7AF4B4BDD1BA29176E430E /* SwiftUI.framework */; };
 		E2730F1D424EA54D4B106459 /* lamb_variants.json in Resources */ = {isa = PBXBuildFile; fileRef = DE3F92350EF7E0EEC93EEDFF /* lamb_variants.json */; };
 		E31F964A9C2877AAEFEF856A /* LessonCompleteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8D0BFCF6D331443E53A0F4D /* LessonCompleteView.swift */; };
 		E98D1271F3D0BE6F8A8C8F07 /* DailyVerseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71C021F5748F8FFE33002C5E /* DailyVerseService.swift */; };
@@ -68,7 +84,28 @@
 			remoteGlobalIDString = 47CE77D29590638B6E1C9B7C;
 			remoteInfo = Shepherd;
 		};
+		CAAB0017A174815D4C94AA5F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F77F5673D097D45B60DD1E31 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D6463B3DEEB4DB10B6D26FDD;
+			remoteInfo = ShepherdWidgets;
+		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		C05DE03CC0CF767591CFCF66 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				7A5678661E6A694E45752203 /* ShepherdWidgets.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		00B903FC1823760FEB4F671A /* ContentTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentTests.swift; sourceTree = "<group>"; };
@@ -78,6 +115,7 @@
 		07E8EDCD7D978052D7B9B53C /* DailyVerseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyVerseTests.swift; sourceTree = "<group>"; };
 		099E256D3D4E4BF107CF7DDC /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		0D9981D75E425FE7400790AC /* ShepherdApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShepherdApp.swift; sourceTree = "<group>"; };
+		102E260D81D7D23645AA7EEA /* LockScreenStreakWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LockScreenStreakWidget.swift; sourceTree = "<group>"; };
 		15A18DD64B32A5FD3DD8AABD /* OnboardingStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingStore.swift; sourceTree = "<group>"; };
 		15E6C3E3FB61F8BAA592A7BA /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
 		1629563DBCFBA94162CF133A /* VerseOfTheDayCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerseOfTheDayCard.swift; sourceTree = "<group>"; };
@@ -90,22 +128,33 @@
 		33625C550888B0A6637204C4 /* CompanionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompanionView.swift; sourceTree = "<group>"; };
 		36CBE65C52F66C35E113F984 /* ShepherdTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = ShepherdTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3736069C11269D9C4C99FA2B /* StoreKitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreKitTests.swift; sourceTree = "<group>"; };
+		3A32D1034AD946BA8726B980 /* StreakWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreakWidget.swift; sourceTree = "<group>"; };
 		3EDABF08E64DD679B981D39C /* LessonProgressRecorder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LessonProgressRecorder.swift; sourceTree = "<group>"; };
 		46724CD2BD612565CCD2F492 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		4A0E5855986A6E7E3F46AFAB /* ShepherdConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShepherdConstants.swift; sourceTree = "<group>"; };
+		589780701F73DFA4B6218C64 /* ShepherdWidgets.appex */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "wrapper.app-extension"; path = ShepherdWidgets.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		5E4671E57516D23AA6C9C723 /* ShepherdWidgetBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShepherdWidgetBundle.swift; sourceTree = "<group>"; };
+		69F8864847096BDA13F14C0A /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		708A96F4A3D915BC760AF160 /* ContentModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentModels.swift; sourceTree = "<group>"; };
 		71C021F5748F8FFE33002C5E /* DailyVerseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyVerseService.swift; sourceTree = "<group>"; };
+		7343179E138A7506186F8F62 /* VerseWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerseWidget.swift; sourceTree = "<group>"; };
 		7C7391F1E61B6D45E7498003 /* OnboardingFlowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingFlowView.swift; sourceTree = "<group>"; };
 		8BD1E9E0CAF5A76DE883F724 /* SeedData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeedData.swift; sourceTree = "<group>"; };
 		9CE4BBC57FDEA303093E3E67 /* ShepherdTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShepherdTests.swift; sourceTree = "<group>"; };
 		9D02731B22192A0C9C8AAA35 /* PathCatalog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PathCatalog.swift; sourceTree = "<group>"; };
+		A5C99854C38464A2EB0B070C /* Shepherd.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Shepherd.entitlements; sourceTree = "<group>"; };
 		A6748B96F2755258AF0768F0 /* StoreKitManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreKitManager.swift; sourceTree = "<group>"; };
 		A8D0BFCF6D331443E53A0F4D /* LessonCompleteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LessonCompleteView.swift; sourceTree = "<group>"; };
 		AA8ACB7ACBDC38979091ADFD /* LessonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LessonView.swift; sourceTree = "<group>"; };
+		AB7AF4B4BDD1BA29176E430E /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+		AD8C615FFC62E12565479603 /* WidgetTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetTests.swift; sourceTree = "<group>"; };
 		AF3DDC905B95F20434D620C0 /* Shepherd.storekit */ = {isa = PBXFileReference; path = Shepherd.storekit; sourceTree = "<group>"; };
+		B0630E5A34CABF8094C1C336 /* WidgetDataStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetDataStore.swift; sourceTree = "<group>"; };
 		BA6E0B74DAE435F2DA4998EE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		BC9C580C2CCCA012A15F5F4F /* UserModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModels.swift; sourceTree = "<group>"; };
+		BEC80D94F2B54271DACFDABE /* WidgetSyncService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetSyncService.swift; sourceTree = "<group>"; };
 		C10B446B167E44C35DF40746 /* QuizView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizView.swift; sourceTree = "<group>"; };
+		C49FEF023362F91B5D58965E /* ShepherdWidgets.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ShepherdWidgets.entitlements; sourceTree = "<group>"; };
 		D4183D8FD4248CEB38FD2532 /* web.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = web.json; sourceTree = "<group>"; };
 		D624EA03F0084E2213D941E9 /* QuizRules.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizRules.swift; sourceTree = "<group>"; };
 		DE3F92350EF7E0EEC93EEDFF /* lamb_variants.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = lamb_variants.json; sourceTree = "<group>"; };
@@ -126,6 +175,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				37D4CFA367CEB521E7EE1A64 /* StoreKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		625F3AB2EC5176214256B6A5 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D42DB5E09BABB515A5AA2998 /* WidgetKit.framework in Frameworks */,
+				DE20F4837E380620F8980DA0 /* SwiftUI.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -151,6 +209,8 @@
 				8BD1E9E0CAF5A76DE883F724 /* SeedData.swift */,
 				4A0E5855986A6E7E3F46AFAB /* ShepherdConstants.swift */,
 				A6748B96F2755258AF0768F0 /* StoreKitManager.swift */,
+				B0630E5A34CABF8094C1C336 /* WidgetDataStore.swift */,
+				BEC80D94F2B54271DACFDABE /* WidgetSyncService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -206,6 +266,7 @@
 				9A7473DBD371694A77D027DF /* Shepherd */,
 				ADC3E6B2FEE1D0A68023D749 /* ShepherdTests */,
 				7A81370C08DF09E04341C91C /* ShepherdUITests */,
+				879CD71A2570392386A1EA36 /* ShepherdWidgets */,
 				6864A259D9110532D15467BF /* Frameworks */,
 				D4C6EFC09444CA2204A47C89 /* Products */,
 			);
@@ -223,6 +284,8 @@
 			isa = PBXGroup;
 			children = (
 				05509D2D188904833C28F5AD /* StoreKit.framework */,
+				AB7AF4B4BDD1BA29176E430E /* SwiftUI.framework */,
+				69F8864847096BDA13F14C0A /* WidgetKit.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -235,9 +298,22 @@
 			path = ShepherdUITests;
 			sourceTree = "<group>";
 		};
+		879CD71A2570392386A1EA36 /* ShepherdWidgets */ = {
+			isa = PBXGroup;
+			children = (
+				102E260D81D7D23645AA7EEA /* LockScreenStreakWidget.swift */,
+				5E4671E57516D23AA6C9C723 /* ShepherdWidgetBundle.swift */,
+				C49FEF023362F91B5D58965E /* ShepherdWidgets.entitlements */,
+				3A32D1034AD946BA8726B980 /* StreakWidget.swift */,
+				7343179E138A7506186F8F62 /* VerseWidget.swift */,
+			);
+			path = ShepherdWidgets;
+			sourceTree = "<group>";
+		};
 		9A7473DBD371694A77D027DF /* Shepherd */ = {
 			isa = PBXGroup;
 			children = (
+				A5C99854C38464A2EB0B070C /* Shepherd.entitlements */,
 				E1AEFC8FEB3B6FE8565DADC8 /* App */,
 				42AB52073C752B0159D0BF5A /* Models */,
 				BD7C22897E9F81FC1F5CBD25 /* Resources */,
@@ -263,6 +339,7 @@
 				07E8EDCD7D978052D7B9B53C /* DailyVerseTests.swift */,
 				9CE4BBC57FDEA303093E3E67 /* ShepherdTests.swift */,
 				3736069C11269D9C4C99FA2B /* StoreKitTests.swift */,
+				AD8C615FFC62E12565479603 /* WidgetTests.swift */,
 			);
 			path = ShepherdTests;
 			sourceTree = "<group>";
@@ -331,6 +408,7 @@
 				1F3BF30E4B06B141B9F8EDFE /* Shepherd.app */,
 				36CBE65C52F66C35E113F984 /* ShepherdTests.xctest */,
 				1A807E23123C11FFD81AB388 /* ShepherdUITests.xctest */,
+				589780701F73DFA4B6218C64 /* ShepherdWidgets.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -355,10 +433,12 @@
 				93B84850786B42868F6EF9A7 /* Sources */,
 				A538DB493D85FD24E53EA892 /* Resources */,
 				3217A4CD7183F305148C0CB7 /* Frameworks */,
+				C05DE03CC0CF767591CFCF66 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				20899BD4281D2E3303CC7A17 /* PBXTargetDependency */,
 			);
 			name = Shepherd;
 			packageProductDependencies = (
@@ -404,6 +484,25 @@
 			productReference = 1A807E23123C11FFD81AB388 /* ShepherdUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
+		D6463B3DEEB4DB10B6D26FDD /* ShepherdWidgets */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AE9DA8071B0E12DA9ABC70BA /* Build configuration list for PBXNativeTarget "ShepherdWidgets" */;
+			buildPhases = (
+				F7923266D8327A72BCF6C742 /* Sources */,
+				D1BDA0A20549D00C769F35A8 /* Resources */,
+				625F3AB2EC5176214256B6A5 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ShepherdWidgets;
+			packageProductDependencies = (
+			);
+			productName = ShepherdWidgets;
+			productReference = 589780701F73DFA4B6218C64 /* ShepherdWidgets.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -435,6 +534,7 @@
 				47CE77D29590638B6E1C9B7C /* Shepherd */,
 				903D5C1881AFD6C7F325E935 /* ShepherdTests */,
 				D15B421335EE751B43D87C01 /* ShepherdUITests */,
+				D6463B3DEEB4DB10B6D26FDD /* ShepherdWidgets */,
 			);
 		};
 /* End PBXProject section */
@@ -460,6 +560,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		D1BDA0A20549D00C769F35A8 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2B01928E384752A2EFD274B6 /* Assets.xcassets in Resources */,
+				2579D04C60E62ADBECAA1F6C /* daily_verses.json in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -471,6 +580,7 @@
 				867BB33FE1FE67287E9819C5 /* DailyVerseTests.swift in Sources */,
 				2E139ED7F7F5E9C6CDE89C72 /* ShepherdTests.swift in Sources */,
 				3DA312CB2380372CB91E6EBF /* StoreKitTests.swift in Sources */,
+				144BB2CA4C71E6980237CE0E /* WidgetTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -518,6 +628,23 @@
 				15FDFD6DA0A5B9D0AA6375AE /* StoreKitManager.swift in Sources */,
 				B7826112544FE3F520B95226 /* UserModels.swift in Sources */,
 				C3634D2307DA82757EE6E674 /* VerseOfTheDayCard.swift in Sources */,
+				051D71A42C2A17D3135093AD /* WidgetDataStore.swift in Sources */,
+				08A32EC9414B8B8D65BD9C4B /* WidgetSyncService.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F7923266D8327A72BCF6C742 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6AC94F6512F46028AC7C0FA9 /* DailyVerse.swift in Sources */,
+				3EAB0F05E1B1C509C236340F /* DailyVerseService.swift in Sources */,
+				7A25E223E33C4E52EB837E53 /* LockScreenStreakWidget.swift in Sources */,
+				6634B6CBB7232C121A31C76C /* ShepherdTheme.swift in Sources */,
+				CE57192AEC998C95C12AFF81 /* ShepherdWidgetBundle.swift in Sources */,
+				B137C5EC9183C982B8F35607 /* StreakWidget.swift in Sources */,
+				B10D72C9BCE137D73B270315 /* VerseWidget.swift in Sources */,
+				43BD1A1D8A6FE701A88B3E9B /* WidgetDataStore.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -528,6 +655,11 @@
 			isa = PBXTargetDependency;
 			target = 47CE77D29590638B6E1C9B7C /* Shepherd */;
 			targetProxy = 78D0BC00CA3C625582948BC3 /* PBXContainerItemProxy */;
+		};
+		20899BD4281D2E3303CC7A17 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D6463B3DEEB4DB10B6D26FDD /* ShepherdWidgets */;
+			targetProxy = CAAB0017A174815D4C94AA5F /* PBXContainerItemProxy */;
 		};
 		9DF44FF33501C56BC1C4BDA1 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -542,6 +674,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Shepherd/Shepherd.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_PREVIEWS = YES;
@@ -621,6 +754,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Shepherd/Shepherd.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_PREVIEWS = YES;
@@ -635,6 +769,29 @@
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		8D2B31535C7ADC1581D614A3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = ShepherdWidgets/ShepherdWidgets.entitlements;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = ShepherdWidgets/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.dangvietquan.shepherd.widgets;
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
@@ -774,6 +931,29 @@
 			};
 			name = Debug;
 		};
+		F27DDCB4D461C6B939071988 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = ShepherdWidgets/ShepherdWidgets.entitlements;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = ShepherdWidgets/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.dangvietquan.shepherd.widgets;
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -809,6 +989,15 @@
 			buildConfigurations = (
 				CE710F5C3E257A3EA1BF21B8 /* Debug */,
 				7420930D855BD9200BC2C80D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		AE9DA8071B0E12DA9ABC70BA /* Build configuration list for PBXNativeTarget "ShepherdWidgets" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8D2B31535C7ADC1581D614A3 /* Debug */,
+				F27DDCB4D461C6B939071988 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;

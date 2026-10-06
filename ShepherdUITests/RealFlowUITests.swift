@@ -235,6 +235,41 @@ final class RealFlowUITests: XCTestCase {
     }
 
     @MainActor
+    func testVerseOfTheDayFlowLight() throws {
+        modeOverride = "Light"
+        try executeVerseOfTheDayFlow(appearance: "light")
+    }
+
+    @MainActor
+    func testVerseOfTheDayFlowDark() throws {
+        modeOverride = "Dark"
+        try executeVerseOfTheDayFlow(appearance: "dark")
+    }
+
+    @MainActor
+    private func executeVerseOfTheDayFlow(appearance: String) throws {
+        let app = XCUIApplication()
+        app.launchArguments = ["-appearance", appearance, "-uitestCompleted", "beginner-30:1"]
+        app.launch()
+
+        passOnboardingIfNeeded(app)
+
+        XCTAssertTrue(app.navigationBars["Today"].waitForExistence(timeout: 8.0))
+
+        let verseCard = app.buttons.matching(NSPredicate(format: "label CONTAINS[c] 'Verse of the day'")).firstMatch
+        XCTAssertTrue(verseCard.waitForExistence(timeout: 6.0), "Verse of the day card should be visible on Today tab")
+
+        Thread.sleep(forTimeInterval: 0.5)
+        saveScreenshot("VerseOfTheDay_Card")
+
+        verseCard.tap()
+
+        XCTAssertTrue(app.tabBars.buttons["Bible"].waitForExistence(timeout: 6.0))
+        Thread.sleep(forTimeInterval: 0.8)
+        saveScreenshot("VerseOfTheDay_Reader")
+    }
+
+    @MainActor
     func testBibleKeepsChapterAcrossTabs() throws {
         let app = XCUIApplication()
         app.launch()

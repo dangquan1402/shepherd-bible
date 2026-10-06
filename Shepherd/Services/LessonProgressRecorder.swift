@@ -55,6 +55,12 @@ public enum LessonProgressRecorder {
 
         try? context.save()
 
+        WidgetSyncService.sync(
+            context: context,
+            nextLessonTitle: lesson.title,
+            nextLessonDayIndex: lesson.dayIndex
+        )
+
         let newXP = companion?.xp ?? 0
         let currentStreak = streak?.current ?? 1
 
