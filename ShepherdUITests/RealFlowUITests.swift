@@ -67,6 +67,81 @@ final class RealFlowUITests: XCTestCase {
         }
     }
 
+    /// Any element whose label contains `text` (rows combine their texts into one element).
+    @MainActor
+    private func element(_ app: XCUIApplication, containing text: String) -> XCUIElement {
+        app.descendants(matching: .any).matching(NSPredicate(format: "label CONTAINS %@", text)).firstMatch
+    }
+
+    /// Tap the choice containing `text`, check it, and continue.
+    @MainActor
+    private func answer(_ app: XCUIApplication, _ text: String) {
+        let choice = app.buttons.matching(NSPredicate(format: "label CONTAINS[c] %@", text)).firstMatch
+        XCTAssertTrue(choice.waitForExistence(timeout: 5.0), "no choice '\(text)'")
+        choice.tap()
+        app.buttons["Check"].tap()
+        XCTAssertTrue(app.buttons["Continue"].waitForExistence(timeout: 4.0))
+        app.buttons["Continue"].tap()
+    }
+
+    /// Open Today's current lesson for `day` and answer its quiz.
+    @MainActor
+    private func completeLesson(_ app: XCUIApplication, day: Int, answers: [String]) {
+        let node = app.buttons["Day \(day), current"]
+        XCTAssertTrue(node.waitForExistence(timeout: 6.0), "Day \(day) is not the current node")
+        node.tap()
+        XCTAssertTrue(app.navigationBars["Day \(day)"].waitForExistence(timeout: 6.0))
+        app.swipeUp()
+        let quizButton = app.buttons["Take the quiz"]
+        XCTAssertTrue(quizButton.waitForExistence(timeout: 4.0))
+        quizButton.tap()
+        for text in answers {
+            answer(app, text)
+        }
+        XCTAssertTrue(app.staticTexts["Day \(day) complete"].waitForExistence(timeout: 6.0))
+        app.buttons["Continue"].tap()
+        XCTAssertTrue(app.navigationBars["Today"].waitForExistence(timeout: 6.0))
+    }
+
+    @MainActor
+    func testPathCompleteLight() throws {
+        modeOverride = "Light"
+        try executePathCompleteFlow()
+    }
+
+    @MainActor
+    func testPathCompleteDark() throws {
+        modeOverride = "Dark"
+        try executePathCompleteFlow()
+    }
+
+    /// Onboarding 'peace' follows Peace & Prayer (3 lessons in content today). Finishing them must
+    /// show the path-complete state, not the last day again, and lead to the catalog.
+    @MainActor
+    private func executePathCompleteFlow() throws {
+        let app = XCUIApplication()
+        app.launch()
+        passOnboardingIfNeeded(app)
+        XCTAssertTrue(app.navigationBars["Today"].waitForExistence(timeout: 6.0))
+
+        completeLesson(app, day: 1, answers: ["All you who labor", "Gentle and humble in heart", "light"])
+        completeLesson(app, day: 2, answers: ["feeds", "The birds of the sky", "moment"])
+        completeLesson(app, day: 3, answers: ["strength", "Be still, and know that I am God", "Be afraid"])
+
+        XCTAssertTrue(app.staticTexts["Path complete"].waitForExistence(timeout: 6.0))
+        XCTAssertFalse(app.buttons["Day 3, current"].exists, "the finished path offers its last day again")
+        Thread.sleep(forTimeInterval: 0.4)
+        saveScreenshot("Home_PathComplete")
+
+        let next = app.buttons["Choose your next path"]
+        XCTAssertTrue(next.exists)
+        next.tap()
+        XCTAssertTrue(app.navigationBars["Paths"].waitForExistence(timeout: 4.0))
+        XCTAssertTrue(element(app, containing: "3 of 3 done").exists)
+        Thread.sleep(forTimeInterval: 0.3)
+        saveScreenshot("Path_Overview_AfterComplete")
+    }
+
     @MainActor
     func testRealAppFullFlowLight() throws {
         modeOverride = "Light"
@@ -105,11 +180,15 @@ final class RealFlowUITests: XCTestCase {
         XCTAssertTrue(pickerBtn.waitForExistence(timeout: 4.0))
         pickerBtn.tap()
 
-        let johnRow = app.buttons.matching(NSPredicate(format: "label CONTAINS[c] 'John'")).firstMatch
+        let ntSegment = app.buttons["New Testament"]
+        XCTAssertTrue(ntSegment.waitForExistence(timeout: 4.0))
+        ntSegment.tap()
+
+        let johnRow = app.buttons.matching(NSPredicate(format: "label BEGINSWITH 'John'")).firstMatch
         XCTAssertTrue(johnRow.waitForExistence(timeout: 4.0))
         johnRow.tap()
 
-        let ch1 = app.buttons.matching(NSPredicate(format: "label CONTAINS[c] 'Chapter 1'")).firstMatch
+        let ch1 = app.buttons["Chapter 1"]
         XCTAssertTrue(ch1.waitForExistence(timeout: 4.0))
         ch1.tap()
 
@@ -164,7 +243,7 @@ final class RealFlowUITests: XCTestCase {
         if quizBtn.waitForExistence(timeout: 3.0) {
             quizBtn.tap()
             _ = app.staticTexts["DAY 1"].waitForExistence(timeout: 4.0)
-            let wrongChoice = app.buttons.matching(NSPredicate(format: "label CONTAINS[c] 'Angels'")).firstMatch
+            let wrongChoice = app.buttons.matching(NSPredicate(format: "label CONTAINS[c] 'religious leaders'")).firstMatch
             if wrongChoice.waitForExistence(timeout: 4.0) {
                 wrongChoice.tap()
             }
@@ -229,12 +308,17 @@ final class RealFlowUITests: XCTestCase {
 
         // 6. Onboarding Step 5: Building Plan
         XCTAssertTrue(app.staticTexts["Preparing your path…"].waitForExistence(timeout: 4.0))
+        // goal 'peace' -> Peace & Prayer, and the screen says honestly that it is Premium
+        XCTAssertTrue(element(app, containing: "Peace & Prayer: 14 Days").exists)
+        XCTAssertTrue(element(app, containing: "Premium · first 3 lessons free").exists)
         Thread.sleep(forTimeInterval: 0.3)
         saveScreenshot("Onboarding_BuildingPlan")
         app.buttons["See my plan"].tap()
 
         // 7. Paywall
         XCTAssertTrue(app.staticTexts["Start your 7-day free trial"].waitForExistence(timeout: 6.0))
+        XCTAssertTrue(app.staticTexts.matching(NSPredicate(format: "label CONTAINS '2 more paths, 6 lessons'")).firstMatch.exists)
+        XCTAssertFalse(app.staticTexts.matching(NSPredicate(format: "label CONTAINS[c] 'outfits' OR label CONTAINS[c] 'widgets' OR label CONTAINS[c] 'full learning paths'")).firstMatch.exists)
         Thread.sleep(forTimeInterval: 0.3)
         saveScreenshot("Paywall_Trial")
         app.buttons["Continue with free path"].tap()
@@ -256,6 +340,10 @@ final class RealFlowUITests: XCTestCase {
         if mapButton.waitForExistence(timeout: 3.0) {
             mapButton.tap()
             XCTAssertTrue(app.navigationBars["Paths"].waitForExistence(timeout: 4.0))
+            for title in ["First Steps: 30 Days with God", "Peace & Prayer: 14 Days", "Meet Jesus: Mark in 30 Days"] {
+                XCTAssertTrue(element(app, containing: title).exists, title)
+            }
+            XCTAssertFalse(app.staticTexts["More paths are coming"].exists)
             Thread.sleep(forTimeInterval: 0.3)
             saveScreenshot("Path_Overview")
 
@@ -292,8 +380,8 @@ final class RealFlowUITests: XCTestCase {
         Thread.sleep(forTimeInterval: 0.3)
         saveScreenshot("Quiz_Unanswered")
 
-        // Select Choice ("Angels" - wrong)
-        let wrongChoice = app.buttons.matching(NSPredicate(format: "label CONTAINS[c] 'Angels'")).firstMatch
+        // Select Choice ("Only religious leaders" - wrong)
+        let wrongChoice = app.buttons.matching(NSPredicate(format: "label CONTAINS[c] 'religious leaders'")).firstMatch
         XCTAssertTrue(wrongChoice.waitForExistence(timeout: 5.0))
         wrongChoice.tap()
         Thread.sleep(forTimeInterval: 0.2)
@@ -308,7 +396,7 @@ final class RealFlowUITests: XCTestCase {
 
         // 13. Quiz Question 2 - Correct
         XCTAssertTrue(app.staticTexts["DAY 1"].waitForExistence(timeout: 4.0))
-        let correctChoice = app.buttons.matching(NSPredicate(format: "label CONTAINS[c] 'Let there be light'")).firstMatch
+        let correctChoice = app.buttons.matching(NSPredicate(format: "label CONTAINS[c] 'Gentle and humble in heart'")).firstMatch
         XCTAssertTrue(correctChoice.waitForExistence(timeout: 5.0))
         correctChoice.tap()
         Thread.sleep(forTimeInterval: 0.2)
@@ -318,9 +406,12 @@ final class RealFlowUITests: XCTestCase {
         saveScreenshot("Quiz_Correct")
         app.buttons["Continue"].tap()
 
+        // Question 3 - Correct
+        answer(app, "light")
+
         // 14. Lesson Complete Screen
         XCTAssertTrue(app.staticTexts["Day 1 complete"].waitForExistence(timeout: 6.0))
-        XCTAssertTrue(app.staticTexts["+11 XP"].exists)
+        XCTAssertTrue(app.staticTexts["+12 XP"].exists)
         XCTAssertTrue(app.staticTexts["1 day streak"].exists)
         Thread.sleep(forTimeInterval: 0.5)
         saveScreenshot("Lesson_Complete")
@@ -335,6 +426,8 @@ final class RealFlowUITests: XCTestCase {
         ensureTabBarExpanded(app)
         app.tabBars.buttons["Bible"].tap()
         XCTAssertTrue(app.navigationBars["Genesis"].waitForExistence(timeout: 4.0))
+        XCTAssertTrue(app.staticTexts["Chapter 1"].waitForExistence(timeout: 6.0))
+        XCTAssertFalse(app.staticTexts.matching(NSPredicate(format: "label CONTAINS 'in this sample'")).firstMatch.exists)
         Thread.sleep(forTimeInterval: 0.4)
         saveScreenshot("Bible_Reader")
 
@@ -403,7 +496,7 @@ final class RealFlowUITests: XCTestCase {
         if quizBtn.waitForExistence(timeout: 3.0) {
             quizBtn.tap()
             _ = app.staticTexts["DAY 1"].waitForExistence(timeout: 4.0)
-            let wrongChoice = app.buttons.matching(NSPredicate(format: "label CONTAINS[c] 'Angels'")).firstMatch
+            let wrongChoice = app.buttons.matching(NSPredicate(format: "label CONTAINS[c] 'religious leaders'")).firstMatch
             if wrongChoice.waitForExistence(timeout: 4.0) {
                 wrongChoice.tap()
             }

@@ -6,13 +6,15 @@ public enum ShepherdConstants {
     public static let yearlySubscriptionID = "com.dangvietquan.shepherd.premium.yearly"
     public static let subscriptionGroupID = "21495832"
 
-    // MARK: - Premium Features Gated in v1
+    // MARK: - Premium features other than paths
+    // Premium paths are described with counts computed from content (`PremiumOffer`).
+    // Only list features that ship and are gated by `Entitlements`.
     public static let premiumFeatures: [String] = [
-        "Full learning paths",
-        "Streak freezes",
-        "Companion outfits",
-        "Widgets & reminders"
+        "streak freezes"
     ]
+
+    // MARK: - Bible attribution (eBible.org name-use terms: faithful copies only)
+    public static let bibleAttribution = "Scripture quotations are from the World English Bible (public domain), unchanged from eBible.org."
 
     // MARK: - Legal URLs (TODO: Captain follow-up to provide production URLs)
     // Listed in PR body as follow-up action items.

@@ -9,6 +9,8 @@ public final class UserProfile {
     public var dailyMinutes: Int
     public var createdAt: Date
     public var hasCompletedOnboarding: Bool
+    /// The path the Today tab follows; nil means the first path in content (the free one).
+    public var activePathId: String?
 
     public init(
         displayName: String? = nil,
@@ -16,7 +18,8 @@ public final class UserProfile {
         experienceLevel: String = "beginner",
         dailyMinutes: Int = 5,
         createdAt: Date = .now,
-        hasCompletedOnboarding: Bool = true
+        hasCompletedOnboarding: Bool = true,
+        activePathId: String? = nil
     ) {
         self.displayName = displayName
         self.goal = goal
@@ -24,6 +27,7 @@ public final class UserProfile {
         self.dailyMinutes = dailyMinutes
         self.createdAt = createdAt
         self.hasCompletedOnboarding = hasCompletedOnboarding
+        self.activePathId = activePathId
     }
 }
 

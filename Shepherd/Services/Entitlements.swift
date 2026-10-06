@@ -1,10 +1,11 @@
 import Foundation
 
+/// What Shepherd Premium unlocks in this build. Only list things that exist: the paywall copy
+/// is derived from these (see `PremiumOffer`, `ShepherdConstants.premiumFeatures`).
 public enum PremiumFeature: String, CaseIterable, Sendable {
-    case fullPaths
+    /// Lessons of `access: premium` paths beyond their free preview (`PathAccessPolicy`).
+    case premiumPaths
     case streakFreezes
-    case companionOutfits
-    case widgetsReminders
 }
 
 public enum Entitlements {

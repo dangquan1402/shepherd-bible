@@ -4,16 +4,17 @@ import SwiftData
 public struct MainTabView: View {
     @EnvironmentObject private var content: ContentStore
     @Query private var progress: [LessonProgress]
+    @Query private var profiles: [UserProfile]
     @State private var selectedTab: Int = 0
     @State private var homeNavPath: [Lesson] = []
     @Namespace private var pathZoomNamespace
 
     public init() {}
 
+    /// nil when the active path is complete: the accessory then hides instead of replaying the last day.
     private var currentLesson: Lesson? {
-        guard let path = content.paths.first else { return nil }
-        let done = Set(progress.map(\.lessonId))
-        return path.lessons.first { !done.contains($0.id) } ?? path.lessons.last
+        guard let path = content.activePath(id: profiles.first?.activePathId) else { return nil }
+        return PathProgress.nextLesson(in: path, completed: Set(progress.map(\.lessonId)))
     }
 
     public var body: some View {

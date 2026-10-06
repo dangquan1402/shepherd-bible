@@ -45,12 +45,14 @@ Bundle ID suggestion: `com.dangvietquan.shepherd` (change to yours).
 - Lamb companion (name + stages)
 - Local SwiftData persistence
 - StoreKit 2 paywall shell
-- Sample 7-day beginner path + sample WEB verses
+- Whole World English Bible offline (66 books, `engwebp`), book/chapter reader
+- Three learning paths with per-path access (free / Premium with free preview lessons / seasonal free)
 
 ## License / content
 
 - App code: your copyright
-- Sample verses: public-domain WEB excerpts for scaffolding only — replace/expand with a full licensed or public-domain corpus before release
+- Bible text: the World English Bible (public domain), built from eBible.org by `tools/bible/build_web.py` with the source pinned by SHA-256. Never hand-edit `web.json`: eBible's terms allow the "World English Bible" name only for unchanged text, punctuation included
+- Lesson content: `Shepherd/Resources/Content/paths.json`, checked by `tools/content/validate_content.py` (refs resolve, quotations are verbatim WEB, every answer is in its proof verse, answer positions vary; `--release` also rejects draft paths)
 - Do not ship NIV/ESV/etc. without a proper license (e.g. API.Bible)
 
 ## Author

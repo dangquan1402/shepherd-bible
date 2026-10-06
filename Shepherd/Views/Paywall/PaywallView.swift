@@ -6,6 +6,7 @@ public struct PaywallView: View {
     public var onPurchased: () -> Void
 
     @ObservedObject private var store = StoreKitManager.shared
+    @ObservedObject private var content = ContentStore.shared
     @State private var selectedPlanIsYearly: Bool = true
     @State private var restoreToastMessage: String? = nil
     @State private var isRestoring: Bool = false
@@ -67,7 +68,7 @@ public struct PaywallView: View {
                                 icon: "lock.open.fill",
                                 iconColor: ShepherdTheme.accentFill,
                                 title: "Today",
-                                subtitle: "Premium unlocks: full learning paths, streak freezes, companion outfits, widgets & reminders"
+                                subtitle: PremiumOffer(paths: content.paths).unlocksLine
                             )
                             timelineRow(
                                 icon: "bell.fill",

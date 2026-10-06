@@ -83,6 +83,10 @@ def main():
     # 2. Dark Full Flow
     run_test("testRealAppFullFlowDark", "dark", "large", uninstall_first=True)
     
+    # 2b. End of path (light, dark)
+    run_test("testPathCompleteLight", "light", "large", uninstall_first=True)
+    run_test("testPathCompleteDark", "dark", "large", uninstall_first=True)
+
     # 3. AX3 Light
     run_test("testAccessibilityAX3Light", "light", "accessibility-extra-large", uninstall_first=True)
     

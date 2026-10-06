@@ -138,6 +138,8 @@ public enum PathNodeState: Equatable {
     case done
     case locked
     case milestoneLocked
+    /// The next lesson, but behind Premium: tappable, opens the paywall.
+    case premiumLocked
 }
 
 public struct PathNodeView: View {
@@ -209,6 +211,10 @@ public struct PathNodeView: View {
                         Image(systemName: "flag.fill")
                             .font(.system(size: 26, weight: .semibold))
                             .foregroundStyle(ShepherdTheme.textTertiary)
+                    case .premiumLocked:
+                        Image(systemName: "lock.fill")
+                            .font(.system(size: 26, weight: .semibold))
+                            .foregroundStyle(ShepherdTheme.accentFill)
                     }
 
                     // Lock Icon that animates disappearance on unlock
@@ -230,7 +236,7 @@ public struct PathNodeView: View {
         }
         .buttonStyle(.plain)
         .disabled(state == .locked || state == .milestoneLocked)
-        .accessibilityLabel("Day \(dayNumber)\(state == .locked || state == .milestoneLocked ? ", locked" : (state == .done ? ", completed" : ", current"))")
+        .accessibilityLabel("Day \(dayNumber)\(accessibilitySuffix)")
         .onChange(of: state) { oldState, newState in
             if oldState == .locked && newState == .current {
                 showLockFadingOut = true
@@ -250,11 +256,20 @@ public struct PathNodeView: View {
         }
     }
 
+    private var accessibilitySuffix: String {
+        switch state {
+        case .locked, .milestoneLocked: return ", locked"
+        case .done: return ", completed"
+        case .current: return ", current"
+        case .premiumLocked: return ", Premium"
+        }
+    }
+
     private var faceColor: Color {
         switch state {
         case .current: return ShepherdTheme.accentFill
         case .done: return ShepherdTheme.accentSubtle
-        case .locked, .milestoneLocked: return ShepherdTheme.nodeLocked
+        case .locked, .milestoneLocked, .premiumLocked: return ShepherdTheme.nodeLocked
         }
     }
 
@@ -262,7 +277,7 @@ public struct PathNodeView: View {
         switch state {
         case .current: return ShepherdTheme.accentFillDeep
         case .done: return ShepherdTheme.accentSubtleDeep
-        case .locked, .milestoneLocked: return ShepherdTheme.nodeLockedDeep
+        case .locked, .milestoneLocked, .premiumLocked: return ShepherdTheme.nodeLockedDeep
         }
     }
 
@@ -270,6 +285,7 @@ public struct PathNodeView: View {
         switch state {
         case .current: return ShepherdTheme.nodeCurrentRing
         case .done: return ShepherdTheme.accentFill.opacity(0.3)
+        case .premiumLocked: return ShepherdTheme.accentFill
         case .locked, .milestoneLocked: return ShepherdTheme.surfaceBorder
         }
     }

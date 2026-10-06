@@ -11,6 +11,8 @@ public struct LessonView: View {
     @Query private var companions: [Companion]
     @Query private var entitlements: [EntitlementState]
 
+    @ObservedObject private var store = StoreKitManager.shared
+    @State private var showPaywall: Bool = false
     @State private var showQuiz: Bool = false
     @State private var showComplete: Bool = false
     @State private var pendingComplete: Bool = false
@@ -21,15 +23,85 @@ public struct LessonView: View {
         self.lesson = lesson
     }
 
-    private var pathTitle: String {
-        content.paths.first?.title ?? "Beginner: 7 Days with God"
+    private var path: StudyPath? {
+        content.path(containing: lesson)
+    }
+
+    private var isPremium: Bool {
+        store.isPremium || entitlements.first?.isPremium == true
+    }
+
+    /// The access gate for every way into a lesson (Today trail, path list, continue accessory).
+    private var isUnlocked: Bool {
+        guard let path else { return true }
+        return PathAccessPolicy.isUnlocked(lesson, in: path, isPremium: isPremium)
     }
 
     public var body: some View {
+        Group {
+            if isUnlocked {
+                lessonBody
+            } else {
+                lockedBody
+            }
+        }
+        .navigationTitle("Day \(lesson.dayIndex)")
+        .navigationBarTitleDisplayMode(.inline)
+        .sheet(isPresented: $showPaywall) {
+            PaywallView(
+                onContinueFree: { showPaywall = false },
+                onPurchased: { showPaywall = false }
+            )
+        }
+    }
+
+    private var lockedMessage: String {
+        guard let path else { return "This lesson is part of Shepherd Premium." }
+        let intro = "Day \(lesson.dayIndex) of \(path.title) is part of Shepherd Premium."
+        switch path.freePreviewLessons {
+        case 0: return intro
+        case 1: return "\(intro) The first lesson is free; Premium opens the rest."
+        default: return "\(intro) The first \(path.freePreviewLessons) lessons are free; Premium opens the rest."
+        }
+    }
+
+    private var lockedBody: some View {
+        ScrollView {
+            VStack(spacing: 20) {
+                LambView(stage: 1, expression: .idle, displayHeight: 110)
+                    .padding(.top, 32)
+
+                VStack(spacing: 8) {
+                    Text(lesson.title)
+                        .font(ShepherdTheme.title1Serif())
+                        .foregroundStyle(ShepherdTheme.textPrimary)
+                        .multilineTextAlignment(.center)
+
+                    Text(lockedMessage)
+                        .font(.body)
+                        .foregroundStyle(ShepherdTheme.textSecondary)
+                        .multilineTextAlignment(.center)
+                }
+
+                ProminentGlassButton("See Premium", icon: "lock.open") {
+                    showPaywall = true
+                }
+                .padding(.top, 8)
+
+                Button("Not now") { dismiss() }
+                    .font(.body.weight(.medium))
+                    .foregroundStyle(ShepherdTheme.textSecondary)
+            }
+            .padding(.horizontal, 24)
+        }
+        .background(ShepherdTheme.canvasBg.ignoresSafeArea())
+    }
+
+    private var lessonBody: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 20) {
                 // Eyebrow (sentence case per spec)
-                Text(pathTitle)
+                Text(path?.title ?? "")
                     .font(ShepherdTheme.scriptureEyebrow())
                     .foregroundStyle(ShepherdTheme.accent)
                     .padding(.top, 8)
@@ -45,7 +117,7 @@ public struct LessonView: View {
                         VerseCard(
                             reference: ref,
                             translation: "WEB",
-                            text: content.verse(ref: ref) ?? "Verse text not in sample bundle."
+                            text: content.verse(ref: ref) ?? "Loading…"
                         )
                     }
                 }
@@ -96,8 +168,6 @@ public struct LessonView: View {
         }
         .background(ShepherdTheme.canvasBg.ignoresSafeArea())
         .scrollEdgeEffectStyle(.soft, for: .top)
-        .navigationTitle("Day \(lesson.dayIndex)")
-        .navigationBarTitleDisplayMode(.inline)
         .fullScreenCover(isPresented: $showQuiz, onDismiss: {
             if pendingComplete {
                 pendingComplete = false
@@ -127,7 +197,6 @@ public struct LessonView: View {
     }
 
     private func recordCompletion(score: Int) {
-        let isPremium = StoreKitManager.shared.isPremium || entitlements.first?.isPremium == true
         let result = LessonProgressRecorder.complete(lesson: lesson, score: score, context: modelContext, isPremium: isPremium)
         completionResult = result
         finishedScore = score

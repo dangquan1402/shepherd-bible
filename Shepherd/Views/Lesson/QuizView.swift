@@ -25,8 +25,8 @@ public struct QuizView: View {
         public let title: String
         public let explain: String?
         public let correctChoice: String
-        public let verseRef: String
-        public let verseText: String
+        public let verseRef: String?
+        public let verseText: String?
     }
 
     public init(lesson: Lesson, onFinished: @escaping (Int) -> Void) {
@@ -67,10 +67,13 @@ public struct QuizView: View {
                             .padding(.top, 4)
 
                         // Choices list
+                        // Displayed in a stable per-question shuffle, so the authored
+                        // correctIndex never shows as a screen position.
                         VStack(spacing: 12) {
                             let letters = ["A", "B", "C", "D"]
-                            ForEach(Array(currentQuestion.choices.enumerated()), id: \.offset) { i, choice in
-                                let letter = i < letters.count ? letters[i] : "\(i + 1)"
+                            ForEach(Array(QuizRules.displayOrder(for: currentQuestion).enumerated()), id: \.element) { position, i in
+                                let choice = currentQuestion.choices[i]
+                                let letter = position < letters.count ? letters[position] : "\(position + 1)"
                                 let state: ChoiceRowState = {
                                     if !isChecked {
                                         return selectedChoiceIndex == i ? .selected : .neutral
@@ -190,8 +193,8 @@ public struct QuizView: View {
             title: correct ? "Correct!" : "Keep going! You're learning.",
             explain: currentQuestion.explain,
             correctChoice: correctChoiceText,
-            verseRef: verseInfo.ref,
-            verseText: verseInfo.text
+            verseRef: verseInfo?.ref,
+            verseText: verseInfo?.text
         )
     }
 
@@ -249,11 +252,13 @@ struct QuizFeedbackSheet: View {
                 }
 
                 // Answering Scripture Verse Card
-                VerseCard(
-                    reference: result.verseRef,
-                    translation: "WEB",
-                    text: result.verseText
-                )
+                if let ref = result.verseRef, let text = result.verseText {
+                    VerseCard(
+                        reference: ref,
+                        translation: "WEB",
+                        text: text
+                    )
+                }
 
                 // Continue CTA Button
                 ProminentGlassButton("Continue", action: onContinue)
