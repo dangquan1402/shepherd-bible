@@ -25,11 +25,13 @@
 		4BE8393361D409629B39C482 /* web.json in Resources */ = {isa = PBXBuildFile; fileRef = D4183D8FD4248CEB38FD2532 /* web.json */; };
 		5406262C280776A46EB3D413 /* paths.json in Resources */ = {isa = PBXBuildFile; fileRef = 0111BB6B2545D24AEB4B8774 /* paths.json */; };
 		5625992F5A7643CEFF39B291 /* LessonProgressRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EDABF08E64DD679B981D39C /* LessonProgressRecorder.swift */; };
+		5EE37B181DC0E2EA6A29F0D6 /* DailyVerse.swift in Sources */ = {isa = PBXBuildFile; fileRef = F985DECE1319C9A3BB9DB5FF /* DailyVerse.swift */; };
 		5F1DC930BE92575E3158D14A /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D74EB0E09166077803402C5 /* MainTabView.swift */; };
 		62DCD913CC85FFC2BE412965 /* QuizView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C10B446B167E44C35DF40746 /* QuizView.swift */; };
 		7E1A14B888C678478B811388 /* Entitlements.swift in Sources */ = {isa = PBXBuildFile; fileRef = F42534D58BA4976C8D26FD6A /* Entitlements.swift */; };
 		7EEEB6E2F264705768A8DAD2 /* ContentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B903FC1823760FEB4F671A /* ContentTests.swift */; };
 		858610F6CBDC971A354F86C0 /* OnboardingStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15A18DD64B32A5FD3DD8AABD /* OnboardingStore.swift */; };
+		867BB33FE1FE67287E9819C5 /* DailyVerseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07E8EDCD7D978052D7B9B53C /* DailyVerseTests.swift */; };
 		95036D8A0CE586487B82EDE9 /* LessonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA8ACB7ACBDC38979091ADFD /* LessonView.swift */; };
 		9613C78EC059ACB28D124177 /* RealFlowUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DB9656D1EAB19652FB0080A /* RealFlowUITests.swift */; };
 		9641A077E85D538A38B3E53D /* ShepherdApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D9981D75E425FE7400790AC /* ShepherdApp.swift */; };
@@ -40,11 +42,14 @@
 		AEEEB2AE897446D9A9468986 /* PaywallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCBBB1FB51A505E798F33BFF /* PaywallView.swift */; };
 		B7826112544FE3F520B95226 /* UserModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9C580C2CCCA012A15F5F4F /* UserModels.swift */; };
 		C2DEDA832974E1CD1377E91D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BA6E0B74DAE435F2DA4998EE /* Assets.xcassets */; };
+		C3634D2307DA82757EE6E674 /* VerseOfTheDayCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1629563DBCFBA94162CF133A /* VerseOfTheDayCard.swift */; };
 		CB6F44D2B5B7DFAE05F0EA28 /* ShepherdTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6318DDCB619E65C7710F7E1 /* ShepherdTheme.swift */; };
 		CFAB18160EE6BC95EE87BB86 /* OnboardingFlowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C7391F1E61B6D45E7498003 /* OnboardingFlowView.swift */; };
+		D4C244FCF0AD71172533D812 /* daily_verses.json in Resources */ = {isa = PBXBuildFile; fileRef = E456694C3D533FF6931CC029 /* daily_verses.json */; };
 		D520A64F6CB87366694D27BE /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099E256D3D4E4BF107CF7DDC /* HomeView.swift */; };
 		E2730F1D424EA54D4B106459 /* lamb_variants.json in Resources */ = {isa = PBXBuildFile; fileRef = DE3F92350EF7E0EEC93EEDFF /* lamb_variants.json */; };
 		E31F964A9C2877AAEFEF856A /* LessonCompleteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8D0BFCF6D331443E53A0F4D /* LessonCompleteView.swift */; };
+		E98D1271F3D0BE6F8A8C8F07 /* DailyVerseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71C021F5748F8FFE33002C5E /* DailyVerseService.swift */; };
 		F0534756FF6FDD45D98489E8 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46724CD2BD612565CCD2F492 /* SettingsView.swift */; };
 /* End PBXBuildFile section */
 
@@ -70,10 +75,12 @@
 		0111BB6B2545D24AEB4B8774 /* paths.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = paths.json; sourceTree = "<group>"; };
 		05509D2D188904833C28F5AD /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		0585C3A1C943A531A6504795 /* ShepherdComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShepherdComponents.swift; sourceTree = "<group>"; };
+		07E8EDCD7D978052D7B9B53C /* DailyVerseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyVerseTests.swift; sourceTree = "<group>"; };
 		099E256D3D4E4BF107CF7DDC /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		0D9981D75E425FE7400790AC /* ShepherdApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShepherdApp.swift; sourceTree = "<group>"; };
 		15A18DD64B32A5FD3DD8AABD /* OnboardingStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingStore.swift; sourceTree = "<group>"; };
 		15E6C3E3FB61F8BAA592A7BA /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
+		1629563DBCFBA94162CF133A /* VerseOfTheDayCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerseOfTheDayCard.swift; sourceTree = "<group>"; };
 		1A807E23123C11FFD81AB388 /* ShepherdUITests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = ShepherdUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1F3BF30E4B06B141B9F8EDFE /* Shepherd.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = Shepherd.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2697AEAE9427FF678613DDCE /* PathOverviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PathOverviewView.swift; sourceTree = "<group>"; };
@@ -87,6 +94,7 @@
 		46724CD2BD612565CCD2F492 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		4A0E5855986A6E7E3F46AFAB /* ShepherdConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShepherdConstants.swift; sourceTree = "<group>"; };
 		708A96F4A3D915BC760AF160 /* ContentModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentModels.swift; sourceTree = "<group>"; };
+		71C021F5748F8FFE33002C5E /* DailyVerseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyVerseService.swift; sourceTree = "<group>"; };
 		7C7391F1E61B6D45E7498003 /* OnboardingFlowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingFlowView.swift; sourceTree = "<group>"; };
 		8BD1E9E0CAF5A76DE883F724 /* SeedData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeedData.swift; sourceTree = "<group>"; };
 		9CE4BBC57FDEA303093E3E67 /* ShepherdTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShepherdTests.swift; sourceTree = "<group>"; };
@@ -101,10 +109,12 @@
 		D4183D8FD4248CEB38FD2532 /* web.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = web.json; sourceTree = "<group>"; };
 		D624EA03F0084E2213D941E9 /* QuizRules.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizRules.swift; sourceTree = "<group>"; };
 		DE3F92350EF7E0EEC93EEDFF /* lamb_variants.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = lamb_variants.json; sourceTree = "<group>"; };
+		E456694C3D533FF6931CC029 /* daily_verses.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = daily_verses.json; sourceTree = "<group>"; };
 		EEFEB075297B25E3F78E1951 /* ContentStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentStore.swift; sourceTree = "<group>"; };
 		F3FB1F06E6441697174E7CA2 /* ContinueLessonAccessory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContinueLessonAccessory.swift; sourceTree = "<group>"; };
 		F42534D58BA4976C8D26FD6A /* Entitlements.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Entitlements.swift; sourceTree = "<group>"; };
 		F6318DDCB619E65C7710F7E1 /* ShepherdTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShepherdTheme.swift; sourceTree = "<group>"; };
+		F985DECE1319C9A3BB9DB5FF /* DailyVerse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyVerse.swift; sourceTree = "<group>"; };
 		FA489847C8760DE6F0D9EB49 /* Progression.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Progression.swift; sourceTree = "<group>"; };
 		FCBBB1FB51A505E798F33BFF /* PaywallView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaywallView.swift; sourceTree = "<group>"; };
 		FD25E57594DED53C58E6744C /* LambSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LambSystem.swift; sourceTree = "<group>"; };
@@ -134,6 +144,7 @@
 			isa = PBXGroup;
 			children = (
 				EEFEB075297B25E3F78E1951 /* ContentStore.swift */,
+				71C021F5748F8FFE33002C5E /* DailyVerseService.swift */,
 				F42534D58BA4976C8D26FD6A /* Entitlements.swift */,
 				3EDABF08E64DD679B981D39C /* LessonProgressRecorder.swift */,
 				15A18DD64B32A5FD3DD8AABD /* OnboardingStore.swift */,
@@ -171,6 +182,7 @@
 			isa = PBXGroup;
 			children = (
 				708A96F4A3D915BC760AF160 /* ContentModels.swift */,
+				F985DECE1319C9A3BB9DB5FF /* DailyVerse.swift */,
 				9D02731B22192A0C9C8AAA35 /* PathCatalog.swift */,
 				FA489847C8760DE6F0D9EB49 /* Progression.swift */,
 				D624EA03F0084E2213D941E9 /* QuizRules.swift */,
@@ -248,6 +260,7 @@
 			isa = PBXGroup;
 			children = (
 				00B903FC1823760FEB4F671A /* ContentTests.swift */,
+				07E8EDCD7D978052D7B9B53C /* DailyVerseTests.swift */,
 				9CE4BBC57FDEA303093E3E67 /* ShepherdTests.swift */,
 				3736069C11269D9C4C99FA2B /* StoreKitTests.swift */,
 			);
@@ -271,6 +284,7 @@
 				099E256D3D4E4BF107CF7DDC /* HomeView.swift */,
 				2697AEAE9427FF678613DDCE /* PathOverviewView.swift */,
 				46724CD2BD612565CCD2F492 /* SettingsView.swift */,
+				1629563DBCFBA94162CF133A /* VerseOfTheDayCard.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -303,6 +317,7 @@
 		CA5CDFA63479D89C657482AC /* Content */ = {
 			isa = PBXGroup;
 			children = (
+				E456694C3D533FF6931CC029 /* daily_verses.json */,
 				DE3F92350EF7E0EEC93EEDFF /* lamb_variants.json */,
 				0111BB6B2545D24AEB4B8774 /* paths.json */,
 				D4183D8FD4248CEB38FD2532 /* web.json */,
@@ -438,6 +453,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C2DEDA832974E1CD1377E91D /* Assets.xcassets in Resources */,
+				D4C244FCF0AD71172533D812 /* daily_verses.json in Resources */,
 				E2730F1D424EA54D4B106459 /* lamb_variants.json in Resources */,
 				5406262C280776A46EB3D413 /* paths.json in Resources */,
 				4BE8393361D409629B39C482 /* web.json in Resources */,
@@ -452,6 +468,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7EEEB6E2F264705768A8DAD2 /* ContentTests.swift in Sources */,
+				867BB33FE1FE67287E9819C5 /* DailyVerseTests.swift in Sources */,
 				2E139ED7F7F5E9C6CDE89C72 /* ShepherdTests.swift in Sources */,
 				3DA312CB2380372CB91E6EBF /* StoreKitTests.swift in Sources */,
 			);
@@ -474,6 +491,8 @@
 				2EEA46F488FBA5B6A5585F5B /* ContentModels.swift in Sources */,
 				4B889C32EF77017E1ADE9C0C /* ContentStore.swift in Sources */,
 				14B4CBC57E12EB7BCCE1ED8A /* ContinueLessonAccessory.swift in Sources */,
+				5EE37B181DC0E2EA6A29F0D6 /* DailyVerse.swift in Sources */,
+				E98D1271F3D0BE6F8A8C8F07 /* DailyVerseService.swift in Sources */,
 				7E1A14B888C678478B811388 /* Entitlements.swift in Sources */,
 				D520A64F6CB87366694D27BE /* HomeView.swift in Sources */,
 				17EB76049B3952227160A562 /* LambSystem.swift in Sources */,
@@ -498,6 +517,7 @@
 				CB6F44D2B5B7DFAE05F0EA28 /* ShepherdTheme.swift in Sources */,
 				15FDFD6DA0A5B9D0AA6375AE /* StoreKitManager.swift in Sources */,
 				B7826112544FE3F520B95226 /* UserModels.swift in Sources */,
+				C3634D2307DA82757EE6E674 /* VerseOfTheDayCard.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

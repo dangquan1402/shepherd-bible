@@ -260,10 +260,70 @@ def validate(bible, bundle, release=False):
     return errs, warns
 
 
+def validate_daily_verses(bible, daily_verses):
+    errs, warns = [], []
+    verses = index(bible)
+    testaments = {b["abbrev"]: b.get("testament", "OT") for b in bible.get("books", [])}
+
+    if not isinstance(daily_verses, list):
+        return [f"daily_verses: expected a JSON list, got {type(daily_verses).__name__}"], []
+
+    if len(daily_verses) < 366:
+        errs.append(
+            f"daily_verses: expected at least 366 verses for full year coverage, got {len(daily_verses)}"
+        )
+
+    seen_refs = set()
+    ot_count = 0
+    nt_count = 0
+
+    for i, item in enumerate(daily_verses):
+        if isinstance(item, str):
+            ref = item
+            text = None
+        elif isinstance(item, dict):
+            ref = item.get("ref")
+            text = item.get("text")
+        else:
+            errs.append(f"daily_verses: entry #{i} is neither a string nor an object")
+            continue
+
+        if not ref or not REF.match(ref):
+            errs.append(f"daily_verses: entry #{i} has malformed ref {ref!r}")
+            continue
+
+        if ref in seen_refs:
+            errs.append(f"daily_verses: duplicate reference {ref}")
+        seen_refs.add(ref)
+
+        if ref not in verses:
+            errs.append(f"daily_verses: {ref} does not exist in the bundled WEB")
+            continue
+
+        book_abbrev = ref.split(".")[0]
+        t = testaments.get(book_abbrev)
+        if t == "OT":
+            ot_count += 1
+        elif t == "NT":
+            nt_count += 1
+
+        if text is not None and text != verses[ref]:
+            errs.append(f"daily_verses: {ref} text is not verbatim WEB text")
+
+    total = ot_count + nt_count
+    if total > 0 and (ot_count < total * 0.4 or nt_count < total * 0.4):
+        errs.append(f"daily_verses: unbalanced testaments ({ot_count} OT, {nt_count} NT)")
+
+    return errs, warns
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
     ap.add_argument("--bible", default=os.path.join(CONTENT, "web.json"))
     ap.add_argument("--paths", default=os.path.join(CONTENT, "paths.json"))
+    ap.add_argument(
+        "--daily-verses", default=os.path.join(CONTENT, "daily_verses.json")
+    )
     ap.add_argument(
         "--release", action="store_true", help="treat draft paths as errors"
     )
@@ -277,6 +337,16 @@ def main(argv=None):
     digest = bible_digest_error(data)
     if digest:
         errs.insert(0, digest)
+
+    daily_count = 0
+    if os.path.exists(args.daily_verses):
+        with open(args.daily_verses, encoding="utf-8") as f:
+            daily_verses = json.load(f)
+        dv_errs, dv_warns = validate_daily_verses(bible, daily_verses)
+        errs.extend(dv_errs)
+        warns.extend(dv_warns)
+        daily_count = len(daily_verses) if isinstance(daily_verses, list) else 0
+
     for e in errs:
         print("ERROR", e)
     for w in warns:
@@ -284,10 +354,11 @@ def main(argv=None):
     paths = bundle.get("paths", [])
     print(
         f"summary: {len(errs)} errors, {len(warns)} warnings, {len(paths)} paths,"
-        f" {sum(len(p.get('lessons', [])) for p in paths)} lessons"
+        f" {sum(len(p.get('lessons', [])) for p in paths)} lessons, {daily_count} daily verses"
     )
     return 1 if errs else 0
 
 
 if __name__ == "__main__":
     sys.exit(main())
+

@@ -7,6 +7,7 @@ public struct MainTabView: View {
     @Query private var profiles: [UserProfile]
     @State private var selectedTab: Int = 0
     @State private var homeNavPath: [Lesson] = []
+    @State private var bibleTargetVerse: DailyVerse? = nil
     @Namespace private var pathZoomNamespace
 
     public init() {}
@@ -25,12 +26,16 @@ public struct MainTabView: View {
                     namespace: pathZoomNamespace,
                     onSelectLesson: { lesson in
                         homeNavPath.append(lesson)
+                    },
+                    onSelectVerse: { verse in
+                        bibleTargetVerse = verse
+                        selectedTab = 1
                     }
                 )
             }
 
             Tab("Bible", systemImage: "book", value: 1) {
-                BibleReaderView()
+                BibleReaderView(targetVerse: $bibleTargetVerse)
             }
 
             Tab("Lamb", image: "TabLamb", value: 2) {
@@ -43,6 +48,9 @@ public struct MainTabView: View {
         }
         .tint(ShepherdTheme.accent)
         .tabBarMinimizeBehavior(.onScrollDown)
+        .onOpenURL { url in
+            handleDeepLink(url)
+        }
         .modifier(ConditionalAccessoryModifier(isEnabled: selectedTab == 0 && currentLesson != nil && homeNavPath.isEmpty) {
             if let lesson = currentLesson {
                 ContinueLessonAccessory(lesson: lesson) {
@@ -50,6 +58,19 @@ public struct MainTabView: View {
                 }
             }
         })
+    }
+
+    private func handleDeepLink(_ url: URL) {
+        let pathOrHost = (url.host ?? "") + url.path
+        if pathOrHost.contains("verse") {
+            bibleTargetVerse = DailyVerseService.shared.verse()
+            selectedTab = 1
+        } else if pathOrHost.contains("lesson") || url.scheme == "pasture" {
+            selectedTab = 0
+            if let lesson = currentLesson, !homeNavPath.contains(where: { $0.id == lesson.id }) {
+                homeNavPath.append(lesson)
+            }
+        }
     }
 }
 

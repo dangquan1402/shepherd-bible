@@ -2,11 +2,14 @@ import SwiftUI
 
 public struct BibleReaderView: View {
     @EnvironmentObject private var content: ContentStore
+    @Binding public var targetVerse: DailyVerse?
     @State private var showPicker: Bool = false
     @AppStorage("bible.book") private var selectedBookAbbrev: String = "GEN"
     @AppStorage("bible.chapter") private var selectedChapterNum: Int = 1
 
-    public init() {}
+    public init(targetVerse: Binding<DailyVerse?> = .constant(nil)) {
+        self._targetVerse = targetVerse
+    }
 
     private var books: [BibleBook] { content.bible?.books ?? [] }
 
@@ -48,8 +51,22 @@ public struct BibleReaderView: View {
                     }
                     .padding(.horizontal, 20)
                 }
-                .onChange(of: selectedChapterNum) { _, _ in proxy.scrollTo("top", anchor: .top) }
-                .onChange(of: selectedBookAbbrev) { _, _ in proxy.scrollTo("top", anchor: .top) }
+                .onChange(of: selectedChapterNum) { _, _ in
+                    if targetVerse == nil {
+                        proxy.scrollTo("top", anchor: .top)
+                    }
+                }
+                .onChange(of: selectedBookAbbrev) { _, _ in
+                    if targetVerse == nil {
+                        proxy.scrollTo("top", anchor: .top)
+                    }
+                }
+                .onChange(of: targetVerse) { _, newTarget in
+                    scrollToTarget(newTarget, proxy: proxy)
+                }
+                .task(id: targetVerse) {
+                    scrollToTarget(targetVerse, proxy: proxy)
+                }
             }
             .background(ShepherdTheme.canvasBg.ignoresSafeArea())
             .scrollEdgeEffectStyle(.soft, for: .top)
@@ -89,10 +106,15 @@ public struct BibleReaderView: View {
 
         LazyVStack(alignment: .leading, spacing: 18) {
             ForEach(chapter.verses) { verse in
+                let isTarget = targetVerse != nil &&
+                    targetVerse?.bookAbbrev == book.abbrev &&
+                    targetVerse?.chapter == chapter.number &&
+                    targetVerse?.verse == verse.number
+
                 HStack(alignment: .top, spacing: 10) {
                     Text("\(verse.number)")
                         .font(.subheadline.weight(.bold))
-                        .foregroundStyle(ShepherdTheme.accent)
+                        .foregroundStyle(isTarget ? ShepherdTheme.accentFill : ShepherdTheme.accent)
                         .frame(minWidth: 24, alignment: .trailing)
 
                     Text(verse.text)
@@ -101,6 +123,12 @@ public struct BibleReaderView: View {
                         .lineSpacing(7)
                         .frame(maxWidth: .infinity, alignment: .leading)
                 }
+                .padding(isTarget ? 8 : 0)
+                .background(
+                    isTarget ? ShepherdTheme.accentSubtle : Color.clear
+                )
+                .clipShape(RoundedRectangle(cornerRadius: ShepherdTheme.radiusSM))
+                .id("verse-\(verse.number)")
                 .accessibilityElement(children: .combine)
             }
         }
@@ -115,6 +143,22 @@ public struct BibleReaderView: View {
             .frame(maxWidth: .infinity)
             .multilineTextAlignment(.center)
             .padding(.bottom, 60)
+    }
+
+    private func scrollToTarget(_ target: DailyVerse?, proxy: ScrollViewProxy) {
+        guard let target else { return }
+        if selectedBookAbbrev != target.bookAbbrev {
+            selectedBookAbbrev = target.bookAbbrev
+        }
+        if selectedChapterNum != target.chapter {
+            selectedChapterNum = target.chapter
+        }
+        Task { @MainActor in
+            try? await Task.sleep(nanoseconds: 120_000_000)
+            withAnimation(.spring(duration: 0.45, bounce: 0.15)) {
+                proxy.scrollTo("verse-\(target.verse)", anchor: .center)
+            }
+        }
     }
 
     private func chapterNavigation(book: BibleBook, chapter: BibleChapter) -> some View {
