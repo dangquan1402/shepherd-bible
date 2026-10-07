@@ -92,7 +92,8 @@ public struct HomeView: View {
                                     showPaywall = true
                                 }
                             )
-                            .padding(.top, 16)
+                            // The current node's lamb and speech bubble sit above the trail's frame.
+                            .padding(.top, 48)
                         }
                     }
                 }

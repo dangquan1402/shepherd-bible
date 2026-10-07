@@ -395,6 +395,70 @@ final class RealFlowUITests: XCTestCase {
         assertReaderAtDeepVerse(app)
     }
 
+    // MARK: - Widgets on the real Home Screen (#11)
+
+    /// Adds Pasture's widget at gallery `page` (0 verse small, 1 verse medium, 2 streak small)
+    /// to the Home Screen through SpringBoard's own Edit > Add Widget sheet.
+    @MainActor
+    private func addHomeScreenWidget(_ springboard: XCUIApplication, page: Int) {
+        if !springboard.buttons["Edit"].exists {
+            // An empty spot between the icon grid and the dock enters edit mode.
+            springboard.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.82)).press(forDuration: 1.5)
+        }
+        XCTAssertTrue(springboard.buttons["Edit"].waitForExistence(timeout: 4.0))
+        springboard.buttons["Edit"].tap()
+        XCTAssertTrue(springboard.buttons["Add Widget"].waitForExistence(timeout: 4.0))
+        springboard.buttons["Add Widget"].tap()
+        let search = springboard.searchFields["Search Widgets"]
+        XCTAssertTrue(search.waitForExistence(timeout: 4.0))
+        search.tap()
+        search.typeText("Pasture")
+        let pastureRow = springboard.cells["Pasture"].firstMatch
+        XCTAssertTrue(pastureRow.waitForExistence(timeout: 6.0), "the widget gallery does not offer Pasture")
+        pastureRow.tap()
+        let add = springboard.buttons[" Add Widget"]
+        XCTAssertTrue(add.waitForExistence(timeout: 4.0))
+        for _ in 0..<page {
+            springboard.swipeLeft()
+            Thread.sleep(forTimeInterval: 0.8)
+        }
+        add.tap()
+        Thread.sleep(forTimeInterval: 1.5)
+    }
+
+    /// End to end through the App Group: the app publishes Day 30 as waiting, the extension shows
+    /// it on the Home Screen; finishing Day 30 in the app turns the streak widget to "Today done".
+    /// SpringBoard exposes a widget only as an icon labelled "Pasture", so the widget content is
+    /// checked in the screenshots (Widgets_HomeScreen_Before/After), not by assertion. Needs a
+    /// fresh simulator (`simctl erase`), since added widgets stay on the Home Screen.
+    @MainActor
+    func testWidgetsOnHomeScreenUpdateAfterLesson() throws {
+        let app = XCUIApplication()
+        app.launchArguments += ["-uitestCompleted", "beginner-30:29"]
+        app.launch()
+        passOnboardingIfNeeded(app, goal: "Grow a daily habit", level: "Brand new")
+        XCTAssertTrue(app.navigationBars["Today"].waitForExistence(timeout: 8.0))
+
+        let springboard = XCUIApplication(bundleIdentifier: "com.apple.springboard")
+        XCUIDevice.shared.press(.home)
+        Thread.sleep(forTimeInterval: 1.5)
+        addHomeScreenWidget(springboard, page: 0)
+        addHomeScreenWidget(springboard, page: 2)
+        addHomeScreenWidget(springboard, page: 1)
+        springboard.buttons["Done"].tap()
+        XCTAssertEqual(springboard.icons.matching(NSPredicate(format: "label == 'Pasture' AND value == 'Widget'")).count, 3)
+        Thread.sleep(forTimeInterval: 2.0)
+        saveScreenshot("Widgets_HomeScreen_Before")
+
+        app.activate()
+        XCTAssertTrue(app.navigationBars["Today"].waitForExistence(timeout: 6.0))
+        completeLesson(app, day: 30, answers: ["his only born Son", "saw him and was moved with compassion", "nothing"])
+
+        XCUIDevice.shared.press(.home)
+        Thread.sleep(forTimeInterval: 3.0)
+        saveScreenshot("Widgets_HomeScreen_After")
+    }
+
     @MainActor
     func testBibleKeepsChapterAcrossTabs() throws {
         let app = XCUIApplication()
