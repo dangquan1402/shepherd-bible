@@ -246,27 +246,101 @@ final class RealFlowUITests: XCTestCase {
         try executeVerseOfTheDayFlow(appearance: "dark")
     }
 
+    /// The pinned verse of the day for these tests: deep in the Bible's longest chapter, so a
+    /// reader that only switches chapter without scrolling to the verse fails.
+    private let deepVerseArgs = ["-uitestVerseOfDay", "PSA.119.105"]
+
+    @MainActor
+    private func verseCard(_ app: XCUIApplication) -> XCUIElement {
+        app.buttons.matching(NSPredicate(format: "label BEGINSWITH 'Verse of the day'")).firstMatch
+    }
+
+    /// The reader shows Psalm 119 with verse 105 on screen and marked as the verse of the day.
+    @MainActor
+    private func assertReaderAtDeepVerse(_ app: XCUIApplication) {
+        XCTAssertTrue(app.navigationBars["Psalms"].waitForExistence(timeout: 8.0), "the reader did not open Psalms")
+        let verse = app.descendants(matching: .any)["verse-105"]
+        XCTAssertTrue(verse.waitForExistence(timeout: 6.0), "Psalm 119:105 is not in the reader")
+        let onScreen = expectation(for: NSPredicate(format: "isHittable == true"), evaluatedWith: verse)
+        wait(for: [onScreen], timeout: 6.0)
+        XCTAssertEqual(verse.value as? String, "Verse of the day", "Psalm 119:105 is not highlighted")
+        XCTAssertTrue(verse.label.contains("Your word is a lamp to my feet"), verse.label)
+    }
+
     @MainActor
     private func executeVerseOfTheDayFlow(appearance: String) throws {
         let app = XCUIApplication()
-        app.launchArguments = ["-appearance", appearance, "-uitestCompleted", "beginner-30:1"]
+        app.launchArguments = ["-appearance", appearance, "-uitestCompleted", "beginner-30:1"] + deepVerseArgs
         app.launch()
-
         passOnboardingIfNeeded(app)
-
         XCTAssertTrue(app.navigationBars["Today"].waitForExistence(timeout: 8.0))
 
-        let verseCard = app.buttons.matching(NSPredicate(format: "label CONTAINS[c] 'Verse of the day'")).firstMatch
-        XCTAssertTrue(verseCard.waitForExistence(timeout: 6.0), "Verse of the day card should be visible on Today tab")
-
+        let card = verseCard(app)
+        XCTAssertTrue(card.waitForExistence(timeout: 6.0), "Verse of the day card should be visible on Today tab")
+        XCTAssertTrue(card.label.contains("Psalm 119:105"), card.label)
         Thread.sleep(forTimeInterval: 0.5)
         saveScreenshot("VerseOfTheDay_Card")
 
-        verseCard.tap()
-
-        XCTAssertTrue(app.tabBars.buttons["Bible"].waitForExistence(timeout: 6.0))
-        Thread.sleep(forTimeInterval: 0.8)
+        card.tap()
+        assertReaderAtDeepVerse(app)
+        Thread.sleep(forTimeInterval: 0.6)
         saveScreenshot("VerseOfTheDay_Reader")
+    }
+
+    /// Regression: opening the verse of the day once must not take over the reader. After picking
+    /// another chapter, switching tabs used to jump back to the verse and overwrite the saved place.
+    @MainActor
+    func testVerseOfTheDayDoesNotOverrideLaterNavigation() throws {
+        let app = XCUIApplication()
+        app.launchArguments = ["-uitestCompleted", "beginner-30:1"] + deepVerseArgs
+        app.launch()
+        passOnboardingIfNeeded(app)
+        XCTAssertTrue(app.navigationBars["Today"].waitForExistence(timeout: 8.0))
+        let card = verseCard(app)
+        XCTAssertTrue(card.waitForExistence(timeout: 6.0))
+        card.tap()
+        assertReaderAtDeepVerse(app)
+
+        app.buttons["Select Book and Chapter"].tap()
+        let ntSegment = app.buttons["New Testament"]
+        XCTAssertTrue(ntSegment.waitForExistence(timeout: 4.0))
+        ntSegment.tap()
+        let johnRow = app.buttons.matching(NSPredicate(format: "label BEGINSWITH 'John'")).firstMatch
+        XCTAssertTrue(johnRow.waitForExistence(timeout: 4.0))
+        johnRow.tap()
+        let ch3 = app.buttons["Chapter 3"]
+        XCTAssertTrue(ch3.waitForExistence(timeout: 4.0))
+        ch3.tap()
+        XCTAssertTrue(app.navigationBars["John"].waitForExistence(timeout: 4.0))
+        let heading = app.staticTexts["Chapter 3"]
+        XCTAssertTrue(heading.waitForExistence(timeout: 4.0))
+        XCTAssertTrue(heading.isHittable, "a newly picked chapter opens at its top")
+
+        app.tabBars.buttons["Today"].tap()
+        XCTAssertTrue(app.navigationBars["Today"].waitForExistence(timeout: 4.0))
+        app.tabBars.buttons["Bible"].tap()
+        XCTAssertTrue(app.navigationBars["John"].waitForExistence(timeout: 4.0), "reader jumped away from John 3 after a tab switch")
+        Thread.sleep(forTimeInterval: 0.5)
+        XCTAssertFalse(app.navigationBars["Psalms"].exists, "reader jumped back to the verse of the day")
+        XCTAssertTrue(app.staticTexts["Chapter 3"].isHittable)
+    }
+
+    /// Widget taps open the app through widgetURL: pasture://lesson must show today's lesson and
+    /// pasture://verse the reader at the verse of the day.
+    @MainActor
+    func testWidgetDeepLinksOpenLessonAndVerse() throws {
+        let app = XCUIApplication()
+        app.launchArguments = deepVerseArgs
+        app.launch()
+        passOnboardingIfNeeded(app)
+        XCTAssertTrue(app.navigationBars["Today"].waitForExistence(timeout: 8.0))
+
+        app.open(URL(string: "pasture://lesson")!)
+        let lessonBar = app.navigationBars.matching(NSPredicate(format: "identifier BEGINSWITH 'Day '")).firstMatch
+        XCTAssertTrue(lessonBar.waitForExistence(timeout: 6.0), "pasture://lesson did not open today's lesson")
+
+        app.open(URL(string: "pasture://verse")!)
+        assertReaderAtDeepVerse(app)
     }
 
     @MainActor

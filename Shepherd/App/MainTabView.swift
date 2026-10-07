@@ -60,16 +60,21 @@ public struct MainTabView: View {
         })
     }
 
+    /// Widget taps: `pasture://verse` opens the reader at today's verse, `pasture://lesson` opens
+    /// today's lesson (or just the Today tab when the path is finished).
     private func handleDeepLink(_ url: URL) {
-        let pathOrHost = (url.host ?? "") + url.path
-        if pathOrHost.contains("verse") {
+        guard url.scheme == DeepLink.scheme else { return }
+        switch url.host {
+        case DeepLink.verseHost:
             bibleTargetVerse = DailyVerseService.shared.verse()
             selectedTab = 1
-        } else if pathOrHost.contains("lesson") || url.scheme == "pasture" {
+        case DeepLink.lessonHost:
             selectedTab = 0
-            if let lesson = currentLesson, !homeNavPath.contains(where: { $0.id == lesson.id }) {
-                homeNavPath.append(lesson)
+            if let lesson = currentLesson, homeNavPath.last?.id != lesson.id {
+                homeNavPath = [lesson]
             }
+        default:
+            break
         }
     }
 }

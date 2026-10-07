@@ -260,6 +260,13 @@ def validate(bible, bundle, release=False):
     return errs, warns
 
 
+# The small Home Screen widget shows the whole verse; longer verses no longer fit it legibly.
+DAILY_VERSE_MAX_CHARS = 150
+DAILY_VERSE_MIN_COUNT = 366
+# A verse that starts lowercase or stops on a comma/semicolon/colon is half a sentence.
+FRAGMENT_END = (",", ";", ":")
+
+
 def validate_daily_verses(bible, daily_verses):
     errs, warns = [], []
     verses = index(bible)
@@ -268,9 +275,10 @@ def validate_daily_verses(bible, daily_verses):
     if not isinstance(daily_verses, list):
         return [f"daily_verses: expected a JSON list, got {type(daily_verses).__name__}"], []
 
-    if len(daily_verses) < 366:
+    if len(daily_verses) < DAILY_VERSE_MIN_COUNT:
         errs.append(
-            f"daily_verses: expected at least 366 verses for full year coverage, got {len(daily_verses)}"
+            f"daily_verses: expected at least {DAILY_VERSE_MIN_COUNT} verses"
+            f" for full year coverage, got {len(daily_verses)}"
         )
 
     seen_refs = set()
@@ -278,19 +286,18 @@ def validate_daily_verses(bible, daily_verses):
     nt_count = 0
 
     for i, item in enumerate(daily_verses):
-        if isinstance(item, str):
-            ref = item
-            text = None
-        elif isinstance(item, dict):
-            ref = item.get("ref")
-            text = item.get("text")
-        else:
-            errs.append(f"daily_verses: entry #{i} is neither a string nor an object")
+        if not isinstance(item, dict):
+            errs.append(f"daily_verses: entry #{i} is not an object with ref and text")
             continue
+        ref = item.get("ref")
+        text = item.get("text")
 
         if not ref or not REF.match(ref):
             errs.append(f"daily_verses: entry #{i} has malformed ref {ref!r}")
             continue
+
+        if item.get("day") != i + 1:
+            errs.append(f"daily_verses: {ref} has day {item.get('day')!r}, expected {i + 1}")
 
         if ref in seen_refs:
             errs.append(f"daily_verses: duplicate reference {ref}")
@@ -307,8 +314,19 @@ def validate_daily_verses(bible, daily_verses):
         elif t == "NT":
             nt_count += 1
 
-        if text is not None and text != verses[ref]:
+        if not isinstance(text, str) or not text:
+            errs.append(f"daily_verses: {ref} has no text")
+            continue
+        if text != verses[ref]:
             errs.append(f"daily_verses: {ref} text is not verbatim WEB text")
+        if len(text) > DAILY_VERSE_MAX_CHARS:
+            errs.append(
+                f"daily_verses: {ref} is {len(text)} characters,"
+                f" over the {DAILY_VERSE_MAX_CHARS}-character widget budget"
+            )
+        stripped = text.rstrip("\u201d\u2019\"' ")
+        if text[0].islower() or stripped.endswith(FRAGMENT_END):
+            errs.append(f"daily_verses: {ref} is a sentence fragment: {text!r}")
 
     total = ot_count + nt_count
     if total > 0 and (ot_count < total * 0.4 or nt_count < total * 0.4):
@@ -338,8 +356,11 @@ def main(argv=None):
     if digest:
         errs.insert(0, digest)
 
+    # The app falls back to one verse forever without this file, so it is required.
     daily_count = 0
-    if os.path.exists(args.daily_verses):
+    if not os.path.exists(args.daily_verses):
+        errs.append(f"daily_verses: {args.daily_verses} is missing")
+    else:
         with open(args.daily_verses, encoding="utf-8") as f:
             daily_verses = json.load(f)
         dv_errs, dv_warns = validate_daily_verses(bible, daily_verses)

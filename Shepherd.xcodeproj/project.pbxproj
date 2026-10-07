@@ -54,6 +54,7 @@
 		B10D72C9BCE137D73B270315 /* VerseWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7343179E138A7506186F8F62 /* VerseWidget.swift */; };
 		B137C5EC9183C982B8F35607 /* StreakWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A32D1034AD946BA8726B980 /* StreakWidget.swift */; };
 		B7826112544FE3F520B95226 /* UserModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9C580C2CCCA012A15F5F4F /* UserModels.swift */; };
+		BA2EA299D64D583504D29390 /* WidgetViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB6A7D321D5218E287018ECD /* WidgetViews.swift */; };
 		C2DEDA832974E1CD1377E91D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BA6E0B74DAE435F2DA4998EE /* Assets.xcassets */; };
 		C3634D2307DA82757EE6E674 /* VerseOfTheDayCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1629563DBCFBA94162CF133A /* VerseOfTheDayCard.swift */; };
 		CB6F44D2B5B7DFAE05F0EA28 /* ShepherdTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6318DDCB619E65C7710F7E1 /* ShepherdTheme.swift */; };
@@ -67,6 +68,7 @@
 		E31F964A9C2877AAEFEF856A /* LessonCompleteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8D0BFCF6D331443E53A0F4D /* LessonCompleteView.swift */; };
 		E98D1271F3D0BE6F8A8C8F07 /* DailyVerseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71C021F5748F8FFE33002C5E /* DailyVerseService.swift */; };
 		F0534756FF6FDD45D98489E8 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46724CD2BD612565CCD2F492 /* SettingsView.swift */; };
+		F36F951B06B461227036226A /* WidgetViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB6A7D321D5218E287018ECD /* WidgetViews.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -157,6 +159,7 @@
 		C49FEF023362F91B5D58965E /* ShepherdWidgets.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ShepherdWidgets.entitlements; sourceTree = "<group>"; };
 		D4183D8FD4248CEB38FD2532 /* web.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = web.json; sourceTree = "<group>"; };
 		D624EA03F0084E2213D941E9 /* QuizRules.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizRules.swift; sourceTree = "<group>"; };
+		DB6A7D321D5218E287018ECD /* WidgetViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetViews.swift; sourceTree = "<group>"; };
 		DE3F92350EF7E0EEC93EEDFF /* lamb_variants.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = lamb_variants.json; sourceTree = "<group>"; };
 		E456694C3D533FF6931CC029 /* daily_verses.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = daily_verses.json; sourceTree = "<group>"; };
 		EEFEB075297B25E3F78E1951 /* ContentStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentStore.swift; sourceTree = "<group>"; };
@@ -320,6 +323,7 @@
 				10F797DAB9C701CC001B44DE /* Services */,
 				04C8098D635DFC9BA1CA77E0 /* Theme */,
 				27D08429BB0074F50BBC5F3C /* Views */,
+				C31E8FDC2C5755C0CA6CB1E9 /* Widgets */,
 			);
 			path = Shepherd;
 			sourceTree = "<group>";
@@ -389,6 +393,14 @@
 				CA5CDFA63479D89C657482AC /* Content */,
 			);
 			path = Resources;
+			sourceTree = "<group>";
+		};
+		C31E8FDC2C5755C0CA6CB1E9 /* Widgets */ = {
+			isa = PBXGroup;
+			children = (
+				DB6A7D321D5218E287018ECD /* WidgetViews.swift */,
+			);
+			path = Widgets;
 			sourceTree = "<group>";
 		};
 		CA5CDFA63479D89C657482AC /* Content */ = {
@@ -630,6 +642,7 @@
 				C3634D2307DA82757EE6E674 /* VerseOfTheDayCard.swift in Sources */,
 				051D71A42C2A17D3135093AD /* WidgetDataStore.swift in Sources */,
 				08A32EC9414B8B8D65BD9C4B /* WidgetSyncService.swift in Sources */,
+				F36F951B06B461227036226A /* WidgetViews.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -645,6 +658,7 @@
 				B137C5EC9183C982B8F35607 /* StreakWidget.swift in Sources */,
 				B10D72C9BCE137D73B270315 /* VerseWidget.swift in Sources */,
 				43BD1A1D8A6FE701A88B3E9B /* WidgetDataStore.swift in Sources */,
+				BA2EA299D64D583504D29390 /* WidgetViews.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -686,6 +700,7 @@
 				);
 				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.dangvietquan.shepherd;
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "Shepherd AppStore Profile";
 				SDKROOT = iphoneos;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
@@ -791,6 +806,7 @@
 				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.dangvietquan.shepherd.widgets;
 				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -948,7 +964,9 @@
 				);
 				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.dangvietquan.shepherd.widgets;
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "Shepherd Widgets AppStore Profile";
 				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};

@@ -15,7 +15,7 @@ public struct VerseOfTheDayCard: View {
                 // Header
                 HStack(spacing: 8) {
                     Image(systemName: "sun.max.fill")
-                        .font(.system(size: 13, weight: .semibold))
+                        .font(.footnote.weight(.semibold))
                         .foregroundStyle(ShepherdTheme.goldFill)
 
                     Text("VERSE OF THE DAY")
@@ -26,7 +26,7 @@ public struct VerseOfTheDayCard: View {
                     Spacer()
 
                     Image(systemName: "chevron.right")
-                        .font(.system(size: 12, weight: .bold))
+                        .font(.caption.weight(.bold))
                         .foregroundStyle(ShepherdTheme.textTertiary)
                 }
 
@@ -57,7 +57,8 @@ public struct VerseOfTheDayCard: View {
         }
         .buttonStyle(.plain)
         .accessibilityElement(children: .combine)
-        .accessibilityLabel("Verse of the day. \(verse.displayRef). \(verse.text). World English Bible. Double tap to open in Bible.")
+        .accessibilityLabel("Verse of the day. \(verse.spokenLabel)")
+        .accessibilityHint("Opens the verse in the Bible.")
         .accessibilityAddTraits(.isButton)
     }
 }

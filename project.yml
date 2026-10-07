@@ -27,8 +27,12 @@ targets:
           - "Info.plist"
 
 
+    # xcodegen writes the .entitlements file from these properties on every generate.
     entitlements:
       path: Shepherd/Shepherd.entitlements
+      properties:
+        com.apple.security.application-groups:
+          - group.com.dangvietquan.shepherd
 
     dependencies:
       - sdk: StoreKit.framework
@@ -56,6 +60,11 @@ targets:
         UISupportedInterfaceOrientations:
           - UIInterfaceOrientationPortrait
         ITSAppUsesNonExemptEncryption: false
+        # Widget taps (widgetURL) open pasture://verse and pasture://lesson.
+        CFBundleURLTypes:
+          - CFBundleURLName: com.dangvietquan.shepherd
+            CFBundleURLSchemes:
+              - pasture
 
     settings:
       base:
@@ -74,6 +83,8 @@ targets:
           SWIFT_ACTIVE_COMPILATION_CONDITIONS: DEBUG
         Release:
           SWIFT_OPTIMIZATION_LEVEL: "-O"
+          # tools/archive.sh signs manually; each target names its own App Store profile.
+          PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]: Shepherd AppStore Profile
 
   ShepherdTests:
     type: bundle.unit-test
@@ -114,12 +125,14 @@ targets:
           - "**/*.md"
           - ".DS_Store"
           - "Info.plist"
+      # Shared with the app target (which compiles all of Shepherd/).
       - path: Shepherd/Resources/Assets.xcassets
       - path: Shepherd/Resources/Content/daily_verses.json
       - path: Shepherd/Models/DailyVerse.swift
       - path: Shepherd/Services/DailyVerseService.swift
       - path: Shepherd/Services/WidgetDataStore.swift
       - path: Shepherd/Theme/ShepherdTheme.swift
+      - path: Shepherd/Widgets
 
     dependencies:
       - sdk: WidgetKit.framework
@@ -127,6 +140,9 @@ targets:
 
     entitlements:
       path: ShepherdWidgets/ShepherdWidgets.entitlements
+      properties:
+        com.apple.security.application-groups:
+          - group.com.dangvietquan.shepherd
 
     info:
       path: ShepherdWidgets/Info.plist
@@ -149,5 +165,9 @@ targets:
         GENERATE_INFOPLIST_FILE: NO
         ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: AccentColor
         ENABLE_PREVIEWS: YES
-
-
+      configs:
+        Debug:
+          SWIFT_ACTIVE_COMPILATION_CONDITIONS: DEBUG
+        Release:
+          SWIFT_OPTIMIZATION_LEVEL: "-O"
+          PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]: Shepherd Widgets AppStore Profile

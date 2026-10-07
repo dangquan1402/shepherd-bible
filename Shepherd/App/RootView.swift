@@ -3,6 +3,7 @@ import SwiftData
 
 public struct RootView: View {
     @Environment(\.modelContext) private var modelContext
+    @Environment(\.scenePhase) private var scenePhase
     @Query private var profiles: [UserProfile]
     @StateObject private var content = ContentStore.shared
 
@@ -26,21 +27,22 @@ public struct RootView: View {
             #endif
             content.loadIfNeeded()
             SeedData.ensureDefaults(in: modelContext)
-            let activePath = content.activePath(id: profiles.first?.activePathId)
-            let completedIDs = Set(((try? modelContext.fetch(FetchDescriptor<LessonProgress>())) ?? []).map(\.lessonId))
-            let nextLesson = activePath.flatMap { PathProgress.nextLesson(in: $0, completed: completedIDs) }
-            WidgetSyncService.sync(
-                context: modelContext,
-                activePathTitle: activePath?.title ?? "Pasture",
-                nextLessonTitle: nextLesson?.title,
-                nextLessonDayIndex: nextLesson?.dayIndex
-            )
             StoreKitManager.shared.attach(modelContext)
             await StoreKitManager.shared.updateCustomerProductStatus(context: modelContext)
             #if DEBUG
             applyUITestState()
             #endif
+            syncWidgets()
         }
+        .onChange(of: scenePhase) { _, phase in
+            if phase == .active { syncWidgets() }
+        }
+    }
+
+    /// Republish streak and next lesson for the widgets (also done after each lesson).
+    private func syncWidgets() {
+        guard !content.paths.isEmpty else { return }
+        WidgetSyncService.sync(context: modelContext, activePath: content.activePath(id: profiles.first?.activePathId))
     }
 
     #if DEBUG

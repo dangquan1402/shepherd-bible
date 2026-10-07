@@ -2,7 +2,12 @@ import SwiftUI
 
 public struct BibleReaderView: View {
     @EnvironmentObject private var content: ContentStore
+    /// A one-shot request to open at a verse (the verse of the day). The reader consumes it:
+    /// copies it into `highlightedVerse`, scrolls once, and sets it back to nil, so the user's
+    /// own navigation afterwards is never overridden.
     @Binding public var targetVerse: DailyVerse?
+    @State private var highlightedVerse: DailyVerse?
+    @State private var scrollRequest: ScrollRequest?
     @State private var showPicker: Bool = false
     @AppStorage("bible.book") private var selectedBookAbbrev: String = "GEN"
     @AppStorage("bible.chapter") private var selectedChapterNum: Int = 1
@@ -51,21 +56,21 @@ public struct BibleReaderView: View {
                     }
                     .padding(.horizontal, 20)
                 }
-                .onChange(of: selectedChapterNum) { _, _ in
-                    if targetVerse == nil {
-                        proxy.scrollTo("top", anchor: .top)
+                .onChange(of: selectedChapterNum) { _, _ in chapterChanged(proxy) }
+                .onChange(of: selectedBookAbbrev) { _, _ in chapterChanged(proxy) }
+                .onChange(of: targetVerse) { _, _ in consumeTarget() }
+                .onAppear { consumeTarget() }
+                .task(id: scrollRequest) {
+                    guard let request = scrollRequest else { return }
+                    // The Bible decodes off the main thread; on a cold start wait for it, then let
+                    // the chapter lay out before scrolling to the verse.
+                    await content.ensureBibleLoaded()
+                    try? await Task.sleep(for: .milliseconds(150))
+                    guard !Task.isCancelled else { return }
+                    withAnimation(.spring(duration: 0.45, bounce: 0.15)) {
+                        proxy.scrollTo("verse-\(request.verse)", anchor: .center)
                     }
-                }
-                .onChange(of: selectedBookAbbrev) { _, _ in
-                    if targetVerse == nil {
-                        proxy.scrollTo("top", anchor: .top)
-                    }
-                }
-                .onChange(of: targetVerse) { _, newTarget in
-                    scrollToTarget(newTarget, proxy: proxy)
-                }
-                .task(id: targetVerse) {
-                    scrollToTarget(targetVerse, proxy: proxy)
+                    scrollRequest = nil
                 }
             }
             .background(ShepherdTheme.canvasBg.ignoresSafeArea())
@@ -106,10 +111,9 @@ public struct BibleReaderView: View {
 
         LazyVStack(alignment: .leading, spacing: 18) {
             ForEach(chapter.verses) { verse in
-                let isTarget = targetVerse != nil &&
-                    targetVerse?.bookAbbrev == book.abbrev &&
-                    targetVerse?.chapter == chapter.number &&
-                    targetVerse?.verse == verse.number
+                let isTarget = highlightedVerse.map {
+                    $0.bookAbbrev == book.abbrev && $0.chapter == chapter.number && $0.verse == verse.number
+                } ?? false
 
                 HStack(alignment: .top, spacing: 10) {
                     Text("\(verse.number)")
@@ -130,6 +134,8 @@ public struct BibleReaderView: View {
                 .clipShape(RoundedRectangle(cornerRadius: ShepherdTheme.radiusSM))
                 .id("verse-\(verse.number)")
                 .accessibilityElement(children: .combine)
+                .accessibilityIdentifier("verse-\(verse.number)")
+                .accessibilityValue(isTarget ? "Verse of the day" : "")
             }
         }
 
@@ -145,19 +151,28 @@ public struct BibleReaderView: View {
             .padding(.bottom, 60)
     }
 
-    private func scrollToTarget(_ target: DailyVerse?, proxy: ScrollViewProxy) {
-        guard let target else { return }
-        if selectedBookAbbrev != target.bookAbbrev {
-            selectedBookAbbrev = target.bookAbbrev
-        }
-        if selectedChapterNum != target.chapter {
-            selectedChapterNum = target.chapter
-        }
-        Task { @MainActor in
-            try? await Task.sleep(nanoseconds: 120_000_000)
-            withAnimation(.spring(duration: 0.45, bounce: 0.15)) {
-                proxy.scrollTo("verse-\(target.verse)", anchor: .center)
-            }
+    private struct ScrollRequest: Equatable {
+        let id = UUID()
+        let verse: Int
+    }
+
+    /// Turns a pending `targetVerse` into a highlight plus one scroll, then clears it.
+    private func consumeTarget() {
+        guard let target = targetVerse else { return }
+        targetVerse = nil
+        highlightedVerse = target
+        selectedBookAbbrev = target.bookAbbrev
+        selectedChapterNum = target.chapter
+        scrollRequest = ScrollRequest(verse: target.verse)
+    }
+
+    /// A new chapter starts at the top (a pending verse scroll runs after this), and the
+    /// highlight only lives in the chapter it belongs to.
+    private func chapterChanged(_ proxy: ScrollViewProxy) {
+        proxy.scrollTo("top", anchor: .top)
+        if let highlighted = highlightedVerse,
+           highlighted.bookAbbrev != selectedBookAbbrev || highlighted.chapter != selectedChapterNum {
+            highlightedVerse = nil
         }
     }
 

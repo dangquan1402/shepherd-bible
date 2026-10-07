@@ -1,34 +1,26 @@
 import Foundation
 import SwiftData
 
+/// Publishes streak and progress for the widgets. Every writer (launch, scene activation, lesson
+/// completion, path switch) goes through `sync`, so they all agree on what "next" means.
 public enum WidgetSyncService {
-    public static func sync(
-        context: ModelContext,
-        activePathTitle: String = "Pasture",
-        nextLessonTitle: String? = nil,
-        nextLessonDayIndex: Int? = 1
-    ) {
+    /// The widget snapshot for the current store: streak, last completion, and the active
+    /// path's next lesson (the first one not yet completed; nil when the path is finished).
+    public static func snapshot(context: ModelContext, activePath: StudyPath?) -> WidgetStreakData {
         let streak = (try? context.fetch(FetchDescriptor<StreakState>()))?.first
-        let progress = (try? context.fetch(FetchDescriptor<LessonProgress>())) ?? []
-
-        let cal = Calendar.current
-        let today = Date.now
-        let completedToday: Bool = {
-            if let last = streak?.lastCompletedDate, cal.isDate(last, inSameDayAs: today) {
-                return true
-            }
-            return progress.contains { cal.isDate($0.completedAt, inSameDayAs: today) }
-        }()
-
-        let data = WidgetStreakData(
+        let completed = Set(((try? context.fetch(FetchDescriptor<LessonProgress>())) ?? []).map(\.lessonId))
+        let next = activePath.flatMap { PathProgress.nextLesson(in: $0, completed: completed) }
+        return WidgetStreakData(
             streakCount: streak?.current ?? 0,
             bestStreak: streak?.best ?? 0,
             lastCompletedDate: streak?.lastCompletedDate,
-            isCompletedToday: completedToday,
-            activePathTitle: activePathTitle,
-            nextLessonTitle: nextLessonTitle,
-            nextLessonDayIndex: nextLessonDayIndex
+            activePathTitle: activePath?.title ?? "Pasture",
+            nextLessonTitle: next?.title,
+            nextLessonDayIndex: next?.dayIndex
         )
-        WidgetDataStore.shared.saveStreakData(data)
+    }
+
+    public static func sync(context: ModelContext, activePath: StudyPath?, store: WidgetDataStore = .shared) {
+        store.saveStreakData(snapshot(context: context, activePath: activePath))
     }
 }

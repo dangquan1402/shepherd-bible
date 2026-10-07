@@ -226,5 +226,6 @@ public struct PathLessonsListView: View {
         guard let profile = profiles.first else { return }
         profile.activePathId = path.id
         try? modelContext.save()
+        WidgetSyncService.sync(context: modelContext, activePath: path)
     }
 }

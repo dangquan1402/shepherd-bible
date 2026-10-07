@@ -27,15 +27,19 @@ public final class DailyVerseService: Sendable {
 
     public func verse(for date: Date = .now, calendar: Calendar = .current) -> DailyVerse {
         guard !verses.isEmpty else { return Self.fallback }
+        #if DEBUG
+        // UI tests: `-uitestVerseOfDay PSA.119.105` pins the verse to a ref from the list, so a test
+        // can open a verse deep inside a long chapter whatever today's date is.
+        let args = ProcessInfo.processInfo.arguments
+        if let idx = args.firstIndex(of: "-uitestVerseOfDay"), idx + 1 < args.count,
+           let pinned = verses.first(where: { $0.ref == args[idx + 1] }) {
+            return pinned
+        }
+        #endif
         let dayOfYear = calendar.ordinality(of: .day, in: .year, for: date) ?? 1
         let rawIndex = (dayOfYear - 1) % verses.count
         let index = rawIndex >= 0 ? rawIndex : (rawIndex + verses.count) % verses.count
         return verses[index]
-    }
-
-    public func nextMidnight(after date: Date = .now, calendar: Calendar = .current) -> Date {
-        calendar.nextDate(after: date, matching: DateComponents(hour: 0, minute: 0, second: 0), matchingPolicy: .nextTime)
-            ?? calendar.startOfDay(for: date).addingTimeInterval(86400)
     }
 
     private static func loadItemsFromBundle() -> [DailyVerseItem] {

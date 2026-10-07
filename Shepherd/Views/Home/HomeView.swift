@@ -37,8 +37,13 @@ public struct HomeView: View {
         return PathProgress.nextLesson(in: path, completed: completedLessonIDs)
     }
 
+    /// Re-read on a day change (significant time change, or the app coming back), so a Home left
+    /// open across midnight shows the new day's verse.
+    @State private var verseDate: Date = .now
+    @Environment(\.scenePhase) private var scenePhase
+
     private var todayVerse: DailyVerse {
-        DailyVerseService.shared.verse()
+        DailyVerseService.shared.verse(for: verseDate)
     }
 
     public init(
@@ -121,6 +126,12 @@ public struct HomeView: View {
                     onContinueFree: { showPaywall = false },
                     onPurchased: { showPaywall = false }
                 )
+            }
+            .onReceive(NotificationCenter.default.publisher(for: UIApplication.significantTimeChangeNotification)) { _ in
+                verseDate = .now
+            }
+            .onChange(of: scenePhase) { _, phase in
+                if phase == .active { verseDate = .now }
             }
         }
     }

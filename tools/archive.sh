@@ -1,8 +1,12 @@
 #!/usr/bin/env bash
 # Archive Shepherd (Release, generic iOS), export an App Store IPA, and verify it.
-# Signs manually with the "Shepherd AppStore Profile" (IOS_APP_STORE) for team 6KH82C884Q.
-# The profile must be installed first, e.g.:
-#   asc --profile LittleRed profiles download --id 9N8YDXM67C \
+# Signs manually for team 6KH82C884Q with two IOS_APP_STORE profiles, one per bundle id. Each
+# target names its own profile in project.yml (Release, PROVISIONING_PROFILE_SPECIFIER):
+#   com.dangvietquan.shepherd          -> "Shepherd AppStore Profile"
+#   com.dangvietquan.shepherd.widgets  -> "Shepherd Widgets AppStore Profile"
+# Both App IDs need the App Groups capability with group.com.dangvietquan.shepherd assigned, and
+# both profiles must be installed first, e.g.:
+#   asc --profile LittleRed profiles download --id <profile-id> \
 #     --output "$HOME/Library/Developer/Xcode/UserData/Provisioning Profiles/<uuid>.mobileprovision"
 # Usage: tools/archive.sh [build-number]   (default build number: 1)
 # Output: build/Shepherd.xcarchive, build/export/Shepherd.ipa
@@ -13,6 +17,8 @@ cd "$(dirname "$0")/.."
 TEAM_ID=6KH82C884Q
 BUNDLE_ID=com.dangvietquan.shepherd
 PROFILE_NAME="Shepherd AppStore Profile"
+WIDGET_BUNDLE_ID=com.dangvietquan.shepherd.widgets
+WIDGET_PROFILE_NAME="Shepherd Widgets AppStore Profile"
 MARKETING_VERSION=1.0.0
 BUILD_NUMBER="${1:-1}"
 
@@ -36,7 +42,6 @@ if ! xcodebuild archive \
     DEVELOPMENT_TEAM="$TEAM_ID" \
     CODE_SIGN_STYLE=Manual \
     CODE_SIGN_IDENTITY="Apple Distribution" \
-    PROVISIONING_PROFILE_SPECIFIER="$PROFILE_NAME" \
     MARKETING_VERSION="$MARKETING_VERSION" \
     CURRENT_PROJECT_VERSION="$BUILD_NUMBER" \
     >"$LOG" 2>&1; then
@@ -58,7 +63,10 @@ cat >"$EXPORT_PLIST" <<EOF
     <key>signingStyle</key><string>manual</string>
     <key>signingCertificate</key><string>Apple Distribution</string>
     <key>provisioningProfiles</key>
-    <dict><key>$BUNDLE_ID</key><string>$PROFILE_NAME</string></dict>
+    <dict>
+        <key>$BUNDLE_ID</key><string>$PROFILE_NAME</string>
+        <key>$WIDGET_BUNDLE_ID</key><string>$WIDGET_PROFILE_NAME</string>
+    </dict>
     <key>uploadSymbols</key><true/>
     <key>manageAppVersionAndBuildNumber</key><false/>
 </dict>
