@@ -101,6 +101,20 @@ public struct SettingsView: View {
                 }
                 .listRowBackground(ShepherdTheme.cardSurface)
 
+                // Journal Section
+                Section("Journal") {
+                    NavigationLink {
+                        JournalView()
+                    } label: {
+                        HStack {
+                            Text("Reflection & Prayer Journal")
+                                .foregroundStyle(ShepherdTheme.textPrimary)
+                            Spacer()
+                        }
+                    }
+                    .accessibilityIdentifier("SettingsJournalButton")
+                }
+
                 // Privacy Section
                 Section {
                     HStack {

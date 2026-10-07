@@ -13,6 +13,8 @@ struct ShepherdApp: App {
             StreakState.self,
             LessonProgress.self,
             EntitlementState.self,
+            JournalEntry.self,
+            PrayerRequest.self,
             BibleHighlight.self,
             BibleBookmark.self,
             BibleNote.self

@@ -91,10 +91,17 @@ final class RealFlowUITests: XCTestCase {
     }
 
     /// Tap the choice containing `text`, check it, and continue. A match question takes
-    /// "Ref=verse start|Ref=verse start" and pairs each reference with that verse.
+    /// "Ref=verse start|Ref=verse start" and pairs each reference with that verse; an order
+    /// question takes "order:first|second|..." and taps the tokens in that order.
     @MainActor
     private func answer(_ app: XCUIApplication, _ text: String) {
-        if text.contains("=") {
+        if text.hasPrefix("order:") {
+            for token in text.dropFirst("order:".count).split(separator: "|").map(String.init) {
+                let tokenButton = app.buttons.matching(NSPredicate(format: "label CONTAINS[c] %@", token)).firstMatch
+                XCTAssertTrue(tokenButton.waitForExistence(timeout: 4.0), "no token '\(token)'")
+                tokenButton.tap()
+            }
+        } else if text.contains("=") {
             for pair in text.split(separator: "|") {
                 let parts = pair.split(separator: "=", maxSplits: 1).map(String.init)
                 pairMatch(app, ref: parts[0], verse: parts[1])
@@ -109,9 +116,10 @@ final class RealFlowUITests: XCTestCase {
         app.buttons["Continue"].tap()
     }
 
-    /// Open Today's current lesson for `day` and answer its quiz.
+    /// Open Today's current lesson for `day`, answer its quiz and leave the Lesson Complete
+    /// screen, which leads to the reflection step.
     @MainActor
-    private func completeLesson(_ app: XCUIApplication, day: Int, answers: [String]) {
+    private func finishLessonQuiz(_ app: XCUIApplication, day: Int, answers: [String]) {
         let node = app.buttons["Day \(day), current"]
         XCTAssertTrue(node.waitForExistence(timeout: 6.0), "Day \(day) is not the current node")
         node.tap()
@@ -125,7 +133,21 @@ final class RealFlowUITests: XCTestCase {
         }
         XCTAssertTrue(app.staticTexts["Day \(day) complete"].waitForExistence(timeout: 6.0))
         app.buttons["Continue"].tap()
+    }
+
+    /// Skip the optional reflection step that follows Lesson Complete, back to Today.
+    @MainActor
+    private func skipReflection(_ app: XCUIApplication) {
+        XCTAssertTrue(app.staticTexts["Reflect & Pray"].waitForExistence(timeout: 6.0), "no reflection step after the lesson")
+        app.buttons["SkipReflectionButton"].tap()
         XCTAssertTrue(app.navigationBars["Today"].waitForExistence(timeout: 6.0))
+    }
+
+    /// Open Today's current lesson for `day`, answer its quiz and skip the reflection.
+    @MainActor
+    private func completeLesson(_ app: XCUIApplication, day: Int, answers: [String]) {
+        finishLessonQuiz(app, day: day, answers: answers)
+        skipReflection(app)
     }
 
     @MainActor
@@ -813,9 +835,9 @@ final class RealFlowUITests: XCTestCase {
         Thread.sleep(forTimeInterval: 0.5)
         saveScreenshot("Lesson_Complete")
         app.buttons["Continue"].tap()
+        skipReflection(app)
 
         // 15. Today after Day 1 (Home_Day1Done)
-        XCTAssertTrue(app.navigationBars["Today"].waitForExistence(timeout: 6.0))
         Thread.sleep(forTimeInterval: 0.4)
         saveScreenshot("Home_Day1Done")
 
@@ -918,6 +940,204 @@ final class RealFlowUITests: XCTestCase {
             Thread.sleep(forTimeInterval: 0.4)
             saveScreenshot("Accessibility_AX3_QuizWrong")
         }
+
+        // The Journal at AX sizes: the prayer filter is a menu, not a row of pills
+        app.terminate()
+        app.launchArguments += ["-uitestReset"]
+        app.launch()
+        passOnboardingIfNeeded(app)
+        XCTAssertTrue(app.navigationBars["Today"].waitForExistence(timeout: 6.0))
+        ensureTabBarExpanded(app)
+        app.tabBars.buttons["Settings"].tap()
+        let settingsJournalButton = app.buttons["SettingsJournalButton"]
+        for _ in 0..<6 where !settingsJournalButton.isHittable {
+            app.swipeUp()
+        }
+        settingsJournalButton.tap()
+        XCTAssertTrue(app.navigationBars["Journal"].waitForExistence(timeout: 6.0))
+        XCTAssertTrue(app.staticTexts["No reflections yet"].waitForExistence(timeout: 4.0))
+        Thread.sleep(forTimeInterval: 0.4)
+        saveScreenshot("Accessibility_AX3_Journal")
+
+        app.buttons.matching(NSPredicate(format: "label BEGINSWITH 'Prayers'")).firstMatch.tap()
+        let addPrayerField = app.textFields["Add a prayer request…"]
+        XCTAssertTrue(addPrayerField.waitForExistence(timeout: 4.0))
+        addPrayerField.tap()
+        addPrayerField.typeText("Healing for Anna after surgery\n")
+        XCTAssertTrue(app.buttons["PrayerFilterMenu"].waitForExistence(timeout: 4.0), "no filter menu at AX sizes")
+        XCTAssertFalse(app.buttons["Open (1)"].exists, "filter pills at AX sizes")
+        if app.keyboards.firstMatch.exists {
+            app.swipeDown()
+        }
+        Thread.sleep(forTimeInterval: 0.4)
+        saveScreenshot("Accessibility_AX3_Prayers")
+    }
+
+    // MARK: - Issue #17: Reflection and Prayer Journal UI Tests
+
+    @MainActor
+    func testJournalAndReflectionLight() throws {
+        modeOverride = "Light"
+        try executeJournalFlow()
+    }
+
+    @MainActor
+    func testJournalAndReflectionDark() throws {
+        modeOverride = "Dark"
+        try executeJournalFlow()
+    }
+
+    /// `-uitestReset` starts from a fresh install's state (empty journal, lock off);
+    /// `-uitestJournalAuth yes,no,yes,yes` answers the owner checks below in turn (enable the
+    /// lock, the automatic check on reopening, then the Unlock button twice).
+    @MainActor
+    private func executeJournalFlow() throws {
+        let app = XCUIApplication()
+        let appearance = (modeOverride ?? "Light").lowercased()
+        let keepStateArgs = ["-appearance", appearance, "-uitestJournalAuth", "yes,no,yes,yes"]
+        app.launchArguments += ["-uitestReset"] + keepStateArgs
+        app.launch()
+        passOnboardingIfNeeded(app, goal: "Grow a daily habit", level: "Brand new")
+        XCTAssertTrue(app.navigationBars["Today"].waitForExistence(timeout: 6.0))
+
+        // 1. Day 1: the lesson is recorded before the reflection step, so quitting there keeps it
+        finishLessonQuiz(app, day: 1, answers: ["God", "Let there be light"])
+        XCTAssertTrue(app.staticTexts["Reflect & Pray"].waitForExistence(timeout: 6.0))
+        XCTAssertFalse(app.buttons["SaveReflectionButton"].isEnabled, "an empty reflection can be saved")
+        Thread.sleep(forTimeInterval: 0.5)
+        saveScreenshot("Lesson_Reflection")
+        app.terminate()
+        app.launchArguments = keepStateArgs // a cold launch keeping today's progress
+        app.launch()
+        XCTAssertTrue(app.navigationBars["Today"].waitForExistence(timeout: 6.0))
+        XCTAssertTrue(app.buttons["Day 2, current"].waitForExistence(timeout: 6.0), "quitting at the reflection step lost Day 1")
+
+        // 2. Day 2: write and save a reflection
+        let reflection = "Made in his image, I can rest in how he sees me."
+        finishLessonQuiz(app, day: 2, answers: ["God’s", "order:In God’s image|he created him;|male and female|he created them."])
+        XCTAssertTrue(app.staticTexts["Reflect & Pray"].waitForExistence(timeout: 6.0))
+        let editor = app.textViews["ReflectionTextEditor"]
+        XCTAssertTrue(editor.waitForExistence(timeout: 4.0))
+        editor.tap()
+        editor.typeText(reflection)
+        let saveButton = app.buttons["SaveReflectionButton"]
+        XCTAssertTrue(saveButton.isEnabled)
+        saveButton.tap()
+        XCTAssertTrue(app.navigationBars["Today"].waitForExistence(timeout: 6.0))
+        XCTAssertTrue(app.buttons["Day 3, current"].waitForExistence(timeout: 6.0))
+
+        // 3. Lamb tab -> Journal lists the saved reflection, tagged with its lesson
+        ensureTabBarExpanded(app)
+        app.tabBars.buttons["Lamb"].tap()
+        let journalButton = app.buttons["CompanionJournalButton"]
+        XCTAssertTrue(journalButton.waitForExistence(timeout: 4.0))
+        journalButton.tap()
+        XCTAssertTrue(app.navigationBars["Journal"].waitForExistence(timeout: 6.0))
+        XCTAssertTrue(element(app, containing: reflection).waitForExistence(timeout: 4.0), "the saved reflection is not in the Journal")
+        XCTAssertTrue(element(app, containing: "Made in God's image").exists)
+
+        // A reflection written from the Journal itself
+        app.buttons["New Reflection"].tap()
+        XCTAssertTrue(app.navigationBars["New Reflection"].waitForExistence(timeout: 4.0))
+        app.textFields["Title or passage (optional)"].tap()
+        app.textFields["Title or passage (optional)"].typeText("Psalm 23")
+        app.textViews.firstMatch.tap()
+        app.textViews.firstMatch.typeText("The Lord is my shepherd; I shall lack nothing.")
+        app.buttons["Save to Journal"].tap()
+        XCTAssertTrue(element(app, containing: "I shall lack nothing").waitForExistence(timeout: 4.0))
+        Thread.sleep(forTimeInterval: 0.5)
+        saveScreenshot("Journal_Entries")
+
+        // By path: one section for the First Steps path, one for reflections not tied to a lesson
+        app.buttons["ReflectionGroupingMenu"].tap()
+        let byPath = app.buttons["By path"]
+        XCTAssertTrue(byPath.waitForExistence(timeout: 3.0))
+        byPath.tap()
+        XCTAssertTrue(app.staticTexts["FIRST STEPS: 30 DAYS WITH GOD"].waitForExistence(timeout: 4.0))
+        XCTAssertTrue(app.staticTexts["YOUR OWN REFLECTIONS"].exists)
+        Thread.sleep(forTimeInterval: 0.4)
+        saveScreenshot("Journal_ByPath")
+
+        // 4. Prayers: one open, one answered, and the filters
+        app.buttons.matching(NSPredicate(format: "label BEGINSWITH 'Prayers'")).firstMatch.tap()
+        let addPrayerField = app.textFields["Add a prayer request…"]
+        XCTAssertTrue(addPrayerField.waitForExistence(timeout: 3.0))
+        addPrayerField.tap()
+        addPrayerField.typeText("Healing for Anna after surgery\n")
+        addPrayerField.tap()
+        addPrayerField.typeText("Peace and guidance for the week\n")
+        XCTAssertTrue(app.buttons["All (2)"].waitForExistence(timeout: 3.0))
+        // Newest first: this marks "Peace and guidance for the week" answered
+        app.buttons.matching(NSPredicate(format: "label == 'Mark as answered'")).firstMatch.tap()
+        XCTAssertTrue(app.buttons["Open (1)"].waitForExistence(timeout: 3.0))
+        XCTAssertTrue(app.buttons["Answered (1)"].exists)
+        XCTAssertTrue(element(app, containing: "Answered ").exists, "no answered date")
+
+        app.buttons["Open (1)"].tap()
+        XCTAssertTrue(element(app, containing: "Healing for Anna").waitForExistence(timeout: 3.0))
+        XCTAssertFalse(element(app, containing: "Peace and guidance").exists, "the Open filter shows an answered prayer")
+        app.buttons["Answered (1)"].tap()
+        XCTAssertTrue(element(app, containing: "Peace and guidance").waitForExistence(timeout: 3.0))
+        XCTAssertFalse(element(app, containing: "Healing for Anna").exists, "the Answered filter shows an open prayer")
+        app.buttons["All (2)"].tap()
+        XCTAssertTrue(element(app, containing: "Healing for Anna").waitForExistence(timeout: 3.0))
+        Thread.sleep(forTimeInterval: 0.5)
+        saveScreenshot("Journal_Prayers")
+
+        // 5. Turn the lock on (owner check 1: yes)
+        app.buttons["Journal Privacy Settings"].tap()
+        let lockSwitch = app.switches.firstMatch
+        XCTAssertTrue(lockSwitch.waitForExistence(timeout: 4.0))
+        lockSwitch.coordinate(withNormalizedOffset: CGVector(dx: 0.93, dy: 0.5)).tap()
+        XCTAssertTrue(app.buttons["Lock Journal Now"].waitForExistence(timeout: 4.0), "the lock did not turn on")
+        app.navigationBars["Journal Privacy"].buttons["Done"].tap()
+
+        // Leaving the journal locks it: reopening asks again (owner check 2: no)
+        app.navigationBars["Journal"].buttons.element(boundBy: 0).tap()
+        XCTAssertTrue(journalButton.waitForExistence(timeout: 4.0))
+        journalButton.tap()
+        XCTAssertTrue(app.staticTexts["Journal Locked"].waitForExistence(timeout: 4.0), "the journal stayed unlocked after leaving it")
+        XCTAssertFalse(element(app, containing: reflection).exists)
+        XCTAssertFalse(app.buttons["New Reflection"].exists, "the add button is live on the locked screen")
+        Thread.sleep(forTimeInterval: 0.4)
+        saveScreenshot("Journal_Locked")
+
+        // Unlock (owner check 3: yes)
+        app.buttons["Unlock Journal"].tap()
+        XCTAssertTrue(element(app, containing: reflection).waitForExistence(timeout: 4.0))
+
+        // Backgrounding the app locks it again
+        XCUIDevice.shared.press(.home)
+        Thread.sleep(forTimeInterval: 2.0)
+        app.activate()
+        XCTAssertTrue(app.staticTexts["Journal Locked"].waitForExistence(timeout: 4.0), "the journal stayed unlocked after backgrounding")
+        XCTAssertFalse(element(app, containing: reflection).exists)
+
+        // Backgrounding with a reflection open closes it too (owner check 4: yes). A TextEditor
+        // exposes its text as `value`, not `label`, so the probe matches on value and first proves
+        // it can see the open entry.
+        app.buttons["Unlock Journal"].tap()
+        let entryCard = app.buttons.matching(NSPredicate(format: "label CONTAINS %@", reflection)).firstMatch
+        XCTAssertTrue(entryCard.waitForExistence(timeout: 4.0))
+        entryCard.tap()
+        XCTAssertTrue(app.navigationBars["Reflection"].waitForExistence(timeout: 4.0))
+        let entryText = app.textViews.matching(NSPredicate(format: "value CONTAINS %@", reflection)).firstMatch
+        XCTAssertTrue(entryText.waitForExistence(timeout: 4.0), "the probe cannot see the open entry's text")
+        XCUIDevice.shared.press(.home)
+        Thread.sleep(forTimeInterval: 2.0)
+        app.activate()
+        XCTAssertTrue(app.staticTexts["Journal Locked"].waitForExistence(timeout: 4.0), "the journal stayed unlocked after backgrounding from an entry")
+        XCTAssertFalse(app.navigationBars["Reflection"].exists, "the entry sheet stayed open over the locked journal")
+        XCTAssertFalse(entryText.exists, "the entry text is visible after backgrounding with the lock on")
+
+        // 6. The Journal is also reachable from Settings
+        ensureTabBarExpanded(app)
+        app.tabBars.buttons["Settings"].tap()
+        XCTAssertTrue(app.navigationBars["Settings"].waitForExistence(timeout: 4.0))
+        let settingsJournalButton = app.buttons["SettingsJournalButton"]
+        XCTAssertTrue(settingsJournalButton.waitForExistence(timeout: 4.0))
+        settingsJournalButton.tap()
+        XCTAssertTrue(app.navigationBars["Journal"].waitForExistence(timeout: 4.0))
     }
 
     /// The reader row for verse `n` ("Verse 3, God said, …, Highlighted Yellow").
