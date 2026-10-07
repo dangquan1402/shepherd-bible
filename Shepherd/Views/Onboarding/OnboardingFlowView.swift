@@ -428,7 +428,11 @@ public struct OnboardingFlowView: View {
         isAskingForReminder = true
         let parts = Calendar.current.dateComponents([.hour, .minute], from: reminderTime)
         Task {
-            await DailyReminder.shared.enable(hour: parts.hour ?? 8, minute: parts.minute ?? 0)
+            await DailyReminder.shared.enable(
+                hour: parts.hour ?? 8,
+                minute: parts.minute ?? 0,
+                lesson: suggestedPath?.lessons.first.map(ReminderLesson.init)
+            )
             isAskingForReminder = false
             advance()
         }

@@ -120,6 +120,63 @@ final class ReminderTests: XCTestCase {
         }
     }
 
+    // MARK: - Lesson in the body (issue #10: "shows today's lesson title or verse reference")
+
+    func testBodyNamesTheNextLessonAndItsVerse() {
+        let lesson = ReminderLesson(dayIndex: 2, title: "Look at the birds", verseRef: "MAT.6.26")
+        let plan = ReminderPlanner.plan(settings: ReminderSettings(isEnabled: true, hour: 19, minute: 0),
+                                        now: date(2026, 10, 6, 9, 0), completedToday: false, lesson: lesson, calendar: calendar)
+        XCTAssertFalse(plan.isEmpty)
+        for item in plan {
+            XCTAssertEqual(item.body, "Day 2 · Look at the birds (Matthew 6:26)")
+            XCTAssertTrue(ReminderPlanner.messages.contains { $0.title == item.title }, "the calm title stays")
+        }
+    }
+
+    func testBodyFallsBackWhenNoLessonIsKnown() {
+        let plan = ReminderPlanner.plan(settings: ReminderSettings(isEnabled: true, hour: 19, minute: 0),
+                                        now: date(2026, 10, 6, 9, 0), completedToday: false, lesson: nil, calendar: calendar)
+        for item in plan {
+            XCTAssertTrue(ReminderPlanner.messages.contains { $0.body == item.body }, item.body)
+        }
+    }
+
+    func testReminderLessonUsesTheDisplayedTitle() throws {
+        ContentStore.shared.loadIfNeeded()
+        let day2 = try XCTUnwrap(ContentStore.shared.path(id: "beginner-30")?.lessons[1])
+        XCTAssertEqual(ReminderLesson(day2).notificationBody, "Day 2 · Made in God\u{2019}s image (Genesis 1:26)")
+    }
+
+    /// refresh(context:) names the next lesson on the user's active path, as Today does.
+    func testRefreshNamesTheNextLessonOnTheActivePath() async throws {
+        ContentStore.shared.loadIfNeeded()
+        let container = try ModelContainer(for: UserProfile.self, LessonProgress.self,
+                                           configurations: ModelConfiguration(isStoredInMemoryOnly: true))
+        let context = ModelContext(container)
+        context.insert(UserProfile(activePathId: "peace-14"))
+        context.insert(LessonProgress(lessonId: "peace-14.d01", completedAt: Date.now.addingTimeInterval(-3 * 86_400), quizScore: 3))
+        try context.save()
+
+        let center = FakeCenter()
+        center.status = .authorized
+        let defaults = freshDefaults()
+        ReminderSettings(isEnabled: true, hour: 23, minute: 59).save(to: defaults)
+        let reminder = DailyReminder(center: center, defaults: defaults, calendar: calendar)
+        await reminder.refresh(context: context)
+
+        let next = try XCTUnwrap(ContentStore.shared.path(id: "peace-14")?.lessons[1])
+        XCTAssertFalse(center.pending.isEmpty)
+        for request in center.pending {
+            XCTAssertTrue(request.content.body.contains(next.displayTitle), request.content.body)
+            XCTAssertTrue(request.content.body.hasPrefix("Day 2 · "), request.content.body)
+        }
+    }
+
+    func testWindowIsThirtyDays() {
+        XCTAssertEqual(ReminderPlanner.daysAhead, 30, "captain decision 2026-10-07")
+        XCTAssertLessThanOrEqual(ReminderPlanner.daysAhead, 64, "iOS keeps at most 64 pending notifications")
+    }
+
     // MARK: - Scheduling against the notification center
 
     func testEnableAsksOnceThenSchedulesAtTheTime() async {

@@ -41,11 +41,38 @@ public struct ReminderSettings: Equatable, Sendable {
     }
 }
 
+/// The lesson a reminder points at: the user's next lesson on their active path.
+public struct ReminderLesson: Equatable, Sendable {
+    public let dayIndex: Int
+    public let title: String
+    public let verseRef: String?
+
+    public init(dayIndex: Int, title: String, verseRef: String?) {
+        self.dayIndex = dayIndex
+        self.title = title
+        self.verseRef = verseRef
+    }
+
+    public init(_ lesson: Lesson) {
+        self.init(dayIndex: lesson.dayIndex, title: lesson.displayTitle, verseRef: lesson.verseRefs.first)
+    }
+
+    /// "Day 2 · Look at the birds (Matthew 6:26)"
+    public var notificationBody: String {
+        var body = "Day \(dayIndex) · \(title)"
+        if let verseRef { body += " (\(ContentStore.displayRef(verseRef)))" }
+        return body
+    }
+}
+
 public enum ReminderPlanner {
     public static let identifierPrefix = "daily-reminder-"
-    public static let daysAhead = 14
+    /// Captain decision 2026-10-07: 30 days (iOS allows 64 pending notifications).
+    public static let daysAhead = 30
 
     /// Calm, varied copy. Never streak, loss or guilt language (`testReminderCopyIsGentle`).
+    /// The title is always one of these; the body names the next lesson when one is known
+    /// (`ReminderLesson.notificationBody`), else it is the generic line here.
     public static let messages: [(title: String, body: String)] = [
         ("Your lamb is ready", "Today’s lesson is waiting whenever you are."),
         ("A few quiet minutes", "Today’s verse is ready for you."),
@@ -70,12 +97,14 @@ public enum ReminderPlanner {
     }
 
     /// The reminders to have pending at `now`: one per day at the chosen time, starting today,
-    /// skipping today when its time has passed or a lesson is already done today.
+    /// skipping today when its time has passed or a lesson is already done today. With a
+    /// `lesson`, each body names it (the next lesson stays the same until the app refreshes).
     public static func plan(
         settings: ReminderSettings,
         now: Date,
         completedToday: Bool,
-        calendar: Calendar = .current
+        lesson: ReminderLesson? = nil,
+        calendar: Calendar = .autoupdatingCurrent
     ) -> [Planned] {
         guard settings.isEnabled else { return [] }
         let today = calendar.startOfDay(for: now)
@@ -93,7 +122,7 @@ public enum ReminderPlanner {
                 fireDate: fire,
                 dateComponents: calendar.dateComponents([.year, .month, .day, .hour, .minute], from: fire),
                 title: message.title,
-                body: message.body
+                body: lesson?.notificationBody ?? message.body
             ))
         }
         return planned
@@ -131,8 +160,11 @@ public final class DailyReminder: ObservableObject {
     private let defaults: UserDefaults
     private let calendar: Calendar
     private var lastCompletedToday = false
+    /// The lesson the reminders name; refreshed from progress by `refresh(context:)`.
+    public private(set) var lesson: ReminderLesson?
 
-    public init(center: ReminderNotificationCenter, defaults: UserDefaults, calendar: Calendar = .current) {
+    /// `autoupdatingCurrent`, so a time-zone change while the app runs moves "today" with it.
+    public init(center: ReminderNotificationCenter, defaults: UserDefaults, calendar: Calendar = .autoupdatingCurrent) {
         self.center = center
         self.defaults = defaults
         self.calendar = calendar
@@ -141,7 +173,8 @@ public final class DailyReminder: ObservableObject {
 
     /// Asks for permission if it has never been asked, then turns the reminder on.
     @discardableResult
-    public func enable(hour: Int? = nil, minute: Int? = nil, completedToday: Bool = false, now: Date = .now) async -> EnableResult {
+    public func enable(hour: Int? = nil, minute: Int? = nil, lesson: ReminderLesson? = nil, completedToday: Bool = false, now: Date = .now) async -> EnableResult {
+        if let lesson { self.lesson = lesson }
         var granted: Bool
         switch await center.reminderAuthorizationStatus() {
         case .notDetermined:
@@ -193,7 +226,7 @@ public final class DailyReminder: ObservableObject {
         if completedToday {
             center.removeDeliveredNotifications(withIdentifiers: [ReminderPlanner.identifier(for: now, calendar: calendar)])
         }
-        for item in ReminderPlanner.plan(settings: settings, now: now, completedToday: completedToday, calendar: calendar) {
+        for item in ReminderPlanner.plan(settings: settings, now: now, completedToday: completedToday, lesson: lesson, calendar: calendar) {
             let content = UNMutableNotificationContent()
             content.title = item.title
             content.body = item.body
@@ -205,10 +238,20 @@ public final class DailyReminder: ObservableObject {
 
     /// Reschedules from the stored progress: today counts as done when any lesson was completed today.
     public func refresh(context: ModelContext, now: Date = .now) async {
+        lesson = Self.nextLesson(in: context, content: ContentStore.shared).map(ReminderLesson.init)
         await reschedule(completedToday: Self.hasCompletedLesson(on: now, in: context, calendar: calendar), now: now)
     }
 
-    public static func hasCompletedLesson(on day: Date, in context: ModelContext, calendar: Calendar = .current) -> Bool {
+    /// The next lesson on the active path (what Today and the continue accessory show); nil when
+    /// the path is finished.
+    public static func nextLesson(in context: ModelContext, content: ContentStore) -> Lesson? {
+        let profile = (try? context.fetch(FetchDescriptor<UserProfile>()))?.first
+        guard let path = content.activePath(id: profile?.activePathId) else { return nil }
+        let done = Set(((try? context.fetch(FetchDescriptor<LessonProgress>())) ?? []).map(\.lessonId))
+        return PathProgress.nextLesson(in: path, completed: done)
+    }
+
+    public static func hasCompletedLesson(on day: Date, in context: ModelContext, calendar: Calendar = .autoupdatingCurrent) -> Bool {
         let start = calendar.startOfDay(for: day)
         guard let end = calendar.date(byAdding: .day, value: 1, to: start) else { return false }
         var descriptor = FetchDescriptor<LessonProgress>(predicate: #Predicate { $0.completedAt >= start && $0.completedAt < end })
