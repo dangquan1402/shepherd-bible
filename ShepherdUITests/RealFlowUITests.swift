@@ -26,7 +26,7 @@ final class RealFlowUITests: XCTestCase {
     }
 
     @MainActor
-    private func passOnboardingIfNeeded(_ app: XCUIApplication, goal: String = "peace", level: String = "Some experience") {
+    private func passOnboardingIfNeeded(_ app: XCUIApplication, goal: String = "peace", level: String = "Some experience", reminderShot: String? = nil) {
         if app.staticTexts["Welcome to Pasture"].waitForExistence(timeout: 3.0) {
             app.buttons["Continue"].tap()
             _ = app.buttons.matching(NSPredicate(format: "label CONTAINS[c] %@", goal)).firstMatch.waitForExistence(timeout: 2.0)
@@ -46,6 +46,14 @@ final class RealFlowUITests: XCTestCase {
             _ = app.buttons["Continue"].waitForExistence(timeout: 2.0)
             app.buttons["Continue"].tap()
             _ = app.buttons["Not now"].waitForExistence(timeout: 2.0)
+            if let reminderShot {
+                // Both choices must stay reachable at large text sizes (the step scrolls).
+                XCTAssertTrue(app.staticTexts["Want a gentle daily reminder?"].exists)
+                XCTAssertTrue(app.buttons["Remind me"].isHittable, "Remind me is off screen")
+                XCTAssertTrue(app.buttons["Not now"].isHittable, "Not now is off screen")
+                Thread.sleep(forTimeInterval: 0.3)
+                saveScreenshot(reminderShot)
+            }
             app.buttons["Not now"].tap()
             _ = app.buttons["See my plan"].waitForExistence(timeout: 2.0)
             app.buttons["See my plan"].tap()
@@ -625,7 +633,7 @@ final class RealFlowUITests: XCTestCase {
     private func executeAX3Flow() throws {
         let app = XCUIApplication()
         app.launch()
-        passOnboardingIfNeeded(app)
+        passOnboardingIfNeeded(app, reminderShot: "Accessibility_AX3_Reminder")
 
         let day1Node = app.buttons.matching(NSPredicate(format: "label CONTAINS[c] 'Day 1'")).firstMatch
         if day1Node.waitForExistence(timeout: 4.0) {

@@ -4,6 +4,7 @@ import SwiftData
 public struct OnboardingFlowView: View {
     @Environment(\.modelContext) private var modelContext
     @EnvironmentObject private var content: ContentStore
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
     @State private var step: Int = 0
     @State private var goal: String = "grow_daily"
     @State private var experienceLevel: String = "beginner"
@@ -249,15 +250,29 @@ public struct OnboardingFlowView: View {
     }
 
     // MARK: - Step 5: Daily reminder (optional; asks for permission only on "Remind me")
+    /// Scrolls, wraps and drops the vignette at accessibility text sizes, so the question, the
+    /// reassurance and the time stay readable and "Remind me" / "Not now" stay on screen.
     private var reminderStepView: some View {
+        ViewThatFits(in: .vertical) {
+            reminderStepContent
+            ScrollView {
+                reminderStepContent
+                    .padding(.vertical, 8)
+            }
+        }
+    }
+
+    private var reminderStepContent: some View {
         VStack(spacing: 20) {
-            Spacer()
+            Spacer(minLength: 0)
 
-            ZStack {
-                HillVignetteView(width: 320, height: 70)
-                    .offset(y: 45)
+            if !dynamicTypeSize.isAccessibilitySize {
+                ZStack {
+                    HillVignetteView(width: 320, height: 70)
+                        .offset(y: 45)
 
-                LambView(stage: 1, expression: .sleepy, displayHeight: 140)
+                    LambView(stage: 1, expression: .sleepy, displayHeight: 140)
+                }
             }
 
             VStack(spacing: 8) {
@@ -265,18 +280,36 @@ public struct OnboardingFlowView: View {
                     .font(ShepherdTheme.title1Serif())
                     .foregroundStyle(ShepherdTheme.textPrimary)
                     .multilineTextAlignment(.center)
+                    .fixedSize(horizontal: false, vertical: true)
 
                 Text("One quiet nudge a day, at a time you choose. Change it or turn it off in Settings.")
                     .font(.subheadline)
                     .foregroundStyle(ShepherdTheme.textSecondary)
                     .multilineTextAlignment(.center)
+                    .fixedSize(horizontal: false, vertical: true)
                     .padding(.horizontal, 20)
             }
 
-            DatePicker(selection: $reminderTime, displayedComponents: .hourAndMinute) {
-                Text("Remind me at")
-                    .font(.body)
-                    .foregroundStyle(ShepherdTheme.textPrimary)
+            Group {
+                if dynamicTypeSize.isAccessibilitySize {
+                    // The label above the picker, so neither is truncated.
+                    VStack(alignment: .leading, spacing: 8) {
+                        Text("Remind me at")
+                            .font(.body)
+                            .foregroundStyle(ShepherdTheme.textPrimary)
+                            .fixedSize(horizontal: false, vertical: true)
+                        DatePicker("Remind me at", selection: $reminderTime, displayedComponents: .hourAndMinute)
+                            .labelsHidden()
+                    }
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding(.vertical, 12)
+                } else {
+                    DatePicker(selection: $reminderTime, displayedComponents: .hourAndMinute) {
+                        Text("Remind me at")
+                            .font(.body)
+                            .foregroundStyle(ShepherdTheme.textPrimary)
+                    }
+                }
             }
             .padding(.horizontal, 16)
             .frame(minHeight: 56)
@@ -288,7 +321,7 @@ public struct OnboardingFlowView: View {
             )
             .padding(.horizontal, 20)
 
-            Spacer()
+            Spacer(minLength: 0)
         }
     }
 
