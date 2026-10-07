@@ -149,7 +149,7 @@ struct PathCompleteCard: View {
             HStack(spacing: 10) {
                 Image(systemName: "flag.checkered")
                     .font(.system(size: 18, weight: .semibold))
-                    .foregroundStyle(ShepherdTheme.accent)
+                    .foregroundStyle(ShepherdTheme.brand)
                 Text("Path complete")
                     .font(ShepherdTheme.title2Serif())
                     .foregroundStyle(ShepherdTheme.textPrimary)

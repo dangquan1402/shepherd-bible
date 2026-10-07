@@ -102,100 +102,103 @@ Bundled Bible: World English Bible, 66 books, 1189 chapters.
 
 ## 3. Identity
 
-Direction **Flock** (chosen from three in `data/sb-brand/directions`, outside the repo): a mascot-led brand that stays devotional.
+Direction **Green Pastures** (captain's chosen direction, 2026-10-07, option A): an evergreen pastoral identity that makes Pasture ownable, calming, and deeply devotional.
 
-- **Canvas:** an almost-white lavender (`#FBFAFF`) by day, **midnight indigo** (`#14122E`, card `#1E1B42`) by night. The dark is chromatic on purpose: Liquid Glass reads as tinted glass on it, not grey on black. A periwinkle-to-sunrise sky sits behind most screens, with vivid light meadow hills on Today.
-- **Accent: ultramarine.** Text `#3431D6` / `#B3B2FF`, fill `#3D3AE8` / `#5E5CF2`. It is for actions, the current node, progress, icon tints and the lamb's bandana. The dark fill sits in the narrow band that carries a white label at 4.5:1 *and* clears 3:1 against the dark surfaces as an icon tint.
-- **Sunflower (`--color-gold*`) is for reward and celebration only:** XP, streak, sparkles, the bell, the crown's centres, the sunlit path. It never colours routine chrome.
-- **Logo.** A lowercase wordmark `pasture` outlined from **Baloo 2 ExtraBold** (SIL Open Font License 1.1, Ek Type), so no font ships. The mark is the lamb's front face on an ultramarine chip. `Brand/Lockup` is used centred above the lamb on Onboarding_Welcome; `Brand/Lockup/Compact` is used at the top left of the paywall.
-- **App icon.** The front face filling an ultramarine gradient tile (`--color-icon-top` / `-bottom`). The dark appearance uses the same face on midnight indigo. Tinted is a grayscale source with the face lifted to mid-grey so the silhouette survives the tint; clear is a white head silhouette with the eyes cut out. All four come from `tools/brand/brandart.py`.
+- **Canvas:** warm paper (`#F9F8F3`) by day, **deep forest** (`#0F1D16`, card `#18271E`, sunken `#13221A`) by night. The dark is an atmospheric forest night that preserves the meadow into dark mode; Liquid Glass reads cleanly off it.
+- **Brand / Accent: evergreen.** Text `#036E4E` / `#56DEAB`, fill `#037A57` / `#36B386`. It is for actions, the current node, progress, links, selected tab, and quiz correct.
+- **Sunflower (`--color-gold*` / `Joy`) is for joy only:** streak flame, XP, sparkles, the bell, the crown's centres, and the premium glyph. It never colours routine chrome; its text form is amber joy.
+- **Quiz correctness:** evergreen for correct; warm clay (`--color-error*`, `#9E4A1F` / `#F2AA8B`) for "not quite" encouraging feedback. Alarming red is never used in the quiz.
+- **Destructive:** red (`--color-destructive`, `#BE2F2C` / `#F7857D`) is reserved strictly for delete actions and purchase failures.
+- **Selection:** neutral ink (`--color-surface-sunken` fill, `--color-text-primary` border/badge) before check, so unsubmitted answers never look "right".
+- **Premium:** ink by day, sunflower by night (`--color-premium-surface` `#16231C` / `#FFC21A`, with `--color-on-premium` and `--color-premium-glyph`).
+- **Logo.** A lowercase wordmark `pasture` outlined from **Baloo 2 ExtraBold** (SIL Open Font License 1.1, Ek Type), so no font ships. The mark is the lamb's front face on an evergreen chip. `Brand/Lockup` is used centred above the lamb on Onboarding_Welcome; `Brand/Lockup/Compact` is used at the top left of the paywall.
+- **App icon.** The front face filling an evergreen gradient tile (`--color-icon-top` `#036E4E` / `#162C20`, `--color-icon-bottom` `#024C36` / `#0C140F`). Tinted and clear appearances adapt gracefully.
+- **The lamb:** black-faced Suffolk lamb with fleece cap and white-sclera eyes. In dark mode, a 25% white moonlight rim (`--color-mascot-outline`) ensures the silhouette separates cleanly from deep forest hills.
 - **Devotional, not a kids' app:** New York stays for titles, verses and prayer, scripture screens stay lamb-free, and motion stays calm (section 9).
-- **Green and red are reserved for quiz correctness** (`--color-success*`, `--color-error*`). Nothing else uses them. The Settings restore toast uses a neutral info icon for this reason.
-- **The lamb** is the character (section 6). It lives on the path, in feedback, in onboarding and on the reward. It is deliberately absent from Lesson reading and the Bible reader.
 - **Type.** SF Pro for UI and New York (`.fontDesign(.serif)`) for titles, verses and prayer. *Render proxies:* Pencil's renderer has no Apple system fonts, so the `--font-body` / `--font-sans` tokens hold **Inter** and `--font-display` / `--font-serif` hold **Newsreader**. Ship SF Pro and New York; sizes and weights carry over.
 
 ## 4. Tokens (*generated*)
 
 <!-- gen:tokens -->
-109 variables in `shepherd.lib.pen` (theme axis `mode`: light / dark).
+125 variables in `shepherd.lib.pen` (theme axis `mode`: light / dark).
 
 **Colour: text and surfaces**
 
 | Token | Light | Dark |
 |---|---|---|
-| `--color-canvas-bg` | `#FBFAFF` | `#14122E` |
-| `--color-card-surface` | `#FFFFFF` | `#1E1B42` |
-| `--color-surface-sunken` | `#F0EFFA` | `#262351` |
-| `--color-surface-border` | `#E1DFF2` | `#322F63` |
-| `--color-text-primary` | `#18163A` | `#F6F5FF` |
-| `--color-text-secondary` | `#4C4970` | `#C2BFE6` |
-| `--color-text-tertiary` | `#5F5C84` | `#A19DCB` |
+| `--color-canvas-bg` | `#F9F8F3` | `#0F1D16` |
+| `--color-card-surface` | `#FFFFFF` | `#18271E` |
+| `--color-surface-sunken` | `#F0EFE9` | `#13221A` |
+| `--color-surface-border` | `#DFDED7` | `#2F4037` |
+| `--color-text-primary` | `#16231C` | `#F1F0E9` |
+| `--color-text-secondary` | `#47534C` | `#C6C9BF` |
+| `--color-text-tertiary` | `#5C6861` | `#9FA59D` |
 | `--color-on-accent` | `#FFFFFF` | `#FFFFFF` |
 | `--color-transparent` | `#00000000` | `#00000000` |
 | `--color-phone-island` | `#000000` | `#000000` |
 | `--color-phone-camera` | `#1A1A2E` | `#1A1A2E` |
 | `--color-phone-sensor` | `#111111` | `#111111` |
-| `--color-canvas-clear` | `#FBFAFF00` | `#14122E00` |
-| `--color-canvas-veil` | `#FBFAFFB3` | `#14122EB3` |
+| `--color-canvas-clear` | `#F9F8F300` | `#0F1D1600` |
+| `--color-canvas-veil` | `#F9F8F3B3` | `#0F1D16B3` |
 
 **Colour: accent, gold, reward**
 
 | Token | Light | Dark |
 |---|---|---|
-| `--color-accent` | `#3431D6` | `#B3B2FF` |
-| `--color-accent-fill` | `#3D3AE8` | `#5E5CF2` |
-| `--color-accent-subtle` | `#E9E9FF` | `#2D2A66` |
-| `--color-gold` | `#8A5200` | `#FFD23F` |
+| `--color-accent` | `#046B51` | `#82DDBB` |
+| `--color-accent-fill` | `#046B51` | `#0E8061` |
+| `--color-accent-subtle` | `#DCF5EB` | `#18392D` |
+| `--color-gold` | `#8B5510` | `#FFD162` |
 | `--color-gold-fill` | `#FFC21A` | `#FFC21A` |
-| `--color-gold-subtle` | `#FFF5CF` | `#3A3326` |
-| `--color-node-current-ring` | `#FFFFFF` | `#FFF7D6` |
-| `--color-node-glow` | `#3D3AE855` | `#FFD23F40` |
-| `--color-accent-fill-deep` | `#2421A8` | `#2A27A6` |
-| `--color-accent-subtle-deep` | `#C9C8FA` | `#3B3880` |
-| `--color-node-locked` | `#FFFFFF` | `#29265A` |
-| `--color-node-locked-deep` | `#D9D7EE` | `#151236` |
+| `--color-gold-subtle` | `#FFF5E0` | `#3C2E14` |
+| `--color-node-current-ring` | `#FFFFFF` | `#FBF1DC` |
+| `--color-node-glow` | `#FFC21A66` | `#FFC21A40` |
+| `--color-accent-fill-deep` | `#024C38` | `#02523D` |
+| `--color-accent-subtle-deep` | `#B5DFCE` | `#1D4335` |
+| `--color-node-locked` | `#FBFAF6` | `#293A30` |
+| `--color-node-locked-deep` | `#D1D7C2` | `#15231B` |
 
 **Colour: quiz correctness (quiz only)**
 
 | Token | Light | Dark |
 |---|---|---|
-| `--color-success` | `#137135` | `#4ADE80` |
-| `--color-success-subtle` | `#EAF7EE` | `#173528` |
-| `--color-error` | `#B91C1C` | `#FF8A8A` |
-| `--color-error-subtle` | `#FDF0EF` | `#3B1E33` |
-| `--color-success-fill` | `#137135` | `#15803D` |
-| `--color-success-deep` | `#0D4F25` | `#0E5A2B` |
+| `--color-success` | `#046B51` | `#82DDBB` |
+| `--color-success-subtle` | `#DCF5EB` | `#18392D` |
+| `--color-error` | `#9E4A1F` | `#F2AA8B` |
+| `--color-error-subtle` | `#FEEEE4` | `#45281A` |
+| `--color-success-fill` | `#046B51` | `#0E8061` |
+| `--color-success-deep` | `#024C38` | `#02523D` |
 
 **Colour: Liquid Glass**
 
 | Token | Light | Dark |
 |---|---|---|
-| `--color-glass-fill` | `#FFFFFF94` | `#221F4CA6` |
-| `--color-glass-stroke` | `#D6D4EE` | `#FFFFFF30` |
+| `--color-glass-fill` | `#FFFFFF94` | `#18271EA6` |
+| `--color-glass-stroke` | `#D9D8CF` | `#FFFFFF30` |
 | `--color-glass-specular` | `#FFFFFFE6` | `#FFFFFF4D` |
-| `--color-shadow-glass` | `#18163A14` | `#00000040` |
-| `--color-shadow-glass-heavy` | `#18163A26` | `#00000073` |
-| `--color-scrim` | `#18163A59` | `#07061899` |
+| `--color-shadow-glass` | `#16231C14` | `#00000040` |
+| `--color-shadow-glass-heavy` | `#16231C26` | `#00000073` |
+| `--color-scrim` | `#16231C59` | `#02040399` |
 | `--color-glass-spec-top` | `#FFFFFFE6` | `#FFFFFF80` |
 | `--color-glass-spec-mid` | `#FFFFFF00` | `#FFFFFF00` |
-| `--color-glass-spec-bottom` | `#4C49704D` | `#FFFFFF1F` |
+| `--color-glass-spec-bottom` | `#47534C4D` | `#FFFFFF1F` |
 | `--color-glass-inner-hi` | `#FFFFFFA6` | `#FFFFFF45` |
-| `--color-tab-selection` | `#3D3AE81A` | `#FFFFFF24` |
-| `--color-scrim-soft` | `#18163A14` | `#07061840` |
+| `--color-tab-selection` | `#046B511A` | `#FFFFFF24` |
+| `--color-scrim-soft` | `#16231C14` | `#02040340` |
 
 **Colour: meadow illustration**
 
 | Token | Light | Dark |
 |---|---|---|
-| `--color-meadow-sky` | `#ECEEFF` | `#1A1848` |
-| `--color-meadow-hill-distant` | `#D2F0AE` | `#1C3A4E` |
-| `--color-meadow-hill-near` | `#A3DD72` | `#25525F` |
-| `--color-meadow-path` | `#FFF1BF` | `#3A3772` |
-| `--color-meadow-path-border` | `#F0D47E` | `#4C4994` |
-| `--color-meadow-sky-bottom` | `#FFF4D1` | `#23205A` |
-| `--color-meadow-hill-mid` | `#BCE890` | `#204656` |
-| `--color-meadow-sky-clear` | `#ECEEFF00` | `#1A184800` |
-| `--color-meadow-sky-veil` | `#ECEEFFB3` | `#1A1848B3` |
+| `--color-meadow-sky` | `#E7F7FB` | `#091725` |
+| `--color-meadow-hill-distant` | `#D3E8BF` | `#193124` |
+| `--color-meadow-hill-near` | `#A8D391` | `#315038` |
+| `--color-meadow-path` | `#FEF3D2` | `#474942` |
+| `--color-meadow-path-border` | `#EFD79C` | `#595C52` |
+| `--color-meadow-sky-bottom` | `#FEF5DF` | `#082022` |
+| `--color-meadow-hill-mid` | `#BFDEA8` | `#233F2C` |
+| `--color-meadow-sky-clear` | `#E7F7FB00` | `#09172500` |
+| `--color-meadow-sky-veil` | `#E7F7FBB3` | `#091725B3` |
 
 **Colour: lamb**
 
@@ -207,8 +210,8 @@ Direction **Flock** (chosen from three in `data/sb-brand/directions`, outside th
 | `--color-mascot-features` | `#141012` | `#141012` |
 | `--color-mascot-far-legs` | `#1A1617` | `#1A1617` |
 | `--color-mascot-blush` | `#FF9EB1` | `#FF9EB1` |
-| `--color-mascot-outline` | `#2A252600` | `#2A252600` |
-| `--color-mascot-shadow` | `#18163A22` | `#00000066` |
+| `--color-mascot-outline` | `#FFFFFF00` | `#FFFFFF40` |
+| `--color-mascot-shadow` | `#16231C22` | `#00000066` |
 | `--color-mascot-tongue` | `#FF7D8F` | `#FF7D8F` |
 | `--color-mascot-bell` | `#FFC21A` | `#FFC21A` |
 | `--color-mascot-hoof` | `#100D0E` | `#100D0E` |
@@ -217,21 +220,21 @@ Direction **Flock** (chosen from three in `data/sb-brand/directions`, outside th
 | `--color-mascot-eye-white` | `#FFFFFF` | `#FFFFFF` |
 | `--color-mascot-mouth` | `#5B1E2E` | `#5B1E2E` |
 | `--color-mascot-flower` | `#FF9EB1` | `#FF9EB1` |
-| `--color-mascot-zz` | `#8C86B8` | `#A19DCB` |
+| `--color-mascot-zz` | `#5C6861` | `#9FA59D` |
 
 **Colour: app icon (light = default appearance, dark = dark appearance)**
 
 | Token | Light | Dark |
 |---|---|---|
-| `--color-icon-top` | `#4B48F2` | `#25225A` |
-| `--color-icon-bottom` | `#2E2BD0` | `#14122E` |
+| `--color-icon-top` | `#439458` | `#162C20` |
+| `--color-icon-bottom` | `#035C41` | `#0C140F` |
 
 **Colour: design notes (not shipped UI)**
 
 | Token | Light | Dark |
 |---|---|---|
-| `--color-note` | `#6D28D9` | `#C4B5FD` |
-| `--color-note-subtle` | `#F1EAFE` | `#2A2144` |
+| `--color-note` | `#046B51` | `#82DDBB` |
+| `--color-note-subtle` | `#DCF5EB` | `#18392D` |
 
 **Type**
 
@@ -277,6 +280,27 @@ Direction **Flock** (chosen from three in `data/sb-brand/directions`, outside th
 | `--space-6` | `24` | `24` |
 | `--space-8` | `32` | `32` |
 | `--space-10` | `40` | `40` |
+
+**Other**
+
+| Token | Light | Dark |
+|---|---|---|
+| `--color-streak` | `#CC7200` | `#FFC21A` |
+| `--color-destructive` | `#BE2F2C` | `#F7857D` |
+| `--color-border-strong` | `#848F89` | `#6D7771` |
+| `--color-premium-surface` | `#16231C` | `#FFC21A` |
+| `--color-on-premium` | `#FFFFFF` | `#16231C` |
+| `--color-premium-glyph` | `#FFC21A` | `#16231C` |
+| `--color-highlight-yellow` | `#FFF3B8` | `#352E11` |
+| `--color-highlight-blue` | `#E2EEFD` | `#192D41` |
+| `--color-highlight-purple` | `#F1E6FC` | `#31253F` |
+| `--color-highlight-rose` | `#FCE4EC` | `#3F202A` |
+| `--color-highlight-amber` | `#FFE8D1` | `#3E2815` |
+| `--color-highlight-yellow-swatch` | `#9A7500` | `#FFD23F` |
+| `--color-highlight-blue-swatch` | `#1D5FD6` | `#7DB4FF` |
+| `--color-highlight-purple-swatch` | `#7A35E0` | `#C9A6FF` |
+| `--color-highlight-rose-swatch` | `#C2255C` | `#FF9EBB` |
+| `--color-highlight-amber-swatch` | `#B8500A` | `#FFA559` |
 <!-- /gen:tokens -->
 
 Type scale (Dynamic Type style → size used in the frames): Large Title 34 (Home, Paths, Settings, lesson title, all in the serif), Title1 28 (onboarding questions), Title2 22 (feedback title), Title3 20, Headline/Body 17, Callout 16, Subheadline 15, Footnote 13, Caption2 11. Nothing is below 11 pt.
@@ -327,51 +351,51 @@ Type scale (Dynamic Type style → size used in the frames): Large Title 34 (Hom
 | `Row/Settings` | 370×52 | 1 icon, 2 text | settings row (label, value, chevron) |
 | `Sheet/Feedback/Correct` | 386×296 | 1 ellipse, 5 frame, 3 ref, 2 text | glass quiz feedback sheet (morph target of Check) |
 | `Sheet/Feedback/Wrong` | 386×334 | 1 ellipse, 5 frame, 3 ref, 2 text | glass quiz feedback sheet (morph target of Check) |
-| `Avatar/S1/Happy` | 56×56 | 16 path | lamb head-and-shoulders avatar (56 pt, pre-cut to the circle) |
-| `Avatar/S1/Encouraging` | 56×56 | 17 path | lamb head-and-shoulders avatar (56 pt, pre-cut to the circle) |
-| `Avatar/S1/Idle` | 56×56 | 17 path | lamb head-and-shoulders avatar (56 pt, pre-cut to the circle) |
-| `Avatar/S2/Idle` | 56×56 | 17 path | lamb head-and-shoulders avatar (56 pt, pre-cut to the circle) |
-| `Avatar/S3/Idle` | 56×56 | 18 path | lamb head-and-shoulders avatar (56 pt, pre-cut to the circle) |
-| `Avatar/S4/Idle` | 56×56 | 19 path | lamb head-and-shoulders avatar (56 pt, pre-cut to the circle) |
-| `Avatar/S5/Idle` | 56×56 | 21 path | lamb head-and-shoulders avatar (56 pt, pre-cut to the circle) |
-| `Brand/Mark` | 40×40 | 1 ellipse, 10 path | logo mark: the lamb face on an ultramarine chip |
+| `Avatar/S1/Happy` | 56×56 | 17 path | lamb head-and-shoulders avatar (56 pt, pre-cut to the circle) |
+| `Avatar/S1/Encouraging` | 56×56 | 18 path | lamb head-and-shoulders avatar (56 pt, pre-cut to the circle) |
+| `Avatar/S1/Idle` | 56×56 | 18 path | lamb head-and-shoulders avatar (56 pt, pre-cut to the circle) |
+| `Avatar/S2/Idle` | 56×56 | 18 path | lamb head-and-shoulders avatar (56 pt, pre-cut to the circle) |
+| `Avatar/S3/Idle` | 56×56 | 19 path | lamb head-and-shoulders avatar (56 pt, pre-cut to the circle) |
+| `Avatar/S4/Idle` | 56×56 | 20 path | lamb head-and-shoulders avatar (56 pt, pre-cut to the circle) |
+| `Avatar/S5/Idle` | 56×56 | 22 path | lamb head-and-shoulders avatar (56 pt, pre-cut to the circle) |
+| `Brand/Mark` | 40×40 | 1 ellipse, 11 path | logo mark: the lamb face on an ultramarine chip |
 | `Brand/Wordmark` | 126.37×30 | 1 path | lowercase wordmark, outlined Baloo 2 ExtraBold (SIL OFL 1.1) |
-| `Brand/Lockup` | 177.57×40 | 1 ellipse, 11 path | mark + wordmark, onboarding welcome size |
-| `Brand/Lockup/Compact` | 126.86×30 | 1 ellipse, 11 path | mark + wordmark, paywall header size |
-| `Brand/AppIcon` | 180×180 | 10 path | app icon artwork at 180 px (60 pt @3x); theme picks default / dark |
+| `Brand/Lockup` | 177.57×40 | 1 ellipse, 12 path | mark + wordmark, onboarding welcome size |
+| `Brand/Lockup/Compact` | 126.86×30 | 1 ellipse, 12 path | mark + wordmark, paywall header size |
+| `Brand/AppIcon` | 180×180 | 11 path | app icon artwork at 180 px (60 pt @3x); theme picks default / dark |
 
 | Lamb variant | Artboard (pt) | Vector layers |
 |---|---|---|
-| `Lamb/S1/Idle` | 139.7×92.4 | 18 paths |
-| `Lamb/S1/Happy` | 139.7×92.4 | 17 paths |
-| `Lamb/S1/Encouraging` | 139.7×92.4 | 18 paths |
-| `Lamb/S1/Celebrating` | 139.7×92.4 | 18 paths |
-| `Lamb/S1/Sleepy` | 139.7×92.4 | 17 paths |
-| `Lamb/S1/Hello` | 139.7×92.4 | 21 paths |
-| `Lamb/S2/Idle` | 116.6×104.5 | 19 paths |
-| `Lamb/S2/Happy` | 116.6×104.5 | 18 paths |
-| `Lamb/S2/Encouraging` | 116.6×104.5 | 19 paths |
-| `Lamb/S2/Celebrating` | 116.6×104.5 | 19 paths |
-| `Lamb/S2/Sleepy` | 116.6×104.5 | 17 paths |
-| `Lamb/S2/Hello` | 116.6×104.5 | 21 paths |
-| `Lamb/S3/Idle` | 130.9×103.4 | 20 paths |
-| `Lamb/S3/Happy` | 130.9×103.4 | 19 paths |
-| `Lamb/S3/Encouraging` | 130.9×103.4 | 20 paths |
-| `Lamb/S3/Celebrating` | 130.9×103.4 | 20 paths |
-| `Lamb/S3/Sleepy` | 130.9×103.4 | 17 paths |
-| `Lamb/S3/Hello` | 130.9×103.4 | 23 paths |
-| `Lamb/S4/Idle` | 138.6×113.3 | 21 paths |
-| `Lamb/S4/Happy` | 138.6×113.3 | 20 paths |
-| `Lamb/S4/Encouraging` | 138.6×113.3 | 21 paths |
-| `Lamb/S4/Celebrating` | 138.6×113.3 | 21 paths |
-| `Lamb/S4/Sleepy` | 138.6×113.3 | 17 paths |
-| `Lamb/S4/Hello` | 138.6×113.3 | 24 paths |
-| `Lamb/S5/Idle` | 146.3×118.8 | 23 paths |
-| `Lamb/S5/Happy` | 146.3×118.8 | 22 paths |
-| `Lamb/S5/Encouraging` | 146.3×118.8 | 23 paths |
-| `Lamb/S5/Celebrating` | 146.3×118.8 | 23 paths |
-| `Lamb/S5/Sleepy` | 146.3×118.8 | 19 paths |
-| `Lamb/S5/Hello` | 146.3×118.8 | 26 paths |
+| `Lamb/S1/Idle` | 139.7×92.4 | 19 paths |
+| `Lamb/S1/Happy` | 139.7×92.4 | 18 paths |
+| `Lamb/S1/Encouraging` | 139.7×92.4 | 19 paths |
+| `Lamb/S1/Celebrating` | 139.7×92.4 | 19 paths |
+| `Lamb/S1/Sleepy` | 139.7×92.4 | 18 paths |
+| `Lamb/S1/Hello` | 139.7×92.4 | 22 paths |
+| `Lamb/S2/Idle` | 116.6×105.6 | 20 paths |
+| `Lamb/S2/Happy` | 116.6×105.6 | 19 paths |
+| `Lamb/S2/Encouraging` | 116.6×105.6 | 20 paths |
+| `Lamb/S2/Celebrating` | 116.6×105.6 | 20 paths |
+| `Lamb/S2/Sleepy` | 116.6×105.6 | 18 paths |
+| `Lamb/S2/Hello` | 116.6×105.6 | 22 paths |
+| `Lamb/S3/Idle` | 130.9×104.5 | 21 paths |
+| `Lamb/S3/Happy` | 130.9×104.5 | 20 paths |
+| `Lamb/S3/Encouraging` | 130.9×104.5 | 21 paths |
+| `Lamb/S3/Celebrating` | 130.9×104.5 | 21 paths |
+| `Lamb/S3/Sleepy` | 130.9×104.5 | 18 paths |
+| `Lamb/S3/Hello` | 130.9×104.5 | 24 paths |
+| `Lamb/S4/Idle` | 139.7×114.4 | 22 paths |
+| `Lamb/S4/Happy` | 139.7×114.4 | 21 paths |
+| `Lamb/S4/Encouraging` | 139.7×114.4 | 22 paths |
+| `Lamb/S4/Celebrating` | 139.7×114.4 | 22 paths |
+| `Lamb/S4/Sleepy` | 139.7×114.4 | 18 paths |
+| `Lamb/S4/Hello` | 139.7×114.4 | 25 paths |
+| `Lamb/S5/Idle` | 148.5×121 | 24 paths |
+| `Lamb/S5/Happy` | 148.5×121 | 23 paths |
+| `Lamb/S5/Encouraging` | 148.5×121 | 24 paths |
+| `Lamb/S5/Celebrating` | 148.5×121 | 24 paths |
+| `Lamb/S5/Sleepy` | 148.5×121 | 20 paths |
+| `Lamb/S5/Hello` | 148.5×121 | 27 paths |
 <!-- /gen:components -->
 
 ### 5.2 The glass recipe (every glass node)

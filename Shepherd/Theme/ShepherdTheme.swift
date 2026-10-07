@@ -8,36 +8,57 @@ public enum ShepherdTheme {
     public static let cardSurface = Color("CardSurface")
     public static let surfaceSunken = Color("SurfaceSunken")
     public static let surfaceBorder = Color("SurfaceBorder")
+    public static let borderStrong = Color("BorderStrong")
     public static let textPrimary = Color("TextPrimary")
     public static let textSecondary = Color("TextSecondary")
     public static let textTertiary = Color("TextTertiary")
-    public static let onAccent = Color("OnAccent")
-    public static let canvasClear = Color("CanvasClear")
-    public static let canvasVeil = Color("CanvasVeil")
 
-    // MARK: - Colors: Accent & Gold
-    public static let accent = Color("AccentColor")
-    public static let accentFill = Color("AccentFill")
-    public static let accentSubtle = Color("AccentSubtle")
-    public static let accentFillDeep = Color("AccentFillDeep")
-    public static let accentSubtleDeep = Color("AccentSubtleDeep")
-    public static let gold = Color("Gold")
-    public static let goldFill = Color("GoldFill")
-    public static let goldSubtle = Color("GoldSubtle")
+    // MARK: - Colors: Brand
+    public static let brand = Color("AccentColor")
+    public static let brandFill = Color("BrandFill")
+    public static let brandSubtle = Color("BrandSubtle")
+    public static let brandFillDeep = Color("BrandFillDeep")
+    public static let brandSubtleDeep = Color("BrandSubtleDeep")
+    public static let onBrand = Color("OnBrand")
+
+    // MARK: - Colors: Joy & Reward
+    public static let joy = Color("Joy")
+    public static let joyFill = Color("JoyFill")
+    public static let joySubtle = Color("JoySubtle")
+    public static let streak = Color("Streak")
+
+    // MARK: - Colors: Status & Roles
+    public static let destructive = Color("Destructive")
+    public static let premiumSurface = Color("PremiumSurface")
+    public static let onPremium = Color("OnPremium")
+    public static let premiumGlyph = Color("PremiumGlyph")
+
+    // MARK: - Colors: Today Path Node
     public static let nodeCurrentRing = Color("NodeCurrentRing")
     public static let nodeGlow = Color("NodeGlow")
     public static let nodeLocked = Color("NodeLocked")
     public static let nodeLockedDeep = Color("NodeLockedDeep")
-    public static let streak = Color("Streak")
-    public static let destructive = Color("Destructive")
 
     // MARK: - Colors: Quiz Correctness (Quiz only)
-    public static let success = Color("Success")
-    public static let successSubtle = Color("SuccessSubtle")
-    public static let successFill = Color("SuccessFill")
-    public static let successDeep = Color("SuccessDeep")
-    public static let error = Color("Error")
-    public static let errorSubtle = Color("ErrorSubtle")
+    public static let correct = Color("Correct")
+    public static let correctSubtle = Color("CorrectSubtle")
+    public static let wrong = Color("Wrong")
+    public static let wrongSubtle = Color("WrongSubtle")
+
+    // Backward-compatibility aliases during transition
+    public static let accent = brand
+    public static let accentFill = brandFill
+    public static let accentSubtle = brandSubtle
+    public static let accentFillDeep = brandFillDeep
+    public static let accentSubtleDeep = brandSubtleDeep
+    public static let onAccent = onBrand
+    public static let gold = joy
+    public static let goldFill = joyFill
+    public static let goldSubtle = joySubtle
+    public static let success = correct
+    public static let successSubtle = correctSubtle
+    public static let error = wrong
+    public static let errorSubtle = wrongSubtle
 
     // MARK: - Colors: Scripture Highlights
     public static let highlightYellow = Color("HighlightYellow")
@@ -47,24 +68,15 @@ public enum ShepherdTheme {
     public static let highlightAmber = Color("HighlightAmber")
 
     // MARK: - Colors: Liquid Glass
-    public static let glassFill = Color("GlassFill")
     public static let glassStroke = Color("GlassStroke")
-    public static let glassSpecular = Color("GlassSpecular")
     public static let shadowGlass = Color("ShadowGlass")
-    public static let shadowGlassHeavy = Color("ShadowGlassHeavy")
     public static let scrim = Color("Scrim")
     public static let scrimSoft = Color("ScrimSoft")
-    public static let glassSpecTop = Color("GlassSpecTop")
-    public static let glassSpecMid = Color("GlassSpecMid")
-    public static let glassSpecBottom = Color("GlassSpecBottom")
-    public static let glassInnerHi = Color("GlassInnerHi")
     public static let tabSelection = Color("TabSelection")
 
     // MARK: - Colors: Meadow Illustration
     public static let meadowSky = Color("MeadowSky")
     public static let meadowSkyBottom = Color("MeadowSkyBottom")
-    public static let meadowSkyClear = Color("MeadowSkyClear")
-    public static let meadowSkyVeil = Color("MeadowSkyVeil")
     public static let meadowHillNear = Color("MeadowHillNear")
     public static let meadowHillMid = Color("MeadowHillMid")
     public static let meadowHillDistant = Color("MeadowHillDistant")
@@ -142,15 +154,23 @@ public enum ShepherdTheme {
 
 // MARK: - Color Convenience Extensions
 public extension Color {
-    static var shepherdAccent: Color { ShepherdTheme.accent }
-    static var shepherdAccentFill: Color { ShepherdTheme.accentFill }
+    static var shepherdBrand: Color { ShepherdTheme.brand }
+    static var shepherdBrandFill: Color { ShepherdTheme.brandFill }
+    static var shepherdAccent: Color { ShepherdTheme.brand }
+    static var shepherdAccentFill: Color { ShepherdTheme.brandFill }
     static var shepherdCanvasBg: Color { ShepherdTheme.canvasBg }
     static var shepherdCardSurface: Color { ShepherdTheme.cardSurface }
     static var shepherdTextPrimary: Color { ShepherdTheme.textPrimary }
     static var shepherdTextSecondary: Color { ShepherdTheme.textSecondary }
     static var shepherdTextTertiary: Color { ShepherdTheme.textTertiary }
-    static var shepherdSuccess: Color { ShepherdTheme.success }
-    static var shepherdError: Color { ShepherdTheme.error }
+    static var shepherdCorrect: Color { ShepherdTheme.correct }
+    static var shepherdWrong: Color { ShepherdTheme.wrong }
+    static var shepherdSuccess: Color { ShepherdTheme.correct }
+    static var shepherdError: Color { ShepherdTheme.wrong }
+    static var shepherdJoy: Color { ShepherdTheme.joy }
+    static var shepherdJoyFill: Color { ShepherdTheme.joyFill }
+    static var shepherdDestructive: Color { ShepherdTheme.destructive }
+    static var shepherdStreak: Color { ShepherdTheme.streak }
     static var shepherdGlassStroke: Color { ShepherdTheme.glassStroke }
     static var shepherdHighlightYellow: Color { ShepherdTheme.highlightYellow }
     static var shepherdHighlightBlue: Color { ShepherdTheme.highlightBlue }

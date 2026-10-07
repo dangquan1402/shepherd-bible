@@ -153,7 +153,7 @@ STYLES = {
         tuft_s1=True,
         eyes="white",
         eye_scale=1.0,
-        outline=0.0,
+        outline=1.5,
         curls=True,
         cheeks=True,
         leg_w=7.4,
@@ -183,6 +183,7 @@ STYLES = {
         sparkle_key="goldFill",
     ),
 }
+STYLES["pasture"] = STYLES["flock"]
 
 # Stage geometry in a ~120-unit box; the lamb faces three-quarters left.
 STAGES = {

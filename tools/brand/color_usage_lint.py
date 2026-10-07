@@ -17,10 +17,10 @@ DEFAULT_ROOT = os.path.dirname(os.path.dirname(HERE))
 QUIZ = {'Shepherd/Views/Lesson/QuizView.swift', 'Shepherd/Views/Components/ShepherdComponents.swift'}
 RULES = [
     # greedy to the end of the line, so a ')' inside a ternary or call cannot hide the token
-    ('R1', re.compile(r'foregroundStyle\(.*(?:accentFill|shepherdAccentFill)'), None),
+    ('R1', re.compile(r'foregroundStyle\(.*(?:accentFill|shepherdAccentFill|brandFill|shepherdBrandFill)'), None),
     ('R2', re.compile(r'(?<![A-Za-z])(?:Color)?\.(?:white|black)\b'), None),
     ('R3', re.compile(r'Color\("[A-Za-z]+"\)'), None),
-    ('R4', re.compile(r'ShepherdTheme\.(?:success|successSubtle|error|errorSubtle)\b'), QUIZ),
+    ('R4', re.compile(r'ShepherdTheme\.(?:success|successSubtle|error|errorSubtle|correct|correctSubtle|wrong|wrongSubtle)\b'), QUIZ),
 ]
 
 def run_lint(root=None):

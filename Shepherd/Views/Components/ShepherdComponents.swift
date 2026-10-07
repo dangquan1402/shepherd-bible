@@ -337,16 +337,16 @@ public struct ChoiceRow: View {
                 switch state {
                 case .selected:
                     Circle()
-                        .strokeBorder(ShepherdTheme.accent, lineWidth: 2)
+                        .strokeBorder(ShepherdTheme.textPrimary, lineWidth: 2)
                         .frame(width: 24, height: 24)
                 case .correct, .revealed:
                     Image(systemName: "checkmark.circle.fill")
                         .font(.system(size: 24))
-                        .foregroundStyle(ShepherdTheme.success)
+                        .foregroundStyle(ShepherdTheme.correct)
                 case .wrong:
                     Image(systemName: "xmark.circle.fill")
                         .font(.system(size: 24))
-                        .foregroundStyle(ShepherdTheme.error)
+                        .foregroundStyle(ShepherdTheme.wrong)
                 case .neutral:
                     EmptyView()
                 }
@@ -367,18 +367,18 @@ public struct ChoiceRow: View {
     private var bgColor: Color {
         switch state {
         case .neutral: return ShepherdTheme.cardSurface
-        case .selected: return ShepherdTheme.accentSubtle
-        case .correct, .revealed: return ShepherdTheme.successSubtle
-        case .wrong: return ShepherdTheme.errorSubtle
+        case .selected: return ShepherdTheme.surfaceSunken
+        case .correct, .revealed: return ShepherdTheme.correctSubtle
+        case .wrong: return ShepherdTheme.wrongSubtle
         }
     }
 
     private var borderColor: Color {
         switch state {
         case .neutral: return ShepherdTheme.surfaceBorder
-        case .selected: return ShepherdTheme.accent
-        case .correct, .revealed: return ShepherdTheme.success
-        case .wrong: return ShepherdTheme.error
+        case .selected: return ShepherdTheme.textPrimary
+        case .correct, .revealed: return ShepherdTheme.correct
+        case .wrong: return ShepherdTheme.wrong
         }
     }
 
@@ -389,13 +389,13 @@ public struct ChoiceRow: View {
 
 public extension ChoiceRowState {
     /// Colour-set names of the letter badge (text on fill). The fills are the text tokens
-    /// accent/success/error, which are light in dark mode, so the letter is the canvas colour,
+    /// brand/correct/wrong, which are light in dark mode, so the letter is the canvas colour,
     /// not white. `testChoiceLetterBadgeMeetsAA` and the `tokens.py` gate hold this to AA.
     var letterBadgeColorNames: (text: String, fill: String) {
         switch self {
-        case .selected: return ("CanvasBg", "AccentColor")
-        case .correct, .revealed: return ("CanvasBg", "Success")
-        case .wrong: return ("CanvasBg", "Error")
+        case .selected: return ("CanvasBg", "TextPrimary")
+        case .correct, .revealed: return ("CanvasBg", "Correct")
+        case .wrong: return ("CanvasBg", "Wrong")
         case .neutral: return ("TextSecondary", "SurfaceSunken")
         }
     }
@@ -418,7 +418,7 @@ public struct VerseCard: View {
         VStack(alignment: .leading, spacing: 10) {
             Text("\(ContentStore.displayRef(reference)) · \(translation)")
                 .font(ShepherdTheme.scriptureEyebrow())
-                .foregroundStyle(ShepherdTheme.accent)
+                .foregroundStyle(ShepherdTheme.brand)
 
             Text(text)
                 .font(ShepherdTheme.scriptureBody())
@@ -498,88 +498,6 @@ public struct RewardStatChip: View {
     }
 }
 
-// MARK: - Paywall Plan Card
-
-public struct PlanCard: View {
-    public let title: String
-    public let subtitle: String
-    public let price: String
-    public var badge: String? = nil
-    public let isSelected: Bool
-    public var action: () -> Void
-
-    public init(
-        title: String,
-        subtitle: String,
-        price: String,
-        badge: String? = nil,
-        isSelected: Bool,
-        action: @escaping () -> Void
-    ) {
-        self.title = title
-        self.subtitle = subtitle
-        self.price = price
-        self.badge = badge
-        self.isSelected = isSelected
-        self.action = action
-    }
-
-    public var body: some View {
-        Button(action: action) {
-            HStack(spacing: 14) {
-                // Radio icon
-                ZStack {
-                    Circle()
-                        .strokeBorder(isSelected ? ShepherdTheme.accent : ShepherdTheme.surfaceBorder, lineWidth: 2)
-                        .frame(width: 22, height: 22)
-                    if isSelected {
-                        Circle()
-                            .fill(ShepherdTheme.accent)
-                            .frame(width: 12, height: 12)
-                    }
-                }
-
-                VStack(alignment: .leading, spacing: 4) {
-                    HStack(spacing: 8) {
-                        Text(title)
-                            .font(.body.weight(.bold))
-                            .foregroundStyle(ShepherdTheme.textPrimary)
-
-                        if let badge {
-                            Text(badge.uppercased())
-                                .font(.caption2.weight(.bold))
-                                .padding(.horizontal, 8)
-                                .padding(.vertical, 3)
-                                .background(ShepherdTheme.accentSubtle)
-                                .foregroundStyle(ShepherdTheme.accent)
-                                .clipShape(Capsule())
-                        }
-                    }
-
-                    Text(subtitle)
-                        .font(.footnote)
-                        .foregroundStyle(ShepherdTheme.textSecondary)
-                }
-
-                Spacer()
-
-                Text(price)
-                    .font(.body.weight(.bold))
-                    .foregroundStyle(ShepherdTheme.textPrimary)
-            }
-            .padding(.horizontal, 16)
-            .frame(maxWidth: .infinity)
-            .frame(minHeight: 80)
-            .background(isSelected ? ShepherdTheme.accentSubtle.opacity(0.3) : ShepherdTheme.cardSurface)
-            .clipShape(RoundedRectangle(cornerRadius: ShepherdTheme.radiusMD))
-            .overlay(
-                RoundedRectangle(cornerRadius: ShepherdTheme.radiusMD)
-                    .stroke(isSelected ? ShepherdTheme.accent : ShepherdTheme.surfaceBorder, lineWidth: isSelected ? 2 : 1)
-            )
-        }
-        .buttonStyle(.plain)
-    }
-}
 
 // MARK: - Brand Lockup (design: Brand/Lockup, Brand/Lockup/Compact)
 

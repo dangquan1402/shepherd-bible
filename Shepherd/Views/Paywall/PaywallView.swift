@@ -252,13 +252,18 @@ public struct PaywallView: View {
                             .foregroundStyle(ShepherdTheme.textPrimary)
 
                         if let badge = badge {
-                            Text(badge)
-                                .font(.caption.bold())
-                                .foregroundStyle(ShepherdTheme.accent)
-                                .padding(.horizontal, 6)
-                                .padding(.vertical, 2)
-                                .background(ShepherdTheme.accentSubtle)
-                                .clipShape(Capsule())
+                            HStack(spacing: 4) {
+                                Image(systemName: "crown.fill")
+                                    .font(.caption2.weight(.bold))
+                                    .foregroundStyle(ShepherdTheme.premiumGlyph)
+                                Text(badge)
+                                    .font(.caption.bold())
+                                    .foregroundStyle(ShepherdTheme.onPremium)
+                            }
+                            .padding(.horizontal, 8)
+                            .padding(.vertical, 3)
+                            .background(ShepherdTheme.premiumSurface)
+                            .clipShape(Capsule())
                         }
                     }
 

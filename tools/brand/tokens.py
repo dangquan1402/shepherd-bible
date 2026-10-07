@@ -24,6 +24,10 @@ FIXED = {
     "--color-note-subtle": ("#F1EAFE", "#2A2144"),
     "--color-streak": ("#CC7200", "#FFC21A"),
     "--color-destructive": ("#BE2F2C", "#F7857D"),
+    "--color-border-strong": ("#848F89", "#6D7771"),
+    "--color-premium-surface": ("#16231C", "#FFC21A"),
+    "--color-on-premium": ("#FFFFFF", "#16231C"),
+    "--color-premium-glyph": ("#FFC21A", "#16231C"),
     # Bible reader highlights: the verse fill, and the dot that names the colour on its swatch
     "--color-highlight-yellow": ("#FFF3B8", "#3B331A"),
     "--color-highlight-blue": ("#E2EEFD", "#1B2F44"),
@@ -241,6 +245,93 @@ DIRECTIONS = {
             "--color-mascot-zz": ("#93A0AD", "#8FA1AD"),
         },
     },
+    # ------------------------------------------------------------------ D
+    "pasture": {
+        "name": "Green Pastures",
+        "idea": "The meadow on Today is the brand: evergreen action, paper and pine-ink neutrals, a deep forest night, and sunflower joy.",
+        "tokens": {
+            "--color-canvas-bg": ("#F9F8F3", "#0F1D16"),
+            "--color-card-surface": ("#FFFFFF", "#18271E"),
+            "--color-surface-sunken": ("#F0EFE9", "#13221A"),
+            "--color-surface-border": ("#DFDED7", "#2F4037"),
+            "--color-border-strong": ("#848F89", "#6D7771"),
+            "--color-text-primary": ("#16231C", "#F1F0E9"),
+            "--color-text-secondary": ("#47534C", "#C6C9BF"),
+            "--color-text-tertiary": ("#5C6861", "#9FA59D"),
+            "--color-accent": ("#046B51", "#82DDBB"),
+            "--color-accent-fill": ("#046B51", "#0E8061"),
+            "--color-accent-fill-deep": ("#024C38", "#02523D"),
+            "--color-accent-subtle": ("#DCF5EB", "#18392D"),
+            "--color-accent-subtle-deep": ("#B5DFCE", "#1D4335"),
+            "--color-on-accent": ("#FFFFFF", "#FFFFFF"),
+            "--color-gold": ("#8B5510", "#FFD162"),
+            "--color-gold-fill": ("#FFC21A", "#FFC21A"),
+            "--color-gold-subtle": ("#FFF5E0", "#3C2E14"),
+            "--color-streak": ("#CC7200", "#FFC21A"),
+            "--color-node-current-ring": ("#FFFFFF", "#FBF1DC"),
+            "--color-node-glow": ("#FFC21A66", "#FFC21A40"),
+            "--color-node-locked": ("#FBFAF6", "#293A30"),
+            "--color-node-locked-deep": ("#D1D7C2", "#15231B"),
+            "--color-success": ("#046B51", "#82DDBB"),
+            "--color-success-subtle": ("#DCF5EB", "#18392D"),
+            "--color-success-fill": ("#046B51", "#0E8061"),
+            "--color-success-deep": ("#024C38", "#02523D"),
+            "--color-error": ("#9E4A1F", "#F2AA8B"),
+            "--color-error-subtle": ("#FEEEE4", "#45281A"),
+            "--color-destructive": ("#BE2F2C", "#F7857D"),
+            "--color-premium-surface": ("#16231C", "#FFC21A"),
+            "--color-on-premium": ("#FFFFFF", "#16231C"),
+            "--color-premium-glyph": ("#FFC21A", "#16231C"),
+            "--color-glass-fill": ("#FFFFFF94", "#18271EA6"),
+            "--color-glass-stroke": ("#D9D8CF", "#FFFFFF30"),
+            "--color-glass-specular": ("#FFFFFFE6", "#FFFFFF4D"),
+            "--color-glass-spec-top": ("#FFFFFFE6", "#FFFFFF80"),
+            "--color-glass-spec-bottom": ("#47534C4D", "#FFFFFF1F"),
+            "--color-glass-inner-hi": ("#FFFFFFA6", "#FFFFFF45"),
+            "--color-shadow-glass": ("#16231C14", "#00000040"),
+            "--color-shadow-glass-heavy": ("#16231C26", "#00000073"),
+            "--color-scrim": ("#16231C59", "#02040399"),
+            "--color-scrim-soft": ("#16231C14", "#02040340"),
+            "--color-tab-selection": ("#046B511A", "#FFFFFF24"),
+            "--color-meadow-sky": ("#E7F7FB", "#091725"),
+            "--color-meadow-sky-bottom": ("#FEF5DF", "#082022"),
+            "--color-meadow-hill-distant": ("#D3E8BF", "#193124"),
+            "--color-meadow-hill-mid": ("#BFDEA8", "#233F2C"),
+            "--color-meadow-hill-near": ("#A8D391", "#315038"),
+            "--color-meadow-path": ("#FEF3D2", "#474942"),
+            "--color-meadow-path-border": ("#EFD79C", "#595C52"),
+            "--color-mascot-fleece": ("#FFFFFF", "#FFFFFF"),
+            "--color-mascot-fleece-shade": ("#ECE6DC", "#ECE6DC"),
+            "--color-mascot-face": ("#2A2526", "#2A2526"),
+            "--color-mascot-features": ("#141012", "#141012"),
+            "--color-mascot-legs": ("#2A2526", "#2A2526"),
+            "--color-mascot-far-legs": ("#1A1617", "#1A1617"),
+            "--color-mascot-hoof": ("#100D0E", "#100D0E"),
+            "--color-mascot-blush": ("#FF9EB1", "#FF9EB1"),
+            "--color-mascot-outline": ("#FFFFFF00", "#FFFFFF40"),
+            "--color-mascot-shadow": ("#16231C22", "#00000066"),
+            "--color-mascot-tongue": ("#FF7D8F", "#FF7D8F"),
+            "--color-mascot-bell": ("#FFC21A", "#FFC21A"),
+            "--color-mascot-eye-white": ("#FFFFFF", "#FFFFFF"),
+            "--color-mascot-mouth": ("#5B1E2E", "#5B1E2E"),
+            "--color-mascot-flower": ("#FF9EB1", "#FF9EB1"),
+            "--color-mascot-zz": ("#5C6861", "#9FA59D"),
+            "--color-icon-top": ("#439458", "#162C20"),
+            "--color-icon-bottom": ("#035C41", "#0C140F"),
+            "--color-note": ("#046B51", "#82DDBB"),
+            "--color-note-subtle": ("#DCF5EB", "#18392D"),
+            "--color-highlight-yellow": ("#FFF3B8", "#352E11"),
+            "--color-highlight-blue": ("#E2EEFD", "#192D41"),
+            "--color-highlight-purple": ("#F1E6FC", "#31253F"),
+            "--color-highlight-rose": ("#FCE4EC", "#3F202A"),
+            "--color-highlight-amber": ("#FFE8D1", "#3E2815"),
+            "--color-highlight-yellow-swatch": ("#9A7500", "#FFD23F"),
+            "--color-highlight-blue-swatch": ("#1D5FD6", "#7DB4FF"),
+            "--color-highlight-purple-swatch": ("#7A35E0", "#C9A6FF"),
+            "--color-highlight-rose-swatch": ("#C2255C", "#FF9EBB"),
+            "--color-highlight-amber-swatch": ("#B8500A", "#FFA559"),
+        },
+    },
 }
 
 
@@ -354,14 +445,94 @@ PAIRS = (
     + [("NODE", "--color-meadow-hill-near", UI, "current node (fill or ring) on hill (non-text)")]
 )
 
+# 170-pair contrast gate for Green Pastures (85 pairs x 2 appearances)
+PAIRS_PASTURE = (
+    [
+        (fg, bg, TEXT, "body text")
+        for fg in ("--color-text-primary", "--color-text-secondary", "--color-text-tertiary")
+        for bg in _SURF + ["GLASS"]
+    ]
+    + [
+        ("--color-text-primary", bg, TEXT, "labels on meadow / tints")
+        for bg in (
+            "--color-meadow-sky",
+            "--color-meadow-sky-bottom",
+            "--color-meadow-hill-distant",
+            "--color-meadow-hill-mid",
+            "--color-meadow-hill-near",
+            "--color-accent-subtle",
+            "--color-gold-subtle",
+            "--color-meadow-path",
+        )
+    ]
+    + [
+        ("--color-text-secondary", bg, TEXT, "path day labels")
+        for bg in (
+            "--color-meadow-sky",
+            "--color-meadow-sky-bottom",
+            "--color-meadow-hill-mid",
+            "--color-meadow-hill-near",
+            "--color-meadow-path",
+        )
+    ]
+    + [
+        ("--color-accent", bg, TEXT, "brand text / links")
+        for bg in _SURF + ["--color-accent-subtle", "GLASS"]
+    ]
+    + [("--color-on-accent", "--color-accent-fill", TEXT, "button label")]
+    + [
+        ("--color-gold", bg, TEXT, "reward text (XP, streak count)")
+        for bg in _SURF + ["--color-gold-subtle"]
+    ]
+    + [
+        ("--color-success", bg, TEXT, "quiz correct")
+        for bg in ("--color-card-surface", "--color-success-subtle", "--color-canvas-bg", "GLASS")
+    ]
+    + [
+        ("--color-error", bg, TEXT, "quiz wrong")
+        for bg in ("--color-card-surface", "--color-error-subtle", "--color-canvas-bg", "GLASS")
+    ]
+    + [
+        ("--color-destructive", bg, TEXT, "delete actions")
+        for bg in _SURF
+    ]
+    + [("--color-on-premium", "--color-premium-surface", TEXT, "premium chip label")]
+    + [
+        ("--color-canvas-bg", bg, TEXT, "quiz letter badge")
+        for bg in ("--color-accent", "--color-success", "--color-error")
+    ]
+    + [
+        (fg, bg, TEXT, "highlighted verse")
+        for fg in ("--color-text-primary", "--color-text-secondary", "--color-accent")
+        for bg in _HIGHLIGHTS
+    ]
+    + [(bg + "-swatch", bg, UI, "highlight swatch dot") for bg in _HIGHLIGHTS]
+    + [
+        item
+        for bg in ("--color-canvas-bg", "--color-card-surface", "GLASS")
+        for item in [
+            ("--color-accent-fill", bg, UI, "icon tint / button vs ground"),
+            ("--color-streak", bg, UI, "streak flame glyph"),
+            ("--color-premium-glyph", "--color-premium-surface", UI, "premium crown glyph"),
+        ]
+    ]
+    + [("--color-accent-fill", "--color-surface-sunken", UI, "XP / progress fill vs track")]
+    + [("--color-accent", "--color-accent-subtle", UI, "done-node check on its face (use brand, not brand-fill)")]
+    + [("--color-accent", "--color-accent-subtle", UI, "selected border on selected fill")]
+    + [("NODE", "--color-meadow-hill-near", UI, "current node (fill or ring) on hill")]
+    + [("NODE", "--color-meadow-path", UI, "current node (fill or ring) on path")]
+    + [("--color-border-strong", "--color-card-surface", UI, "control outline (radio, unselected toggle)")]
+)
+
 
 def check(direction, verbose=False):
     t = tokens(direction)
+    pairs_list = PAIRS_PASTURE if direction in ("pasture", "assets") else PAIRS
     rows, fails = [], 0
     for mode_i, mode in enumerate(("light", "dark")):
         canvas = t["--color-canvas-bg"][mode_i]
         glass = over(t["--color-glass-fill"][mode_i], canvas)
-        for fg, bg, need, what in PAIRS:
+        for fg, bg, need, what in pairs_list:
             bgv = glass if bg == "GLASS" else t[bg][mode_i]
             if fg == "NODE":
                 fill, ring = t["--color-accent-fill"][mode_i], t["--color-node-current-ring"][mode_i]
@@ -384,18 +555,47 @@ def from_assets(xcassets):
     import json
     import os
 
+    role_map = {
+        "--color-accent": "AccentColor",
+        "--color-accent-fill": "BrandFill",
+        "--color-accent-subtle": "BrandSubtle",
+        "--color-accent-fill-deep": "BrandFillDeep",
+        "--color-accent-subtle-deep": "BrandSubtleDeep",
+        "--color-on-accent": "OnBrand",
+        "--color-gold": "Joy",
+        "--color-gold-fill": "JoyFill",
+        "--color-gold-subtle": "JoySubtle",
+        "--color-success": "Correct",
+        "--color-success-subtle": "CorrectSubtle",
+        "--color-error": "Wrong",
+        "--color-error-subtle": "WrongSubtle",
+        "--color-destructive": "Destructive",
+        "--color-streak": "Streak",
+        "--color-premium-surface": "PremiumSurface",
+        "--color-on-premium": "OnPremium",
+        "--color-premium-glyph": "PremiumGlyph",
+        "--color-border-strong": "BorderStrong",
+    }
+
     def hexa(c):
         k = c["components"]
         r, g, b, a = (round(float(k[x]) * 255) for x in ("red", "green", "blue", "alpha"))
         return f"#{r:02X}{g:02X}{b:02X}" + ("" if a == 255 else f"{a:02X}")
 
-    out = {}
-    for token in tokens("flock"):
-        name = "AccentColor" if token == "--color-accent" else "".join(
-            p.capitalize() for p in token.removeprefix("--color-").split("-"))
+    out = dict(tokens("pasture"))
+    for token in tokens("pasture"):
+        name = role_map.get(token) or "".join(
+            p.capitalize() for p in token.removeprefix("--color-").split("-")
+        )
         path = os.path.join(xcassets, f"{name}.colorset", "Contents.json")
         if not os.path.exists(path):
-            continue
+            # check legacy name fallback
+            legacy_name = "AccentColor" if token == "--color-accent" else "".join(
+                p.capitalize() for p in token.removeprefix("--color-").split("-")
+            )
+            path = os.path.join(xcassets, f"{legacy_name}.colorset", "Contents.json")
+            if not os.path.exists(path):
+                continue
         with open(path) as f:
             colors = json.load(f)["colors"]
         light = next(c for c in colors if "appearances" not in c)["color"]

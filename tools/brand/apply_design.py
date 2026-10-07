@@ -23,7 +23,8 @@ import tokens as T
 ROOT = os.path.dirname(os.path.dirname(HERE))
 LIB = os.path.join(ROOT, "design/shepherd.lib.pen")
 SCREENS = os.path.join(ROOT, "design/screens/shepherd.pen")
-DIRECTION = "flock"
+DIRECTION = "pasture"
+MASCOT_STYLE = "flock"
 WORD = P.read_json(os.path.join(HERE, "wordmark.json"))
 
 MARK = 40  # Brand/Mark and Brand/Lockup
@@ -39,7 +40,7 @@ def walk(n, parent=None):
 
 
 def face_nodes(size, prefix, chip_fill=None, scale=0.8, dy=0.04):
-    face = lambgen.face_front(DIRECTION, "Idle")
+    face = lambgen.face_front(MASCOT_STYLE, "Idle")
     x0, y0, x1, y1 = face["bounds"]
     fw, fh = x1 - x0, y1 - y0
     k = size * scale / max(fw, fh)
@@ -122,7 +123,7 @@ def ensure_component(name, frame, children, ids, at):
 def lib_cmds():
     lib = P.read_json(LIB)
     ids = P.comp_ids(lib)
-    out, data = P.lib_cmds(DIRECTION, LIB)
+    out, data = P.lib_cmds(DIRECTION, LIB, MASCOT_STYLE)
     # re-centre the character sheet's 30 lamb refs in their cells (feet on the old ground line)
     names = {v: k for k, v in ids.items()}
     old = {}
@@ -213,7 +214,7 @@ def screens_cmds():
     doc = P.read_json(SCREENS)
     a = next(iter(doc.get("imports", {"I": ""})))
     pre = f"{a}:"
-    out = P.screens_cmds(DIRECTION, LIB, SCREENS, [])  # every lamb / avatar instance in every frame
+    out = P.screens_cmds(DIRECTION, LIB, SCREENS, [], MASCOT_STYLE)  # every lamb / avatar instance in every frame
     tk = T.tokens(DIRECTION)
     for top in doc["children"]:
         mode = (top.get("theme") or {}).get(f"{a}:mode", "light")

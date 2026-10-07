@@ -87,10 +87,11 @@ def rebuild(cid, nodes, w, h):
     )
 
 
-def lib_cmds(direction, lib_path):
+def lib_cmds(direction, lib_path, mascot_style=None):
     lib = read_json(lib_path)
     ids = comp_ids(lib)
-    data = lambgen.build_all(direction)
+    style = mascot_style or ("flock" if direction == "pasture" else direction)
+    data = lambgen.build_all(style)
     out = [set_variables(direction)]
     for s, st in data["stages"].items():
         vb, w, h = st["viewBox"], st["width"], st["height"]
@@ -121,11 +122,12 @@ def lib_cmds(direction, lib_path):
     return out, data
 
 
-def screens_cmds(direction, lib_path, screens_path, frames):
+def screens_cmds(direction, lib_path, screens_path, frames, mascot_style=None):
     lib = read_json(lib_path)
     ids = comp_ids(lib)
     names = {v: k for k, v in ids.items()}
-    data = lambgen.build_all(direction)
+    style = mascot_style or ("flock" if direction == "pasture" else direction)
+    data = lambgen.build_all(style)
     doc = read_json(screens_path)
     out = []
     for top in doc["children"]:
