@@ -304,12 +304,8 @@ private struct SavedItemRow: View {
         switch item {
         case .highlight(let h):
             Circle()
-                .fill(h.highlightColor.color)
+                .fill(h.highlightColor.swatchColor)
                 .frame(width: 14, height: 14)
-                .overlay(
-                    Circle()
-                        .stroke(ShepherdTheme.surfaceBorder, lineWidth: 1)
-                )
         case .bookmark:
             Image(systemName: "bookmark.fill")
                 .font(.system(size: 13, weight: .bold))
