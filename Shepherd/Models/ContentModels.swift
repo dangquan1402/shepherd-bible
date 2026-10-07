@@ -187,21 +187,96 @@ public struct Lesson: Codable, Identifiable, Hashable, Sendable {
     }
 }
 
+public enum QuestionType: String, Codable, Sendable {
+    case choice
+    case fillBlank = "fill_blank"
+    case order
+    case trueFalse = "true_false"
+    case match
+}
+
+public struct MatchPair: Codable, Hashable, Sendable {
+    public let ref: String
+    public let text: String
+
+    public init(ref: String, text: String) {
+        self.ref = ref
+        self.text = text
+    }
+}
+
 public struct QuizQuestion: Codable, Identifiable, Hashable, Sendable {
     public let id: String
+    public let type: QuestionType
     public let prompt: String
     public let choices: [String]
     public let correctIndex: Int
     /// The lesson verse that proves the answer; shown after the question is checked.
     public let answerRef: String?
     public let explain: String?
+    public let orderTokens: [String]?
+    public let pairs: [MatchPair]?
 
-    public init(id: String, prompt: String, choices: [String], correctIndex: Int, answerRef: String? = nil, explain: String?) {
+    public init(
+        id: String,
+        type: QuestionType = .choice,
+        prompt: String,
+        choices: [String] = [],
+        correctIndex: Int = 0,
+        answerRef: String? = nil,
+        explain: String?,
+        orderTokens: [String]? = nil,
+        pairs: [MatchPair]? = nil
+    ) {
         self.id = id
+        self.type = type
         self.prompt = prompt
         self.choices = choices
         self.correctIndex = correctIndex
         self.answerRef = answerRef
         self.explain = explain
+        self.orderTokens = orderTokens
+        self.pairs = pairs
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case id, type, prompt, choices, correctIndex, answerRef, explain
+        case orderTokens, tokens
+        case pairs, matchPairs
+    }
+
+    public init(from decoder: Decoder) throws {
+        let c = try decoder.container(keyedBy: CodingKeys.self)
+        id = try c.decode(String.self, forKey: .id)
+        type = try c.decodeIfPresent(QuestionType.self, forKey: .type) ?? .choice
+        prompt = try c.decode(String.self, forKey: .prompt)
+        choices = try c.decodeIfPresent([String].self, forKey: .choices) ?? []
+        correctIndex = try c.decodeIfPresent(Int.self, forKey: .correctIndex) ?? 0
+        answerRef = try c.decodeIfPresent(String.self, forKey: .answerRef)
+        explain = try c.decodeIfPresent(String.self, forKey: .explain)
+        orderTokens = try c.decodeIfPresent([String].self, forKey: .orderTokens)
+            ?? c.decodeIfPresent([String].self, forKey: .tokens)
+        pairs = try c.decodeIfPresent([MatchPair].self, forKey: .pairs)
+            ?? c.decodeIfPresent([MatchPair].self, forKey: .matchPairs)
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var c = encoder.container(keyedBy: CodingKeys.self)
+        try c.encode(id, forKey: .id)
+        if type != .choice {
+            try c.encode(type, forKey: .type)
+        }
+        try c.encode(prompt, forKey: .prompt)
+        if !choices.isEmpty {
+            try c.encode(choices, forKey: .choices)
+        }
+        if type == .choice || type == .fillBlank || type == .trueFalse {
+            try c.encode(correctIndex, forKey: .correctIndex)
+        }
+        try c.encodeIfPresent(answerRef, forKey: .answerRef)
+        try c.encodeIfPresent(explain, forKey: .explain)
+        try c.encodeIfPresent(orderTokens, forKey: .orderTokens)
+        try c.encodeIfPresent(pairs, forKey: .pairs)
     }
 }
+
