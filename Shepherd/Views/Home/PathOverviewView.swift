@@ -76,10 +76,10 @@ struct PathCatalogRow: View {
                 if isActive {
                     Text("Current")
                         .font(.caption.weight(.bold))
-                        .foregroundStyle(ShepherdTheme.accent)
+                        .foregroundStyle(ShepherdTheme.brand)
                         .padding(.horizontal, 8)
                         .padding(.vertical, 3)
-                        .background(ShepherdTheme.accentSubtle)
+                        .background(ShepherdTheme.brandSubtle)
                         .clipShape(Capsule())
                 }
             }
@@ -94,7 +94,7 @@ struct PathCatalogRow: View {
                 Text("\(path.lessons.count) lessons · \(PathAccessPolicy.label(for: path))")
             }
             .font(.footnote)
-            .foregroundStyle(path.access == .premium ? ShepherdTheme.accent : ShepherdTheme.textSecondary)
+            .foregroundStyle(path.access == .premium ? ShepherdTheme.brand : ShepherdTheme.textSecondary)
             if completedCount > 0 {
                 Text("\(completedCount) of \(path.lessons.count) done")
                     .font(.footnote)
@@ -138,13 +138,13 @@ public struct PathLessonsListView: View {
             Section {
                 if isActive {
                     Label("You are following this path", systemImage: "checkmark.circle.fill")
-                        .foregroundStyle(ShepherdTheme.accent)
+                        .foregroundStyle(ShepherdTheme.brand)
                 } else {
                     Button {
                         followPath()
                     } label: {
                         Label("Follow this path on Today", systemImage: "arrow.right.circle")
-                            .foregroundStyle(ShepherdTheme.accent)
+                            .foregroundStyle(ShepherdTheme.brand)
                     }
                 }
             } footer: {
@@ -201,7 +201,7 @@ public struct PathLessonsListView: View {
         HStack(spacing: 14) {
             Text("Day \(lesson.dayIndex)")
                 .font(.subheadline.weight(.bold))
-                .foregroundStyle(dimmed ? ShepherdTheme.textTertiary : ShepherdTheme.accent)
+                .foregroundStyle(dimmed ? ShepherdTheme.textTertiary : ShepherdTheme.brand)
                 .frame(width: 52, alignment: .leading)
 
             VStack(alignment: .leading, spacing: 2) {
@@ -219,12 +219,12 @@ public struct PathLessonsListView: View {
             if let trailingText {
                 Text(trailingText)
                     .font(.caption.weight(.semibold))
-                    .foregroundStyle(ShepherdTheme.accent)
+                    .foregroundStyle(ShepherdTheme.brand)
             }
             if let trailingIcon {
                 Image(systemName: trailingIcon)
                     .font(.subheadline)
-                    .foregroundStyle(trailingText == nil ? ShepherdTheme.textTertiary : ShepherdTheme.accent)
+                    .foregroundStyle(trailingText == nil ? ShepherdTheme.textTertiary : ShepherdTheme.brand)
             }
         }
         .padding(.vertical, 4)

@@ -309,11 +309,11 @@ private struct SavedItemRow: View {
         case .bookmark:
             Image(systemName: "bookmark.fill")
                 .font(.system(size: 13, weight: .bold))
-                .foregroundStyle(ShepherdTheme.accent)
+                .foregroundStyle(ShepherdTheme.brand)
         case .note:
             Image(systemName: "square.and.pencil")
                 .font(.system(size: 13, weight: .bold))
-                .foregroundStyle(ShepherdTheme.accent)
+                .foregroundStyle(ShepherdTheme.brand)
         }
     }
 

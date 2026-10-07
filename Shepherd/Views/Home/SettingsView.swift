@@ -42,7 +42,7 @@ public struct SettingsView: View {
                             Spacer()
                             Text(isPremiumActive ? "Active" : "Not active ›")
                                 .font(.subheadline)
-                                .foregroundStyle(isPremiumActive ? ShepherdTheme.accent : ShepherdTheme.textSecondary)
+                                .foregroundStyle(isPremiumActive ? ShepherdTheme.brand : ShepherdTheme.textSecondary)
                         }
                     }
                     .buttonStyle(.plain)
@@ -52,7 +52,7 @@ public struct SettingsView: View {
                     } label: {
                         HStack {
                             Text("Restore Purchases")
-                                .foregroundStyle(ShepherdTheme.accent)
+                                .foregroundStyle(ShepherdTheme.brand)
                             Spacer()
                             if isRestoring {
                                 ProgressView()
@@ -68,7 +68,7 @@ public struct SettingsView: View {
                         Text("Daily reminder")
                             .foregroundStyle(ShepherdTheme.textPrimary)
                     }
-                    .tint(ShepherdTheme.accentFill)
+                    .tint(ShepherdTheme.brandFill)
 
                     if reminder.settings.isEnabled {
                         DatePicker(selection: reminderTimeBinding, displayedComponents: .hourAndMinute) {
@@ -88,7 +88,7 @@ public struct SettingsView: View {
                                 }
                             }
                             .font(.subheadline.weight(.semibold))
-                            .foregroundStyle(ShepherdTheme.accent)
+                            .foregroundStyle(ShepherdTheme.brand)
                         }
                         .padding(.vertical, 4)
                     }
@@ -161,13 +161,13 @@ public struct SettingsView: View {
                     }
 
                     Link("Terms of Service", destination: ShepherdConstants.termsOfServiceURL)
-                        .foregroundStyle(ShepherdTheme.accent)
+                        .foregroundStyle(ShepherdTheme.brand)
 
                     Link("Privacy Policy", destination: ShepherdConstants.privacyPolicyURL)
-                        .foregroundStyle(ShepherdTheme.accent)
+                        .foregroundStyle(ShepherdTheme.brand)
 
                     Link("Help & Support", destination: ShepherdConstants.supportURL)
-                        .foregroundStyle(ShepherdTheme.accent)
+                        .foregroundStyle(ShepherdTheme.brand)
                 } header: {
                     Text("About")
                 } footer: {

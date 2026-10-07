@@ -21,28 +21,70 @@ import tokens as T
 
 ROOT = os.path.dirname(os.path.dirname(HERE))
 XC = os.path.join(ROOT, "Shepherd/Resources/Assets.xcassets")
-DIRECTION = "flock"
-SPECIAL = {"--color-accent": "AccentColor"}
-NEW_ASSETS = {
-    "--color-mascot-legs",
-    "--color-mascot-eye-white",
-    "--color-mascot-mouth",
-    "--color-mascot-flower",
-    "--color-mascot-zz",
-    "--color-highlight-yellow-swatch",
-    "--color-highlight-blue-swatch",
-    "--color-highlight-purple-swatch",
-    "--color-highlight-rose-swatch",
-    "--color-highlight-amber-swatch",
-    "--color-streak",
-    "--color-destructive",
+DIRECTION = "pasture"
+MASCOT_STYLE = "flock"
+ROLE_ASSET_NAMES = {
+    "--color-accent": "AccentColor",
+    "--color-accent-fill": "BrandFill",
+    "--color-accent-subtle": "BrandSubtle",
+    "--color-accent-fill-deep": "BrandFillDeep",
+    "--color-accent-subtle-deep": "BrandSubtleDeep",
+    "--color-on-accent": "OnBrand",
+    "--color-gold": "Joy",
+    "--color-gold-fill": "JoyFill",
+    "--color-gold-subtle": "JoySubtle",
+    "--color-success": "Correct",
+    "--color-success-subtle": "CorrectSubtle",
+    "--color-error": "Wrong",
+    "--color-error-subtle": "WrongSubtle",
+    "--color-streak": "Streak",
+    "--color-destructive": "Destructive",
+    "--color-premium-surface": "PremiumSurface",
+    "--color-on-premium": "OnPremium",
+    "--color-premium-glyph": "PremiumGlyph",
+    "--color-border-strong": "BorderStrong",
+}
+UNUSED_ASSETS = {
+    "CanvasClear",
+    "CanvasVeil",
+    "MeadowSkyClear",
+    "MeadowSkyVeil",
+    "GlassFill",
+    "GlassSpecular",
+    "GlassSpecTop",
+    "GlassSpecMid",
+    "GlassSpecBottom",
+    "GlassInnerHi",
+    "ShadowGlassHeavy",
+    "SuccessFill",
+    "SuccessDeep",
+    "PhoneCamera",
+    "PhoneIsland",
+    "PhoneSensor",
+    "Transparent",
+    "Note",
+    "NoteSubtle",
+    "IconTop",
+    "IconBottom",
+    "AccentFill",
+    "AccentSubtle",
+    "AccentFillDeep",
+    "AccentSubtleDeep",
+    "OnAccent",
+    "Gold",
+    "GoldFill",
+    "GoldSubtle",
+    "Success",
+    "SuccessSubtle",
+    "Error",
+    "ErrorSubtle",
 }
 INFO = {"author": "xcode", "version": 1}
 
 
 def asset_name(token):
-    if token in SPECIAL:
-        return SPECIAL[token]
+    if token in ROLE_ASSET_NAMES:
+        return ROLE_ASSET_NAMES[token]
     return "".join(p.capitalize() for p in token.removeprefix("--color-").split("-"))
 
 
@@ -75,18 +117,25 @@ def write_json(path, data):
 
 
 def colors():
+    import shutil
+
+    for name in UNUSED_ASSETS:
+        p = os.path.join(XC, f"{name}.colorset")
+        if os.path.isdir(p):
+            shutil.rmtree(p)
     n = 0
     for token, (light, dark) in T.tokens(DIRECTION).items():
         name = asset_name(token)
+        if name in UNUSED_ASSETS:
+            continue
         path = os.path.join(XC, f"{name}.colorset")
-        if os.path.isdir(path) or token in NEW_ASSETS:
-            write_json(os.path.join(path, "Contents.json"), colorset(light, dark))
-            n += 1
+        write_json(os.path.join(path, "Contents.json"), colorset(light, dark))
+        n += 1
     return n
 
 
 def lamb():
-    data = lambgen.build_all(DIRECTION)
+    data = lambgen.build_all(MASCOT_STYLE)
     data.pop("style", None)
     with open(os.path.join(ROOT, "Shepherd/Resources/Content/lamb_variants.json"), "w") as f:
         json.dump(data, f, separators=(",", ":"))
@@ -97,7 +146,7 @@ def app_icon():
     d = os.path.join(XC, "AppIcon.appiconset")
     files = {"default": "AppIcon.png", "dark": "AppIcon-Dark.png", "tinted": "AppIcon-Tinted.png"}
     for app, fn in files.items():
-        brandart.render(brandart.icon_svg(DIRECTION, app), os.path.join(d, fn))
+        brandart.render(brandart.icon_svg(DIRECTION, app, style=MASCOT_STYLE), os.path.join(d, fn))
     images = [{"filename": files["default"], "idiom": "universal", "platform": "ios", "size": "1024x1024"}]
     for app in ("dark", "tinted"):
         images.append(
@@ -160,7 +209,7 @@ def brand_mark():
         t = T.tokens(DIRECTION)
         chip = t["--color-accent-fill"][0 if mode == "light" else 1]
         body = f'<circle cx="20" cy="20" r="20" fill="{chip}"/>' + re.sub(
-            r"^<circle[^>]*/>", "", brandart.mark_svg(DIRECTION, 40, True, mode)
+            r"^<circle[^>]*/>", "", brandart.mark_svg(DIRECTION, 40, True, mode, style=MASCOT_STYLE)
         )
         with open(os.path.join(d, fn), "w") as f:
             f.write(svg_doc(40, 40, (0, 0, 40, 40), body))

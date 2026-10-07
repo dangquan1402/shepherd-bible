@@ -3,10 +3,10 @@
     python3 color_usage_lint.py <repo-root>
 
 Fails (exit 1) on:
-  R1  a fill token used as a foreground: foregroundStyle(... accentFill ...)  -> dark mode text fails AA (2.6-3.7:1)
+  R1  a fill token used as a foreground: foregroundStyle(... brandFill ...)  -> dark mode text fails AA (2.6-3.7:1)
   R2  a raw system colour in a view (.white / .black / Color.white / Color.black)
   R3  an asset looked up by string outside the theme: Color("...")
-  R4  quiz correctness colours (success*/error*) outside the quiz views
+  R4  quiz correctness colours (correct*/wrong*) outside the quiz views
 """
 import os
 import re
@@ -17,10 +17,10 @@ DEFAULT_ROOT = os.path.dirname(os.path.dirname(HERE))
 QUIZ = {'Shepherd/Views/Lesson/QuizView.swift', 'Shepherd/Views/Components/ShepherdComponents.swift'}
 RULES = [
     # greedy to the end of the line, so a ')' inside a ternary or call cannot hide the token
-    ('R1', re.compile(r'foregroundStyle\(.*(?:accentFill|shepherdAccentFill)'), None),
+    ('R1', re.compile(r'foregroundStyle\(.*(?:brandFill|shepherdBrandFill)'), None),
     ('R2', re.compile(r'(?<![A-Za-z])(?:Color)?\.(?:white|black)\b'), None),
     ('R3', re.compile(r'Color\("[A-Za-z]+"\)'), None),
-    ('R4', re.compile(r'ShepherdTheme\.(?:success|successSubtle|error|errorSubtle)\b'), QUIZ),
+    ('R4', re.compile(r'(?:ShepherdTheme\.(?:success|successSubtle|error|errorSubtle|correct|correctSubtle|wrong|wrongSubtle)|(?:Color)?\.shepherd(?:Correct|Wrong|Success|Error))\b'), QUIZ),
 ]
 
 def run_lint(root=None):

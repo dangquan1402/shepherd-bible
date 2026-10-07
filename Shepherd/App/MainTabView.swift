@@ -46,7 +46,7 @@ public struct MainTabView: View {
                 SettingsView()
             }
         }
-        .tint(ShepherdTheme.accent)
+        .tint(ShepherdTheme.brand)
         .tabBarMinimizeBehavior(.onScrollDown)
         .onOpenURL { url in
             handleDeepLink(url)

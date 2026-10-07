@@ -60,7 +60,7 @@ public struct CompanionView: View {
 
                         Text("Stage \(currentStage) · \(LambStage(rawValue: currentStage)?.name ?? "")")
                             .font(.headline)
-                            .foregroundStyle(ShepherdTheme.accent)
+                            .foregroundStyle(ShepherdTheme.brand)
                     }
 
                     // XP Progress Card
@@ -100,12 +100,12 @@ public struct CompanionView: View {
                         HStack(spacing: 16) {
                             ZStack {
                                 Circle()
-                                    .fill(ShepherdTheme.accentSubtle)
+                                    .fill(ShepherdTheme.brandSubtle)
                                     .frame(width: 48, height: 48)
 
                                 Image(systemName: "book.pages")
                                     .font(.system(size: 22))
-                                    .foregroundStyle(ShepherdTheme.accent)
+                                    .foregroundStyle(ShepherdTheme.brand)
                             }
 
                             VStack(alignment: .leading, spacing: 4) {
@@ -135,7 +135,7 @@ public struct CompanionView: View {
                     VStack(alignment: .leading, spacing: 14) {
                         Text("GROWTH")
                             .font(ShepherdTheme.scriptureEyebrow())
-                            .foregroundStyle(ShepherdTheme.accent)
+                            .foregroundStyle(ShepherdTheme.brand)
                             .padding(.horizontal, 20)
 
                         VStack(spacing: 12) {
@@ -154,12 +154,12 @@ public struct CompanionView: View {
                                                 .frame(width: 52, height: 52)
                                             Image(systemName: "lock.fill")
                                                 .font(.system(size: 16))
-                                                .foregroundStyle(ShepherdTheme.onAccent)
+                                                .foregroundStyle(ShepherdTheme.onBrand)
                                         }
                                     }
                                     .overlay(
                                         Circle()
-                                            .stroke(isCurrent ? ShepherdTheme.accentFill : Color.clear, lineWidth: 2)
+                                            .stroke(isCurrent ? ShepherdTheme.brandFill : Color.clear, lineWidth: 2)
                                     )
 
                                     VStack(alignment: .leading, spacing: 4) {
@@ -177,7 +177,7 @@ public struct CompanionView: View {
                                     if isUnlocked {
                                         Image(systemName: "checkmark")
                                             .font(.body.weight(.bold))
-                                            .foregroundStyle(ShepherdTheme.accent)
+                                            .foregroundStyle(ShepherdTheme.brand)
                                     }
                                 }
                                 .padding(14)

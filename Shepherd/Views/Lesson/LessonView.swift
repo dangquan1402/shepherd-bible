@@ -109,7 +109,7 @@ public struct LessonView: View {
                 // Eyebrow (sentence case per spec)
                 Text(path?.title ?? "")
                     .font(ShepherdTheme.scriptureEyebrow())
-                    .foregroundStyle(ShepherdTheme.accent)
+                    .foregroundStyle(ShepherdTheme.brand)
                     .padding(.top, 8)
 
                 // Title
@@ -139,7 +139,7 @@ public struct LessonView: View {
                             VStack(alignment: .leading, spacing: 4) {
                                 Text("Reflection")
                                     .font(.headline)
-                                    .foregroundStyle(ShepherdTheme.accent)
+                                    .foregroundStyle(ShepherdTheme.brand)
                                     .accessibilityAddTraits(.isHeader)
                                 bodyText(question)
                             }
@@ -153,10 +153,10 @@ public struct LessonView: View {
                     VStack(alignment: .leading, spacing: 8) {
                         HStack(spacing: 6) {
                             Image(systemName: "hands.and.sparkles.fill")
-                                .foregroundStyle(ShepherdTheme.accent)
+                                .foregroundStyle(ShepherdTheme.brand)
                             Text("Prayer")
                                 .font(.headline)
-                                .foregroundStyle(ShepherdTheme.accent)
+                                .foregroundStyle(ShepherdTheme.brand)
                         }
 
                         Text(LessonText.curlyQuotes(prayer))

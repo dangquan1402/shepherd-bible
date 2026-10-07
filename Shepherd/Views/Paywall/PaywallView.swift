@@ -63,13 +63,13 @@ public struct PaywallView: View {
                         VStack(spacing: 14) {
                             timelineRow(
                                 icon: "checkmark.circle.fill",
-                                iconColor: ShepherdTheme.accentFill,
+                                iconColor: ShepherdTheme.brandFill,
                                 title: "Set your daily goal",
                                 subtitle: "Done"
                             )
                             timelineRow(
                                 icon: "lock.open.fill",
-                                iconColor: ShepherdTheme.accentFill,
+                                iconColor: ShepherdTheme.brandFill,
                                 title: "Today",
                                 subtitle: PremiumOffer(paths: content.paths).unlocksLine
                             )
@@ -81,7 +81,7 @@ public struct PaywallView: View {
                             )
                             timelineRow(
                                 icon: "star.fill",
-                                iconColor: ShepherdTheme.accentFill,
+                                iconColor: ShepherdTheme.brandFill,
                                 title: "Day 7",
                                 subtitle: store.yearlyProduct != nil
                                     ? "Trial ends; \(store.yearlyProduct!.displayPrice)/year starts unless you cancel"
@@ -252,13 +252,19 @@ public struct PaywallView: View {
                             .foregroundStyle(ShepherdTheme.textPrimary)
 
                         if let badge = badge {
-                            Text(badge)
-                                .font(.caption.bold())
-                                .foregroundStyle(ShepherdTheme.accent)
-                                .padding(.horizontal, 6)
-                                .padding(.vertical, 2)
-                                .background(ShepherdTheme.accentSubtle)
-                                .clipShape(Capsule())
+                            HStack(spacing: 4) {
+                                Image(systemName: "crown.fill")
+                                    .font(.caption2.weight(.bold))
+                                    .foregroundStyle(ShepherdTheme.premiumGlyph)
+                                    .accessibilityHidden(true)
+                                Text(badge)
+                                    .font(.caption.bold())
+                                    .foregroundStyle(ShepherdTheme.onPremium)
+                            }
+                            .padding(.horizontal, 8)
+                            .padding(.vertical, 3)
+                            .background(ShepherdTheme.premiumSurface)
+                            .clipShape(Capsule())
                         }
                     }
 
@@ -271,14 +277,14 @@ public struct PaywallView: View {
 
                 Image(systemName: isSelected ? "checkmark.circle.fill" : "circle")
                     .font(.title3)
-                    .foregroundStyle(isSelected ? ShepherdTheme.accent : ShepherdTheme.textTertiary)
+                    .foregroundStyle(isSelected ? ShepherdTheme.brand : ShepherdTheme.textTertiary)
             }
             .padding(16)
-            .background(isSelected ? ShepherdTheme.accentSubtle.opacity(0.3) : ShepherdTheme.cardSurface)
+            .background(isSelected ? ShepherdTheme.brandSubtle.opacity(0.3) : ShepherdTheme.cardSurface)
             .clipShape(RoundedRectangle(cornerRadius: ShepherdTheme.radiusMD))
             .overlay(
                 RoundedRectangle(cornerRadius: ShepherdTheme.radiusMD)
-                    .stroke(isSelected ? ShepherdTheme.accent : ShepherdTheme.surfaceBorder, lineWidth: isSelected ? 2 : 1)
+                    .stroke(isSelected ? ShepherdTheme.brand : ShepherdTheme.surfaceBorder, lineWidth: isSelected ? 2 : 1)
             )
         }
         .buttonStyle(.plain)
@@ -330,7 +336,7 @@ public struct PaywallView: View {
                 case .pending:
                     Image(systemName: "hourglass")
                         .font(.system(size: 32))
-                        .foregroundStyle(ShepherdTheme.accent)
+                        .foregroundStyle(ShepherdTheme.brand)
                     Text("Waiting for approval")
                         .font(.headline)
                         .foregroundStyle(ShepherdTheme.textPrimary)
@@ -365,7 +371,7 @@ public struct PaywallView: View {
                 case .restored:
                     Image(systemName: "checkmark.circle.fill")
                         .font(.system(size: 32))
-                        .foregroundStyle(ShepherdTheme.accent)
+                        .foregroundStyle(ShepherdTheme.brand)
                     Text("Purchases Restored")
                         .font(.headline)
                         .foregroundStyle(ShepherdTheme.textPrimary)

@@ -46,6 +46,7 @@ WORDMARKS = {
         "licence": "Cormorant Garamond, SIL Open Font License 1.1 (Christian Thalmann)",
     },
 }
+WORDMARKS["pasture"] = WORDMARKS["flock"]
 
 
 def wordmark(direction, fonts_dir):
@@ -142,6 +143,13 @@ ICON = {
         "face_dy": 46,
         "sun": None,
     },
+    "pasture": {
+        "bg": (T.tokens("pasture")["--color-icon-top"][0], T.tokens("pasture")["--color-icon-bottom"][0]),
+        "dark": (T.tokens("pasture")["--color-icon-top"][1], T.tokens("pasture")["--color-icon-bottom"][1]),
+        "face_scale": 0.9,
+        "face_dy": 46,
+        "sun": None,
+    },
     "still": {
         "bg": ("#3E80B5", "#1B4468"),
         "dark": ("#18344C", "#0A1620"),
@@ -153,10 +161,11 @@ ICON = {
 }
 
 
-def icon_svg(direction, appearance="default", size=1024):
+def icon_svg(direction, appearance="default", size=1024, style=None):
     """appearance: default | dark | tinted (grayscale on black, for the system tint) | clear (white glyph)."""
+    style = style or ("flock" if direction == "pasture" else direction)
     spec = ICON[direction]
-    face = lambgen.face_front(direction, "Idle")
+    face = lambgen.face_front(style, "Idle")
     p = pal(direction, "light")
     minx, miny, maxx, maxy = face["bounds"]
     fw, fh = maxx - minx, maxy - miny
@@ -184,7 +193,7 @@ def icon_svg(direction, appearance="default", size=1024):
         return scene_icon_svg(direction, appearance, size)
     if appearance == "tinted":
         tp = pal(direction, "light")
-        if direction == "flock":
+        if style == "flock" or direction in ("flock", "pasture"):
             tp = {k: tp[k] for k in {l["fill"] for l in face["layers"]}}
             tp["mascotFace"] = "#6E6E6E"
         art = layers_svg(face["layers"], tp, mono="gray")
@@ -231,9 +240,10 @@ def scene_icon_svg(direction, appearance="default", size=1024):
     )
 
 
-def mark_svg(direction, size=100, chip=True, mode="light"):
+def mark_svg(direction, size=100, chip=True, mode="light", style=None):
     """The logo mark: the front face on an accent chip (or bare)."""
-    face = lambgen.face_front(direction, "Idle")
+    style = style or ("flock" if direction == "pasture" else direction)
+    face = lambgen.face_front(style, "Idle")
     p = pal(direction, mode)
     minx, miny, maxx, maxy = face["bounds"]
     fw, fh = maxx - minx, maxy - miny

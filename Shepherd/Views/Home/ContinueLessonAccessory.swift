@@ -18,7 +18,7 @@ public struct ContinueLessonAccessory: View {
                 HStack(spacing: 8) {
                     Image(systemName: "play.fill")
                         .font(.system(size: 13, weight: .bold))
-                        .foregroundStyle(ShepherdTheme.accent)
+                        .foregroundStyle(ShepherdTheme.brand)
 
                     Text("Day \(lesson.dayIndex) · \(lesson.displayTitle)")
                         .font(.callout.weight(.semibold))
@@ -31,17 +31,17 @@ public struct ContinueLessonAccessory: View {
                 HStack(spacing: 14) {
                     ZStack {
                         Circle()
-                            .fill(ShepherdTheme.accentFill)
+                            .fill(ShepherdTheme.brandFill)
                             .frame(width: 40, height: 40)
                         Image(systemName: "play.fill")
                             .font(.system(size: 16, weight: .bold))
-                            .foregroundStyle(ShepherdTheme.onAccent)
+                            .foregroundStyle(ShepherdTheme.onBrand)
                     }
 
                     VStack(alignment: .leading, spacing: 2) {
                         Text("TODAY’S LESSON")
                             .font(.caption2.weight(.bold))
-                            .foregroundStyle(ShepherdTheme.accent)
+                            .foregroundStyle(ShepherdTheme.brand)
 
                         Text("Day \(lesson.dayIndex) · \(lesson.displayTitle)")
                             .font(.callout.weight(.semibold))

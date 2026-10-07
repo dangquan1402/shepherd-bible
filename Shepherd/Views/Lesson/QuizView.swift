@@ -83,7 +83,7 @@ public struct QuizView: View {
                         // Eyebrow
                         Text("DAY \(lesson.dayIndex)")
                             .font(.subheadline.weight(.bold))
-                            .foregroundStyle(ShepherdTheme.accent)
+                            .foregroundStyle(ShepherdTheme.brand)
                             .padding(.top, 12)
 
                         // Question Prompt
@@ -143,7 +143,7 @@ public struct QuizView: View {
                                 .frame(minHeight: 56)
                         }
                         .buttonStyle(.glassProminent)
-                        .tint(ShepherdTheme.accentFill)
+                        .tint(ShepherdTheme.brandFill)
                         .glassEffectID("quiz_action", in: morphNamespace)
                         .disabled(!canCheck)
                         .padding(.horizontal, 20)
@@ -171,7 +171,7 @@ public struct QuizView: View {
                                 .frame(height: 6)
 
                             Capsule()
-                                .fill(ShepherdTheme.accentFill)
+                                .fill(ShepherdTheme.brandFill)
                                 .frame(width: geo.size.width * CGFloat(quizProgress), height: 6)
                                 .animation(.easeInOut(duration: 0.3), value: quizProgress)
                         }
@@ -318,7 +318,7 @@ public struct QuizView: View {
                             Text("Reset")
                         }
                         .font(.footnote.weight(.medium))
-                        .foregroundStyle(ShepherdTheme.accent)
+                        .foregroundStyle(ShepherdTheme.brand)
                     }
                     .accessibilityLabel("Reset words")
                 }
@@ -352,7 +352,7 @@ public struct QuizView: View {
                                     } else {
                                         Image(systemName: isAnswerCorrect ? "checkmark" : "xmark")
                                             .font(.caption2.weight(.bold))
-                                            .foregroundStyle(isAnswerCorrect ? ShepherdTheme.success : ShepherdTheme.error)
+                                            .foregroundStyle(isAnswerCorrect ? ShepherdTheme.correct : ShepherdTheme.wrong)
                                     }
                                 }
                                 .padding(.horizontal, 14)
@@ -455,17 +455,17 @@ public struct QuizView: View {
 
                         if isSelected && !isChecked {
                             Circle()
-                                .strokeBorder(ShepherdTheme.accent, lineWidth: 2)
+                                .strokeBorder(ShepherdTheme.textPrimary, lineWidth: 2)
                                 .frame(width: 24, height: 24)
                                 .accessibilityHidden(true)
                         } else if state == .correct || state == .revealed {
                             Image(systemName: "checkmark.circle.fill")
                                 .font(.title2)
-                                .foregroundStyle(ShepherdTheme.success)
+                                .foregroundStyle(ShepherdTheme.correct)
                         } else if state == .wrong {
                             Image(systemName: "xmark.circle.fill")
                                 .font(.title2)
-                                .foregroundStyle(ShepherdTheme.error)
+                                .foregroundStyle(ShepherdTheme.wrong)
                         }
                     }
                     .padding(.horizontal, 20)
@@ -621,9 +621,9 @@ public struct QuizView: View {
     private func matchBadge(_ number: Int, state: MatchCardState) -> some View {
         let tint: Color = {
             switch state {
-            case .correct: return ShepherdTheme.success
-            case .wrong: return ShepherdTheme.error
-            default: return ShepherdTheme.accent
+            case .correct: return ShepherdTheme.correct
+            case .wrong: return ShepherdTheme.wrong
+            default: return ShepherdTheme.brand
             }
         }()
         return HStack(spacing: 4) {
@@ -647,20 +647,20 @@ public struct QuizView: View {
     private func matchBackground(_ state: MatchCardState) -> Color {
         switch state {
         case .open: return ShepherdTheme.cardSurface
-        case .selected: return ShepherdTheme.accentSubtle
+        case .selected: return ShepherdTheme.surfaceSunken
         case .matched: return ShepherdTheme.surfaceSunken
-        case .correct: return ShepherdTheme.successSubtle
-        case .wrong: return ShepherdTheme.errorSubtle
+        case .correct: return ShepherdTheme.correctSubtle
+        case .wrong: return ShepherdTheme.wrongSubtle
         }
     }
 
     private func matchBorder(_ state: MatchCardState) -> Color {
         switch state {
         case .open: return ShepherdTheme.surfaceBorder
-        case .selected: return ShepherdTheme.accent
-        case .matched: return ShepherdTheme.accentFill
-        case .correct: return ShepherdTheme.success
-        case .wrong: return ShepherdTheme.error
+        case .selected: return ShepherdTheme.textPrimary
+        case .matched: return ShepherdTheme.brandFill
+        case .correct: return ShepherdTheme.correct
+        case .wrong: return ShepherdTheme.wrong
         }
     }
 
@@ -687,65 +687,65 @@ public struct QuizView: View {
 
     private var blankTextColor: Color {
         if !isChecked {
-            return selectedChoiceIndex != nil ? ShepherdTheme.accent : ShepherdTheme.textTertiary
+            return selectedChoiceIndex != nil ? ShepherdTheme.textPrimary : ShepherdTheme.textTertiary
         }
-        return isAnswerCorrect ? ShepherdTheme.success : ShepherdTheme.error
+        return isAnswerCorrect ? ShepherdTheme.correct : ShepherdTheme.wrong
     }
 
     private var blankCardBackground: Color {
         if !isChecked { return ShepherdTheme.cardSurface }
-        return isAnswerCorrect ? ShepherdTheme.successSubtle : ShepherdTheme.errorSubtle
+        return isAnswerCorrect ? ShepherdTheme.correctSubtle : ShepherdTheme.wrongSubtle
     }
 
     private var blankCardBorder: Color {
         if !isChecked {
-            return selectedChoiceIndex != nil ? ShepherdTheme.accent : ShepherdTheme.surfaceBorder
+            return selectedChoiceIndex != nil ? ShepherdTheme.textPrimary : ShepherdTheme.surfaceBorder
         }
-        return isAnswerCorrect ? ShepherdTheme.success : ShepherdTheme.error
+        return isAnswerCorrect ? ShepherdTheme.correct : ShepherdTheme.wrong
     }
 
     private func chipBgColor(state: ChoiceRowState) -> Color {
         switch state {
         case .neutral: return ShepherdTheme.cardSurface
-        case .selected: return ShepherdTheme.accentSubtle
-        case .correct, .revealed: return ShepherdTheme.successSubtle
-        case .wrong: return ShepherdTheme.errorSubtle
+        case .selected: return ShepherdTheme.surfaceSunken
+        case .correct, .revealed: return ShepherdTheme.correctSubtle
+        case .wrong: return ShepherdTheme.wrongSubtle
         }
     }
 
     private func chipBorderColor(state: ChoiceRowState) -> Color {
         switch state {
         case .neutral: return ShepherdTheme.surfaceBorder
-        case .selected: return ShepherdTheme.accent
-        case .correct, .revealed: return ShepherdTheme.success
-        case .wrong: return ShepherdTheme.error
+        case .selected: return ShepherdTheme.textPrimary
+        case .correct, .revealed: return ShepherdTheme.correct
+        case .wrong: return ShepherdTheme.wrong
         }
     }
 
     private func chipTextColor(state: ChoiceRowState) -> Color {
         switch state {
         case .neutral: return ShepherdTheme.textPrimary
-        case .selected: return ShepherdTheme.accent
-        case .correct, .revealed: return ShepherdTheme.success
-        case .wrong: return ShepherdTheme.error
+        case .selected: return ShepherdTheme.textPrimary
+        case .correct, .revealed: return ShepherdTheme.correct
+        case .wrong: return ShepherdTheme.wrong
         }
     }
 
     private var orderPlacedBgColor: Color {
-        if !isChecked { return ShepherdTheme.accentSubtle }
-        return isAnswerCorrect ? ShepherdTheme.successSubtle : ShepherdTheme.errorSubtle
+        if !isChecked { return ShepherdTheme.surfaceSunken }
+        return isAnswerCorrect ? ShepherdTheme.correctSubtle : ShepherdTheme.wrongSubtle
     }
 
     private var orderPlacedBorderColor: Color {
-        if !isChecked { return ShepherdTheme.accent }
-        return isAnswerCorrect ? ShepherdTheme.success : ShepherdTheme.error
+        if !isChecked { return ShepherdTheme.textPrimary }
+        return isAnswerCorrect ? ShepherdTheme.correct : ShepherdTheme.wrong
     }
 
     private var orderCardBorderColor: Color {
         if !isChecked {
-            return placedTokenIndices.isEmpty ? ShepherdTheme.surfaceBorder : ShepherdTheme.accent
+            return placedTokenIndices.isEmpty ? ShepherdTheme.surfaceBorder : ShepherdTheme.textPrimary
         }
-        return isAnswerCorrect ? ShepherdTheme.success : ShepherdTheme.error
+        return isAnswerCorrect ? ShepherdTheme.correct : ShepherdTheme.wrong
     }
 
     // MARK: - Grading and Navigation
@@ -930,7 +930,7 @@ struct QuizFeedbackSheet: View {
         VStack(alignment: .leading, spacing: 2) {
             Text(result.title)
                 .font(ShepherdTheme.title2Serif())
-                .foregroundStyle(result.isCorrect ? ShepherdTheme.success : ShepherdTheme.error)
+                .foregroundStyle(result.isCorrect ? ShepherdTheme.correct : ShepherdTheme.wrong)
 
             if !result.isCorrect {
                 Text(result.answerLine)

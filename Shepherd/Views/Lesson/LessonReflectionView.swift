@@ -28,7 +28,7 @@ public struct LessonReflectionView: View {
                     VStack(alignment: .leading, spacing: 6) {
                         Text("DAY \(lesson.dayIndex) REFLECTION")
                             .font(ShepherdTheme.scriptureEyebrow())
-                            .foregroundStyle(ShepherdTheme.accent)
+                            .foregroundStyle(ShepherdTheme.brand)
 
                         Text("Reflect & Pray")
                             .font(ShepherdTheme.largeTitleSerif())
@@ -46,11 +46,11 @@ public struct LessonReflectionView: View {
                             HStack(spacing: 8) {
                                 Image(systemName: "hands.and.sparkles.fill")
                                     .font(.headline)
-                                    .foregroundStyle(ShepherdTheme.accent)
+                                    .foregroundStyle(ShepherdTheme.brand)
 
                                 Text("Today’s Prayer Prompt")
                                     .font(.headline)
-                                    .foregroundStyle(ShepherdTheme.accent)
+                                    .foregroundStyle(ShepherdTheme.brand)
                             }
 
                             Text(prompt)
@@ -88,14 +88,14 @@ public struct LessonReflectionView: View {
                         .clipShape(RoundedRectangle(cornerRadius: ShepherdTheme.radiusMD))
                         .overlay(
                             RoundedRectangle(cornerRadius: ShepherdTheme.radiusMD)
-                                .stroke(isFocused ? ShepherdTheme.accentFill : ShepherdTheme.surfaceBorder, lineWidth: isFocused ? 2 : 1)
+                                .stroke(isFocused ? ShepherdTheme.brandFill : ShepherdTheme.surfaceBorder, lineWidth: isFocused ? 2 : 1)
                         )
 
                         // Privacy footnote
                         HStack(spacing: 6) {
                             Image(systemName: "lock.shield")
                                 .font(.footnote)
-                                .foregroundStyle(ShepherdTheme.accent)
+                                .foregroundStyle(ShepherdTheme.brand)
 
                             Text("Saved only on this device. You can use the keyboard mic to dictate.")
                                 .font(.footnote)

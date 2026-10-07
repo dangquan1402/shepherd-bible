@@ -149,7 +149,7 @@ struct PathCompleteCard: View {
             HStack(spacing: 10) {
                 Image(systemName: "flag.checkered")
                     .font(.system(size: 18, weight: .semibold))
-                    .foregroundStyle(ShepherdTheme.accent)
+                    .foregroundStyle(ShepherdTheme.brand)
                 Text("Path complete")
                     .font(ShepherdTheme.title2Serif())
                     .foregroundStyle(ShepherdTheme.textPrimary)
@@ -167,7 +167,7 @@ struct PathCompleteCard: View {
                     .frame(minHeight: 50)
             }
             .buttonStyle(.glassProminent)
-            .tint(ShepherdTheme.accentFill)
+            .tint(ShepherdTheme.brandFill)
         }
         .padding(18)
         .shepherdGlassCard(cornerRadius: ShepherdTheme.radiusLG)

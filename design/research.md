@@ -169,3 +169,13 @@ Reject: beige-on-cream lamb, brown outlines, amber doing two jobs, near-black da
 | App icon: the front face on an ultramarine gradient | Mindllama, Duolingo | Fills the tile; reads at 29 pt and in tinted and clear |
 | Wordmark: Baloo 2 ExtraBold, lowercase, outlined | Duolingo wordmark; OFL licence | Friendly mascot voice; shipped as paths, so no font file |
 | New York titles and verses kept; no lamb on scripture | Captain tweak ("devotional, not a kids' app") | The brand gets bolder; the reading stays reverent |
+
+### 5.4 Evolution to Green Pastures (2026-10-07)
+
+On 2026-10-07, the captain chose **Option A: Green Pastures** over the initial Flock ultramarine palette:
+
+- **Why:**
+  1. **Brand ownability:** The app is named *Pasture* ("He makes me lie down in green pastures", Psalm 23:2). Ultramarine was ΔE 2.2–3.2 from stock Tailwind indigo-700 / indigo-600 ("AI default" palette), and purple/night-indigo are already occupied by Hallow and Abide. Evergreen (`#046B51` / `#82DDBB`) gives Pasture an authentic, distinctive, calming pastoral home.
+  2. **Role separation and semantic calm:** Resolves role collisions across the app. Evergreen = action, go, progress, and quiz correct; sunflower = joy only (streak flame, XP, reward chips, sparkles, bell, crown); warm clay (`#9E4A1F` / `#F2AA8B`) = quiz "not quite" (encouraging educational feedback rather than alarming red); red (`#BE2F2C` / `#F7857D`) = destructive actions only (delete prayer/reflection/note, purchase failed); neutral ink = selection before submit; ink + sunflower = premium chip.
+  3. **Deep-forest dark mode with moonlight lamb rim:** Replaces the saturated indigo night with deep forest (`#0F1D16`, cards `#18271E`), preserving the pasture into the night. A dark-only 25% white rim (`--color-mascot-outline`, `#FFFFFF40`) ensures the dark lamb face separates cleanly against dark green hills without compromising the outline-free daytime mascot.
+  4. **Full WCAG AA compliance:** All 170 pairs across light and dark modes meet or exceed WCAG AA requirements, including previously weak dark eyebrows and link labels.
