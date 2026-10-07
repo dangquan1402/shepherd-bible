@@ -20,7 +20,7 @@ public struct ContinueLessonAccessory: View {
                         .font(.system(size: 13, weight: .bold))
                         .foregroundStyle(ShepherdTheme.accentFill)
 
-                    Text("Day \(lesson.dayIndex) · \(lesson.title)")
+                    Text("Day \(lesson.dayIndex) · \(lesson.displayTitle)")
                         .font(.callout.weight(.semibold))
                         .foregroundStyle(ShepherdTheme.textPrimary)
                 }
@@ -39,11 +39,11 @@ public struct ContinueLessonAccessory: View {
                     }
 
                     VStack(alignment: .leading, spacing: 2) {
-                        Text("TODAY'S LESSON")
+                        Text("TODAY’S LESSON")
                             .font(.caption2.weight(.bold))
                             .foregroundStyle(ShepherdTheme.accent)
 
-                        Text("Day \(lesson.dayIndex) · \(lesson.title)")
+                        Text("Day \(lesson.dayIndex) · \(lesson.displayTitle)")
                             .font(.callout.weight(.semibold))
                             .foregroundStyle(ShepherdTheme.textPrimary)
                     }

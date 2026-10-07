@@ -382,19 +382,21 @@ public struct ChoiceRow: View {
         }
     }
 
-    private var letterBgColor: Color {
-        switch state {
-        case .selected: return ShepherdTheme.accent
-        case .correct, .revealed: return ShepherdTheme.success
-        case .wrong: return ShepherdTheme.error
-        case .neutral: return ShepherdTheme.surfaceSunken
-        }
-    }
+    private var letterBgColor: Color { Color(state.letterBadgeColorNames.fill) }
 
-    private var letterTextColor: Color {
-        switch state {
-        case .selected, .correct, .revealed, .wrong: return .white
-        case .neutral: return ShepherdTheme.textSecondary
+    private var letterTextColor: Color { Color(state.letterBadgeColorNames.text) }
+}
+
+public extension ChoiceRowState {
+    /// Colour-set names of the letter badge (text on fill). The fills are the text tokens
+    /// accent/success/error, which are light in dark mode, so the letter is the canvas colour,
+    /// not white. `testChoiceLetterBadgeMeetsAA` and the `tokens.py` gate hold this to AA.
+    var letterBadgeColorNames: (text: String, fill: String) {
+        switch self {
+        case .selected: return ("CanvasBg", "AccentColor")
+        case .correct, .revealed: return ("CanvasBg", "Success")
+        case .wrong: return ("CanvasBg", "Error")
+        case .neutral: return ("TextSecondary", "SurfaceSunken")
         }
     }
 }
