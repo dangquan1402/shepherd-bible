@@ -66,6 +66,11 @@ public struct RootView: View {
                 modelContext.insert(LessonProgress(lessonId: id, quizScore: 3))
             }
         }
+        if args.contains("-uitestResetBibleUserData") {
+            try? modelContext.delete(model: BibleHighlight.self)
+            try? modelContext.delete(model: BibleBookmark.self)
+            try? modelContext.delete(model: BibleNote.self)
+        }
         try? modelContext.save()
     }
 
@@ -81,6 +86,9 @@ public struct RootView: View {
         try? modelContext.delete(model: EntitlementState.self)
         try? modelContext.delete(model: JournalEntry.self)
         try? modelContext.delete(model: PrayerRequest.self)
+        try? modelContext.delete(model: BibleHighlight.self)
+        try? modelContext.delete(model: BibleBookmark.self)
+        try? modelContext.delete(model: BibleNote.self)
         try? modelContext.save()
         JournalAuthService.shared.isLockEnabled = false
         JournalAuthService.shared.isUnlocked = true

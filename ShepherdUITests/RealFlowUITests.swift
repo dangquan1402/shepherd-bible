@@ -301,6 +301,19 @@ final class RealFlowUITests: XCTestCase {
         try executeAX3Flow()
     }
 
+    // MARK: - Issue #13: Bible Reader Highlights, Bookmarks, Notes, Saved Flow
+    @MainActor
+    func testBibleReaderHighlightsBookmarksNotesLight() throws {
+        modeOverride = "Light"
+        try executeBibleSavedFlow()
+    }
+
+    @MainActor
+    func testBibleReaderHighlightsBookmarksNotesDark() throws {
+        modeOverride = "Dark"
+        try executeBibleSavedFlow()
+    }
+
     @MainActor
     func testBibleKeepsChapterAcrossTabs() throws {
         let app = XCUIApplication()
@@ -854,5 +867,197 @@ final class RealFlowUITests: XCTestCase {
         XCTAssertTrue(settingsJournalButton.waitForExistence(timeout: 4.0))
         settingsJournalButton.tap()
         XCTAssertTrue(app.navigationBars["Journal"].waitForExistence(timeout: 4.0))
+    }
+
+    /// The reader row for verse `n` ("Verse 3, God said, …, Highlighted Yellow").
+    @MainActor
+    private func verse(_ app: XCUIApplication, _ n: Int) -> XCUIElement {
+        app.descendants(matching: .any).matching(NSPredicate(format: "label BEGINSWITH %@", "Verse \(n), ")).firstMatch
+    }
+
+    @MainActor
+    private func savedRows(_ app: XCUIApplication, _ prefix: String) -> XCUIElementQuery {
+        app.buttons.matching(NSPredicate(format: "label BEGINSWITH %@", prefix))
+    }
+
+    @MainActor
+    private func openGenesisOne(_ app: XCUIApplication) {
+        passOnboardingIfNeeded(app)
+        ensureTabBarExpanded(app)
+        let bibleTab = app.tabBars.buttons["Bible"]
+        XCTAssertTrue(bibleTab.waitForExistence(timeout: 6.0))
+        bibleTab.tap()
+        XCTAssertTrue(app.navigationBars["Genesis"].waitForExistence(timeout: 6.0))
+        XCTAssertTrue(app.staticTexts["Chapter 1"].waitForExistence(timeout: 6.0))
+        XCTAssertTrue(verse(app, 1).waitForExistence(timeout: 5.0))
+    }
+
+    /// Issue #13 end to end, with the review's repros: a selection that skips a verse (B1), a recolour
+    /// inside a saved range (B2), Copy's text, every Saved filter, and jumping to the same item twice (N4).
+    @MainActor
+    private func executeBibleSavedFlow() throws {
+        let app = XCUIApplication()
+        let appearance = (modeOverride == "Dark") ? "dark" : "light"
+        app.launchArguments += ["-appearance", appearance]
+        app.launchArguments += ["-uitestCompleted", "beginner-30:1"]
+        app.launchArguments += ["-uitestResetBibleUserData", "-uitestEchoCopy"]
+        app.launch()
+        openGenesisOne(app)
+        Thread.sleep(forTimeInterval: 0.4)
+        saveScreenshot("Bible_Reader")
+
+        // B1: tap verse 1, then verse 3. Verse 2 joins the selection and the header names 1–3.
+        verse(app, 1).tap()
+        verse(app, 3).tap()
+        let reference = app.staticTexts["SelectionReference"]
+        XCTAssertTrue(reference.waitForExistence(timeout: 4.0), "Action menu should appear")
+        XCTAssertEqual(reference.label, "Genesis 1:1–3")
+        for n in 1...3 {
+            XCTAssertTrue(verse(app, n).isSelected, "verse \(n) should be selected")
+        }
+        XCTAssertFalse(verse(app, 4).isSelected)
+        Thread.sleep(forTimeInterval: 0.3)
+        saveScreenshot("Bible_Reader_Selected")
+
+        let yellowBtn = app.buttons["Highlight in Yellow"]
+        XCTAssertTrue(yellowBtn.waitForExistence(timeout: 4.0))
+        yellowBtn.tap()
+        for n in 1...3 {
+            XCTAssertTrue(verse(app, n).label.hasSuffix("Highlighted Yellow"), verse(app, n).label)
+        }
+        XCTAssertFalse(verse(app, 4).label.contains("Highlighted"))
+
+        // B2: recolour only verse 2. Verses 1 and 3 keep their yellow highlight.
+        verse(app, 2).tap()
+        XCTAssertEqual(reference.label, "Genesis 1:2")
+        app.buttons["Highlight in Rose"].tap()
+        XCTAssertTrue(verse(app, 1).label.hasSuffix("Highlighted Yellow"), verse(app, 1).label)
+        XCTAssertTrue(verse(app, 2).label.hasSuffix("Highlighted Rose"), verse(app, 2).label)
+        XCTAssertTrue(verse(app, 3).label.hasSuffix("Highlighted Yellow"), verse(app, 3).label)
+        Thread.sleep(forTimeInterval: 0.5)
+        saveScreenshot("Bible_Reader_Highlighted")
+
+        // Copy 1 and 3: the text carries all three verses, the reference and the attribution.
+        verse(app, 1).tap()
+        verse(app, 3).tap()
+        app.buttons["CopyActionButton"].tap()
+        let toast = app.descendants(matching: .any)["CopiedToast"]
+        XCTAssertTrue(toast.waitForExistence(timeout: 3.0))
+        let copied = toast.value as? String ?? ""
+        XCTAssertTrue(copied.hasPrefix("In the beginning, God created the heavens and the earth. The earth was formless and empty."), copied)
+        XCTAssertTrue(copied.contains("there was light."), copied)
+        XCTAssertTrue(copied.hasSuffix("\n\nGenesis 1:1–3\nWorld English Bible"), copied)
+
+        // Bookmark verse 3.
+        verse(app, 3).tap()
+        let bookmarkBtn = app.buttons["BookmarkActionButton"]
+        XCTAssertTrue(bookmarkBtn.waitForExistence(timeout: 4.0))
+        bookmarkBtn.tap()
+        XCTAssertTrue(verse(app, 3).label.contains(", Bookmarked"), verse(app, 3).label)
+        XCTAssertFalse(verse(app, 2).label.contains("Bookmarked"))
+
+        // Note on verse 2.
+        verse(app, 2).tap()
+        let noteBtn = app.buttons["NoteActionButton"]
+        XCTAssertTrue(noteBtn.waitForExistence(timeout: 4.0))
+        noteBtn.tap()
+        XCTAssertTrue(app.buttons["NoteCancelButton"].waitForExistence(timeout: 5.0), "Note sheet should appear")
+        let textEditor = app.textViews["NoteTextEditor"]
+        XCTAssertTrue(textEditor.waitForExistence(timeout: 3.0))
+        textEditor.tap()
+        textEditor.typeText("Formless and void before God speaks light into darkness.")
+        Thread.sleep(forTimeInterval: 0.3)
+        saveScreenshot("Bible_Note")
+        app.buttons["NoteSaveButton"].tap()
+        XCTAssertTrue(verse(app, 2).waitForExistence(timeout: 3.0))
+        XCTAssertTrue(verse(app, 2).label.contains(", Has note"), verse(app, 2).label)
+
+        // Saved: three highlight pieces, one bookmark, one note; each filter shows only its type.
+        let savedBtn = app.buttons["Saved Scripture"]
+        XCTAssertTrue(savedBtn.waitForExistence(timeout: 4.0))
+        savedBtn.tap()
+        XCTAssertTrue(app.navigationBars["Saved"].waitForExistence(timeout: 5.0))
+        XCTAssertTrue(savedRows(app, "Note, Genesis 1:2").firstMatch.waitForExistence(timeout: 4.0))
+        Thread.sleep(forTimeInterval: 0.4)
+        saveScreenshot("Bible_Saved")
+
+        app.buttons["Highlights"].tap()
+        XCTAssertTrue(savedRows(app, "Highlight, Yellow, Genesis 1:1").firstMatch.waitForExistence(timeout: 3.0))
+        XCTAssertTrue(savedRows(app, "Highlight, Rose, Genesis 1:2").firstMatch.exists)
+        XCTAssertTrue(savedRows(app, "Highlight, Yellow, Genesis 1:3").firstMatch.exists)
+        XCTAssertEqual(savedRows(app, "Highlight, ").count, 3)
+        XCTAssertEqual(savedRows(app, "Bookmark, ").count, 0)
+        XCTAssertEqual(savedRows(app, "Note, ").count, 0)
+
+        app.buttons["Notes"].tap()
+        XCTAssertTrue(savedRows(app, "Note, Genesis 1:2").firstMatch.waitForExistence(timeout: 3.0))
+        XCTAssertEqual(savedRows(app, "Note, ").count, 1)
+        XCTAssertEqual(savedRows(app, "Highlight, ").count, 0)
+        XCTAssertEqual(savedRows(app, "Bookmark, ").count, 0)
+
+        app.buttons["Bookmarks"].tap()
+        let bookmarkRow = savedRows(app, "Bookmark, Genesis 1:3").firstMatch
+        XCTAssertTrue(bookmarkRow.waitForExistence(timeout: 3.0))
+        XCTAssertEqual(savedRows(app, "Bookmark, ").count, 1)
+        XCTAssertEqual(savedRows(app, "Highlight, ").count, 0)
+        XCTAssertEqual(savedRows(app, "Note, ").count, 0)
+
+        // Jump back to the verse, scroll away, then open the same bookmark again (N4).
+        for attempt in 1...2 {
+            bookmarkRow.tap()
+            XCTAssertTrue(app.navigationBars["Genesis"].waitForExistence(timeout: 5.0))
+            let v3 = verse(app, 3)
+            let deadline = Date().addingTimeInterval(4.0)
+            while !v3.isHittable && Date() < deadline { Thread.sleep(forTimeInterval: 0.2) }
+            XCTAssertTrue(v3.isHittable, "jump \(attempt) should bring verse 3 into view")
+            guard attempt == 1 else { break }
+            for _ in 0..<4 { app.swipeUp() }
+            XCTAssertFalse(v3.isHittable, "verse 3 should be scrolled out of view before the second jump")
+            savedBtn.tap()
+            XCTAssertTrue(bookmarkRow.waitForExistence(timeout: 4.0))
+        }
+    }
+
+    // MARK: - Issue #13 review B3: the verse action menu at AX3 text size
+    @MainActor
+    func testBibleActionMenuAX3Light() throws {
+        modeOverride = "Light"
+        try executeBibleActionMenuAX3()
+    }
+
+    @MainActor
+    func testBibleActionMenuAX3Dark() throws {
+        modeOverride = "Dark"
+        try executeBibleActionMenuAX3()
+    }
+
+    /// At accessibility sizes the four actions stack one per line at full width, instead of four
+    /// quarter-width columns whose labels break mid-word ("Book / mark", "Shar / e").
+    @MainActor
+    private func executeBibleActionMenuAX3() throws {
+        let app = XCUIApplication()
+        app.launchArguments += ["-appearance", modeOverride == "Dark" ? "dark" : "light"]
+        app.launchArguments += ["-UIPreferredContentSizeCategoryName", "UICTContentSizeCategoryAccessibilityXL"]
+        app.launchArguments += ["-uitestCompleted", "beginner-30:1", "-uitestResetBibleUserData"]
+        app.launch()
+        openGenesisOne(app)
+
+        verse(app, 1).tap()
+        let bookmark = app.buttons["BookmarkActionButton"]
+        let note = app.buttons["NoteActionButton"]
+        let copy = app.buttons["CopyActionButton"]
+        let share = app.buttons["ShareActionButton"]
+        XCTAssertTrue(share.waitForExistence(timeout: 4.0))
+        Thread.sleep(forTimeInterval: 0.5)
+        saveScreenshot("Bible_ActionMenu_AX3")
+
+        let buttons = [bookmark, note, copy, share]
+        let screenWidth = app.windows.firstMatch.frame.width
+        for (upper, lower) in zip(buttons, buttons.dropFirst()) {
+            XCTAssertGreaterThanOrEqual(lower.frame.minY, upper.frame.maxY - 1, "\(lower.identifier) should sit below \(upper.identifier)")
+        }
+        for button in buttons {
+            XCTAssertGreaterThan(button.frame.width, screenWidth * 0.6, "\(button.identifier) should span the menu")
+        }
     }
 }
