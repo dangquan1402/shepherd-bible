@@ -988,13 +988,13 @@ final class RealFlowUITests: XCTestCase {
     }
 
     /// `-uitestReset` starts from a fresh install's state (empty journal, lock off);
-    /// `-uitestJournalAuth yes,no,yes` answers the three owner checks below in turn (enable the
-    /// lock, the automatic check on reopening, the Unlock button).
+    /// `-uitestJournalAuth yes,no,yes,yes` answers the owner checks below in turn (enable the
+    /// lock, the automatic check on reopening, then the Unlock button twice).
     @MainActor
     private func executeJournalFlow() throws {
         let app = XCUIApplication()
         let appearance = (modeOverride ?? "Light").lowercased()
-        let keepStateArgs = ["-appearance", appearance, "-uitestJournalAuth", "yes,no,yes"]
+        let keepStateArgs = ["-appearance", appearance, "-uitestJournalAuth", "yes,no,yes,yes"]
         app.launchArguments += ["-uitestReset"] + keepStateArgs
         app.launch()
         passOnboardingIfNeeded(app, goal: "Grow a daily habit", level: "Brand new")
@@ -1112,6 +1112,23 @@ final class RealFlowUITests: XCTestCase {
         app.activate()
         XCTAssertTrue(app.staticTexts["Journal Locked"].waitForExistence(timeout: 4.0), "the journal stayed unlocked after backgrounding")
         XCTAssertFalse(element(app, containing: reflection).exists)
+
+        // Backgrounding with a reflection open closes it too (owner check 4: yes). A TextEditor
+        // exposes its text as `value`, not `label`, so the probe matches on value and first proves
+        // it can see the open entry.
+        app.buttons["Unlock Journal"].tap()
+        let entryCard = app.buttons.matching(NSPredicate(format: "label CONTAINS %@", reflection)).firstMatch
+        XCTAssertTrue(entryCard.waitForExistence(timeout: 4.0))
+        entryCard.tap()
+        XCTAssertTrue(app.navigationBars["Reflection"].waitForExistence(timeout: 4.0))
+        let entryText = app.textViews.matching(NSPredicate(format: "value CONTAINS %@", reflection)).firstMatch
+        XCTAssertTrue(entryText.waitForExistence(timeout: 4.0), "the probe cannot see the open entry's text")
+        XCUIDevice.shared.press(.home)
+        Thread.sleep(forTimeInterval: 2.0)
+        app.activate()
+        XCTAssertTrue(app.staticTexts["Journal Locked"].waitForExistence(timeout: 4.0), "the journal stayed unlocked after backgrounding from an entry")
+        XCTAssertFalse(app.navigationBars["Reflection"].exists, "the entry sheet stayed open over the locked journal")
+        XCTAssertFalse(entryText.exists, "the entry text is visible after backgrounding with the lock on")
 
         // 6. The Journal is also reachable from Settings
         ensureTabBarExpanded(app)

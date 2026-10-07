@@ -80,6 +80,14 @@ public struct JournalView: View {
         .onDisappear {
             auth.journalDidDisappear()
         }
+        .onChange(of: isLocked) { _, locked in
+            // A sheet would stay on top of the locked screen: close every one that shows entries.
+            guard locked else { return }
+            selectedEntry = nil
+            editingPrayer = nil
+            showNewEntrySheet = false
+            showNewPrayerSheet = false
+        }
         .sheet(isPresented: $showLockSettingsSheet) {
             JournalLockSettingsSheet()
         }
