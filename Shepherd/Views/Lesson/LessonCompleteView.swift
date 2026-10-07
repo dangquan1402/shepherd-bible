@@ -105,14 +105,14 @@ public struct LessonCompleteView: View {
                         RewardStatChip(
                             icon: "checkmark.circle.fill",
                             text: "Already completed",
-                            color: ShepherdTheme.accent
+                            color: ShepherdTheme.brand
                         )
                     } else {
                         RewardStatChip(
                             icon: "sparkles",
                             text: "+\(xpEarned) XP",
                             color: ShepherdTheme.streak,
-                            fill: ShepherdTheme.goldSubtle
+                            fill: ShepherdTheme.joySubtle
                         )
                     }
 
@@ -120,7 +120,7 @@ public struct LessonCompleteView: View {
                         icon: "flame.fill",
                         text: "\(streakCount) day streak",
                         color: ShepherdTheme.streak,
-                        fill: ShepherdTheme.goldSubtle
+                        fill: ShepherdTheme.joySubtle
                     )
                 }
 
@@ -149,7 +149,7 @@ public struct LessonCompleteView: View {
                                 .frame(height: 10)
 
                             Capsule()
-                                .fill(ShepherdTheme.accentFill)
+                                .fill(ShepherdTheme.brandFill)
                                 .frame(width: geo.size.width * CGFloat(animatedProgress), height: 10)
                         }
                     }
@@ -217,7 +217,7 @@ struct StageUpModalView: View {
 
                 ZStack {
                     Circle()
-                        .stroke(ShepherdTheme.accentFill.opacity(hasTransitioned ? 0.0 : 0.8), lineWidth: 3)
+                        .stroke(ShepherdTheme.brandFill.opacity(hasTransitioned ? 0.0 : 0.8), lineWidth: 3)
                         .frame(width: hasTransitioned ? 260 : 180, height: hasTransitioned ? 260 : 180)
 
                     if !hasTransitioned && !reduceMotion {
@@ -233,7 +233,7 @@ struct StageUpModalView: View {
                 VStack(spacing: 8) {
                     Text("Stage Up!")
                         .font(ShepherdTheme.title1Serif())
-                        .foregroundStyle(ShepherdTheme.accent)
+                        .foregroundStyle(ShepherdTheme.brand)
 
                     Text("Your lamb grew to Stage \(newStage) · \(LambStage(rawValue: newStage)?.name ?? "")")
                         .font(.headline)

@@ -261,14 +261,14 @@ public final class LambVariantStore: @unchecked Sendable {
         case "mascotBell": return ShepherdTheme.mascotBell
         case "mascotFlower": return ShepherdTheme.mascotFlower
         case "mascotZz": return ShepherdTheme.mascotZz
-        case "accentFill": return ShepherdTheme.accentFill
-        case "goldFill": return ShepherdTheme.goldFill
+        case "accentFill": return ShepherdTheme.brandFill
+        case "goldFill": return ShepherdTheme.joyFill
         default: return nil
         }
     }
 
     public static func resolveColor(key: String) -> Color {
-        color(forKey: key) ?? ShepherdTheme.accent
+        color(forKey: key) ?? ShepherdTheme.brand
     }
 }
 
@@ -352,7 +352,7 @@ public struct LambView: View {
         } else {
             // Fallback placeholder during cold loading
             Image(systemName: "sparkles")
-                .foregroundStyle(ShepherdTheme.accent)
+                .foregroundStyle(ShepherdTheme.brand)
         }
     }
 }
@@ -503,19 +503,19 @@ public struct AnimatedLambView: View {
         ZStack {
             Image(systemName: "sparkle")
                 .font(.system(size: h * 0.12, weight: .bold))
-                .foregroundStyle(ShepherdTheme.goldFill)
+                .foregroundStyle(ShepherdTheme.joyFill)
                 .scaleEffect(sparkle1Scale)
                 .offset(x: -h * 0.45, y: -h * 0.35)
 
             Image(systemName: "sparkle")
                 .font(.system(size: h * 0.16, weight: .bold))
-                .foregroundStyle(ShepherdTheme.goldFill)
+                .foregroundStyle(ShepherdTheme.joyFill)
                 .scaleEffect(sparkle2Scale)
                 .offset(x: 0, y: -h * 0.5)
 
             Image(systemName: "sparkle")
                 .font(.system(size: h * 0.13, weight: .bold))
-                .foregroundStyle(ShepherdTheme.goldFill)
+                .foregroundStyle(ShepherdTheme.joyFill)
                 .scaleEffect(sparkle3Scale)
                 .offset(x: h * 0.45, y: -h * 0.38)
         }
@@ -540,17 +540,17 @@ public struct AnimatedLambView: View {
         ZStack {
             Image(systemName: "sparkle")
                 .font(.system(size: h * 0.12, weight: .bold))
-                .foregroundStyle(ShepherdTheme.goldFill)
+                .foregroundStyle(ShepherdTheme.joyFill)
                 .offset(x: -h * 0.45, y: -h * 0.35)
 
             Image(systemName: "sparkle")
                 .font(.system(size: h * 0.16, weight: .bold))
-                .foregroundStyle(ShepherdTheme.goldFill)
+                .foregroundStyle(ShepherdTheme.joyFill)
                 .offset(x: 0, y: -h * 0.5)
 
             Image(systemName: "sparkle")
                 .font(.system(size: h * 0.13, weight: .bold))
-                .foregroundStyle(ShepherdTheme.goldFill)
+                .foregroundStyle(ShepherdTheme.joyFill)
                 .offset(x: h * 0.45, y: -h * 0.38)
         }
     }

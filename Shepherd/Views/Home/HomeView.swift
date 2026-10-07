@@ -167,7 +167,7 @@ struct PathCompleteCard: View {
                     .frame(minHeight: 50)
             }
             .buttonStyle(.glassProminent)
-            .tint(ShepherdTheme.accentFill)
+            .tint(ShepherdTheme.brandFill)
         }
         .padding(18)
         .shepherdGlassCard(cornerRadius: ShepherdTheme.radiusLG)

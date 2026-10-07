@@ -99,7 +99,7 @@ public struct ProminentGlassButton: View {
             .frame(minHeight: 56)
         }
         .buttonStyle(.glassProminent)
-        .tint(ShepherdTheme.accentFill)
+        .tint(ShepherdTheme.brandFill)
         .disabled(!isEnabled)
     }
 }
@@ -191,7 +191,7 @@ public struct PathNodeView: View {
 
                     // Row 13: Node unlock ring
                     Circle()
-                        .stroke(ShepherdTheme.accentFill, lineWidth: 3)
+                        .stroke(ShepherdTheme.brandFill, lineWidth: 3)
                         .frame(width: unlockRingScale, height: unlockRingScale)
                         .opacity(unlockRingOpacity)
 
@@ -200,11 +200,11 @@ public struct PathNodeView: View {
                     case .current:
                         Image(systemName: "book.fill")
                             .font(.system(size: 30, weight: .bold))
-                            .foregroundStyle(ShepherdTheme.onAccent)
+                            .foregroundStyle(ShepherdTheme.onBrand)
                     case .done:
                         Image(systemName: "checkmark")
                             .font(.system(size: 28, weight: .bold))
-                            .foregroundStyle(ShepherdTheme.accent)
+                            .foregroundStyle(ShepherdTheme.brand)
                     case .locked:
                         EmptyView()
                     case .milestoneLocked:
@@ -214,7 +214,7 @@ public struct PathNodeView: View {
                     case .premiumLocked:
                         Image(systemName: "lock.fill")
                             .font(.system(size: 26, weight: .semibold))
-                            .foregroundStyle(ShepherdTheme.accent)
+                            .foregroundStyle(ShepherdTheme.brand)
                     }
 
                     // Lock Icon that animates disappearance on unlock
@@ -267,16 +267,16 @@ public struct PathNodeView: View {
 
     private var faceColor: Color {
         switch state {
-        case .current: return ShepherdTheme.accentFill
-        case .done: return ShepherdTheme.accentSubtle
+        case .current: return ShepherdTheme.brandFill
+        case .done: return ShepherdTheme.brandSubtle
         case .locked, .milestoneLocked, .premiumLocked: return ShepherdTheme.nodeLocked
         }
     }
 
     private var baseColor: Color {
         switch state {
-        case .current: return ShepherdTheme.accentFillDeep
-        case .done: return ShepherdTheme.accentSubtleDeep
+        case .current: return ShepherdTheme.brandFillDeep
+        case .done: return ShepherdTheme.brandSubtleDeep
         case .locked, .milestoneLocked, .premiumLocked: return ShepherdTheme.nodeLockedDeep
         }
     }
@@ -284,8 +284,8 @@ public struct PathNodeView: View {
     private var ringColor: Color {
         switch state {
         case .current: return ShepherdTheme.nodeCurrentRing
-        case .done: return ShepherdTheme.accentFill.opacity(0.3)
-        case .premiumLocked: return ShepherdTheme.accentFill
+        case .done: return ShepherdTheme.brandFill.opacity(0.3)
+        case .premiumLocked: return ShepherdTheme.brandFill
         case .locked, .milestoneLocked: return ShepherdTheme.surfaceBorder
         }
     }
@@ -455,7 +455,7 @@ public struct XPProgressBar: View {
                     .frame(height: 8)
 
                 Capsule()
-                    .fill(ShepherdTheme.accentFill)
+                    .fill(ShepherdTheme.brandFill)
                     .frame(width: geo.size.width * CGFloat(progress), height: 8)
             }
         }
@@ -471,7 +471,7 @@ public struct RewardStatChip: View {
     public let color: Color
     public var fill: Color = ShepherdTheme.cardSurface
 
-    public init(icon: String, text: String, color: Color = ShepherdTheme.accent, fill: Color = ShepherdTheme.cardSurface) {
+    public init(icon: String, text: String, color: Color = ShepherdTheme.brand, fill: Color = ShepherdTheme.cardSurface) {
         self.icon = icon
         self.text = text
         self.color = color
@@ -528,7 +528,7 @@ public struct BrandLockup: View {
                 .renderingMode(.template)
                 .scaledToFit()
                 .frame(height: size.word)
-                .foregroundStyle(ShepherdTheme.accent)
+                .foregroundStyle(ShepherdTheme.brand)
                 .offset(y: size.word * 0.08)
         }
         .accessibilityElement(children: .ignore)

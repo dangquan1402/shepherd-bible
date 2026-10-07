@@ -44,7 +44,7 @@ struct BibleNoteEditorSheet: View {
                         HStack {
                             Text(BibleFormatter.referenceString(bookName: bookName, chapter: chapter, startVerse: startVerse, endVerse: endVerse))
                                 .font(.headline)
-                                .foregroundStyle(ShepherdTheme.accent)
+                                .foregroundStyle(ShepherdTheme.brand)
                             Spacer()
                             Text("WEB")
                                 .font(.caption.weight(.bold))
@@ -92,7 +92,7 @@ struct BibleNoteEditorSheet: View {
                         .clipShape(RoundedRectangle(cornerRadius: ShepherdTheme.radiusMD))
                         .overlay(
                             RoundedRectangle(cornerRadius: ShepherdTheme.radiusMD)
-                                .stroke(isFocused ? ShepherdTheme.accent : ShepherdTheme.surfaceBorder, lineWidth: 1)
+                                .stroke(isFocused ? ShepherdTheme.brand : ShepherdTheme.surfaceBorder, lineWidth: 1)
                         )
 
                         Text("Stored only on this device · Never shared")

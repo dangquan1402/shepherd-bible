@@ -45,21 +45,6 @@ public enum ShepherdTheme {
     public static let wrong = Color("Wrong")
     public static let wrongSubtle = Color("WrongSubtle")
 
-    // Backward-compatibility aliases during transition
-    public static let accent = brand
-    public static let accentFill = brandFill
-    public static let accentSubtle = brandSubtle
-    public static let accentFillDeep = brandFillDeep
-    public static let accentSubtleDeep = brandSubtleDeep
-    public static let onAccent = onBrand
-    public static let gold = joy
-    public static let goldFill = joyFill
-    public static let goldSubtle = joySubtle
-    public static let success = correct
-    public static let successSubtle = correctSubtle
-    public static let error = wrong
-    public static let errorSubtle = wrongSubtle
-
     // MARK: - Colors: Scripture Highlights
     public static let highlightYellow = Color("HighlightYellow")
     public static let highlightBlue = Color("HighlightBlue")
@@ -156,8 +141,6 @@ public enum ShepherdTheme {
 public extension Color {
     static var shepherdBrand: Color { ShepherdTheme.brand }
     static var shepherdBrandFill: Color { ShepherdTheme.brandFill }
-    static var shepherdAccent: Color { ShepherdTheme.brand }
-    static var shepherdAccentFill: Color { ShepherdTheme.brandFill }
     static var shepherdCanvasBg: Color { ShepherdTheme.canvasBg }
     static var shepherdCardSurface: Color { ShepherdTheme.cardSurface }
     static var shepherdTextPrimary: Color { ShepherdTheme.textPrimary }
@@ -165,8 +148,6 @@ public extension Color {
     static var shepherdTextTertiary: Color { ShepherdTheme.textTertiary }
     static var shepherdCorrect: Color { ShepherdTheme.correct }
     static var shepherdWrong: Color { ShepherdTheme.wrong }
-    static var shepherdSuccess: Color { ShepherdTheme.correct }
-    static var shepherdError: Color { ShepherdTheme.wrong }
     static var shepherdJoy: Color { ShepherdTheme.joy }
     static var shepherdJoyFill: Color { ShepherdTheme.joyFill }
     static var shepherdDestructive: Color { ShepherdTheme.destructive }

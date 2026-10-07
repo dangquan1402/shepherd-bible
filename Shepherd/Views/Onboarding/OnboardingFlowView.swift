@@ -29,7 +29,7 @@ public struct OnboardingFlowView: View {
                     HStack(spacing: 6) {
                         ForEach(0...Self.planStep, id: \.self) { i in
                             Capsule()
-                                .fill(i <= step ? ShepherdTheme.accentFill : ShepherdTheme.surfaceSunken)
+                                .fill(i <= step ? ShepherdTheme.brandFill : ShepherdTheme.surfaceSunken)
                                 .frame(height: 4)
                                 .animation(.easeInOut(duration: 0.25), value: step)
                         }
@@ -366,7 +366,7 @@ public struct OnboardingFlowView: View {
                             .foregroundStyle(ShepherdTheme.textPrimary)
                         Text("\(path.lessons.count) lessons · \(PathAccessPolicy.label(for: path))")
                             .font(.footnote)
-                            .foregroundStyle(path.access == .premium ? ShepherdTheme.accent : ShepherdTheme.textSecondary)
+                            .foregroundStyle(path.access == .premium ? ShepherdTheme.brand : ShepherdTheme.textSecondary)
                         if path.access == .premium, let free = freeAlternative {
                             Text("Or start free with \(free.title).")
                                 .font(.footnote)
@@ -439,16 +439,16 @@ public struct OnboardingFlowView: View {
                 Spacer()
                 if isSelected {
                     Image(systemName: "checkmark.circle.fill")
-                        .foregroundStyle(ShepherdTheme.accent)
+                        .foregroundStyle(ShepherdTheme.brand)
                 }
             }
             .padding(.horizontal, 16)
             .frame(minHeight: 56)
-            .background(isSelected ? ShepherdTheme.accentSubtle.opacity(0.3) : ShepherdTheme.cardSurface)
+            .background(isSelected ? ShepherdTheme.brandSubtle.opacity(0.3) : ShepherdTheme.cardSurface)
             .clipShape(RoundedRectangle(cornerRadius: ShepherdTheme.radiusMD))
             .overlay(
                 RoundedRectangle(cornerRadius: ShepherdTheme.radiusMD)
-                    .stroke(isSelected ? ShepherdTheme.accent : ShepherdTheme.surfaceBorder, lineWidth: isSelected ? 2 : 1)
+                    .stroke(isSelected ? ShepherdTheme.brand : ShepherdTheme.surfaceBorder, lineWidth: isSelected ? 2 : 1)
             )
         }
         .buttonStyle(.plain)

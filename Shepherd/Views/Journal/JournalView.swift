@@ -51,7 +51,7 @@ public struct JournalView: View {
                     } label: {
                         Image(systemName: auth.isLockEnabled ? "lock.fill" : "lock.open")
                             .font(.system(size: 16))
-                            .foregroundStyle(auth.isLockEnabled ? ShepherdTheme.accent : ShepherdTheme.textSecondary)
+                            .foregroundStyle(auth.isLockEnabled ? ShepherdTheme.brand : ShepherdTheme.textSecondary)
                     }
                     .accessibilityLabel("Journal Privacy Settings")
 
@@ -65,7 +65,7 @@ public struct JournalView: View {
                         } label: {
                             Image(systemName: "plus")
                                 .font(.system(size: 16, weight: .bold))
-                                .foregroundStyle(ShepherdTheme.accent)
+                                .foregroundStyle(ShepherdTheme.brand)
                         }
                         .accessibilityLabel(selectedSegment == 0 ? "New Reflection" : "New Prayer")
                     }
@@ -181,7 +181,7 @@ public struct JournalView: View {
                 }
             }
             .pickerStyle(.menu)
-            .tint(ShepherdTheme.accent)
+            .tint(ShepherdTheme.brand)
             .accessibilityIdentifier("ReflectionGroupingMenu")
 
             switch grouping {
@@ -193,7 +193,7 @@ public struct JournalView: View {
                 ForEach(JournalGrouping.byPath(entries, paths: content.paths)) { section in
                     Text(section.title.uppercased())
                         .font(ShepherdTheme.scriptureEyebrow())
-                        .foregroundStyle(ShepherdTheme.accent)
+                        .foregroundStyle(ShepherdTheme.brand)
                         .padding(.top, 6)
                         .accessibilityAddTraits(.isHeader)
                     ForEach(section.entries) { entry in
@@ -208,7 +208,7 @@ public struct JournalView: View {
         VStack(spacing: 14) {
             Image(systemName: icon)
                 .font(.system(size: 52))
-                .foregroundStyle(ShepherdTheme.accent)
+                .foregroundStyle(ShepherdTheme.brand)
                 .accessibilityHidden(true)
 
             Text(title)
@@ -293,10 +293,10 @@ public struct JournalView: View {
         if let lessonTitle = entry.lessonTitle, !lessonTitle.isEmpty {
             Text(lessonTitle)
                 .font(.caption2.weight(.semibold))
-                .foregroundStyle(ShepherdTheme.accent)
+                .foregroundStyle(ShepherdTheme.brand)
                 .padding(.horizontal, 8)
                 .padding(.vertical, 4)
-                .background(ShepherdTheme.accentSubtle)
+                .background(ShepherdTheme.brandSubtle)
                 .clipShape(Capsule())
         }
     }
@@ -332,7 +332,7 @@ public struct JournalView: View {
                 }
             }
             .pickerStyle(.menu)
-            .tint(ShepherdTheme.accent)
+            .tint(ShepherdTheme.brand)
             .accessibilityIdentifier("PrayerFilterMenu")
         } else {
             HStack(spacing: 8) {
@@ -346,10 +346,10 @@ public struct JournalView: View {
                         Text("\(filter.rawValue) (\(filter.apply(to: prayers).count))")
                             .font(.subheadline.weight(isSelected ? .bold : .medium))
                             .lineLimit(1)
-                            .foregroundStyle(isSelected ? ShepherdTheme.onAccent : ShepherdTheme.textPrimary)
+                            .foregroundStyle(isSelected ? ShepherdTheme.onBrand : ShepherdTheme.textPrimary)
                             .padding(.horizontal, 14)
                             .padding(.vertical, 6)
-                            .background(isSelected ? ShepherdTheme.accentFill : ShepherdTheme.cardSurface)
+                            .background(isSelected ? ShepherdTheme.brandFill : ShepherdTheme.cardSurface)
                             .clipShape(Capsule())
                             .overlay(
                                 Capsule()
@@ -380,7 +380,7 @@ public struct JournalView: View {
             } label: {
                 Image(systemName: "plus.circle.fill")
                     .font(.system(size: 28))
-                    .foregroundStyle(quickPrayerText.trimmingCharacters(in: .whitespaces).isEmpty ? ShepherdTheme.textTertiary : ShepherdTheme.accent)
+                    .foregroundStyle(quickPrayerText.trimmingCharacters(in: .whitespaces).isEmpty ? ShepherdTheme.textTertiary : ShepherdTheme.brand)
             }
             .disabled(quickPrayerText.trimmingCharacters(in: .whitespaces).isEmpty)
             .accessibilityLabel("Add Prayer")
@@ -403,7 +403,7 @@ public struct JournalView: View {
             } label: {
                 Image(systemName: prayer.isAnswered ? "checkmark.circle.fill" : "circle")
                     .font(.system(size: 24))
-                    .foregroundStyle(prayer.isAnswered ? ShepherdTheme.accent : ShepherdTheme.textTertiary)
+                    .foregroundStyle(prayer.isAnswered ? ShepherdTheme.brand : ShepherdTheme.textTertiary)
             }
             .buttonStyle(.plain)
             .padding(.top, 2)
@@ -428,7 +428,7 @@ public struct JournalView: View {
                 if prayer.isAnswered, let answered = prayer.answeredDate {
                     Label("Answered \(answered.formatted(date: .abbreviated, time: .omitted))", systemImage: "sparkles")
                         .font(.caption.weight(.medium))
-                        .foregroundStyle(ShepherdTheme.accent)
+                        .foregroundStyle(ShepherdTheme.brand)
                 }
             }
             .frame(maxWidth: .infinity, alignment: .leading)
@@ -494,12 +494,12 @@ public struct JournalLockedView: View {
 
             ZStack {
                 Circle()
-                    .fill(ShepherdTheme.accentSubtle)
+                    .fill(ShepherdTheme.brandSubtle)
                     .frame(width: 88, height: 88)
 
                 Image(systemName: "lock.fill")
                     .font(.system(size: 38))
-                    .foregroundStyle(ShepherdTheme.accent)
+                    .foregroundStyle(ShepherdTheme.brand)
             }
 
             VStack(spacing: 8) {

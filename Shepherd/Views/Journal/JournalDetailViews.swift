@@ -31,10 +31,10 @@ public struct JournalEntryDetailView: View {
                             if let lessonTitle = entry.lessonTitle, !lessonTitle.isEmpty {
                                 Text(lessonTitle)
                                     .font(.caption.weight(.semibold))
-                                    .foregroundStyle(ShepherdTheme.accent)
+                                    .foregroundStyle(ShepherdTheme.brand)
                                     .padding(.horizontal, 10)
                                     .padding(.vertical, 4)
-                                    .background(ShepherdTheme.accentSubtle)
+                                    .background(ShepherdTheme.brandSubtle)
                                     .clipShape(Capsule())
                             }
                         }
@@ -43,7 +43,7 @@ public struct JournalEntryDetailView: View {
                             VStack(alignment: .leading, spacing: 4) {
                                 Text("Prompt")
                                     .font(.caption.weight(.bold))
-                                    .foregroundStyle(ShepherdTheme.accent)
+                                    .foregroundStyle(ShepherdTheme.brand)
 
                                 Text(prompt)
                                     .font(.subheadline.italic())
@@ -307,13 +307,13 @@ public struct EditPrayerSheet: View {
                     Toggle(isOn: $isAnswered) {
                         HStack(spacing: 8) {
                             Image(systemName: isAnswered ? "checkmark.circle.fill" : "circle")
-                                .foregroundStyle(isAnswered ? ShepherdTheme.accent : ShepherdTheme.textTertiary)
+                                .foregroundStyle(isAnswered ? ShepherdTheme.brand : ShepherdTheme.textTertiary)
                             Text("Mark as Answered")
                                 .font(.body.weight(.semibold))
                                 .foregroundStyle(ShepherdTheme.textPrimary)
                         }
                     }
-                    .tint(ShepherdTheme.accentFill)
+                    .tint(ShepherdTheme.brandFill)
                     .padding(14)
                     .shepherdSurfaceCard(cornerRadius: ShepherdTheme.radiusSM)
 
@@ -437,7 +437,7 @@ public struct JournalLockSettingsSheet: View {
                                 .foregroundStyle(ShepherdTheme.textSecondary)
                         }
                     }
-                    .tint(ShepherdTheme.accentFill)
+                    .tint(ShepherdTheme.brandFill)
                     .disabled(isUpdating)
                     .onChange(of: isEnabled) { _, newValue in
                         guard newValue != auth.isLockEnabled else { return }
@@ -467,7 +467,7 @@ public struct JournalLockSettingsSheet: View {
                                 Image(systemName: "lock.fill")
                                 Text("Lock Journal Now")
                             }
-                            .foregroundStyle(ShepherdTheme.accent)
+                            .foregroundStyle(ShepherdTheme.brand)
                         }
                     }
                     .listRowBackground(ShepherdTheme.cardSurface)

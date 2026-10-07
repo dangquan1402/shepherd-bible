@@ -138,7 +138,7 @@ public struct BibleReaderView: View {
                             // Eyebrow
                             Text("WEB · \(currentBook?.name.uppercased() ?? "GENESIS")")
                                 .font(ShepherdTheme.scriptureEyebrow())
-                                .foregroundStyle(ShepherdTheme.accent)
+                                .foregroundStyle(ShepherdTheme.brand)
                                 .padding(.top, 8)
                                 .id("top")
 
@@ -200,7 +200,7 @@ public struct BibleReaderView: View {
                     VStack {
                         HStack(spacing: 8) {
                             Image(systemName: "checkmark.circle.fill")
-                                .foregroundStyle(ShepherdTheme.accent)
+                                .foregroundStyle(ShepherdTheme.brand)
                             Text("Copied to clipboard")
                                 .font(.subheadline.weight(.semibold))
                                 .foregroundStyle(ShepherdTheme.textPrimary)
@@ -481,7 +481,7 @@ public struct BibleReaderView: View {
             actionLabel(
                 bookmarked ? "Bookmarked" : "Bookmark",
                 icon: bookmarked ? "bookmark.fill" : "bookmark",
-                tint: bookmarked ? ShepherdTheme.accent : ShepherdTheme.textPrimary,
+                tint: bookmarked ? ShepherdTheme.brand : ShepherdTheme.textPrimary,
                 stacked: stacked
             )
         }
@@ -495,7 +495,7 @@ public struct BibleReaderView: View {
             actionLabel(
                 hasNote ? "Edit Note" : "Note",
                 icon: hasNote ? "note.text.badge.plus" : "square.and.pencil",
-                tint: hasNote ? ShepherdTheme.accent : ShepherdTheme.textPrimary,
+                tint: hasNote ? ShepherdTheme.brand : ShepherdTheme.textPrimary,
                 stacked: stacked
             )
         }
@@ -734,18 +734,18 @@ private struct VerseRowView: View {
             VStack(alignment: .trailing, spacing: 3) {
                 Text("\(verse.number)")
                     .font(.subheadline.weight(.bold))
-                    .foregroundStyle(isSelected ? ShepherdTheme.accent : ShepherdTheme.accent.opacity(0.85))
+                    .foregroundStyle(isSelected ? ShepherdTheme.brand : ShepherdTheme.brand.opacity(0.85))
 
                 if isBookmarked {
                     Image(systemName: "bookmark.fill")
                         .font(.system(size: 10, weight: .bold))
-                        .foregroundStyle(ShepherdTheme.accent)
+                        .foregroundStyle(ShepherdTheme.brand)
                 }
 
                 if hasNote {
                     Image(systemName: "square.and.pencil")
                         .font(.system(size: 10, weight: .bold))
-                        .foregroundStyle(ShepherdTheme.accent)
+                        .foregroundStyle(ShepherdTheme.brand)
                 }
             }
             .frame(minWidth: 28, alignment: .trailing)
@@ -793,20 +793,20 @@ private struct VerseRowView: View {
             return highlight.color
         }
         if isFlashed {
-            return ShepherdTheme.goldSubtle
+            return ShepherdTheme.joySubtle
         }
         if isVerseOfTheDay {
-            return ShepherdTheme.accentSubtle
+            return ShepherdTheme.brandSubtle
         }
         return Color.clear
     }
 
     private var rowBorder: Color {
         if isSelected {
-            return ShepherdTheme.accent
+            return ShepherdTheme.brand
         }
         if isFlashed {
-            return ShepherdTheme.gold
+            return ShepherdTheme.joy
         }
         return Color.clear
     }

@@ -20,7 +20,7 @@ public struct VerseOfTheDayCard: View {
 
                     Text("VERSE OF THE DAY")
                         .font(ShepherdTheme.scriptureEyebrow())
-                        .foregroundStyle(ShepherdTheme.accent)
+                        .foregroundStyle(ShepherdTheme.brand)
                         .tracking(0.6)
 
                     Spacer()
@@ -42,7 +42,7 @@ public struct VerseOfTheDayCard: View {
                 HStack(alignment: .firstTextBaseline) {
                     Text(verse.displayRef)
                         .font(.subheadline.weight(.bold))
-                        .foregroundStyle(ShepherdTheme.accent)
+                        .foregroundStyle(ShepherdTheme.brand)
 
                     Spacer()
 

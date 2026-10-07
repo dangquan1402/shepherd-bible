@@ -83,7 +83,7 @@ public struct QuizView: View {
                         // Eyebrow
                         Text("DAY \(lesson.dayIndex)")
                             .font(.subheadline.weight(.bold))
-                            .foregroundStyle(ShepherdTheme.accent)
+                            .foregroundStyle(ShepherdTheme.brand)
                             .padding(.top, 12)
 
                         // Question Prompt
@@ -143,7 +143,7 @@ public struct QuizView: View {
                                 .frame(minHeight: 56)
                         }
                         .buttonStyle(.glassProminent)
-                        .tint(ShepherdTheme.accentFill)
+                        .tint(ShepherdTheme.brandFill)
                         .glassEffectID("quiz_action", in: morphNamespace)
                         .disabled(!canCheck)
                         .padding(.horizontal, 20)
@@ -171,7 +171,7 @@ public struct QuizView: View {
                                 .frame(height: 6)
 
                             Capsule()
-                                .fill(ShepherdTheme.accentFill)
+                                .fill(ShepherdTheme.brandFill)
                                 .frame(width: geo.size.width * CGFloat(quizProgress), height: 6)
                                 .animation(.easeInOut(duration: 0.3), value: quizProgress)
                         }
@@ -318,7 +318,7 @@ public struct QuizView: View {
                             Text("Reset")
                         }
                         .font(.footnote.weight(.medium))
-                        .foregroundStyle(ShepherdTheme.accent)
+                        .foregroundStyle(ShepherdTheme.brand)
                     }
                     .accessibilityLabel("Reset words")
                 }

@@ -38,7 +38,7 @@ public struct VerseWidgetView: View {
                     .foregroundStyle(ShepherdTheme.streak)
                 Text(verse.displayRef)
                     .font(.caption.weight(.bold))
-                    .foregroundStyle(ShepherdTheme.accent)
+                    .foregroundStyle(ShepherdTheme.brand)
                     .lineLimit(1)
                     .minimumScaleFactor(0.8)
             }
@@ -60,7 +60,7 @@ public struct VerseWidgetView: View {
                     .foregroundStyle(ShepherdTheme.streak)
                 Text("VERSE OF THE DAY")
                     .font(.caption2.weight(.bold))
-                    .foregroundStyle(ShepherdTheme.accent)
+                    .foregroundStyle(ShepherdTheme.brand)
             }
             .widgetAccentable()
 
@@ -71,7 +71,7 @@ public struct VerseWidgetView: View {
             HStack(alignment: .firstTextBaseline) {
                 Text(verse.displayRef)
                     .font(.footnote.weight(.bold))
-                    .foregroundStyle(ShepherdTheme.accent)
+                    .foregroundStyle(ShepherdTheme.brand)
                     .widgetAccentable()
                 Spacer()
                 attribution
@@ -179,7 +179,7 @@ public struct StreakWidgetView: View {
         case .doneToday:
             Label("Today done", systemImage: "checkmark.circle.fill")
                 .font(.caption.weight(.bold))
-                .foregroundStyle(ShepherdTheme.accent)
+                .foregroundStyle(ShepherdTheme.brand)
                 .widgetAccentable()
             Text("See you tomorrow")
                 .font(.caption2)
@@ -187,7 +187,7 @@ public struct StreakWidgetView: View {
         case .lessonWaiting(let day, let title):
             Text("Day \(day)")
                 .font(.caption.weight(.bold))
-                .foregroundStyle(ShepherdTheme.accent)
+                .foregroundStyle(ShepherdTheme.brand)
                 .widgetAccentable()
             if let title, !title.isEmpty {
                 Text(title)
@@ -198,7 +198,7 @@ public struct StreakWidgetView: View {
         case .pathComplete:
             Text("Path complete")
                 .font(.caption.weight(.bold))
-                .foregroundStyle(ShepherdTheme.accent)
+                .foregroundStyle(ShepherdTheme.brand)
                 .widgetAccentable()
             Text(data.activePathTitle)
                 .font(.caption2)
