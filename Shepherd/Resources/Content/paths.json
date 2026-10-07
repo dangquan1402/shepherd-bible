@@ -1981,14 +1981,14 @@
             },
             {
               "id": "peace-14.d08.q2",
-              "prompt": "Hannah explained to Eli that she had poured out her soul before the LORD.",
+              "prompt": "When Eli saw Hannah's lips moving, he thought she was drunk.",
               "choices": [
                 "True",
                 "False"
               ],
               "correctIndex": 0,
-              "answerRef": "1SA.1.15",
-              "explain": "1 Samuel 1:15: Hannah says, \"I poured out my soul before the LORD.\"",
+              "answerRef": "1SA.1.13",
+              "explain": "1 Samuel 1:13: \"Only her lips moved, but her voice was not heard. Therefore Eli thought she was drunk.\"",
               "type": "true_false"
             },
             {

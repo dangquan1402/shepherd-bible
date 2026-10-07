@@ -76,15 +76,14 @@ def main():
         "explain": "Psalm 42:5: \"Why are you in despair, my soul? Why are you disturbed within me?\""
     }
 
-    # peace-14.d08.q2: 1SA.1.15 (verses: 1SA.1.10, 1SA.1.13, 1SA.1.15, 1SA.1.18)
-    # 1SA.1.15: "Hannah answered, “No, my lord, I am a woman who has a sorrowful spirit. I have been drinking neither wine nor strong drink, but I poured out my soul before the LORD."
+    # peace-14.d08.q2: 1SA.1.13 (reworked after the PR #27 re-review: the 1SA.1.15 statement gave away q3)
     conversions["peace-14.d08.q2"] = {
         "type": "true_false",
-        "prompt": "Hannah explained to Eli that she had poured out her soul before the LORD.",
+        "prompt": "When Eli saw Hannah's lips moving, he thought she was drunk.",
         "choices": ["True", "False"],
         "correctIndex": 0,
-        "answerRef": "1SA.1.15",
-        "explain": "1 Samuel 1:15: Hannah says, \"I poured out my soul before the LORD.\""
+        "answerRef": "1SA.1.13",
+        "explain": "1 Samuel 1:13: \"Only her lips moved, but her voice was not heard. Therefore Eli thought she was drunk.\""
     }
 
     # peace-14.d10.q2: PHP.4.6 (reworked after the PR #27 review)
