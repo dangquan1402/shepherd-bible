@@ -24,12 +24,16 @@ public enum LessonProgressRecorder {
         }
     }
 
+    /// Records a finished lesson (XP, streak, progress row) and republishes the widget data.
+    /// `activePath` is the path the Today tab follows; the widget's "next lesson" comes from it.
     @discardableResult
     public static func complete(
         lesson: Lesson,
         score: Int,
         context: ModelContext,
-        isPremium: Bool = false
+        isPremium: Bool = false,
+        activePath: StudyPath? = nil,
+        widgetStore: WidgetDataStore = .shared
     ) -> CompletionResult {
         let lessonId = lesson.id
 
@@ -54,6 +58,8 @@ public enum LessonProgressRecorder {
         }
 
         try? context.save()
+
+        WidgetSyncService.sync(context: context, activePath: activePath, store: widgetStore)
 
         let newXP = companion?.xp ?? 0
         let currentStreak = streak?.current ?? 1

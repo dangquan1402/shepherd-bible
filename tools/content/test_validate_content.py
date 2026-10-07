@@ -3,7 +3,9 @@
 python3 -I -m unittest discover -s tools/content -v
 """
 
+import contextlib
 import copy
+import io
 import json
 import os
 import re
@@ -372,6 +374,81 @@ class DefectsAreCaught(unittest.TestCase):
             {"ref": "GEN.1.3", "text": "Let there be light"}
         ]
         self.assertEqual(errors(b), [])
+
+
+class DailyVersesValidation(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        with open(os.path.join(vc.CONTENT, "daily_verses.json"), encoding="utf-8") as f:
+            cls.daily_verses = json.load(f)
+
+    def test_shipped_daily_verses_has_no_errors(self):
+        errs, _ = vc.validate_daily_verses(BIBLE, self.daily_verses)
+        self.assertEqual(errs, [])
+        self.assertEqual(len(self.daily_verses), 366)
+
+    def test_too_few_verses_fails(self):
+        short = self.daily_verses[:300]
+        errs, _ = vc.validate_daily_verses(BIBLE, short)
+        self.assertTrue(any("expected at least 366 verses" in e for e in errs))
+
+    def test_nonexistent_ref_fails(self):
+        bad = copy.deepcopy(self.daily_verses)
+        bad[0]["ref"] = "PSA.999.1"
+        errs, _ = vc.validate_daily_verses(BIBLE, bad)
+        self.assertTrue(any("does not exist in the bundled WEB" in e for e in errs))
+
+    def test_non_verbatim_text_fails(self):
+        bad = copy.deepcopy(self.daily_verses)
+        bad[0]["text"] = "Non-verbatim altered scripture text."
+        errs, _ = vc.validate_daily_verses(BIBLE, bad)
+        self.assertTrue(any("not verbatim WEB text" in e for e in errs))
+
+    def test_duplicate_ref_fails(self):
+        bad = copy.deepcopy(self.daily_verses)
+        bad[1]["ref"] = bad[0]["ref"]
+        bad[1]["text"] = bad[0]["text"]
+        errs, _ = vc.validate_daily_verses(BIBLE, bad)
+        self.assertTrue(any("duplicate reference" in e for e in errs))
+
+    def swap(self, ref):
+        """The shipped list with entry #0 replaced by the verbatim WEB verse at ref."""
+        bad = copy.deepcopy(self.daily_verses)
+        bad[0]["ref"] = ref
+        bad[0]["text"] = vc.index(BIBLE)[ref]
+        return bad
+
+    def test_verse_over_widget_budget_fails(self):
+        errs, _ = vc.validate_daily_verses(BIBLE, self.swap("PHP.4.12"))
+        self.assertTrue(any("PHP.4.12 is 181 characters" in e for e in errs), errs)
+
+    def test_lowercase_fragment_fails(self):
+        errs, _ = vc.validate_daily_verses(BIBLE, self.swap("COL.1.13"))
+        self.assertTrue(any("COL.1.13 is a sentence fragment" in e for e in errs), errs)
+
+    def test_trailing_comma_fragment_fails(self):
+        errs, _ = vc.validate_daily_verses(BIBLE, self.swap("GAL.5.22"))
+        self.assertTrue(any("GAL.5.22 is a sentence fragment" in e for e in errs), errs)
+
+    def test_missing_text_fails(self):
+        bad = copy.deepcopy(self.daily_verses)
+        del bad[0]["text"]
+        errs, _ = vc.validate_daily_verses(BIBLE, bad)
+        self.assertTrue(any("has no text" in e for e in errs), errs)
+
+    def test_day_out_of_sequence_fails(self):
+        bad = copy.deepcopy(self.daily_verses)
+        bad[4]["day"] = 99
+        errs, _ = vc.validate_daily_verses(BIBLE, bad)
+        self.assertTrue(any("has day 99, expected 5" in e for e in errs), errs)
+
+    def test_missing_daily_verses_file_fails(self):
+        with contextlib.redirect_stdout(io.StringIO()) as out:
+            status = vc.main(
+                ["--daily-verses", os.path.join(HERE, "no_such_daily_verses.json")]
+            )
+        self.assertEqual(status, 1)
+        self.assertIn("no_such_daily_verses.json is missing", out.getvalue())
 
 
 if __name__ == "__main__":

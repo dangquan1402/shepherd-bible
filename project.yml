@@ -27,9 +27,17 @@ targets:
           - "Info.plist"
 
 
+    # xcodegen writes the .entitlements file from these properties on every generate.
+    entitlements:
+      path: Shepherd/Shepherd.entitlements
+      properties:
+        com.apple.security.application-groups:
+          - group.com.dangvietquan.shepherd
+
     dependencies:
       - sdk: StoreKit.framework
         embed: false
+      - target: ShepherdWidgets
 
     scheme:
       storeKitConfiguration: Shepherd.storekit
@@ -52,6 +60,11 @@ targets:
         UISupportedInterfaceOrientations:
           - UIInterfaceOrientationPortrait
         ITSAppUsesNonExemptEncryption: false
+        # Widget taps (widgetURL) open pasture://verse and pasture://lesson.
+        CFBundleURLTypes:
+          - CFBundleURLName: com.dangvietquan.shepherd
+            CFBundleURLSchemes:
+              - pasture
         NSFaceIDUsageDescription: "Pasture uses Face ID to keep your reflection and prayer journal private on your device."
 
     settings:
@@ -71,6 +84,8 @@ targets:
           SWIFT_ACTIVE_COMPILATION_CONDITIONS: DEBUG
         Release:
           SWIFT_OPTIMIZATION_LEVEL: "-O"
+          # tools/archive.sh signs manually; each target names its own App Store profile.
+          PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]: Shepherd AppStore Profile
 
   ShepherdTests:
     type: bundle.unit-test
@@ -100,3 +115,60 @@ targets:
         GENERATE_INFOPLIST_FILE: YES
         TEST_TARGET_NAME: Shepherd
 
+  ShepherdWidgets:
+    type: app-extension
+    platform: iOS
+    deploymentTarget: "26.0"
+
+    sources:
+      - path: ShepherdWidgets
+        excludes:
+          - "**/*.md"
+          - ".DS_Store"
+          - "Info.plist"
+      # Shared with the app target (which compiles all of Shepherd/).
+      - path: Shepherd/Resources/Assets.xcassets
+      - path: Shepherd/Resources/Content/daily_verses.json
+      - path: Shepherd/Models/DailyVerse.swift
+      - path: Shepherd/Services/DailyVerseService.swift
+      - path: Shepherd/Services/WidgetDataStore.swift
+      - path: Shepherd/Theme/ShepherdTheme.swift
+      - path: Shepherd/Widgets
+
+    dependencies:
+      - sdk: WidgetKit.framework
+      - sdk: SwiftUI.framework
+
+    entitlements:
+      path: ShepherdWidgets/ShepherdWidgets.entitlements
+      properties:
+        com.apple.security.application-groups:
+          - group.com.dangvietquan.shepherd
+
+    info:
+      path: ShepherdWidgets/Info.plist
+      properties:
+        CFBundleDisplayName: Pasture
+        CFBundleShortVersionString: "1.0.0"
+        CFBundleVersion: $(CURRENT_PROJECT_VERSION)
+        NSExtension:
+          NSExtensionPointIdentifier: com.apple.widgetkit-extension
+
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.dangvietquan.shepherd.widgets
+        TARGETED_DEVICE_FAMILY: "1"
+        CURRENT_PROJECT_VERSION: 1
+        MARKETING_VERSION: "1.0.0"
+        INFOPLIST_FILE: ShepherdWidgets/Info.plist
+        SWIFT_VERSION: "6.0"
+        IPHONEOS_DEPLOYMENT_TARGET: "26.0"
+        GENERATE_INFOPLIST_FILE: NO
+        ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: AccentColor
+        ENABLE_PREVIEWS: YES
+      configs:
+        Debug:
+          SWIFT_ACTIVE_COMPILATION_CONDITIONS: DEBUG
+        Release:
+          SWIFT_OPTIMIZATION_LEVEL: "-O"
+          PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]: Shepherd Widgets AppStore Profile

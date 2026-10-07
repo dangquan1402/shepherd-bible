@@ -568,6 +568,179 @@ final class RealFlowUITests: XCTestCase {
     }
 
     @MainActor
+    func testVerseOfTheDayFlowLight() throws {
+        modeOverride = "Light"
+        try executeVerseOfTheDayFlow(appearance: "light")
+    }
+
+    @MainActor
+    func testVerseOfTheDayFlowDark() throws {
+        modeOverride = "Dark"
+        try executeVerseOfTheDayFlow(appearance: "dark")
+    }
+
+    /// The pinned verse of the day for these tests: deep in the Bible's longest chapter, so a
+    /// reader that only switches chapter without scrolling to the verse fails.
+    private let deepVerseArgs = ["-uitestVerseOfDay", "PSA.119.105"]
+
+    @MainActor
+    private func verseCard(_ app: XCUIApplication) -> XCUIElement {
+        app.buttons.matching(NSPredicate(format: "label BEGINSWITH 'Verse of the day'")).firstMatch
+    }
+
+    /// The reader shows Psalm 119 with verse 105 on screen and marked as the verse of the day.
+    @MainActor
+    private func assertReaderAtDeepVerse(_ app: XCUIApplication) {
+        XCTAssertTrue(app.navigationBars["Psalms"].waitForExistence(timeout: 8.0), "the reader did not open Psalms")
+        let verse = app.descendants(matching: .any)["verse-105"]
+        XCTAssertTrue(verse.waitForExistence(timeout: 6.0), "Psalm 119:105 is not in the reader")
+        let onScreen = expectation(for: NSPredicate(format: "isHittable == true"), evaluatedWith: verse)
+        wait(for: [onScreen], timeout: 6.0)
+        XCTAssertEqual(verse.value as? String, "Verse of the day", "Psalm 119:105 is not highlighted")
+        XCTAssertTrue(verse.label.contains("Your word is a lamp to my feet"), verse.label)
+    }
+
+    @MainActor
+    private func executeVerseOfTheDayFlow(appearance: String) throws {
+        let app = XCUIApplication()
+        app.launchArguments = ["-appearance", appearance, "-uitestCompleted", "beginner-30:1"] + deepVerseArgs
+        app.launch()
+        passOnboardingIfNeeded(app)
+        XCTAssertTrue(app.navigationBars["Today"].waitForExistence(timeout: 8.0))
+
+        let card = verseCard(app)
+        XCTAssertTrue(card.waitForExistence(timeout: 6.0), "Verse of the day card should be visible on Today tab")
+        XCTAssertTrue(card.label.contains("Psalm 119:105"), card.label)
+        Thread.sleep(forTimeInterval: 0.5)
+        saveScreenshot("VerseOfTheDay_Card")
+
+        card.tap()
+        assertReaderAtDeepVerse(app)
+        Thread.sleep(forTimeInterval: 0.6)
+        saveScreenshot("VerseOfTheDay_Reader")
+    }
+
+    /// Regression: opening the verse of the day once must not take over the reader. After picking
+    /// another chapter, switching tabs used to jump back to the verse and overwrite the saved place.
+    @MainActor
+    func testVerseOfTheDayDoesNotOverrideLaterNavigation() throws {
+        let app = XCUIApplication()
+        app.launchArguments = ["-uitestCompleted", "beginner-30:1"] + deepVerseArgs
+        app.launch()
+        passOnboardingIfNeeded(app)
+        XCTAssertTrue(app.navigationBars["Today"].waitForExistence(timeout: 8.0))
+        let card = verseCard(app)
+        XCTAssertTrue(card.waitForExistence(timeout: 6.0))
+        card.tap()
+        assertReaderAtDeepVerse(app)
+
+        app.buttons["Select Book and Chapter"].tap()
+        let ntSegment = app.buttons["New Testament"]
+        XCTAssertTrue(ntSegment.waitForExistence(timeout: 4.0))
+        ntSegment.tap()
+        let johnRow = app.buttons.matching(NSPredicate(format: "label BEGINSWITH 'John'")).firstMatch
+        XCTAssertTrue(johnRow.waitForExistence(timeout: 4.0))
+        johnRow.tap()
+        let ch3 = app.buttons["Chapter 3"]
+        XCTAssertTrue(ch3.waitForExistence(timeout: 4.0))
+        ch3.tap()
+        XCTAssertTrue(app.navigationBars["John"].waitForExistence(timeout: 4.0))
+        let heading = app.staticTexts["Chapter 3"]
+        XCTAssertTrue(heading.waitForExistence(timeout: 4.0))
+        XCTAssertTrue(heading.isHittable, "a newly picked chapter opens at its top")
+
+        app.tabBars.buttons["Today"].tap()
+        XCTAssertTrue(app.navigationBars["Today"].waitForExistence(timeout: 4.0))
+        app.tabBars.buttons["Bible"].tap()
+        XCTAssertTrue(app.navigationBars["John"].waitForExistence(timeout: 4.0), "reader jumped away from John 3 after a tab switch")
+        Thread.sleep(forTimeInterval: 0.5)
+        XCTAssertFalse(app.navigationBars["Psalms"].exists, "reader jumped back to the verse of the day")
+        XCTAssertTrue(app.staticTexts["Chapter 3"].isHittable)
+    }
+
+    /// Widget taps open the app through widgetURL: pasture://lesson must show today's lesson and
+    /// pasture://verse the reader at the verse of the day.
+    @MainActor
+    func testWidgetDeepLinksOpenLessonAndVerse() throws {
+        let app = XCUIApplication()
+        app.launchArguments = deepVerseArgs
+        app.launch()
+        passOnboardingIfNeeded(app)
+        XCTAssertTrue(app.navigationBars["Today"].waitForExistence(timeout: 8.0))
+
+        app.open(URL(string: "pasture://lesson")!)
+        let lessonBar = app.navigationBars.matching(NSPredicate(format: "identifier BEGINSWITH 'Day '")).firstMatch
+        XCTAssertTrue(lessonBar.waitForExistence(timeout: 6.0), "pasture://lesson did not open today's lesson")
+
+        app.open(URL(string: "pasture://verse")!)
+        assertReaderAtDeepVerse(app)
+    }
+
+    // MARK: - Widgets on the real Home Screen (#11)
+
+    /// Adds Pasture's widget at gallery `page` (0 verse small, 1 verse medium, 2 streak small)
+    /// to the Home Screen through SpringBoard's own Edit > Add Widget sheet.
+    @MainActor
+    private func addHomeScreenWidget(_ springboard: XCUIApplication, page: Int) {
+        if !springboard.buttons["Edit"].exists {
+            // An empty spot between the icon grid and the dock enters edit mode.
+            springboard.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.82)).press(forDuration: 1.5)
+        }
+        XCTAssertTrue(springboard.buttons["Edit"].waitForExistence(timeout: 4.0))
+        springboard.buttons["Edit"].tap()
+        XCTAssertTrue(springboard.buttons["Add Widget"].waitForExistence(timeout: 4.0))
+        springboard.buttons["Add Widget"].tap()
+        let search = springboard.searchFields["Search Widgets"]
+        XCTAssertTrue(search.waitForExistence(timeout: 4.0))
+        search.tap()
+        search.typeText("Pasture")
+        let pastureRow = springboard.cells["Pasture"].firstMatch
+        XCTAssertTrue(pastureRow.waitForExistence(timeout: 6.0), "the widget gallery does not offer Pasture")
+        pastureRow.tap()
+        let add = springboard.buttons[" Add Widget"]
+        XCTAssertTrue(add.waitForExistence(timeout: 4.0))
+        for _ in 0..<page {
+            springboard.swipeLeft()
+            Thread.sleep(forTimeInterval: 0.8)
+        }
+        add.tap()
+        Thread.sleep(forTimeInterval: 1.5)
+    }
+
+    /// End to end through the App Group: the app publishes Day 30 as waiting, the extension shows
+    /// it on the Home Screen; finishing Day 30 in the app turns the streak widget to "Today done".
+    /// SpringBoard exposes a widget only as an icon labelled "Pasture", so the widget content is
+    /// checked in the screenshots (Widgets_HomeScreen_Before/After), not by assertion. Needs a
+    /// fresh simulator (`simctl erase`), since added widgets stay on the Home Screen.
+    @MainActor
+    func testWidgetsOnHomeScreenUpdateAfterLesson() throws {
+        let app = XCUIApplication()
+        app.launchArguments += ["-uitestCompleted", "beginner-30:29"]
+        app.launch()
+        passOnboardingIfNeeded(app, goal: "Grow a daily habit", level: "Brand new")
+        XCTAssertTrue(app.navigationBars["Today"].waitForExistence(timeout: 8.0))
+
+        let springboard = XCUIApplication(bundleIdentifier: "com.apple.springboard")
+        XCUIDevice.shared.press(.home)
+        Thread.sleep(forTimeInterval: 1.5)
+        addHomeScreenWidget(springboard, page: 0)
+        addHomeScreenWidget(springboard, page: 2)
+        addHomeScreenWidget(springboard, page: 1)
+        springboard.buttons["Done"].tap()
+        XCTAssertEqual(springboard.icons.matching(NSPredicate(format: "label == 'Pasture' AND value == 'Widget'")).count, 3)
+        Thread.sleep(forTimeInterval: 2.0)
+        saveScreenshot("Widgets_HomeScreen_Before")
+
+        app.activate()
+        XCTAssertTrue(app.navigationBars["Today"].waitForExistence(timeout: 6.0))
+        completeLesson(app, day: 30, answers: ["his only born Son", "saw him and was moved with compassion", "nothing"])
+
+        XCUIDevice.shared.press(.home)
+        Thread.sleep(forTimeInterval: 3.0)
+        saveScreenshot("Widgets_HomeScreen_After")
+    }
+
+    @MainActor
     func testBibleKeepsChapterAcrossTabs() throws {
         let app = XCUIApplication()
         app.launch()

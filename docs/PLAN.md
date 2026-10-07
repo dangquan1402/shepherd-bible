@@ -25,7 +25,7 @@ Differentiator vs Manna: no account, no trackers, no cloud AI as authority.
 - [x] Soft paywall (annual highlighted)
 
 ### M3 — Polish (week 3–4)
-- [ ] Widgets (verse + streak)
+- [x] Widgets (verse + streak): Home Screen verse and streak, Lock Screen streak (`ShepherdWidgets`)
 - [x] Notifications (local only): opt-in daily reminder, free (`DailyReminder`)
 - [x] Full beginner path (7–30 days): First Steps, 30 lessons
 - [x] App icon + lamb illustrations

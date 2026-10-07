@@ -4,6 +4,12 @@ import SwiftData
 public struct BibleReaderView: View {
     @EnvironmentObject private var content: ContentStore
     @Environment(\.modelContext) private var modelContext
+    /// A one-shot request to open at a verse (the verse of the day). The reader consumes it:
+    /// copies it into `verseOfTheDay`, scrolls once, and sets it back to nil, so the user's
+    /// own navigation afterwards is never overridden.
+    @Binding public var targetVerse: DailyVerse?
+    @State private var verseOfTheDay: DailyVerse?
+    @State private var scrollRequest: ScrollRequest?
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
 
     @Query private var allHighlights: [BibleHighlight]
@@ -22,7 +28,9 @@ public struct BibleReaderView: View {
     @AppStorage("bible.book") private var selectedBookAbbrev: String = "GEN"
     @AppStorage("bible.chapter") private var selectedChapterNum: Int = 1
 
-    public init() {}
+    public init(targetVerse: Binding<DailyVerse?> = .constant(nil)) {
+        self._targetVerse = targetVerse
+    }
 
     private var books: [BibleBook] { content.bible?.books ?? [] }
 
@@ -148,13 +156,21 @@ public struct BibleReaderView: View {
                         .padding(.horizontal, 20)
                         .padding(.bottom, selection.isEmpty ? 60 : (dynamicTypeSize.isAccessibilitySize ? 520 : 180))
                     }
-                    .onChange(of: selectedChapterNum) { _, _ in
-                        selection.clear()
-                        proxy.scrollTo("top", anchor: .top)
-                    }
-                    .onChange(of: selectedBookAbbrev) { _, _ in
-                        selection.clear()
-                        proxy.scrollTo("top", anchor: .top)
+                    .onChange(of: selectedChapterNum) { _, _ in chapterChanged(proxy) }
+                    .onChange(of: selectedBookAbbrev) { _, _ in chapterChanged(proxy) }
+                    .onChange(of: targetVerse) { _, _ in consumeTarget() }
+                    .onAppear { consumeTarget() }
+                    .task(id: scrollRequest) {
+                        guard let request = scrollRequest else { return }
+                        // The Bible decodes off the main thread; on a cold start wait for it, then let
+                        // the chapter lay out before scrolling to the verse.
+                        await content.ensureBibleLoaded()
+                        try? await Task.sleep(for: .milliseconds(150))
+                        guard !Task.isCancelled else { return }
+                        withAnimation(.spring(duration: 0.45, bounce: 0.15)) {
+                            proxy.scrollTo("verse-\(request.verse)", anchor: .center)
+                        }
+                        scrollRequest = nil
                     }
                     .onChange(of: selection) { old, new in
                         // At accessibility sizes the action menu fills the lower half of the
@@ -291,6 +307,9 @@ public struct BibleReaderView: View {
                 let isBookmarked = bMap[verse.number] != nil
                 let hasNote = !(nMap[verse.number]?.isEmpty ?? true)
                 let isFlashed = (flashedVerse == verse.number)
+                let isVerseOfTheDay = verseOfTheDay.map {
+                    $0.bookAbbrev == book.abbrev && $0.chapter == chapter.number && $0.verse == verse.number
+                } ?? false
 
                 VerseRowView(
                     verse: verse,
@@ -299,6 +318,7 @@ public struct BibleReaderView: View {
                     hasNote: hasNote,
                     isSelected: isSelected,
                     isFlashed: isFlashed,
+                    isVerseOfTheDay: isVerseOfTheDay,
                     onTap: {
                         toggleVerseSelection(verse.number)
                     }
@@ -335,6 +355,31 @@ public struct BibleReaderView: View {
                 }
                 .accessibilityLabel("Next chapter, \(next.label)")
             }
+        }
+    }
+
+    private struct ScrollRequest: Equatable {
+        let id = UUID()
+        let verse: Int
+    }
+
+    /// Turns a pending `targetVerse` into a highlight plus one scroll, then clears it.
+    private func consumeTarget() {
+        guard let target = targetVerse else { return }
+        targetVerse = nil
+        verseOfTheDay = target
+        selectedBookAbbrev = target.bookAbbrev
+        selectedChapterNum = target.chapter
+        scrollRequest = ScrollRequest(verse: target.verse)
+    }
+
+    /// A new chapter starts at the top with nothing selected (a pending verse scroll runs after
+    /// this), and the verse-of-the-day highlight only lives in its own chapter.
+    private func chapterChanged(_ proxy: ScrollViewProxy) {
+        selection.clear()
+        proxy.scrollTo("top", anchor: .top)
+        if let votd = verseOfTheDay, votd.bookAbbrev != selectedBookAbbrev || votd.chapter != selectedChapterNum {
+            verseOfTheDay = nil
         }
     }
 
@@ -680,6 +725,7 @@ private struct VerseRowView: View {
     let hasNote: Bool
     let isSelected: Bool
     let isFlashed: Bool
+    let isVerseOfTheDay: Bool
     let onTap: () -> Void
 
     var body: some View {
@@ -738,6 +784,8 @@ private struct VerseRowView: View {
         .accessibilityLabel("Verse \(verse.number), \(verse.text)\(isBookmarked ? ", Bookmarked" : "")\(hasNote ? ", Has note" : "")\(highlight.map { ", Highlighted \($0.displayName)" } ?? "")")
         .accessibilityAddTraits(isSelected ? [.isButton, .isSelected] : .isButton)
         .accessibilityHint(isSelected ? "Double tap to deselect" : "Double tap to select this verse")
+        .accessibilityIdentifier("verse-\(verse.number)")
+        .accessibilityValue(isVerseOfTheDay ? "Verse of the day" : "")
     }
 
     private var rowBackground: Color {
@@ -746,6 +794,9 @@ private struct VerseRowView: View {
         }
         if isFlashed {
             return ShepherdTheme.goldSubtle
+        }
+        if isVerseOfTheDay {
+            return ShepherdTheme.accentSubtle
         }
         return Color.clear
     }

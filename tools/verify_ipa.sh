@@ -7,6 +7,7 @@ IPA="$1"
 WANT_VERSION="${2:-1.0.0}"
 WANT_BUILD="${3:-1}"
 TEAM_ID=6KH82C884Q
+APP_GROUP=group.com.dangvietquan.shepherd
 
 WORK="$(mktemp -d)"
 trap 'rm -rf "$WORK"' EXIT
@@ -40,6 +41,22 @@ check "profile is App Store distribution (no devices, not get-task-allow)" sh -c
     "! plutil -extract ProvisionedDevices raw -o - '$PROFILE' && ! plutil -extract ProvisionsAllDevices raw -o - '$PROFILE' \
      && [ \"\$(plutil -extract Entitlements.get-task-allow raw -o - '$PROFILE')\" = false ]"
 check "signed by Apple Distribution" sh -c "codesign -dvv '$APP' 2>&1 | grep -q 'Authority=Apple Distribution: .*($TEAM_ID)'"
+
+# The widget extension shares streak data with the app through the App Group: both signatures
+# must carry it, or the widget silently reads an empty private store.
+has_group() { codesign -d --entitlements - --xml "$1" 2>/dev/null | plutil -extract com\\.apple\\.security\\.application-groups json -o - - | grep -q "\"$APP_GROUP\""; }
+APPEX="$APP/PlugIns/ShepherdWidgets.appex"
+APPEX_PLIST="$APPEX/Info.plist"
+appex_eq() { [ "$(plutil -extract "$1" raw -o - "$APPEX_PLIST")" = "$2" ]; }
+check "app signature has App Group $APP_GROUP" has_group "$APP"
+check "PlugIns/ShepherdWidgets.appex present" test -d "$APPEX"
+check "widget CFBundleIdentifier = com.dangvietquan.shepherd.widgets" appex_eq CFBundleIdentifier com.dangvietquan.shepherd.widgets
+check "widget NSExtensionPointIdentifier = com.apple.widgetkit-extension" appex_eq NSExtension.NSExtensionPointIdentifier com.apple.widgetkit-extension
+check "widget CFBundleVersion = $WANT_BUILD" appex_eq CFBundleVersion "$WANT_BUILD"
+check "widget CFBundleShortVersionString = $WANT_VERSION" appex_eq CFBundleShortVersionString "$WANT_VERSION"
+check "widget signature has App Group $APP_GROUP" has_group "$APPEX"
+check "widget signed by Apple Distribution" sh -c "codesign -dvv '$APPEX' 2>&1 | grep -q 'Authority=Apple Distribution: .*($TEAM_ID)'"
+check "widget embedded.mobileprovision present" test -s "$APPEX/embedded.mobileprovision"
 
 # Scan every Mach-O in the bundle (Debug builds move app code into Shepherd.debug.dylib).
 BINS="$WORK/binaries.txt"

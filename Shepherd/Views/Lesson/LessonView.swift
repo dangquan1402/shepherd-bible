@@ -12,6 +12,7 @@ public struct LessonView: View {
     @Query private var streaks: [StreakState]
     @Query private var companions: [Companion]
     @Query private var entitlements: [EntitlementState]
+    @Query private var profiles: [UserProfile]
 
     @ObservedObject private var store = StoreKitManager.shared
     @State private var showPaywall: Bool = false
@@ -253,7 +254,13 @@ public struct LessonView: View {
     }
 
     private func recordCompletion(score: Int) {
-        let result = LessonProgressRecorder.complete(lesson: lesson, score: score, context: modelContext, isPremium: isPremium)
+        let result = LessonProgressRecorder.complete(
+            lesson: lesson,
+            score: score,
+            context: modelContext,
+            isPremium: isPremium,
+            activePath: content.activePath(id: profiles.first?.activePathId)
+        )
         completionResult = result
         finishedScore = score
         // Today's lesson is done: skip today's reminder.

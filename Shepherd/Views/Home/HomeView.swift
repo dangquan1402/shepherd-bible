@@ -5,6 +5,7 @@ public struct HomeView: View {
     @Binding public var navPath: [Lesson]
     public let namespace: Namespace.ID
     public var onSelectLesson: ((Lesson) -> Void)? = nil
+    public var onSelectVerse: ((DailyVerse) -> Void)? = nil
 
     @EnvironmentObject private var content: ContentStore
     @ObservedObject private var store = StoreKitManager.shared
@@ -36,14 +37,25 @@ public struct HomeView: View {
         return PathProgress.nextLesson(in: path, completed: completedLessonIDs)
     }
 
+    /// Re-read on a day change (significant time change, or the app coming back), so a Home left
+    /// open across midnight shows the new day's verse.
+    @State private var verseDate: Date = .now
+    @Environment(\.scenePhase) private var scenePhase
+
+    private var todayVerse: DailyVerse {
+        DailyVerseService.shared.verse(for: verseDate)
+    }
+
     public init(
         navPath: Binding<[Lesson]>,
         namespace: Namespace.ID,
-        onSelectLesson: ((Lesson) -> Void)? = nil
+        onSelectLesson: ((Lesson) -> Void)? = nil,
+        onSelectVerse: ((DailyVerse) -> Void)? = nil
     ) {
         self._navPath = navPath
         self.namespace = namespace
         self.onSelectLesson = onSelectLesson
+        self.onSelectVerse = onSelectVerse
     }
 
     public var body: some View {
@@ -52,15 +64,20 @@ public struct HomeView: View {
                 ZStack(alignment: .top) {
                     // 1. Meadow Hills Background
                     MeadowBackgroundView()
-                        .frame(height: max(1050, PathTrailView.height(for: activePath?.lessons.count ?? 0) + 200))
+                        .frame(height: max(1150, PathTrailView.height(for: activePath?.lessons.count ?? 0) + 320))
 
                     // 2. The S-Curve Trail & Nodes
                     if let path = activePath {
-                        VStack(spacing: 0) {
+                        VStack(spacing: 16) {
+                            VerseOfTheDayCard(verse: todayVerse) {
+                                onSelectVerse?(todayVerse)
+                            }
+                            .padding(.horizontal, 20)
+                            .padding(.top, 12)
+
                             if currentLesson == nil {
                                 PathCompleteCard(path: path)
                                     .padding(.horizontal, 20)
-                                    .padding(.top, 12)
                             }
                             PathTrailView(
                                 path: path,
@@ -75,7 +92,8 @@ public struct HomeView: View {
                                     showPaywall = true
                                 }
                             )
-                            .padding(.top, 40)
+                            // The current node's lamb and speech bubble sit above the trail's frame.
+                            .padding(.top, 48)
                         }
                     }
                 }
@@ -109,6 +127,12 @@ public struct HomeView: View {
                     onContinueFree: { showPaywall = false },
                     onPurchased: { showPaywall = false }
                 )
+            }
+            .onReceive(NotificationCenter.default.publisher(for: UIApplication.significantTimeChangeNotification)) { _ in
+                verseDate = .now
+            }
+            .onChange(of: scenePhase) { _, phase in
+                if phase == .active { verseDate = .now }
             }
         }
     }

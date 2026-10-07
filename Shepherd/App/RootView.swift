@@ -33,14 +33,23 @@ public struct RootView: View {
             #if DEBUG
             applyUITestState()
             #endif
+            syncWidgets()
             await DailyReminder.shared.refresh(context: modelContext)
         }
         .onChange(of: scenePhase) { _, phase in
             JournalAuthService.shared.scenePhaseChanged(to: phase)
-            // A new day may have started: refill the reminder window and re-check today's lesson.
+            // A new day may have started: republish the widgets, refill the reminder window and
+            // re-check today's lesson.
             guard phase == .active else { return }
+            syncWidgets()
             Task { await DailyReminder.shared.refresh(context: modelContext) }
         }
+    }
+
+    /// Republish streak and next lesson for the widgets (also done after each lesson).
+    private func syncWidgets() {
+        guard !content.paths.isEmpty else { return }
+        WidgetSyncService.sync(context: modelContext, activePath: content.activePath(id: profiles.first?.activePathId))
     }
 
     #if DEBUG
