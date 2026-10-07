@@ -29,6 +29,11 @@ NEW_ASSETS = {
     "--color-mascot-mouth",
     "--color-mascot-flower",
     "--color-mascot-zz",
+    "--color-highlight-yellow-swatch",
+    "--color-highlight-blue-swatch",
+    "--color-highlight-purple-swatch",
+    "--color-highlight-rose-swatch",
+    "--color-highlight-amber-swatch",
 }
 INFO = {"author": "xcode", "version": 1}
 
