@@ -18,7 +18,7 @@ public struct ContinueLessonAccessory: View {
                 HStack(spacing: 8) {
                     Image(systemName: "play.fill")
                         .font(.system(size: 13, weight: .bold))
-                        .foregroundStyle(ShepherdTheme.accentFill)
+                        .foregroundStyle(ShepherdTheme.accent)
 
                     Text("Day \(lesson.dayIndex) · \(lesson.displayTitle)")
                         .font(.callout.weight(.semibold))
@@ -35,7 +35,7 @@ public struct ContinueLessonAccessory: View {
                             .frame(width: 40, height: 40)
                         Image(systemName: "play.fill")
                             .font(.system(size: 16, weight: .bold))
-                            .foregroundStyle(.white)
+                            .foregroundStyle(ShepherdTheme.onAccent)
                     }
 
                     VStack(alignment: .leading, spacing: 2) {

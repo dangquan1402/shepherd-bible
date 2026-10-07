@@ -34,6 +34,8 @@ NEW_ASSETS = {
     "--color-highlight-purple-swatch",
     "--color-highlight-rose-swatch",
     "--color-highlight-amber-swatch",
+    "--color-streak",
+    "--color-destructive",
 }
 INFO = {"author": "xcode", "version": 1}
 

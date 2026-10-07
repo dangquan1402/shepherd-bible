@@ -28,6 +28,8 @@ public enum ShepherdTheme {
     public static let nodeGlow = Color("NodeGlow")
     public static let nodeLocked = Color("NodeLocked")
     public static let nodeLockedDeep = Color("NodeLockedDeep")
+    public static let streak = Color("Streak")
+    public static let destructive = Color("Destructive")
 
     // MARK: - Colors: Quiz Correctness (Quiz only)
     public static let success = Color("Success")

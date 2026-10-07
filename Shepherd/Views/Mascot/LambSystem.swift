@@ -503,19 +503,19 @@ public struct AnimatedLambView: View {
         ZStack {
             Image(systemName: "sparkle")
                 .font(.system(size: h * 0.12, weight: .bold))
-                .foregroundStyle(ShepherdTheme.accentFill)
+                .foregroundStyle(ShepherdTheme.goldFill)
                 .scaleEffect(sparkle1Scale)
                 .offset(x: -h * 0.45, y: -h * 0.35)
 
             Image(systemName: "sparkle")
                 .font(.system(size: h * 0.16, weight: .bold))
-                .foregroundStyle(ShepherdTheme.accentFill)
+                .foregroundStyle(ShepherdTheme.goldFill)
                 .scaleEffect(sparkle2Scale)
                 .offset(x: 0, y: -h * 0.5)
 
             Image(systemName: "sparkle")
                 .font(.system(size: h * 0.13, weight: .bold))
-                .foregroundStyle(ShepherdTheme.accentFill)
+                .foregroundStyle(ShepherdTheme.goldFill)
                 .scaleEffect(sparkle3Scale)
                 .offset(x: h * 0.45, y: -h * 0.38)
         }
@@ -540,17 +540,17 @@ public struct AnimatedLambView: View {
         ZStack {
             Image(systemName: "sparkle")
                 .font(.system(size: h * 0.12, weight: .bold))
-                .foregroundStyle(ShepherdTheme.accentFill)
+                .foregroundStyle(ShepherdTheme.goldFill)
                 .offset(x: -h * 0.45, y: -h * 0.35)
 
             Image(systemName: "sparkle")
                 .font(.system(size: h * 0.16, weight: .bold))
-                .foregroundStyle(ShepherdTheme.accentFill)
+                .foregroundStyle(ShepherdTheme.goldFill)
                 .offset(x: 0, y: -h * 0.5)
 
             Image(systemName: "sparkle")
                 .font(.system(size: h * 0.13, weight: .bold))
-                .foregroundStyle(ShepherdTheme.accentFill)
+                .foregroundStyle(ShepherdTheme.goldFill)
                 .offset(x: h * 0.45, y: -h * 0.38)
         }
     }

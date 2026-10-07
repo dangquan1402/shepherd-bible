@@ -95,7 +95,7 @@ public struct LessonReflectionView: View {
                         HStack(spacing: 6) {
                             Image(systemName: "lock.shield")
                                 .font(.footnote)
-                                .foregroundStyle(ShepherdTheme.accentFill)
+                                .foregroundStyle(ShepherdTheme.accent)
 
                             Text("Saved only on this device. You can use the keyboard mic to dictate.")
                                 .font(.footnote)

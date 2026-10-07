@@ -16,7 +16,7 @@ public struct VerseOfTheDayCard: View {
                 HStack(spacing: 8) {
                     Image(systemName: "sun.max.fill")
                         .font(.footnote.weight(.semibold))
-                        .foregroundStyle(ShepherdTheme.goldFill)
+                        .foregroundStyle(ShepherdTheme.streak)
 
                     Text("VERSE OF THE DAY")
                         .font(ShepherdTheme.scriptureEyebrow())

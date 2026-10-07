@@ -31,6 +31,7 @@ public struct PathOverviewView: View {
                     }
                 }
             }
+            .listRowBackground(ShepherdTheme.cardSurface)
 
             // Only while content has a single path; real paths replace this row.
             if content.paths.count == 1 {
@@ -50,8 +51,11 @@ public struct PathOverviewView: View {
                     }
                     .padding(.vertical, 4)
                 }
+                .listRowBackground(ShepherdTheme.cardSurface)
             }
         }
+        .scrollContentBackground(.hidden)
+        .background(ShepherdTheme.canvasBg.ignoresSafeArea())
         .navigationTitle("Paths")
         .navigationBarTitleDisplayMode(.large)
     }
@@ -140,19 +144,23 @@ public struct PathLessonsListView: View {
                         followPath()
                     } label: {
                         Label("Follow this path on Today", systemImage: "arrow.right.circle")
-                            .foregroundStyle(ShepherdTheme.accentFill)
+                            .foregroundStyle(ShepherdTheme.accent)
                     }
                 }
             } footer: {
                 Text("\(path.lessons.count) lessons · \(PathAccessPolicy.label(for: path))")
             }
+            .listRowBackground(ShepherdTheme.cardSurface)
 
             Section {
                 ForEach(path.lessons) { lesson in
                     row(for: lesson)
                 }
             }
+            .listRowBackground(ShepherdTheme.cardSurface)
         }
+        .scrollContentBackground(.hidden)
+        .background(ShepherdTheme.canvasBg.ignoresSafeArea())
         .navigationTitle(path.title)
         .navigationBarTitleDisplayMode(.inline)
         .sheet(isPresented: $showPaywall) {

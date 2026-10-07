@@ -313,7 +313,7 @@ private struct SavedItemRow: View {
         case .note:
             Image(systemName: "square.and.pencil")
                 .font(.system(size: 13, weight: .bold))
-                .foregroundStyle(Color("Note"))
+                .foregroundStyle(ShepherdTheme.accent)
         }
     }
 

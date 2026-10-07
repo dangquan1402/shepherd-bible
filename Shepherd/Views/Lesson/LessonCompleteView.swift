@@ -105,20 +105,22 @@ public struct LessonCompleteView: View {
                         RewardStatChip(
                             icon: "checkmark.circle.fill",
                             text: "Already completed",
-                            color: ShepherdTheme.accentFill
+                            color: ShepherdTheme.accent
                         )
                     } else {
                         RewardStatChip(
                             icon: "sparkles",
                             text: "+\(xpEarned) XP",
-                            color: ShepherdTheme.accentFill
+                            color: ShepherdTheme.streak,
+                            fill: ShepherdTheme.goldSubtle
                         )
                     }
 
                     RewardStatChip(
                         icon: "flame.fill",
                         text: "\(streakCount) day streak",
-                        color: ShepherdTheme.accentFill
+                        color: ShepherdTheme.streak,
+                        fill: ShepherdTheme.goldSubtle
                     )
                 }
 
@@ -231,7 +233,7 @@ struct StageUpModalView: View {
                 VStack(spacing: 8) {
                     Text("Stage Up!")
                         .font(ShepherdTheme.title1Serif())
-                        .foregroundStyle(ShepherdTheme.accentFill)
+                        .foregroundStyle(ShepherdTheme.accent)
 
                     Text("Your lamb grew to Stage \(newStage) · \(LambStage(rawValue: newStage)?.name ?? "")")
                         .font(.headline)

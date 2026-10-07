@@ -5,6 +5,8 @@ Every colour variable in design/shepherd.lib.pen is defined here per direction a
 
     python3 tools/brand/tokens.py check            # AA gate for all three directions
     python3 tools/brand/tokens.py check flock      # one direction
+    python3 tools/brand/tokens.py check-usage      # usage-level lint for Swift views
+    python3 tools/brand/tokens.py check-all        # AA gate + usage lint
 """
 
 from __future__ import annotations
@@ -20,6 +22,8 @@ FIXED = {
     "--color-phone-sensor": ("#111111", "#111111"),
     "--color-note": ("#6D28D9", "#C4B5FD"),
     "--color-note-subtle": ("#F1EAFE", "#2A2144"),
+    "--color-streak": ("#CC7200", "#FFC21A"),
+    "--color-destructive": ("#BE2F2C", "#F7857D"),
     # Bible reader highlights: the verse fill, and the dot that names the colour on its swatch
     "--color-highlight-yellow": ("#FFF3B8", "#3B331A"),
     "--color-highlight-blue": ("#E2EEFD", "#1B2F44"),
@@ -339,6 +343,14 @@ PAIRS = (
     ]
     + [(bg + "-swatch", bg, UI, "highlight swatch dot (non-text)") for bg in _HIGHLIGHTS]
     + [("--color-accent-fill", bg, UI, "icon tint (non-text)") for bg in ("--color-canvas-bg", "--color-card-surface")]
+    + [
+        ("--color-destructive", bg, TEXT, "delete actions")
+        for bg in _SURF
+    ]
+    + [
+        ("--color-streak", bg, UI, "streak flame glyph (non-text)")
+        for bg in ("--color-canvas-bg", "--color-card-surface", "--color-gold-subtle", "GLASS")
+    ]
     + [("NODE", "--color-meadow-hill-near", UI, "current node (fill or ring) on hill (non-text)")]
 )
 
@@ -393,6 +405,25 @@ def from_assets(xcassets):
 
 
 if __name__ == "__main__":
+    if sys.argv[1:2] == ["check-usage"]:
+        # python3 tools/brand/tokens.py check-usage [root]
+        from color_usage_lint import run_lint
+        hits, _ = run_lint(sys.argv[2] if len(sys.argv) > 2 else None)
+        sys.exit(1 if hits else 0)
+    if sys.argv[1:2] == ["check-all"]:
+        # python3 tools/brand/tokens.py check-all
+        from color_usage_lint import run_lint
+        hits, _ = run_lint()
+        lint_ok = len(hits) == 0
+        total = 0
+        for d in list(DIRECTIONS):
+            rows, f = check(d)
+            total += f
+            n_text = sum(1 for r in rows if r[6] == TEXT)
+            print(
+                f"{DIRECTIONS[d]['name']}: {len(rows)} pairs ({n_text} text, {len(rows) - n_text} non-text), {f} failures"
+            )
+        sys.exit(0 if (total == 0 and lint_ok) else 1)
     if sys.argv[1:2] == ["check-assets"]:
         # python3 tools/brand/tokens.py check-assets Shepherd/Resources/Assets.xcassets
         DIRECTIONS["assets"] = {"name": "Shipped colour sets", "tokens": from_assets(sys.argv[2])}
