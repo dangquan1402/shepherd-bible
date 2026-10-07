@@ -12638,7 +12638,7 @@
               "y": 10,
               "name": "Eyebrow",
               "fill": "$--color-accent",
-              "content": "TODAY'S LESSON",
+              "content": "TODAY’S LESSON",
               "fontFamily": "$--font-body",
               "fontSize": 11,
               "fontWeight": "700",
@@ -14400,7 +14400,7 @@
                       "fill": "$--color-error",
                       "textGrowth": "fixed-width",
                       "width": "fill_container",
-                      "content": "Keep going! You're learning.",
+                      "content": "Keep going! You’re learning.",
                       "fontFamily": "$--font-body",
                       "fontSize": 22,
                       "fontWeight": "700"

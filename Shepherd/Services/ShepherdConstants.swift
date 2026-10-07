@@ -4,7 +4,8 @@ public enum ShepherdConstants {
     // MARK: - Product IDs
     public static let monthlySubscriptionID = "com.dangvietquan.shepherd.premium.monthly"
     public static let yearlySubscriptionID = "com.dangvietquan.shepherd.premium.yearly"
-    public static let subscriptionGroupID = "21495832"
+    /// App Store Connect's group id; Shepherd.storekit uses the same (`testSubscriptionGroupIDMatchesASCAndStoreKitConfig`).
+    public static let subscriptionGroupID = "22442787"
 
     // MARK: - Premium features other than paths
     // Premium paths are described with counts computed from content (`PremiumOffer`).

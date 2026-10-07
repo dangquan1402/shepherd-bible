@@ -315,6 +315,10 @@ PAIRS = (
         for bg in ("--color-card-surface", "--color-error-subtle", "--color-canvas-bg")
     ]
     + [("--color-on-accent", "--color-success-fill", TEXT, "correct button label")]
+    + [
+        ("--color-canvas-bg", bg, TEXT, "quiz letter badge")
+        for bg in ("--color-accent", "--color-success", "--color-error")
+    ]
     + [("--color-note", "--color-note-subtle", TEXT, "design note")]
     + [("--color-accent-fill", bg, UI, "icon tint (non-text)") for bg in ("--color-canvas-bg", "--color-card-surface")]
     + [("NODE", "--color-meadow-hill-near", UI, "current node (fill or ring) on hill (non-text)")]

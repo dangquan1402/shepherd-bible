@@ -374,4 +374,65 @@ final class ContentTests: XCTestCase {
         XCTAssertEqual(PremiumOffer(paths: [stub, four]).pathsSummary, "1 Premium lesson in 1 path")
         XCTAssertEqual(PremiumOffer(paths: [stub, four]).pathTitles, ["Four"])
     }
+
+    // MARK: - Lesson display typography
+
+    func testCurlyQuotesAtDisplayTime() {
+        XCTAssertEqual(LessonText.curlyQuotes(#"God speaks: "Let there be light." It is God's work."#),
+                       "God speaks: \u{201C}Let there be light.\u{201D} It is God\u{2019}s work.")
+        XCTAssertEqual(LessonText.curlyQuotes(#""Who?" (He said "go.")"#),
+                       "\u{201C}Who?\u{201D} (He said \u{201C}go.\u{201D})")
+        // Markdown emphasis is looked through; a fill-in blank's underscores are not.
+        XCTAssertEqual(LessonText.curlyQuotes(#"**"Word"** and *"aid"*"#), "**\u{201C}Word\u{201D}** and *\u{201C}aid\u{201D}*")
+        XCTAssertEqual(LessonText.curlyQuotes(#""saved through ___""#), "\u{201C}saved through ___\u{201D}")
+        // WEB's own curly punctuation inside a straight quotation stays as it is.
+        XCTAssertEqual(LessonText.curlyQuotes(#""Don’t be afraid.""#), "\u{201C}Don’t be afraid.\u{201D}")
+        XCTAssertEqual(Lesson(id: "x", dayIndex: 1, title: "Made in God's image", verseRefs: [], bodyMarkdown: "", prayerPrompt: nil, quiz: []).displayTitle,
+                       "Made in God\u{2019}s image")
+    }
+
+    /// Every lesson string the app shows comes out with no straight quotes, balanced double
+    /// quotes, and nothing changed but the quote marks.
+    func testEveryShownLessonStringGetsBalancedCurlyQuotes() {
+        var checked = 0
+        for path in store.paths {
+            for lesson in path.lessons {
+                var texts = [lesson.title, lesson.bodyMarkdown, lesson.prayerPrompt ?? ""]
+                for q in lesson.quiz {
+                    texts += [q.prompt, q.explain ?? ""] + q.choices
+                }
+                for text in texts where !text.isEmpty {
+                    let shown = LessonText.curlyQuotes(text)
+                    XCTAssertFalse(shown.contains("\"") || shown.contains("'"), "\(lesson.id): \(shown)")
+                    XCTAssertEqual(shown.filter { $0 == "\u{201C}" }.count, shown.filter { $0 == "\u{201D}" }.count, "\(lesson.id): \(shown)")
+                    XCTAssertEqual(QuizRules.normalizedQuotes(shown), QuizRules.normalizedQuotes(text), lesson.id)
+                    checked += 1
+                }
+            }
+        }
+        XCTAssertGreaterThan(checked, 1_000)
+    }
+
+    /// The lesson screen draws one "Reflection" heading: the body's own **Reflection:** label
+    /// becomes that heading and is not shown again inside the text.
+    func testLessonBodyHasOneReflectionAndNoInlineLabel() {
+        XCTAssertEqual(LessonText.blocks(fromBody: "Intro \"x\".\n\n**Reflection:** Where are you?\n\n*Study aid: note.*"),
+                       [.paragraph("Intro \"x\"."), .reflection("Where are you?"), .paragraph("*Study aid: note.*")])
+        for path in store.paths {
+            for lesson in path.lessons {
+                let blocks = LessonText.blocks(fromBody: lesson.bodyMarkdown)
+                let reflections = blocks.compactMap { if case .reflection(let q) = $0 { return q } else { return nil } }
+                XCTAssertEqual(reflections.count, 1, lesson.id)
+                XCTAssertFalse(reflections.first?.isEmpty ?? true, lesson.id)
+                for block in blocks {
+                    let text: String
+                    switch block {
+                    case .paragraph(let p): text = p
+                    case .reflection(let q): text = q
+                    }
+                    XCTAssertFalse(text.contains("Reflection:"), "\(lesson.id) shows the Reflection label twice")
+                }
+            }
+        }
+    }
 }
