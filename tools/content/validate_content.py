@@ -273,7 +273,9 @@ def validate_daily_verses(bible, daily_verses):
     testaments = {b["abbrev"]: b.get("testament", "OT") for b in bible.get("books", [])}
 
     if not isinstance(daily_verses, list):
-        return [f"daily_verses: expected a JSON list, got {type(daily_verses).__name__}"], []
+        return [
+            f"daily_verses: expected a JSON list, got {type(daily_verses).__name__}"
+        ], []
 
     if len(daily_verses) < DAILY_VERSE_MIN_COUNT:
         errs.append(
@@ -297,7 +299,9 @@ def validate_daily_verses(bible, daily_verses):
             continue
 
         if item.get("day") != i + 1:
-            errs.append(f"daily_verses: {ref} has day {item.get('day')!r}, expected {i + 1}")
+            errs.append(
+                f"daily_verses: {ref} has day {item.get('day')!r}, expected {i + 1}"
+            )
 
         if ref in seen_refs:
             errs.append(f"daily_verses: duplicate reference {ref}")
@@ -330,7 +334,9 @@ def validate_daily_verses(bible, daily_verses):
 
     total = ot_count + nt_count
     if total > 0 and (ot_count < total * 0.4 or nt_count < total * 0.4):
-        errs.append(f"daily_verses: unbalanced testaments ({ot_count} OT, {nt_count} NT)")
+        errs.append(
+            f"daily_verses: unbalanced testaments ({ot_count} OT, {nt_count} NT)"
+        )
 
     return errs, warns
 
@@ -382,4 +388,3 @@ def main(argv=None):
 
 if __name__ == "__main__":
     sys.exit(main())
-

@@ -233,7 +233,7 @@ class DailyVersesValidation(unittest.TestCase):
             cls.daily_verses = json.load(f)
 
     def test_shipped_daily_verses_has_no_errors(self):
-        errs, warns = vc.validate_daily_verses(BIBLE, self.daily_verses)
+        errs, _ = vc.validate_daily_verses(BIBLE, self.daily_verses)
         self.assertEqual(errs, [])
         self.assertEqual(len(self.daily_verses), 366)
 
@@ -294,7 +294,9 @@ class DailyVersesValidation(unittest.TestCase):
 
     def test_missing_daily_verses_file_fails(self):
         with contextlib.redirect_stdout(io.StringIO()) as out:
-            status = vc.main(["--daily-verses", os.path.join(HERE, "no_such_daily_verses.json")])
+            status = vc.main(
+                ["--daily-verses", os.path.join(HERE, "no_such_daily_verses.json")]
+            )
         self.assertEqual(status, 1)
         self.assertIn("no_such_daily_verses.json is missing", out.getvalue())
 
