@@ -65,6 +65,7 @@ targets:
           - CFBundleURLName: com.dangvietquan.shepherd
             CFBundleURLSchemes:
               - pasture
+        NSFaceIDUsageDescription: "Pasture uses Face ID to keep your reflection and prayer journal private on your device."
 
     settings:
       base:

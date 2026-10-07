@@ -18,7 +18,10 @@ public struct LessonView: View {
     @State private var showPaywall: Bool = false
     @State private var showQuiz: Bool = false
     @State private var showComplete: Bool = false
+    @State private var showReflection: Bool = false
     @State private var pendingComplete: Bool = false
+    @State private var pendingReflection: Bool = false
+    @State private var askForReview: Bool = false
     @State private var finishedScore: Int = 0
     @State private var completionResult: LessonProgressRecorder.CompletionResult? = nil
 
@@ -188,7 +191,12 @@ public struct LessonView: View {
                 recordCompletion(score: score)
             }
         }
-        .fullScreenCover(isPresented: $showComplete) {
+        .fullScreenCover(isPresented: $showComplete, onDismiss: {
+            if pendingReflection {
+                pendingReflection = false
+                showReflection = true
+            }
+        }) {
             LessonCompleteView(
                 dayIndex: lesson.dayIndex,
                 lessonTitle: lesson.displayTitle,
@@ -200,8 +208,9 @@ public struct LessonView: View {
                 wasAlreadyCompleted: completionResult?.wasAlreadyCompleted ?? false,
                 companionName: companions.first?.name ?? "Lamb"
             ) {
+                pendingReflection = true
                 showComplete = false
-                let askForReview = completionResult.map { result in
+                askForReview = completionResult.map { result in
                     ReviewPrompter.shouldRequest(.lessonCompleted(
                         dayIndex: lesson.dayIndex,
                         score: finishedScore,
@@ -211,15 +220,28 @@ public struct LessonView: View {
                         wasAlreadyCompleted: result.wasAlreadyCompleted
                     ))
                 } ?? false
-                dismiss()
-                if askForReview {
-                    // After the reward (and any stage-up) has closed, back on Today.
-                    Task {
-                        try? await Task.sleep(for: .seconds(0.8))
-                        requestReview()
-                    }
+            }
+        }
+        .fullScreenCover(isPresented: $showReflection, onDismiss: {
+            dismiss()
+            if askForReview {
+                askForReview = false
+                // After the reward and the reflection step have closed, back on Today.
+                Task {
+                    try? await Task.sleep(for: .seconds(0.8))
+                    requestReview()
                 }
             }
+        }) {
+            LessonReflectionView(
+                lesson: lesson,
+                onSave: { _ in
+                    showReflection = false
+                },
+                onSkip: {
+                    showReflection = false
+                }
+            )
         }
     }
 

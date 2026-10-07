@@ -41,5 +41,7 @@
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
 	</array>
+	<key>NSFaceIDUsageDescription</key>
+	<string>Pasture uses Face ID to keep your reflection and prayer journal private on your device.</string>
 </dict>
 </plist>

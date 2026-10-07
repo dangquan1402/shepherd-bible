@@ -23,6 +23,7 @@
 		2E139ED7F7F5E9C6CDE89C72 /* ShepherdTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CE4BBC57FDEA303093E3E67 /* ShepherdTests.swift */; };
 		2EEA46F488FBA5B6A5585F5B /* ContentModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708A96F4A3D915BC760AF160 /* ContentModels.swift */; };
 		31F7D185710633B12E98D1A3 /* PathCatalog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D02731B22192A0C9C8AAA35 /* PathCatalog.swift */; };
+		32D1CA709B3C37649A63FC17 /* JournalModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FDB427ED26E40878ED4D6FF /* JournalModels.swift */; };
 		363C66819B8280C7CBC59CB9 /* ReminderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF6D46DB5B577BAE885F311B /* ReminderTests.swift */; };
 		37D4CFA367CEB521E7EE1A64 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 05509D2D188904833C28F5AD /* StoreKit.framework */; };
 		3DA312CB2380372CB91E6EBF /* StoreKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3736069C11269D9C4C99FA2B /* StoreKitTests.swift */; };
@@ -30,15 +31,18 @@
 		3EAB0F05E1B1C509C236340F /* DailyVerseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71C021F5748F8FFE33002C5E /* DailyVerseService.swift */; };
 		43BD1A1D8A6FE701A88B3E9B /* WidgetDataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0630E5A34CABF8094C1C336 /* WidgetDataStore.swift */; };
 		451358B2BA541C0A8C7408CE /* Shepherd.storekit in Resources */ = {isa = PBXBuildFile; fileRef = AF3DDC905B95F20434D620C0 /* Shepherd.storekit */; };
+		4719FBC2B562E93B2A8C76D2 /* JournalDetailViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90D2650EE7359EF18A0E2F71 /* JournalDetailViews.swift */; };
 		4A0F965DE88C2378F91DD772 /* DailyReminder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6BE6D08FF707951B7D618B3 /* DailyReminder.swift */; };
 		4B889C32EF77017E1ADE9C0C /* ContentStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEFEB075297B25E3F78E1951 /* ContentStore.swift */; };
 		4BE8393361D409629B39C482 /* web.json in Resources */ = {isa = PBXBuildFile; fileRef = D4183D8FD4248CEB38FD2532 /* web.json */; };
+		4EC5C0B3DC4B7F34A2666DCA /* LessonReflectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E8B0910E00140B49D6109AE /* LessonReflectionView.swift */; };
 		5406262C280776A46EB3D413 /* paths.json in Resources */ = {isa = PBXBuildFile; fileRef = 0111BB6B2545D24AEB4B8774 /* paths.json */; };
 		5625992F5A7643CEFF39B291 /* LessonProgressRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EDABF08E64DD679B981D39C /* LessonProgressRecorder.swift */; };
 		5EE37B181DC0E2EA6A29F0D6 /* DailyVerse.swift in Sources */ = {isa = PBXBuildFile; fileRef = F985DECE1319C9A3BB9DB5FF /* DailyVerse.swift */; };
 		5F1DC930BE92575E3158D14A /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D74EB0E09166077803402C5 /* MainTabView.swift */; };
 		62DCD913CC85FFC2BE412965 /* QuizView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C10B446B167E44C35DF40746 /* QuizView.swift */; };
 		6634B6CBB7232C121A31C76C /* ShepherdTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6318DDCB619E65C7710F7E1 /* ShepherdTheme.swift */; };
+		6673AAFBF8D1BA6E5737DE64 /* JournalTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3E5FF8E5B1CE613DF154741 /* JournalTests.swift */; };
 		6AC94F6512F46028AC7C0FA9 /* DailyVerse.swift in Sources */ = {isa = PBXBuildFile; fileRef = F985DECE1319C9A3BB9DB5FF /* DailyVerse.swift */; };
 		6D023235B09828F0E1372CCE /* SavedScriptureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B35F2BF87BE3A77742107516 /* SavedScriptureView.swift */; };
 		7A25E223E33C4E52EB837E53 /* LockScreenStreakWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 102E260D81D7D23645AA7EEA /* LockScreenStreakWidget.swift */; };
@@ -66,8 +70,10 @@
 		C3AA9CF98A14046BEE5005BD /* BibleUserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B378657EE7DBAD21E85727B2 /* BibleUserData.swift */; };
 		C4EEC05A348123DA84D53D6F /* StreakFreezeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB44BBA96D4468E4925FE402 /* StreakFreezeTests.swift */; };
 		CB6F44D2B5B7DFAE05F0EA28 /* ShepherdTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6318DDCB619E65C7710F7E1 /* ShepherdTheme.swift */; };
+		CD14101BFAA19F1C8916BA3D /* JournalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 664C6496BBEBE286A17135A1 /* JournalView.swift */; };
 		CE57192AEC998C95C12AFF81 /* ShepherdWidgetBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E4671E57516D23AA6C9C723 /* ShepherdWidgetBundle.swift */; };
 		CFAB18160EE6BC95EE87BB86 /* OnboardingFlowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C7391F1E61B6D45E7498003 /* OnboardingFlowView.swift */; };
+		D09BF33CA7D3157B0D5ECDD3 /* JournalAuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59AB8A88F45DAD99D336FFC2 /* JournalAuthService.swift */; };
 		D42DB5E09BABB515A5AA2998 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 69F8864847096BDA13F14C0A /* WidgetKit.framework */; };
 		D4C244FCF0AD71172533D812 /* daily_verses.json in Resources */ = {isa = PBXBuildFile; fileRef = E456694C3D533FF6931CC029 /* daily_verses.json */; };
 		D520A64F6CB87366694D27BE /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 099E256D3D4E4BF107CF7DDC /* HomeView.swift */; };
@@ -146,16 +152,21 @@
 		4A0E5855986A6E7E3F46AFAB /* ShepherdConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShepherdConstants.swift; sourceTree = "<group>"; };
 		55B83BEF73DDBBAF53CD8A52 /* BibleNoteEditorSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BibleNoteEditorSheet.swift; sourceTree = "<group>"; };
 		589780701F73DFA4B6218C64 /* ShepherdWidgets.appex */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "wrapper.app-extension"; path = ShepherdWidgets.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		59AB8A88F45DAD99D336FFC2 /* JournalAuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalAuthService.swift; sourceTree = "<group>"; };
 		5E4671E57516D23AA6C9C723 /* ShepherdWidgetBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShepherdWidgetBundle.swift; sourceTree = "<group>"; };
 		5F064060B005F6799DD01F8C /* ReviewPrompt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewPrompt.swift; sourceTree = "<group>"; };
+		5FDB427ED26E40878ED4D6FF /* JournalModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalModels.swift; sourceTree = "<group>"; };
 		6647901EFEE627F669045161 /* ReviewPromptTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewPromptTests.swift; sourceTree = "<group>"; };
+		664C6496BBEBE286A17135A1 /* JournalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalView.swift; sourceTree = "<group>"; };
 		69F8864847096BDA13F14C0A /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		708A96F4A3D915BC760AF160 /* ContentModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentModels.swift; sourceTree = "<group>"; };
 		71C021F5748F8FFE33002C5E /* DailyVerseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyVerseService.swift; sourceTree = "<group>"; };
 		72139D89F9A45C52A7B04BF1 /* BibleUserDataTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BibleUserDataTests.swift; sourceTree = "<group>"; };
 		7343179E138A7506186F8F62 /* VerseWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerseWidget.swift; sourceTree = "<group>"; };
 		7C7391F1E61B6D45E7498003 /* OnboardingFlowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingFlowView.swift; sourceTree = "<group>"; };
+		7E8B0910E00140B49D6109AE /* LessonReflectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LessonReflectionView.swift; sourceTree = "<group>"; };
 		8BD1E9E0CAF5A76DE883F724 /* SeedData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeedData.swift; sourceTree = "<group>"; };
+		90D2650EE7359EF18A0E2F71 /* JournalDetailViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalDetailViews.swift; sourceTree = "<group>"; };
 		9CE4BBC57FDEA303093E3E67 /* ShepherdTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShepherdTests.swift; sourceTree = "<group>"; };
 		9D02731B22192A0C9C8AAA35 /* PathCatalog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PathCatalog.swift; sourceTree = "<group>"; };
 		A5C99854C38464A2EB0B070C /* Shepherd.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Shepherd.entitlements; sourceTree = "<group>"; };
@@ -181,6 +192,7 @@
 		DA163C0912913F37B5B8BAA6 /* LessonText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LessonText.swift; sourceTree = "<group>"; };
 		DB6A7D321D5218E287018ECD /* WidgetViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetViews.swift; sourceTree = "<group>"; };
 		DE3F92350EF7E0EEC93EEDFF /* lamb_variants.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = lamb_variants.json; sourceTree = "<group>"; };
+		E3E5FF8E5B1CE613DF154741 /* JournalTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalTests.swift; sourceTree = "<group>"; };
 		E456694C3D533FF6931CC029 /* daily_verses.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = daily_verses.json; sourceTree = "<group>"; };
 		EEFEB075297B25E3F78E1951 /* ContentStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentStore.swift; sourceTree = "<group>"; };
 		F3FB1F06E6441697174E7CA2 /* ContinueLessonAccessory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContinueLessonAccessory.swift; sourceTree = "<group>"; };
@@ -228,6 +240,7 @@
 				D6BE6D08FF707951B7D618B3 /* DailyReminder.swift */,
 				71C021F5748F8FFE33002C5E /* DailyVerseService.swift */,
 				F42534D58BA4976C8D26FD6A /* Entitlements.swift */,
+				59AB8A88F45DAD99D336FFC2 /* JournalAuthService.swift */,
 				3EDABF08E64DD679B981D39C /* LessonProgressRecorder.swift */,
 				15A18DD64B32A5FD3DD8AABD /* OnboardingStore.swift */,
 				5F064060B005F6799DD01F8C /* ReviewPrompt.swift */,
@@ -255,6 +268,7 @@
 				A0F52522B49A217EF6E54062 /* Companion */,
 				4B048B7D9E0EF1EFF136A0BD /* Components */,
 				B773B5AC189212890B87831F /* Home */,
+				B79C6E432FE2591295CDC1D5 /* Journal */,
 				B54EDC1942F52D8486A311BB /* Lesson */,
 				B81F7DD6E56DEB792BF30D15 /* Mascot */,
 				112280B7737495321E2BD257 /* Onboarding */,
@@ -269,6 +283,7 @@
 				B378657EE7DBAD21E85727B2 /* BibleUserData.swift */,
 				708A96F4A3D915BC760AF160 /* ContentModels.swift */,
 				F985DECE1319C9A3BB9DB5FF /* DailyVerse.swift */,
+				5FDB427ED26E40878ED4D6FF /* JournalModels.swift */,
 				DA163C0912913F37B5B8BAA6 /* LessonText.swift */,
 				9D02731B22192A0C9C8AAA35 /* PathCatalog.swift */,
 				FA489847C8760DE6F0D9EB49 /* Progression.swift */,
@@ -368,6 +383,7 @@
 				72139D89F9A45C52A7B04BF1 /* BibleUserDataTests.swift */,
 				00B903FC1823760FEB4F671A /* ContentTests.swift */,
 				07E8EDCD7D978052D7B9B53C /* DailyVerseTests.swift */,
+				E3E5FF8E5B1CE613DF154741 /* JournalTests.swift */,
 				CF6D46DB5B577BAE885F311B /* ReminderTests.swift */,
 				6647901EFEE627F669045161 /* ReviewPromptTests.swift */,
 				9CE4BBC57FDEA303093E3E67 /* ShepherdTests.swift */,
@@ -382,6 +398,7 @@
 			isa = PBXGroup;
 			children = (
 				A8D0BFCF6D331443E53A0F4D /* LessonCompleteView.swift */,
+				7E8B0910E00140B49D6109AE /* LessonReflectionView.swift */,
 				AA8ACB7ACBDC38979091ADFD /* LessonView.swift */,
 				C10B446B167E44C35DF40746 /* QuizView.swift */,
 			);
@@ -398,6 +415,15 @@
 				1629563DBCFBA94162CF133A /* VerseOfTheDayCard.swift */,
 			);
 			path = Home;
+			sourceTree = "<group>";
+		};
+		B79C6E432FE2591295CDC1D5 /* Journal */ = {
+			isa = PBXGroup;
+			children = (
+				90D2650EE7359EF18A0E2F71 /* JournalDetailViews.swift */,
+				664C6496BBEBE286A17135A1 /* JournalView.swift */,
+			);
+			path = Journal;
 			sourceTree = "<group>";
 		};
 		B81F7DD6E56DEB792BF30D15 /* Mascot */ = {
@@ -621,6 +647,7 @@
 				B6F856F1C726CC95CC9D701F /* BibleUserDataTests.swift in Sources */,
 				7EEEB6E2F264705768A8DAD2 /* ContentTests.swift in Sources */,
 				867BB33FE1FE67287E9819C5 /* DailyVerseTests.swift in Sources */,
+				6673AAFBF8D1BA6E5737DE64 /* JournalTests.swift in Sources */,
 				363C66819B8280C7CBC59CB9 /* ReminderTests.swift in Sources */,
 				3E6D113D9013BE976C424E26 /* ReviewPromptTests.swift in Sources */,
 				2E139ED7F7F5E9C6CDE89C72 /* ShepherdTests.swift in Sources */,
@@ -654,9 +681,14 @@
 				E98D1271F3D0BE6F8A8C8F07 /* DailyVerseService.swift in Sources */,
 				7E1A14B888C678478B811388 /* Entitlements.swift in Sources */,
 				D520A64F6CB87366694D27BE /* HomeView.swift in Sources */,
+				D09BF33CA7D3157B0D5ECDD3 /* JournalAuthService.swift in Sources */,
+				4719FBC2B562E93B2A8C76D2 /* JournalDetailViews.swift in Sources */,
+				32D1CA709B3C37649A63FC17 /* JournalModels.swift in Sources */,
+				CD14101BFAA19F1C8916BA3D /* JournalView.swift in Sources */,
 				17EB76049B3952227160A562 /* LambSystem.swift in Sources */,
 				E31F964A9C2877AAEFEF856A /* LessonCompleteView.swift in Sources */,
 				5625992F5A7643CEFF39B291 /* LessonProgressRecorder.swift in Sources */,
+				4EC5C0B3DC4B7F34A2666DCA /* LessonReflectionView.swift in Sources */,
 				956076E64855B17BA421E2EA /* LessonText.swift in Sources */,
 				95036D8A0CE586487B82EDE9 /* LessonView.swift in Sources */,
 				5F1DC930BE92575E3158D14A /* MainTabView.swift in Sources */,

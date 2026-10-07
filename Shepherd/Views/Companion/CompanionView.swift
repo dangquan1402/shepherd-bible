@@ -90,13 +90,46 @@ public struct CompanionView: View {
                             .padding(.top, 4)
                     }
                     .padding(18)
-                    .background(ShepherdTheme.cardSurface)
-                    .clipShape(RoundedRectangle(cornerRadius: ShepherdTheme.radiusMD))
-                    .overlay(
-                        RoundedRectangle(cornerRadius: ShepherdTheme.radiusMD)
-                            .stroke(ShepherdTheme.surfaceBorder, lineWidth: 1)
-                    )
+                    .shepherdSurfaceCard()
                     .padding(.horizontal, 20)
+
+                    // Reflection & Prayer Journal Navigation Card
+                    NavigationLink {
+                        JournalView()
+                    } label: {
+                        HStack(spacing: 16) {
+                            ZStack {
+                                Circle()
+                                    .fill(ShepherdTheme.accentSubtle)
+                                    .frame(width: 48, height: 48)
+
+                                Image(systemName: "book.pages")
+                                    .font(.system(size: 22))
+                                    .foregroundStyle(ShepherdTheme.accentFill)
+                            }
+
+                            VStack(alignment: .leading, spacing: 4) {
+                                Text("Reflection & Prayer Journal")
+                                    .font(.body.weight(.semibold))
+                                    .foregroundStyle(ShepherdTheme.textPrimary)
+
+                                Text("Your lesson reflections & prayer requests")
+                                    .font(.subheadline)
+                                    .foregroundStyle(ShepherdTheme.textSecondary)
+                            }
+
+                            Spacer()
+
+                            Image(systemName: "chevron.right")
+                                .font(.system(size: 14, weight: .semibold))
+                                .foregroundStyle(ShepherdTheme.textTertiary)
+                        }
+                        .padding(16)
+                        .shepherdSurfaceCard()
+                    }
+                    .buttonStyle(.plain)
+                    .padding(.horizontal, 20)
+                    .accessibilityIdentifier("CompanionJournalButton")
 
                     // Growth List Rows
                     VStack(alignment: .leading, spacing: 14) {
@@ -148,12 +181,7 @@ public struct CompanionView: View {
                                     }
                                 }
                                 .padding(14)
-                                .background(ShepherdTheme.cardSurface)
-                                .clipShape(RoundedRectangle(cornerRadius: ShepherdTheme.radiusMD))
-                                .overlay(
-                                    RoundedRectangle(cornerRadius: ShepherdTheme.radiusMD)
-                                        .stroke(ShepherdTheme.surfaceBorder, lineWidth: 1)
-                                )
+                                .shepherdSurfaceCard()
                             }
                         }
                         .padding(.horizontal, 20)
