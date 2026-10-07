@@ -4,12 +4,18 @@ import SwiftData
 public struct OnboardingFlowView: View {
     @Environment(\.modelContext) private var modelContext
     @EnvironmentObject private var content: ContentStore
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
     @State private var step: Int = 0
     @State private var goal: String = "grow_daily"
     @State private var experienceLevel: String = "beginner"
     @State private var dailyMinutes: Int = 5
     @State private var lambName: String = ""
     @State private var showPaywall: Bool = false
+    @State private var reminderTime: Date = Calendar.current.date(bySettingHour: 8, minute: 0, second: 0, of: .now) ?? .now
+    @State private var isAskingForReminder: Bool = false
+
+    private static let reminderStep = 5
+    private static let planStep = 6
 
     public init() {}
 
@@ -21,7 +27,7 @@ public struct OnboardingFlowView: View {
                 VStack(spacing: 20) {
                     // Segmented step progress
                     HStack(spacing: 6) {
-                        ForEach(0..<6) { i in
+                        ForEach(0...Self.planStep, id: \.self) { i in
                             Capsule()
                                 .fill(i <= step ? ShepherdTheme.accentFill : ShepherdTheme.surfaceSunken)
                                 .frame(height: 4)
@@ -38,6 +44,7 @@ public struct OnboardingFlowView: View {
                         case 2: experienceStep
                         case 3: paceStep
                         case 4: nameLambStep
+                        case Self.reminderStep: reminderStepView
                         default: buildingPlanStep
                         }
                     }
@@ -45,11 +52,27 @@ public struct OnboardingFlowView: View {
                     Spacer()
 
                     // Primary Button
-                    ProminentGlassButton(step >= 5 ? "See my plan" : "Continue") {
-                        advance()
+                    if step == Self.reminderStep {
+                        VStack(spacing: 12) {
+                            ProminentGlassButton("Remind me", icon: "bell") {
+                                acceptReminder()
+                            }
+                            .disabled(isAskingForReminder)
+
+                            Button("Not now") { advance() }
+                                .font(.body.weight(.medium))
+                                .foregroundStyle(ShepherdTheme.textSecondary)
+                                .frame(minHeight: 44)
+                        }
+                        .padding(.horizontal, 20)
+                        .padding(.bottom, 12)
+                    } else {
+                        ProminentGlassButton(step >= Self.planStep ? "See my plan" : "Continue") {
+                            advance()
+                        }
+                        .padding(.horizontal, 20)
+                        .padding(.bottom, 24)
                     }
-                    .padding(.horizontal, 20)
-                    .padding(.bottom, 24)
                 }
             }
             .toolbar {
@@ -226,7 +249,83 @@ public struct OnboardingFlowView: View {
         }
     }
 
-    // MARK: - Step 5: Building Plan
+    // MARK: - Step 5: Daily reminder (optional; asks for permission only on "Remind me")
+    /// Scrolls, wraps and drops the vignette at accessibility text sizes, so the question, the
+    /// reassurance and the time stay readable and "Remind me" / "Not now" stay on screen.
+    private var reminderStepView: some View {
+        ViewThatFits(in: .vertical) {
+            reminderStepContent
+            ScrollView {
+                reminderStepContent
+                    .padding(.vertical, 8)
+            }
+        }
+    }
+
+    private var reminderStepContent: some View {
+        VStack(spacing: 20) {
+            Spacer(minLength: 0)
+
+            if !dynamicTypeSize.isAccessibilitySize {
+                ZStack {
+                    HillVignetteView(width: 320, height: 70)
+                        .offset(y: 45)
+
+                    LambView(stage: 1, expression: .sleepy, displayHeight: 140)
+                }
+            }
+
+            VStack(spacing: 8) {
+                Text("Want a gentle daily reminder?")
+                    .font(ShepherdTheme.title1Serif())
+                    .foregroundStyle(ShepherdTheme.textPrimary)
+                    .multilineTextAlignment(.center)
+                    .fixedSize(horizontal: false, vertical: true)
+
+                Text("One quiet nudge a day, at a time you choose. Change it or turn it off in Settings.")
+                    .font(.subheadline)
+                    .foregroundStyle(ShepherdTheme.textSecondary)
+                    .multilineTextAlignment(.center)
+                    .fixedSize(horizontal: false, vertical: true)
+                    .padding(.horizontal, 20)
+            }
+
+            Group {
+                if dynamicTypeSize.isAccessibilitySize {
+                    // The label above the picker, so neither is truncated.
+                    VStack(alignment: .leading, spacing: 8) {
+                        Text("Remind me at")
+                            .font(.body)
+                            .foregroundStyle(ShepherdTheme.textPrimary)
+                            .fixedSize(horizontal: false, vertical: true)
+                        DatePicker("Remind me at", selection: $reminderTime, displayedComponents: .hourAndMinute)
+                            .labelsHidden()
+                    }
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding(.vertical, 12)
+                } else {
+                    DatePicker(selection: $reminderTime, displayedComponents: .hourAndMinute) {
+                        Text("Remind me at")
+                            .font(.body)
+                            .foregroundStyle(ShepherdTheme.textPrimary)
+                    }
+                }
+            }
+            .padding(.horizontal, 16)
+            .frame(minHeight: 56)
+            .background(ShepherdTheme.cardSurface)
+            .clipShape(RoundedRectangle(cornerRadius: ShepherdTheme.radiusMD))
+            .overlay(
+                RoundedRectangle(cornerRadius: ShepherdTheme.radiusMD)
+                    .stroke(ShepherdTheme.surfaceBorder, lineWidth: 1)
+            )
+            .padding(.horizontal, 20)
+
+            Spacer(minLength: 0)
+        }
+    }
+
+    // MARK: - Step 6: Building Plan
     /// Scrolls when the suggested-path card does not fit (accessibility text sizes), so the
     /// "See my plan" button below always stays on screen.
     private var buildingPlanStep: some View {
@@ -355,8 +454,25 @@ public struct OnboardingFlowView: View {
         .buttonStyle(.plain)
     }
 
+    /// Asks iOS for permission (the only place onboarding does) and schedules the reminder.
+    /// Either answer moves on: Settings explains a refusal if the user turns the reminder on later.
+    private func acceptReminder() {
+        guard !isAskingForReminder else { return }
+        isAskingForReminder = true
+        let parts = Calendar.current.dateComponents([.hour, .minute], from: reminderTime)
+        Task {
+            await DailyReminder.shared.enable(
+                hour: parts.hour ?? 8,
+                minute: parts.minute ?? 0,
+                lesson: suggestedPath?.lessons.first.map(ReminderLesson.init)
+            )
+            isAskingForReminder = false
+            advance()
+        }
+    }
+
     private func advance() {
-        if step < 5 {
+        if step < Self.planStep {
             withAnimation(.spring(duration: 0.35, bounce: 0.15)) {
                 step += 1
             }

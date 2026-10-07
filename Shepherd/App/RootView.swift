@@ -21,12 +21,10 @@ public struct RootView: View {
         }
         .environmentObject(content)
         .preferredColorScheme(colorSchemeOverride)
-        .onChange(of: scenePhase) { _, phase in
-            JournalAuthService.shared.scenePhaseChanged(to: phase)
-        }
         .task {
             #if DEBUG
             handleLaunchArguments()
+            resetForUITestIfAsked()
             #endif
             content.loadIfNeeded()
             SeedData.ensureDefaults(in: modelContext)
@@ -35,6 +33,13 @@ public struct RootView: View {
             #if DEBUG
             applyUITestState()
             #endif
+            await DailyReminder.shared.refresh(context: modelContext)
+        }
+        .onChange(of: scenePhase) { _, phase in
+            JournalAuthService.shared.scenePhaseChanged(to: phase)
+            // A new day may have started: refill the reminder window and re-check today's lesson.
+            guard phase == .active else { return }
+            Task { await DailyReminder.shared.refresh(context: modelContext) }
         }
     }
 
@@ -43,16 +48,8 @@ public struct RootView: View {
     /// beginner-30 and every lesson of mark-30 complete (a plain lesson id marks that lesson);
     /// `-uitestPremium` is honoured by StoreKitManager.updateCustomerProductStatus. Lets a UI test
     /// reach day 30 or a Premium lesson without playing through every quiz.
-    /// `-uitestResetJournal` deletes every reflection and prayer and turns the journal lock off,
-    /// so a journal test starts from the same state on every run.
     private func applyUITestState() {
         let args = ProcessInfo.processInfo.arguments
-        if args.contains("-uitestResetJournal") {
-            try? modelContext.delete(model: JournalEntry.self)
-            try? modelContext.delete(model: PrayerRequest.self)
-            JournalAuthService.shared.isLockEnabled = false
-            JournalAuthService.shared.isUnlocked = true
-        }
         if let idx = args.firstIndex(of: "-uitestCompleted"), idx + 1 < args.count {
             var ids: [String] = []
             for item in args[idx + 1].split(separator: ",").map(String.init) {
@@ -70,6 +67,26 @@ public struct RootView: View {
             }
         }
         try? modelContext.save()
+    }
+
+    /// UI tests only. `-uitestReset` starts from a fresh install's state (no profile, progress,
+    /// rating-prompt or reminder flags, no journal entries or prayers, journal lock off) without
+    /// reinstalling, so tests in one run stay independent.
+    private func resetForUITestIfAsked() {
+        guard ProcessInfo.processInfo.arguments.contains("-uitestReset") else { return }
+        try? modelContext.delete(model: LessonProgress.self)
+        try? modelContext.delete(model: UserProfile.self)
+        try? modelContext.delete(model: Companion.self)
+        try? modelContext.delete(model: StreakState.self)
+        try? modelContext.delete(model: EntitlementState.self)
+        try? modelContext.delete(model: JournalEntry.self)
+        try? modelContext.delete(model: PrayerRequest.self)
+        try? modelContext.save()
+        JournalAuthService.shared.isLockEnabled = false
+        JournalAuthService.shared.isUnlocked = true
+        for key in [ReviewPrompter.promptedVersionKey, ReminderSettings.enabledKey, ReminderSettings.hourKey, ReminderSettings.minuteKey] {
+            UserDefaults.standard.removeObject(forKey: key)
+        }
     }
 
     private func handleLaunchArguments() {

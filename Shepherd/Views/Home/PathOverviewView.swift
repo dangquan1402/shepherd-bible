@@ -175,7 +175,7 @@ public struct PathLessonsListView: View {
             } label: {
                 lessonLabel(lesson, refs: formattedRefs, dimmed: true, trailingIcon: "lock.fill", trailingText: "Premium")
             }
-            .accessibilityLabel("Day \(lesson.dayIndex), \(lesson.title), Premium")
+            .accessibilityLabel("Day \(lesson.dayIndex), \(lesson.displayTitle), Premium")
         } else if isReached {
             NavigationLink {
                 LessonView(lesson: lesson)
@@ -197,7 +197,7 @@ public struct PathLessonsListView: View {
                 .frame(width: 52, alignment: .leading)
 
             VStack(alignment: .leading, spacing: 2) {
-                Text(lesson.title)
+                Text(lesson.displayTitle)
                     .font(.headline)
                     .foregroundStyle(dimmed ? ShepherdTheme.textTertiary : ShepherdTheme.textPrimary)
 

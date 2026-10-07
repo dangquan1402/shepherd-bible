@@ -4538,7 +4538,7 @@
               "type": "text",
               "id": "aeADw",
               "x": 32,
-              "y": 318,
+              "y": 516,
               "name": "SectionHead",
               "fill": "$I:--color-text-secondary",
               "content": "PRIVACY",
@@ -4550,7 +4550,7 @@
               "type": "frame",
               "id": "UUaMy",
               "x": 16,
-              "y": 340,
+              "y": 538,
               "name": "Group PRIVACY",
               "width": 370,
               "height": 104,
@@ -4606,7 +4606,7 @@
                       "fontWeight": "400"
                     },
                     "I:Woz5B": {
-                      "content": "None in v1"
+                      "content": "None"
                     },
                     "I:NqR7l": {
                       "enabled": false
@@ -4619,7 +4619,7 @@
               "type": "text",
               "id": "iMhvA",
               "x": 32,
-              "y": 452,
+              "y": 650,
               "name": "PrivacyFooter",
               "fill": "$I:--color-text-secondary",
               "textGrowth": "fixed-width",
@@ -4633,7 +4633,7 @@
               "type": "text",
               "id": "X5ZRM",
               "x": 32,
-              "y": 484,
+              "y": 682,
               "name": "SectionHead",
               "fill": "$I:--color-text-secondary",
               "content": "ABOUT",
@@ -4645,7 +4645,7 @@
               "type": "frame",
               "id": "j2gxp",
               "x": 16,
-              "y": 506,
+              "y": 704,
               "name": "Group ABOUT",
               "width": 370,
               "height": 104,
@@ -4709,6 +4709,156 @@
                   }
                 }
               ]
+            },
+            {
+              "type": "text",
+              "id": "zZOOn",
+              "x": 32,
+              "y": 318,
+              "name": "SectionHead",
+              "fill": "$I:--color-text-secondary",
+              "content": "REMINDER",
+              "fontFamily": "$I:--font-body",
+              "fontSize": 13,
+              "fontWeight": "600"
+            },
+            {
+              "type": "frame",
+              "id": "jOVJ5",
+              "x": 16,
+              "y": 340,
+              "name": "Group REMINDER",
+              "width": 370,
+              "height": 104,
+              "fill": "$I:--color-card-surface",
+              "cornerRadius": 20,
+              "stroke": "$I:--color-surface-border",
+              "strokeWidth": 1,
+              "layout": "none",
+              "children": [
+                {
+                  "id": "Ta8oA",
+                  "type": "ref",
+                  "ref": "I:b6yFN",
+                  "name": "Row Daily reminder",
+                  "x": 0,
+                  "y": 0,
+                  "descendants": {
+                    "I:RYjQb": {
+                      "content": "Daily reminder",
+                      "fill": "$I:--color-text-primary",
+                      "fontWeight": "400"
+                    },
+                    "I:Woz5B": {
+                      "content": ""
+                    },
+                    "I:NqR7l": {
+                      "enabled": false
+                    }
+                  }
+                },
+                {
+                  "type": "frame",
+                  "id": "eRoz6",
+                  "x": 18,
+                  "y": 51,
+                  "name": "Separator",
+                  "width": 352,
+                  "height": 1,
+                  "fill": "$I:--color-surface-border",
+                  "layout": "none"
+                },
+                {
+                  "id": "FEiRw",
+                  "type": "ref",
+                  "ref": "I:b6yFN",
+                  "name": "Row Time",
+                  "x": 0,
+                  "y": 52,
+                  "descendants": {
+                    "I:RYjQb": {
+                      "content": "Time",
+                      "fill": "$I:--color-text-primary",
+                      "fontWeight": "400"
+                    },
+                    "I:Woz5B": {
+                      "content": ""
+                    },
+                    "I:NqR7l": {
+                      "enabled": false
+                    }
+                  }
+                },
+                {
+                  "type": "frame",
+                  "id": "nIstj",
+                  "x": 300,
+                  "y": 10,
+                  "name": "Toggle",
+                  "width": 52,
+                  "height": 32,
+                  "fill": "$I:--color-accent-fill",
+                  "cornerRadius": 16,
+                  "layout": "none",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "X51ys",
+                      "x": 22,
+                      "y": 2,
+                      "name": "Knob",
+                      "width": 28,
+                      "height": 28,
+                      "fill": "$I:--color-on-accent",
+                      "cornerRadius": 14,
+                      "layout": "none"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "UQ2eg",
+                  "x": 256,
+                  "y": 60,
+                  "name": "TimePill",
+                  "width": 96,
+                  "height": 36,
+                  "fill": "$I:--color-surface-sunken",
+                  "cornerRadius": 18,
+                  "layout": "none",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "YqS4J",
+                      "x": 0,
+                      "y": 8,
+                      "name": "Time",
+                      "fill": "$I:--color-text-primary",
+                      "textGrowth": "fixed-width",
+                      "width": 96,
+                      "content": "8:00 AM",
+                      "textAlign": "center",
+                      "fontFamily": "$I:--font-body",
+                      "fontSize": 17,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "id": "XvXgE",
+              "x": 32,
+              "y": 452,
+              "name": "ReminderFooter",
+              "fill": "$I:--color-text-secondary",
+              "textGrowth": "fixed-width",
+              "width": 338,
+              "content": "One gentle notification a day, skipped once you’ve done that day’s lesson. It’s scheduled on this device; nothing is sent anywhere.",
+              "fontFamily": "$I:--font-body",
+              "fontSize": 13,
+              "fontWeight": "normal"
             }
           ]
         },
@@ -4889,7 +5039,7 @@
               "type": "text",
               "id": "TxN7S",
               "x": 32,
-              "y": 318,
+              "y": 516,
               "name": "SectionHead",
               "fill": "$I:--color-text-secondary",
               "content": "PRIVACY",
@@ -4901,7 +5051,7 @@
               "type": "frame",
               "id": "iheVT",
               "x": 16,
-              "y": 340,
+              "y": 538,
               "name": "Group PRIVACY",
               "width": 370,
               "height": 104,
@@ -4957,7 +5107,7 @@
                       "fontWeight": "400"
                     },
                     "I:Woz5B": {
-                      "content": "None in v1"
+                      "content": "None"
                     },
                     "I:NqR7l": {
                       "enabled": false
@@ -4970,7 +5120,7 @@
               "type": "text",
               "id": "Q4wSG",
               "x": 32,
-              "y": 452,
+              "y": 650,
               "name": "PrivacyFooter",
               "fill": "$I:--color-text-secondary",
               "textGrowth": "fixed-width",
@@ -4984,7 +5134,7 @@
               "type": "text",
               "id": "t1Sae",
               "x": 32,
-              "y": 484,
+              "y": 682,
               "name": "SectionHead",
               "fill": "$I:--color-text-secondary",
               "content": "ABOUT",
@@ -4996,7 +5146,7 @@
               "type": "frame",
               "id": "lpJXP",
               "x": 16,
-              "y": 506,
+              "y": 704,
               "name": "Group ABOUT",
               "width": 370,
               "height": 104,
@@ -5060,6 +5210,156 @@
                   }
                 }
               ]
+            },
+            {
+              "type": "text",
+              "id": "d2LqB",
+              "x": 32,
+              "y": 318,
+              "name": "SectionHead",
+              "fill": "$I:--color-text-secondary",
+              "content": "REMINDER",
+              "fontFamily": "$I:--font-body",
+              "fontSize": 13,
+              "fontWeight": "600"
+            },
+            {
+              "type": "frame",
+              "id": "rroAo",
+              "x": 16,
+              "y": 340,
+              "name": "Group REMINDER",
+              "width": 370,
+              "height": 104,
+              "fill": "$I:--color-card-surface",
+              "cornerRadius": 20,
+              "stroke": "$I:--color-surface-border",
+              "strokeWidth": 1,
+              "layout": "none",
+              "children": [
+                {
+                  "id": "y0Zi6",
+                  "type": "ref",
+                  "ref": "I:b6yFN",
+                  "name": "Row Daily reminder",
+                  "x": 0,
+                  "y": 0,
+                  "descendants": {
+                    "I:RYjQb": {
+                      "content": "Daily reminder",
+                      "fill": "$I:--color-text-primary",
+                      "fontWeight": "400"
+                    },
+                    "I:Woz5B": {
+                      "content": ""
+                    },
+                    "I:NqR7l": {
+                      "enabled": false
+                    }
+                  }
+                },
+                {
+                  "type": "frame",
+                  "id": "NnDAm",
+                  "x": 18,
+                  "y": 51,
+                  "name": "Separator",
+                  "width": 352,
+                  "height": 1,
+                  "fill": "$I:--color-surface-border",
+                  "layout": "none"
+                },
+                {
+                  "id": "AZmr5",
+                  "type": "ref",
+                  "ref": "I:b6yFN",
+                  "name": "Row Time",
+                  "x": 0,
+                  "y": 52,
+                  "descendants": {
+                    "I:RYjQb": {
+                      "content": "Time",
+                      "fill": "$I:--color-text-primary",
+                      "fontWeight": "400"
+                    },
+                    "I:Woz5B": {
+                      "content": ""
+                    },
+                    "I:NqR7l": {
+                      "enabled": false
+                    }
+                  }
+                },
+                {
+                  "type": "frame",
+                  "id": "eCxUH",
+                  "x": 300,
+                  "y": 10,
+                  "name": "Toggle",
+                  "width": 52,
+                  "height": 32,
+                  "fill": "$I:--color-accent-fill",
+                  "cornerRadius": 16,
+                  "layout": "none",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "z2IRvr",
+                      "x": 22,
+                      "y": 2,
+                      "name": "Knob",
+                      "width": 28,
+                      "height": 28,
+                      "fill": "$I:--color-on-accent",
+                      "cornerRadius": 14,
+                      "layout": "none"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "a6Xmp",
+                  "x": 256,
+                  "y": 60,
+                  "name": "TimePill",
+                  "width": 96,
+                  "height": 36,
+                  "fill": "$I:--color-surface-sunken",
+                  "cornerRadius": 18,
+                  "layout": "none",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "GPGbD",
+                      "x": 0,
+                      "y": 8,
+                      "name": "Time",
+                      "fill": "$I:--color-text-primary",
+                      "textGrowth": "fixed-width",
+                      "width": 96,
+                      "content": "8:00 AM",
+                      "textAlign": "center",
+                      "fontFamily": "$I:--font-body",
+                      "fontSize": 17,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "id": "g4XC02",
+              "x": 32,
+              "y": 452,
+              "name": "ReminderFooter",
+              "fill": "$I:--color-text-secondary",
+              "textGrowth": "fixed-width",
+              "width": 338,
+              "content": "One gentle notification a day, skipped once you’ve done that day’s lesson. It’s scheduled on this device; nothing is sent anywhere.",
+              "fontFamily": "$I:--font-body",
+              "fontSize": 13,
+              "fontWeight": "normal"
             }
           ]
         },
@@ -5375,7 +5675,7 @@
           "x": 72,
           "y": 78,
           "name": "Toolbar Progress 1",
-          "width": 47,
+          "width": 39.42857142857143,
           "height": 6,
           "fill": "$I:--color-accent-fill",
           "cornerRadius": 3,
@@ -5384,10 +5684,10 @@
         {
           "type": "frame",
           "id": "aAnwl",
-          "x": 125,
+          "x": 117.42857142857143,
           "y": 78,
           "name": "Toolbar Progress 2",
-          "width": 47,
+          "width": 39.42857142857143,
           "height": 6,
           "fill": "$I:--color-accent-fill",
           "cornerRadius": 3,
@@ -5396,10 +5696,10 @@
         {
           "type": "frame",
           "id": "AiESE",
-          "x": 178,
+          "x": 162.85714285714286,
           "y": 78,
           "name": "Toolbar Progress 3",
-          "width": 47,
+          "width": 39.42857142857143,
           "height": 6,
           "fill": "$I:--color-accent-fill",
           "cornerRadius": 3,
@@ -5408,10 +5708,10 @@
         {
           "type": "frame",
           "id": "wOjea",
-          "x": 231,
+          "x": 208.28571428571428,
           "y": 78,
           "name": "Toolbar Progress 4",
-          "width": 47,
+          "width": 39.42857142857143,
           "height": 6,
           "fill": "$I:--color-accent-fill",
           "cornerRadius": 3,
@@ -5420,10 +5720,10 @@
         {
           "type": "frame",
           "id": "GP3Zr",
-          "x": 284,
+          "x": 253.71428571428572,
           "y": 78,
           "name": "Toolbar Progress 5",
-          "width": 47,
+          "width": 39.42857142857143,
           "height": 6,
           "fill": "$I:--color-accent-fill",
           "cornerRadius": 3,
@@ -5432,10 +5732,10 @@
         {
           "type": "frame",
           "id": "jeAzo",
-          "x": 337,
+          "x": 299.14285714285717,
           "y": 78,
           "name": "Toolbar Progress 6",
-          "width": 47,
+          "width": 39.42857142857143,
           "height": 6,
           "fill": "$I:--color-accent-fill",
           "cornerRadius": 3,
@@ -5482,6 +5782,18 @@
           "name": "HomeIndicator",
           "x": 131,
           "y": 861
+        },
+        {
+          "type": "frame",
+          "id": "hSjXH",
+          "x": 344.57142857142856,
+          "y": 78,
+          "name": "Toolbar Progress 7",
+          "width": 39.42857142857143,
+          "height": 6,
+          "fill": "$I:--color-accent-fill",
+          "cornerRadius": 3,
+          "layout": "none"
         }
       ]
     },
@@ -5771,7 +6083,7 @@
           "x": 72,
           "y": 78,
           "name": "Toolbar Progress 1",
-          "width": 47,
+          "width": 39.42857142857143,
           "height": 6,
           "fill": "$I:--color-accent-fill",
           "cornerRadius": 3,
@@ -5780,10 +6092,10 @@
         {
           "type": "frame",
           "id": "p8xERK",
-          "x": 125,
+          "x": 117.42857142857143,
           "y": 78,
           "name": "Toolbar Progress 2",
-          "width": 47,
+          "width": 39.42857142857143,
           "height": 6,
           "fill": "$I:--color-accent-fill",
           "cornerRadius": 3,
@@ -5792,10 +6104,10 @@
         {
           "type": "frame",
           "id": "MEBOh",
-          "x": 178,
+          "x": 162.85714285714286,
           "y": 78,
           "name": "Toolbar Progress 3",
-          "width": 47,
+          "width": 39.42857142857143,
           "height": 6,
           "fill": "$I:--color-accent-fill",
           "cornerRadius": 3,
@@ -5804,10 +6116,10 @@
         {
           "type": "frame",
           "id": "LoU7Y",
-          "x": 231,
+          "x": 208.28571428571428,
           "y": 78,
           "name": "Toolbar Progress 4",
-          "width": 47,
+          "width": 39.42857142857143,
           "height": 6,
           "fill": "$I:--color-accent-fill",
           "cornerRadius": 3,
@@ -5816,10 +6128,10 @@
         {
           "type": "frame",
           "id": "miIBj",
-          "x": 284,
+          "x": 253.71428571428572,
           "y": 78,
           "name": "Toolbar Progress 5",
-          "width": 47,
+          "width": 39.42857142857143,
           "height": 6,
           "fill": "$I:--color-accent-fill",
           "cornerRadius": 3,
@@ -5828,10 +6140,10 @@
         {
           "type": "frame",
           "id": "TJvGL",
-          "x": 337,
+          "x": 299.14285714285717,
           "y": 78,
           "name": "Toolbar Progress 6",
-          "width": 47,
+          "width": 39.42857142857143,
           "height": 6,
           "fill": "$I:--color-accent-fill",
           "cornerRadius": 3,
@@ -5878,6 +6190,18 @@
           "name": "HomeIndicator",
           "x": 131,
           "y": 861
+        },
+        {
+          "type": "frame",
+          "id": "k1NcE",
+          "x": 344.57142857142856,
+          "y": 78,
+          "name": "Toolbar Progress 7",
+          "width": 39.42857142857143,
+          "height": 6,
+          "fill": "$I:--color-accent-fill",
+          "cornerRadius": 3,
+          "layout": "none"
         }
       ]
     },
@@ -6144,7 +6468,7 @@
           "x": 72,
           "y": 78,
           "name": "Toolbar Progress 1",
-          "width": 47,
+          "width": 39.42857142857143,
           "height": 6,
           "fill": "$I:--color-accent-fill",
           "cornerRadius": 3,
@@ -6153,10 +6477,10 @@
         {
           "type": "frame",
           "id": "Hqwlb",
-          "x": 125,
+          "x": 117.42857142857143,
           "y": 78,
           "name": "Toolbar Progress 2",
-          "width": 47,
+          "width": 39.42857142857143,
           "height": 6,
           "fill": "$I:--color-accent-fill",
           "cornerRadius": 3,
@@ -6165,10 +6489,10 @@
         {
           "type": "frame",
           "id": "PrAib",
-          "x": 178,
+          "x": 162.85714285714286,
           "y": 78,
           "name": "Toolbar Progress 3",
-          "width": 47,
+          "width": 39.42857142857143,
           "height": 6,
           "fill": "$I:--color-accent-fill",
           "cornerRadius": 3,
@@ -6177,10 +6501,10 @@
         {
           "type": "frame",
           "id": "o6uc3r",
-          "x": 231,
+          "x": 208.28571428571428,
           "y": 78,
           "name": "Toolbar Progress 4",
-          "width": 47,
+          "width": 39.42857142857143,
           "height": 6,
           "fill": "$I:--color-accent-fill",
           "cornerRadius": 3,
@@ -6189,10 +6513,10 @@
         {
           "type": "frame",
           "id": "j9LLRX",
-          "x": 284,
+          "x": 253.71428571428572,
           "y": 78,
           "name": "Toolbar Progress 5",
-          "width": 47,
+          "width": 39.42857142857143,
           "height": 6,
           "fill": "$I:--color-accent-fill",
           "cornerRadius": 3,
@@ -6201,10 +6525,10 @@
         {
           "type": "frame",
           "id": "j6RWrk",
-          "x": 337,
+          "x": 299.14285714285717,
           "y": 78,
           "name": "Toolbar Progress 6",
-          "width": 47,
+          "width": 39.42857142857143,
           "height": 6,
           "fill": "$I:--color-surface-sunken",
           "cornerRadius": 3,
@@ -6251,6 +6575,18 @@
           "name": "HomeIndicator",
           "x": 131,
           "y": 861
+        },
+        {
+          "type": "frame",
+          "id": "eUFuB",
+          "x": 344.57142857142856,
+          "y": 78,
+          "name": "Toolbar Progress 7",
+          "width": 39.42857142857143,
+          "height": 6,
+          "fill": "$I:--color-surface-sunken",
+          "cornerRadius": 3,
+          "layout": "none"
         }
       ]
     },
@@ -6517,7 +6853,7 @@
           "x": 72,
           "y": 78,
           "name": "Toolbar Progress 1",
-          "width": 47,
+          "width": 39.42857142857143,
           "height": 6,
           "fill": "$I:--color-accent-fill",
           "cornerRadius": 3,
@@ -6526,10 +6862,10 @@
         {
           "type": "frame",
           "id": "ZUmon",
-          "x": 125,
+          "x": 117.42857142857143,
           "y": 78,
           "name": "Toolbar Progress 2",
-          "width": 47,
+          "width": 39.42857142857143,
           "height": 6,
           "fill": "$I:--color-accent-fill",
           "cornerRadius": 3,
@@ -6538,10 +6874,10 @@
         {
           "type": "frame",
           "id": "Gz1Lf",
-          "x": 178,
+          "x": 162.85714285714286,
           "y": 78,
           "name": "Toolbar Progress 3",
-          "width": 47,
+          "width": 39.42857142857143,
           "height": 6,
           "fill": "$I:--color-accent-fill",
           "cornerRadius": 3,
@@ -6550,10 +6886,10 @@
         {
           "type": "frame",
           "id": "pGm1b",
-          "x": 231,
+          "x": 208.28571428571428,
           "y": 78,
           "name": "Toolbar Progress 4",
-          "width": 47,
+          "width": 39.42857142857143,
           "height": 6,
           "fill": "$I:--color-accent-fill",
           "cornerRadius": 3,
@@ -6562,10 +6898,10 @@
         {
           "type": "frame",
           "id": "zhjL6",
-          "x": 284,
+          "x": 253.71428571428572,
           "y": 78,
           "name": "Toolbar Progress 5",
-          "width": 47,
+          "width": 39.42857142857143,
           "height": 6,
           "fill": "$I:--color-accent-fill",
           "cornerRadius": 3,
@@ -6574,10 +6910,10 @@
         {
           "type": "frame",
           "id": "cgt6f",
-          "x": 337,
+          "x": 299.14285714285717,
           "y": 78,
           "name": "Toolbar Progress 6",
-          "width": 47,
+          "width": 39.42857142857143,
           "height": 6,
           "fill": "$I:--color-surface-sunken",
           "cornerRadius": 3,
@@ -6624,6 +6960,18 @@
           "name": "HomeIndicator",
           "x": 131,
           "y": 861
+        },
+        {
+          "type": "frame",
+          "id": "rs0Pv",
+          "x": 344.57142857142856,
+          "y": 78,
+          "name": "Toolbar Progress 7",
+          "width": 39.42857142857143,
+          "height": 6,
+          "fill": "$I:--color-surface-sunken",
+          "cornerRadius": 3,
+          "layout": "none"
         }
       ]
     },
@@ -9280,7 +9628,7 @@
               "type": "text",
               "id": "Xn3km",
               "x": 32,
-              "y": 318,
+              "y": 516,
               "name": "SectionHead",
               "fill": "$I:--color-text-secondary",
               "content": "PRIVACY",
@@ -9292,7 +9640,7 @@
               "type": "frame",
               "id": "F7N40",
               "x": 16,
-              "y": 340,
+              "y": 538,
               "name": "Group PRIVACY",
               "width": 370,
               "height": 104,
@@ -9348,7 +9696,7 @@
                       "fontWeight": "400"
                     },
                     "I:Woz5B": {
-                      "content": "None in v1"
+                      "content": "None"
                     },
                     "I:NqR7l": {
                       "enabled": false
@@ -9361,7 +9709,7 @@
               "type": "text",
               "id": "Ee5uP",
               "x": 32,
-              "y": 452,
+              "y": 650,
               "name": "PrivacyFooter",
               "fill": "$I:--color-text-secondary",
               "textGrowth": "fixed-width",
@@ -9375,7 +9723,7 @@
               "type": "text",
               "id": "puGx5",
               "x": 32,
-              "y": 484,
+              "y": 682,
               "name": "SectionHead",
               "fill": "$I:--color-text-secondary",
               "content": "ABOUT",
@@ -9387,7 +9735,7 @@
               "type": "frame",
               "id": "YnXxP",
               "x": 16,
-              "y": 506,
+              "y": 704,
               "name": "Group ABOUT",
               "width": 370,
               "height": 104,
@@ -9451,6 +9799,156 @@
                   }
                 }
               ]
+            },
+            {
+              "type": "text",
+              "id": "XufwH",
+              "x": 32,
+              "y": 318,
+              "name": "SectionHead",
+              "fill": "$I:--color-text-secondary",
+              "content": "REMINDER",
+              "fontFamily": "$I:--font-body",
+              "fontSize": 13,
+              "fontWeight": "600"
+            },
+            {
+              "type": "frame",
+              "id": "bWFNa",
+              "x": 16,
+              "y": 340,
+              "name": "Group REMINDER",
+              "width": 370,
+              "height": 104,
+              "fill": "$I:--color-card-surface",
+              "cornerRadius": 20,
+              "stroke": "$I:--color-surface-border",
+              "strokeWidth": 1,
+              "layout": "none",
+              "children": [
+                {
+                  "id": "ppvSe",
+                  "type": "ref",
+                  "ref": "I:b6yFN",
+                  "name": "Row Daily reminder",
+                  "x": 0,
+                  "y": 0,
+                  "descendants": {
+                    "I:RYjQb": {
+                      "content": "Daily reminder",
+                      "fill": "$I:--color-text-primary",
+                      "fontWeight": "400"
+                    },
+                    "I:Woz5B": {
+                      "content": ""
+                    },
+                    "I:NqR7l": {
+                      "enabled": false
+                    }
+                  }
+                },
+                {
+                  "type": "frame",
+                  "id": "xbcfd",
+                  "x": 18,
+                  "y": 51,
+                  "name": "Separator",
+                  "width": 352,
+                  "height": 1,
+                  "fill": "$I:--color-surface-border",
+                  "layout": "none"
+                },
+                {
+                  "id": "UesLO",
+                  "type": "ref",
+                  "ref": "I:b6yFN",
+                  "name": "Row Time",
+                  "x": 0,
+                  "y": 52,
+                  "descendants": {
+                    "I:RYjQb": {
+                      "content": "Time",
+                      "fill": "$I:--color-text-primary",
+                      "fontWeight": "400"
+                    },
+                    "I:Woz5B": {
+                      "content": ""
+                    },
+                    "I:NqR7l": {
+                      "enabled": false
+                    }
+                  }
+                },
+                {
+                  "type": "frame",
+                  "id": "I7keX",
+                  "x": 300,
+                  "y": 10,
+                  "name": "Toggle",
+                  "width": 52,
+                  "height": 32,
+                  "fill": "$I:--color-accent-fill",
+                  "cornerRadius": 16,
+                  "layout": "none",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "nGLyv",
+                      "x": 22,
+                      "y": 2,
+                      "name": "Knob",
+                      "width": 28,
+                      "height": 28,
+                      "fill": "$I:--color-on-accent",
+                      "cornerRadius": 14,
+                      "layout": "none"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "abO94",
+                  "x": 256,
+                  "y": 60,
+                  "name": "TimePill",
+                  "width": 96,
+                  "height": 36,
+                  "fill": "$I:--color-surface-sunken",
+                  "cornerRadius": 18,
+                  "layout": "none",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "ajRou",
+                      "x": 0,
+                      "y": 8,
+                      "name": "Time",
+                      "fill": "$I:--color-text-primary",
+                      "textGrowth": "fixed-width",
+                      "width": 96,
+                      "content": "8:00 AM",
+                      "textAlign": "center",
+                      "fontFamily": "$I:--font-body",
+                      "fontSize": 17,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "id": "N2fq0",
+              "x": 32,
+              "y": 452,
+              "name": "ReminderFooter",
+              "fill": "$I:--color-text-secondary",
+              "textGrowth": "fixed-width",
+              "width": 338,
+              "content": "One gentle notification a day, skipped once you’ve done that day’s lesson. It’s scheduled on this device; nothing is sent anywhere.",
+              "fontFamily": "$I:--font-body",
+              "fontSize": 13,
+              "fontWeight": "normal"
             }
           ]
         },
@@ -9737,7 +10235,7 @@
               "type": "text",
               "id": "AhzLW",
               "x": 32,
-              "y": 318,
+              "y": 516,
               "name": "SectionHead",
               "fill": "$I:--color-text-secondary",
               "content": "PRIVACY",
@@ -9749,7 +10247,7 @@
               "type": "frame",
               "id": "uWtdh",
               "x": 16,
-              "y": 340,
+              "y": 538,
               "name": "Group PRIVACY",
               "width": 370,
               "height": 104,
@@ -9805,7 +10303,7 @@
                       "fontWeight": "400"
                     },
                     "I:Woz5B": {
-                      "content": "None in v1"
+                      "content": "None"
                     },
                     "I:NqR7l": {
                       "enabled": false
@@ -9818,7 +10316,7 @@
               "type": "text",
               "id": "yVfOK",
               "x": 32,
-              "y": 452,
+              "y": 650,
               "name": "PrivacyFooter",
               "fill": "$I:--color-text-secondary",
               "textGrowth": "fixed-width",
@@ -9832,7 +10330,7 @@
               "type": "text",
               "id": "IYrwS",
               "x": 32,
-              "y": 484,
+              "y": 682,
               "name": "SectionHead",
               "fill": "$I:--color-text-secondary",
               "content": "ABOUT",
@@ -9844,7 +10342,7 @@
               "type": "frame",
               "id": "rOW6b",
               "x": 16,
-              "y": 506,
+              "y": 704,
               "name": "Group ABOUT",
               "width": 370,
               "height": 104,
@@ -9908,6 +10406,156 @@
                   }
                 }
               ]
+            },
+            {
+              "type": "text",
+              "id": "ylNan",
+              "x": 32,
+              "y": 318,
+              "name": "SectionHead",
+              "fill": "$I:--color-text-secondary",
+              "content": "REMINDER",
+              "fontFamily": "$I:--font-body",
+              "fontSize": 13,
+              "fontWeight": "600"
+            },
+            {
+              "type": "frame",
+              "id": "BecRY",
+              "x": 16,
+              "y": 340,
+              "name": "Group REMINDER",
+              "width": 370,
+              "height": 104,
+              "fill": "$I:--color-card-surface",
+              "cornerRadius": 20,
+              "stroke": "$I:--color-surface-border",
+              "strokeWidth": 1,
+              "layout": "none",
+              "children": [
+                {
+                  "id": "DBvc3",
+                  "type": "ref",
+                  "ref": "I:b6yFN",
+                  "name": "Row Daily reminder",
+                  "x": 0,
+                  "y": 0,
+                  "descendants": {
+                    "I:RYjQb": {
+                      "content": "Daily reminder",
+                      "fill": "$I:--color-text-primary",
+                      "fontWeight": "400"
+                    },
+                    "I:Woz5B": {
+                      "content": ""
+                    },
+                    "I:NqR7l": {
+                      "enabled": false
+                    }
+                  }
+                },
+                {
+                  "type": "frame",
+                  "id": "beq3m",
+                  "x": 18,
+                  "y": 51,
+                  "name": "Separator",
+                  "width": 352,
+                  "height": 1,
+                  "fill": "$I:--color-surface-border",
+                  "layout": "none"
+                },
+                {
+                  "id": "Dmt8s",
+                  "type": "ref",
+                  "ref": "I:b6yFN",
+                  "name": "Row Time",
+                  "x": 0,
+                  "y": 52,
+                  "descendants": {
+                    "I:RYjQb": {
+                      "content": "Time",
+                      "fill": "$I:--color-text-primary",
+                      "fontWeight": "400"
+                    },
+                    "I:Woz5B": {
+                      "content": ""
+                    },
+                    "I:NqR7l": {
+                      "enabled": false
+                    }
+                  }
+                },
+                {
+                  "type": "frame",
+                  "id": "Yr8yL",
+                  "x": 300,
+                  "y": 10,
+                  "name": "Toggle",
+                  "width": 52,
+                  "height": 32,
+                  "fill": "$I:--color-accent-fill",
+                  "cornerRadius": 16,
+                  "layout": "none",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "W897J",
+                      "x": 22,
+                      "y": 2,
+                      "name": "Knob",
+                      "width": 28,
+                      "height": 28,
+                      "fill": "$I:--color-on-accent",
+                      "cornerRadius": 14,
+                      "layout": "none"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "nPr7I",
+                  "x": 256,
+                  "y": 60,
+                  "name": "TimePill",
+                  "width": 96,
+                  "height": 36,
+                  "fill": "$I:--color-surface-sunken",
+                  "cornerRadius": 18,
+                  "layout": "none",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "pX0Z1",
+                      "x": 0,
+                      "y": 8,
+                      "name": "Time",
+                      "fill": "$I:--color-text-primary",
+                      "textGrowth": "fixed-width",
+                      "width": 96,
+                      "content": "8:00 AM",
+                      "textAlign": "center",
+                      "fontFamily": "$I:--font-body",
+                      "fontSize": 17,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "id": "TWMqO",
+              "x": 32,
+              "y": 452,
+              "name": "ReminderFooter",
+              "fill": "$I:--color-text-secondary",
+              "textGrowth": "fixed-width",
+              "width": 338,
+              "content": "One gentle notification a day, skipped once you’ve done that day’s lesson. It’s scheduled on this device; nothing is sent anywhere.",
+              "fontFamily": "$I:--font-body",
+              "fontSize": 13,
+              "fontWeight": "normal"
             }
           ]
         },
@@ -23928,7 +24576,7 @@
           "x": 72,
           "y": 78,
           "name": "Toolbar Progress 1",
-          "width": 47,
+          "width": 39.42857142857143,
           "height": 6,
           "fill": "$I:--color-accent-fill",
           "cornerRadius": 3,
@@ -23937,10 +24585,10 @@
         {
           "type": "frame",
           "id": "t6zyl",
-          "x": 125,
+          "x": 117.42857142857143,
           "y": 78,
           "name": "Toolbar Progress 2",
-          "width": 47,
+          "width": 39.42857142857143,
           "height": 6,
           "fill": "$I:--color-surface-sunken",
           "cornerRadius": 3,
@@ -23949,10 +24597,10 @@
         {
           "type": "frame",
           "id": "t5pJDF",
-          "x": 178,
+          "x": 162.85714285714286,
           "y": 78,
           "name": "Toolbar Progress 3",
-          "width": 47,
+          "width": 39.42857142857143,
           "height": 6,
           "fill": "$I:--color-surface-sunken",
           "cornerRadius": 3,
@@ -23961,10 +24609,10 @@
         {
           "type": "frame",
           "id": "jKXzf",
-          "x": 231,
+          "x": 208.28571428571428,
           "y": 78,
           "name": "Toolbar Progress 4",
-          "width": 47,
+          "width": 39.42857142857143,
           "height": 6,
           "fill": "$I:--color-surface-sunken",
           "cornerRadius": 3,
@@ -23973,10 +24621,10 @@
         {
           "type": "frame",
           "id": "QE53O",
-          "x": 284,
+          "x": 253.71428571428572,
           "y": 78,
           "name": "Toolbar Progress 5",
-          "width": 47,
+          "width": 39.42857142857143,
           "height": 6,
           "fill": "$I:--color-surface-sunken",
           "cornerRadius": 3,
@@ -23985,10 +24633,10 @@
         {
           "type": "frame",
           "id": "SkSnE",
-          "x": 337,
+          "x": 299.14285714285717,
           "y": 78,
           "name": "Toolbar Progress 6",
-          "width": 47,
+          "width": 39.42857142857143,
           "height": 6,
           "fill": "$I:--color-surface-sunken",
           "cornerRadius": 3,
@@ -24022,6 +24670,18 @@
           "name": "HomeIndicator",
           "x": 131,
           "y": 861
+        },
+        {
+          "type": "frame",
+          "id": "hYB1l",
+          "x": 344.57142857142856,
+          "y": 78,
+          "name": "Toolbar Progress 7",
+          "width": 39.42857142857143,
+          "height": 6,
+          "fill": "$I:--color-surface-sunken",
+          "cornerRadius": 3,
+          "layout": "none"
         }
       ]
     },
@@ -24266,7 +24926,7 @@
           "x": 72,
           "y": 78,
           "name": "Toolbar Progress 1",
-          "width": 47,
+          "width": 39.42857142857143,
           "height": 6,
           "fill": "$I:--color-accent-fill",
           "cornerRadius": 3,
@@ -24275,10 +24935,10 @@
         {
           "type": "frame",
           "id": "R5yi4p",
-          "x": 125,
+          "x": 117.42857142857143,
           "y": 78,
           "name": "Toolbar Progress 2",
-          "width": 47,
+          "width": 39.42857142857143,
           "height": 6,
           "fill": "$I:--color-surface-sunken",
           "cornerRadius": 3,
@@ -24287,10 +24947,10 @@
         {
           "type": "frame",
           "id": "HJVP0",
-          "x": 178,
+          "x": 162.85714285714286,
           "y": 78,
           "name": "Toolbar Progress 3",
-          "width": 47,
+          "width": 39.42857142857143,
           "height": 6,
           "fill": "$I:--color-surface-sunken",
           "cornerRadius": 3,
@@ -24299,10 +24959,10 @@
         {
           "type": "frame",
           "id": "OnY7k",
-          "x": 231,
+          "x": 208.28571428571428,
           "y": 78,
           "name": "Toolbar Progress 4",
-          "width": 47,
+          "width": 39.42857142857143,
           "height": 6,
           "fill": "$I:--color-surface-sunken",
           "cornerRadius": 3,
@@ -24311,10 +24971,10 @@
         {
           "type": "frame",
           "id": "lkOME",
-          "x": 284,
+          "x": 253.71428571428572,
           "y": 78,
           "name": "Toolbar Progress 5",
-          "width": 47,
+          "width": 39.42857142857143,
           "height": 6,
           "fill": "$I:--color-surface-sunken",
           "cornerRadius": 3,
@@ -24323,10 +24983,10 @@
         {
           "type": "frame",
           "id": "QxRa2",
-          "x": 337,
+          "x": 299.14285714285717,
           "y": 78,
           "name": "Toolbar Progress 6",
-          "width": 47,
+          "width": 39.42857142857143,
           "height": 6,
           "fill": "$I:--color-surface-sunken",
           "cornerRadius": 3,
@@ -24360,6 +25020,18 @@
           "name": "HomeIndicator",
           "x": 131,
           "y": 861
+        },
+        {
+          "type": "frame",
+          "id": "meg6t",
+          "x": 344.57142857142856,
+          "y": 78,
+          "name": "Toolbar Progress 7",
+          "width": 39.42857142857143,
+          "height": 6,
+          "fill": "$I:--color-surface-sunken",
+          "cornerRadius": 3,
+          "layout": "none"
         }
       ]
     },
@@ -24605,7 +25277,7 @@
           "x": 72,
           "y": 78,
           "name": "Toolbar Progress 1",
-          "width": 47,
+          "width": 39.42857142857143,
           "height": 6,
           "fill": "$I:--color-accent-fill",
           "cornerRadius": 3,
@@ -24614,10 +25286,10 @@
         {
           "type": "frame",
           "id": "W5s54J",
-          "x": 125,
+          "x": 117.42857142857143,
           "y": 78,
           "name": "Toolbar Progress 2",
-          "width": 47,
+          "width": 39.42857142857143,
           "height": 6,
           "fill": "$I:--color-accent-fill",
           "cornerRadius": 3,
@@ -24626,10 +25298,10 @@
         {
           "type": "frame",
           "id": "c6bNeF",
-          "x": 178,
+          "x": 162.85714285714286,
           "y": 78,
           "name": "Toolbar Progress 3",
-          "width": 47,
+          "width": 39.42857142857143,
           "height": 6,
           "fill": "$I:--color-surface-sunken",
           "cornerRadius": 3,
@@ -24638,10 +25310,10 @@
         {
           "type": "frame",
           "id": "ihSwe",
-          "x": 231,
+          "x": 208.28571428571428,
           "y": 78,
           "name": "Toolbar Progress 4",
-          "width": 47,
+          "width": 39.42857142857143,
           "height": 6,
           "fill": "$I:--color-surface-sunken",
           "cornerRadius": 3,
@@ -24650,10 +25322,10 @@
         {
           "type": "frame",
           "id": "XMjHB",
-          "x": 284,
+          "x": 253.71428571428572,
           "y": 78,
           "name": "Toolbar Progress 5",
-          "width": 47,
+          "width": 39.42857142857143,
           "height": 6,
           "fill": "$I:--color-surface-sunken",
           "cornerRadius": 3,
@@ -24662,10 +25334,10 @@
         {
           "type": "frame",
           "id": "dcqSr",
-          "x": 337,
+          "x": 299.14285714285717,
           "y": 78,
           "name": "Toolbar Progress 6",
-          "width": 47,
+          "width": 39.42857142857143,
           "height": 6,
           "fill": "$I:--color-surface-sunken",
           "cornerRadius": 3,
@@ -24712,6 +25384,18 @@
           "name": "HomeIndicator",
           "x": 131,
           "y": 861
+        },
+        {
+          "type": "frame",
+          "id": "aDy5T",
+          "x": 344.57142857142856,
+          "y": 78,
+          "name": "Toolbar Progress 7",
+          "width": 39.42857142857143,
+          "height": 6,
+          "fill": "$I:--color-surface-sunken",
+          "cornerRadius": 3,
+          "layout": "none"
         }
       ]
     },
@@ -24957,7 +25641,7 @@
           "x": 72,
           "y": 78,
           "name": "Toolbar Progress 1",
-          "width": 47,
+          "width": 39.42857142857143,
           "height": 6,
           "fill": "$I:--color-accent-fill",
           "cornerRadius": 3,
@@ -24966,10 +25650,10 @@
         {
           "type": "frame",
           "id": "IHapV",
-          "x": 125,
+          "x": 117.42857142857143,
           "y": 78,
           "name": "Toolbar Progress 2",
-          "width": 47,
+          "width": 39.42857142857143,
           "height": 6,
           "fill": "$I:--color-accent-fill",
           "cornerRadius": 3,
@@ -24978,10 +25662,10 @@
         {
           "type": "frame",
           "id": "dX3L6",
-          "x": 178,
+          "x": 162.85714285714286,
           "y": 78,
           "name": "Toolbar Progress 3",
-          "width": 47,
+          "width": 39.42857142857143,
           "height": 6,
           "fill": "$I:--color-surface-sunken",
           "cornerRadius": 3,
@@ -24990,10 +25674,10 @@
         {
           "type": "frame",
           "id": "BWJ1A",
-          "x": 231,
+          "x": 208.28571428571428,
           "y": 78,
           "name": "Toolbar Progress 4",
-          "width": 47,
+          "width": 39.42857142857143,
           "height": 6,
           "fill": "$I:--color-surface-sunken",
           "cornerRadius": 3,
@@ -25002,10 +25686,10 @@
         {
           "type": "frame",
           "id": "Jk0eR",
-          "x": 284,
+          "x": 253.71428571428572,
           "y": 78,
           "name": "Toolbar Progress 5",
-          "width": 47,
+          "width": 39.42857142857143,
           "height": 6,
           "fill": "$I:--color-surface-sunken",
           "cornerRadius": 3,
@@ -25014,10 +25698,10 @@
         {
           "type": "frame",
           "id": "yePV5",
-          "x": 337,
+          "x": 299.14285714285717,
           "y": 78,
           "name": "Toolbar Progress 6",
-          "width": 47,
+          "width": 39.42857142857143,
           "height": 6,
           "fill": "$I:--color-surface-sunken",
           "cornerRadius": 3,
@@ -25064,6 +25748,18 @@
           "name": "HomeIndicator",
           "x": 131,
           "y": 861
+        },
+        {
+          "type": "frame",
+          "id": "JLq7i",
+          "x": 344.57142857142856,
+          "y": 78,
+          "name": "Toolbar Progress 7",
+          "width": 39.42857142857143,
+          "height": 6,
+          "fill": "$I:--color-surface-sunken",
+          "cornerRadius": 3,
+          "layout": "none"
         }
       ]
     },
@@ -25298,7 +25994,7 @@
           "x": 72,
           "y": 78,
           "name": "Toolbar Progress 1",
-          "width": 47,
+          "width": 39.42857142857143,
           "height": 6,
           "fill": "$I:--color-accent-fill",
           "cornerRadius": 3,
@@ -25307,10 +26003,10 @@
         {
           "type": "frame",
           "id": "s2RkAY",
-          "x": 125,
+          "x": 117.42857142857143,
           "y": 78,
           "name": "Toolbar Progress 2",
-          "width": 47,
+          "width": 39.42857142857143,
           "height": 6,
           "fill": "$I:--color-accent-fill",
           "cornerRadius": 3,
@@ -25319,10 +26015,10 @@
         {
           "type": "frame",
           "id": "VbDnq",
-          "x": 178,
+          "x": 162.85714285714286,
           "y": 78,
           "name": "Toolbar Progress 3",
-          "width": 47,
+          "width": 39.42857142857143,
           "height": 6,
           "fill": "$I:--color-accent-fill",
           "cornerRadius": 3,
@@ -25331,10 +26027,10 @@
         {
           "type": "frame",
           "id": "XJWKb",
-          "x": 231,
+          "x": 208.28571428571428,
           "y": 78,
           "name": "Toolbar Progress 4",
-          "width": 47,
+          "width": 39.42857142857143,
           "height": 6,
           "fill": "$I:--color-surface-sunken",
           "cornerRadius": 3,
@@ -25343,10 +26039,10 @@
         {
           "type": "frame",
           "id": "DhglG",
-          "x": 284,
+          "x": 253.71428571428572,
           "y": 78,
           "name": "Toolbar Progress 5",
-          "width": 47,
+          "width": 39.42857142857143,
           "height": 6,
           "fill": "$I:--color-surface-sunken",
           "cornerRadius": 3,
@@ -25355,10 +26051,10 @@
         {
           "type": "frame",
           "id": "MpAOj",
-          "x": 337,
+          "x": 299.14285714285717,
           "y": 78,
           "name": "Toolbar Progress 6",
-          "width": 47,
+          "width": 39.42857142857143,
           "height": 6,
           "fill": "$I:--color-surface-sunken",
           "cornerRadius": 3,
@@ -25405,6 +26101,18 @@
           "name": "HomeIndicator",
           "x": 131,
           "y": 861
+        },
+        {
+          "type": "frame",
+          "id": "I2TIXx",
+          "x": 344.57142857142856,
+          "y": 78,
+          "name": "Toolbar Progress 7",
+          "width": 39.42857142857143,
+          "height": 6,
+          "fill": "$I:--color-surface-sunken",
+          "cornerRadius": 3,
+          "layout": "none"
         }
       ]
     },
@@ -25639,7 +26347,7 @@
           "x": 72,
           "y": 78,
           "name": "Toolbar Progress 1",
-          "width": 47,
+          "width": 39.42857142857143,
           "height": 6,
           "fill": "$I:--color-accent-fill",
           "cornerRadius": 3,
@@ -25648,10 +26356,10 @@
         {
           "type": "frame",
           "id": "xEKS6",
-          "x": 125,
+          "x": 117.42857142857143,
           "y": 78,
           "name": "Toolbar Progress 2",
-          "width": 47,
+          "width": 39.42857142857143,
           "height": 6,
           "fill": "$I:--color-accent-fill",
           "cornerRadius": 3,
@@ -25660,10 +26368,10 @@
         {
           "type": "frame",
           "id": "q9qA3",
-          "x": 178,
+          "x": 162.85714285714286,
           "y": 78,
           "name": "Toolbar Progress 3",
-          "width": 47,
+          "width": 39.42857142857143,
           "height": 6,
           "fill": "$I:--color-accent-fill",
           "cornerRadius": 3,
@@ -25672,10 +26380,10 @@
         {
           "type": "frame",
           "id": "hLTB7",
-          "x": 231,
+          "x": 208.28571428571428,
           "y": 78,
           "name": "Toolbar Progress 4",
-          "width": 47,
+          "width": 39.42857142857143,
           "height": 6,
           "fill": "$I:--color-surface-sunken",
           "cornerRadius": 3,
@@ -25684,10 +26392,10 @@
         {
           "type": "frame",
           "id": "QyAs9",
-          "x": 284,
+          "x": 253.71428571428572,
           "y": 78,
           "name": "Toolbar Progress 5",
-          "width": 47,
+          "width": 39.42857142857143,
           "height": 6,
           "fill": "$I:--color-surface-sunken",
           "cornerRadius": 3,
@@ -25696,10 +26404,10 @@
         {
           "type": "frame",
           "id": "eVn5R",
-          "x": 337,
+          "x": 299.14285714285717,
           "y": 78,
           "name": "Toolbar Progress 6",
-          "width": 47,
+          "width": 39.42857142857143,
           "height": 6,
           "fill": "$I:--color-surface-sunken",
           "cornerRadius": 3,
@@ -25746,6 +26454,18 @@
           "name": "HomeIndicator",
           "x": 131,
           "y": 861
+        },
+        {
+          "type": "frame",
+          "id": "Bd2JN",
+          "x": 344.57142857142856,
+          "y": 78,
+          "name": "Toolbar Progress 7",
+          "width": 39.42857142857143,
+          "height": 6,
+          "fill": "$I:--color-surface-sunken",
+          "cornerRadius": 3,
+          "layout": "none"
         }
       ]
     },
@@ -26026,7 +26746,7 @@
           "x": 72,
           "y": 78,
           "name": "Toolbar Progress 1",
-          "width": 47,
+          "width": 39.42857142857143,
           "height": 6,
           "fill": "$I:--color-accent-fill",
           "cornerRadius": 3,
@@ -26035,10 +26755,10 @@
         {
           "type": "frame",
           "id": "AKB9u",
-          "x": 125,
+          "x": 117.42857142857143,
           "y": 78,
           "name": "Toolbar Progress 2",
-          "width": 47,
+          "width": 39.42857142857143,
           "height": 6,
           "fill": "$I:--color-accent-fill",
           "cornerRadius": 3,
@@ -26047,10 +26767,10 @@
         {
           "type": "frame",
           "id": "MKAH4",
-          "x": 178,
+          "x": 162.85714285714286,
           "y": 78,
           "name": "Toolbar Progress 3",
-          "width": 47,
+          "width": 39.42857142857143,
           "height": 6,
           "fill": "$I:--color-accent-fill",
           "cornerRadius": 3,
@@ -26059,10 +26779,10 @@
         {
           "type": "frame",
           "id": "zskv2",
-          "x": 231,
+          "x": 208.28571428571428,
           "y": 78,
           "name": "Toolbar Progress 4",
-          "width": 47,
+          "width": 39.42857142857143,
           "height": 6,
           "fill": "$I:--color-accent-fill",
           "cornerRadius": 3,
@@ -26071,10 +26791,10 @@
         {
           "type": "frame",
           "id": "WDovc",
-          "x": 284,
+          "x": 253.71428571428572,
           "y": 78,
           "name": "Toolbar Progress 5",
-          "width": 47,
+          "width": 39.42857142857143,
           "height": 6,
           "fill": "$I:--color-surface-sunken",
           "cornerRadius": 3,
@@ -26083,10 +26803,10 @@
         {
           "type": "frame",
           "id": "V14jvb",
-          "x": 337,
+          "x": 299.14285714285717,
           "y": 78,
           "name": "Toolbar Progress 6",
-          "width": 47,
+          "width": 39.42857142857143,
           "height": 6,
           "fill": "$I:--color-surface-sunken",
           "cornerRadius": 3,
@@ -26133,6 +26853,18 @@
           "name": "HomeIndicator",
           "x": 131,
           "y": 861
+        },
+        {
+          "type": "frame",
+          "id": "X6UIli",
+          "x": 344.57142857142856,
+          "y": 78,
+          "name": "Toolbar Progress 7",
+          "width": 39.42857142857143,
+          "height": 6,
+          "fill": "$I:--color-surface-sunken",
+          "cornerRadius": 3,
+          "layout": "none"
         }
       ]
     },
@@ -26413,7 +27145,7 @@
           "x": 72,
           "y": 78,
           "name": "Toolbar Progress 1",
-          "width": 47,
+          "width": 39.42857142857143,
           "height": 6,
           "fill": "$I:--color-accent-fill",
           "cornerRadius": 3,
@@ -26422,10 +27154,10 @@
         {
           "type": "frame",
           "id": "WS5qf",
-          "x": 125,
+          "x": 117.42857142857143,
           "y": 78,
           "name": "Toolbar Progress 2",
-          "width": 47,
+          "width": 39.42857142857143,
           "height": 6,
           "fill": "$I:--color-accent-fill",
           "cornerRadius": 3,
@@ -26434,10 +27166,10 @@
         {
           "type": "frame",
           "id": "aW2AQ",
-          "x": 178,
+          "x": 162.85714285714286,
           "y": 78,
           "name": "Toolbar Progress 3",
-          "width": 47,
+          "width": 39.42857142857143,
           "height": 6,
           "fill": "$I:--color-accent-fill",
           "cornerRadius": 3,
@@ -26446,10 +27178,10 @@
         {
           "type": "frame",
           "id": "YEv5l",
-          "x": 231,
+          "x": 208.28571428571428,
           "y": 78,
           "name": "Toolbar Progress 4",
-          "width": 47,
+          "width": 39.42857142857143,
           "height": 6,
           "fill": "$I:--color-accent-fill",
           "cornerRadius": 3,
@@ -26458,10 +27190,10 @@
         {
           "type": "frame",
           "id": "rLxZ0",
-          "x": 284,
+          "x": 253.71428571428572,
           "y": 78,
           "name": "Toolbar Progress 5",
-          "width": 47,
+          "width": 39.42857142857143,
           "height": 6,
           "fill": "$I:--color-surface-sunken",
           "cornerRadius": 3,
@@ -26470,10 +27202,10 @@
         {
           "type": "frame",
           "id": "x6P9c",
-          "x": 337,
+          "x": 299.14285714285717,
           "y": 78,
           "name": "Toolbar Progress 6",
-          "width": 47,
+          "width": 39.42857142857143,
           "height": 6,
           "fill": "$I:--color-surface-sunken",
           "cornerRadius": 3,
@@ -26520,6 +27252,18 @@
           "name": "HomeIndicator",
           "x": 131,
           "y": 861
+        },
+        {
+          "type": "frame",
+          "id": "h1GEzt",
+          "x": 344.57142857142856,
+          "y": 78,
+          "name": "Toolbar Progress 7",
+          "width": 39.42857142857143,
+          "height": 6,
+          "fill": "$I:--color-surface-sunken",
+          "cornerRadius": 3,
+          "layout": "none"
         }
       ]
     },
@@ -29486,7 +30230,7 @@
                   "fill": "$I:--color-text-secondary",
                   "textGrowth": "fixed-width",
                   "width": 316,
-                  "content": "Premium unlocks: full learning paths, streak freezes, companion outfits, widgets & reminders",
+                  "content": "Premium unlocks: 38 Premium lessons in 2 paths (Peace & Prayer: 14 Days; Meet Jesus: Mark in 30 Days), streak freezes",
                   "fontFamily": "$I:--font-body",
                   "fontSize": 13,
                   "fontWeight": "normal"
@@ -30055,7 +30799,7 @@
                   "fill": "$I:--color-text-secondary",
                   "textGrowth": "fixed-width",
                   "width": 316,
-                  "content": "Premium unlocks: full learning paths, streak freezes, companion outfits, widgets & reminders",
+                  "content": "Premium unlocks: 38 Premium lessons in 2 paths (Peace & Prayer: 14 Days; Meet Jesus: Mark in 30 Days), streak freezes",
                   "fontFamily": "$I:--font-body",
                   "fontSize": 13,
                   "fontWeight": "normal"
@@ -30624,7 +31368,7 @@
                   "fill": "$I:--color-text-secondary",
                   "textGrowth": "fixed-width",
                   "width": 316,
-                  "content": "Premium unlocks: full learning paths, streak freezes, companion outfits, widgets & reminders",
+                  "content": "Premium unlocks: 38 Premium lessons in 2 paths (Peace & Prayer: 14 Days; Meet Jesus: Mark in 30 Days), streak freezes",
                   "fontFamily": "$I:--font-body",
                   "fontSize": 13,
                   "fontWeight": "normal"
@@ -31307,7 +32051,7 @@
                   "fill": "$I:--color-text-secondary",
                   "textGrowth": "fixed-width",
                   "width": 316,
-                  "content": "Premium unlocks: full learning paths, streak freezes, companion outfits, widgets & reminders",
+                  "content": "Premium unlocks: 38 Premium lessons in 2 paths (Peace & Prayer: 14 Days; Meet Jesus: Mark in 30 Days), streak freezes",
                   "fontFamily": "$I:--font-body",
                   "fontSize": 13,
                   "fontWeight": "normal"
@@ -31990,7 +32734,7 @@
                   "fill": "$I:--color-text-secondary",
                   "textGrowth": "fixed-width",
                   "width": 316,
-                  "content": "Premium unlocks: full learning paths, streak freezes, companion outfits, widgets & reminders",
+                  "content": "Premium unlocks: 38 Premium lessons in 2 paths (Peace & Prayer: 14 Days; Meet Jesus: Mark in 30 Days), streak freezes",
                   "fontFamily": "$I:--font-body",
                   "fontSize": 13,
                   "fontWeight": "normal"
@@ -32695,7 +33439,7 @@
                   "fill": "$I:--color-text-secondary",
                   "textGrowth": "fixed-width",
                   "width": 316,
-                  "content": "Premium unlocks: full learning paths, streak freezes, companion outfits, widgets & reminders",
+                  "content": "Premium unlocks: 38 Premium lessons in 2 paths (Peace & Prayer: 14 Days; Meet Jesus: Mark in 30 Days), streak freezes",
                   "fontFamily": "$I:--font-body",
                   "fontSize": 13,
                   "fontWeight": "normal"
@@ -33400,7 +34144,7 @@
                   "fill": "$I:--color-text-secondary",
                   "textGrowth": "fixed-width",
                   "width": 316,
-                  "content": "Premium unlocks: full learning paths, streak freezes, companion outfits, widgets & reminders",
+                  "content": "Premium unlocks: 38 Premium lessons in 2 paths (Peace & Prayer: 14 Days; Meet Jesus: Mark in 30 Days), streak freezes",
                   "fontFamily": "$I:--font-body",
                   "fontSize": 13,
                   "fontWeight": "normal"
@@ -33753,7 +34497,7 @@
               "fill": "$I:--color-text-primary",
               "textGrowth": "fixed-width",
               "width": 280,
-              "content": "Purchase didn't go through",
+              "content": "Purchase didn’t go through",
               "textAlign": "center",
               "fontFamily": "$I:--font-body",
               "fontSize": 20,
@@ -33768,7 +34512,7 @@
               "fill": "$I:--color-text-secondary",
               "textGrowth": "fixed-width",
               "width": 280,
-              "content": "You haven't been charged.",
+              "content": "You haven’t been charged.",
               "textAlign": "center",
               "fontFamily": "$I:--font-body",
               "fontSize": 15,
@@ -34119,7 +34863,7 @@
                   "fill": "$I:--color-text-secondary",
                   "textGrowth": "fixed-width",
                   "width": 316,
-                  "content": "Premium unlocks: full learning paths, streak freezes, companion outfits, widgets & reminders",
+                  "content": "Premium unlocks: 38 Premium lessons in 2 paths (Peace & Prayer: 14 Days; Meet Jesus: Mark in 30 Days), streak freezes",
                   "fontFamily": "$I:--font-body",
                   "fontSize": 13,
                   "fontWeight": "normal"
@@ -34472,7 +35216,7 @@
               "fill": "$I:--color-text-primary",
               "textGrowth": "fixed-width",
               "width": 280,
-              "content": "Purchase didn't go through",
+              "content": "Purchase didn’t go through",
               "textAlign": "center",
               "fontFamily": "$I:--font-body",
               "fontSize": 20,
@@ -34487,7 +35231,7 @@
               "fill": "$I:--color-text-secondary",
               "textGrowth": "fixed-width",
               "width": 280,
-              "content": "You haven't been charged.",
+              "content": "You haven’t been charged.",
               "textAlign": "center",
               "fontFamily": "$I:--font-body",
               "fontSize": 15,
@@ -34838,7 +35582,7 @@
                   "fill": "$I:--color-text-secondary",
                   "textGrowth": "fixed-width",
                   "width": 316,
-                  "content": "Premium unlocks: full learning paths, streak freezes, companion outfits, widgets & reminders",
+                  "content": "Premium unlocks: 38 Premium lessons in 2 paths (Peace & Prayer: 14 Days; Meet Jesus: Mark in 30 Days), streak freezes",
                   "fontFamily": "$I:--font-body",
                   "fontSize": 13,
                   "fontWeight": "normal"
@@ -35614,7 +36358,7 @@
                   "fill": "$I:--color-text-secondary",
                   "textGrowth": "fixed-width",
                   "width": 316,
-                  "content": "Premium unlocks: full learning paths, streak freezes, companion outfits, widgets & reminders",
+                  "content": "Premium unlocks: 38 Premium lessons in 2 paths (Peace & Prayer: 14 Days; Meet Jesus: Mark in 30 Days), streak freezes",
                   "fontFamily": "$I:--font-body",
                   "fontSize": 13,
                   "fontWeight": "normal"
@@ -38094,7 +38838,7 @@
               "fill": "$I:--color-error",
               "textGrowth": "fixed-width",
               "width": "fill_container",
-              "content": "Keep going! You're learning.",
+              "content": "Keep going! You’re learning.",
               "lineHeight": 1.15,
               "fontFamily": "$I:--font-body",
               "fontSize": 44,
@@ -38597,7 +39341,7 @@
               "fill": "$I:--color-error",
               "textGrowth": "fixed-width",
               "width": "fill_container",
-              "content": "Keep going! You're learning.",
+              "content": "Keep going! You’re learning.",
               "lineHeight": 1.15,
               "fontFamily": "$I:--font-body",
               "fontSize": 44,
@@ -43024,6 +43768,834 @@
           "fontFamily": "$I:--font-body",
           "fontSize": 15,
           "fontWeight": "normal"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "qauyd",
+      "x": 9200,
+      "y": 2000,
+      "name": "Onboarding_Reminder_Light",
+      "theme": {
+        "I:mode": "light"
+      },
+      "clip": true,
+      "width": 402,
+      "height": 874,
+      "fill": "$I:--color-canvas-bg",
+      "layout": "none",
+      "children": [
+        {
+          "type": "frame",
+          "id": "am4X4",
+          "x": 0,
+          "y": 0,
+          "name": "ScrollContent",
+          "width": 402,
+          "height": 874,
+          "layout": "none",
+          "children": [
+            {
+              "type": "frame",
+              "id": "iimoI",
+              "x": 0,
+              "y": 0,
+              "name": "Backdrop",
+              "width": 402,
+              "height": 460,
+              "fill": {
+                "type": "gradient",
+                "gradientType": "linear",
+                "enabled": true,
+                "rotation": 180,
+                "size": {
+                  "height": 1
+                },
+                "colors": [
+                  {
+                    "color": "$I:--color-meadow-sky",
+                    "position": 0
+                  },
+                  {
+                    "color": "$I:--color-canvas-clear",
+                    "position": 1
+                  }
+                ]
+              },
+              "layout": "none"
+            },
+            {
+              "type": "path",
+              "id": "Rozi2",
+              "x": 41,
+              "y": 300,
+              "name": "HillVignette",
+              "geometry": "M0 70c40-50 110-64 160-64 50 0 120 14 160 64z",
+              "viewBox": [
+                0,
+                0,
+                320,
+                70
+              ],
+              "fill": {
+                "type": "gradient",
+                "gradientType": "linear",
+                "enabled": true,
+                "rotation": 180,
+                "size": {
+                  "height": 1
+                },
+                "colors": [
+                  {
+                    "color": "$I:--color-meadow-hill-near",
+                    "position": 0
+                  },
+                  {
+                    "color": "$I:--color-meadow-hill-mid",
+                    "position": 1
+                  }
+                ]
+              },
+              "width": 320,
+              "height": 70
+            },
+            {
+              "type": "text",
+              "id": "fE6Jv",
+              "x": 20,
+              "y": 384,
+              "name": "Title",
+              "fill": "$I:--color-text-primary",
+              "textGrowth": "fixed-width",
+              "width": 362,
+              "content": "Want a gentle daily reminder?",
+              "textAlign": "center",
+              "fontFamily": "$I:--font-display",
+              "fontSize": 28,
+              "fontWeight": "700"
+            },
+            {
+              "type": "frame",
+              "id": "V8Box",
+              "x": 16,
+              "y": 526,
+              "name": "TimeRow",
+              "width": 370,
+              "height": 56,
+              "fill": "$I:--color-card-surface",
+              "cornerRadius": 16,
+              "stroke": "$I:--color-surface-border",
+              "strokeWidth": 1,
+              "strokeAlignment": "inner",
+              "layout": "none",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "uPSzP",
+                  "x": 18,
+                  "y": 17,
+                  "name": "FieldValue",
+                  "fill": "$I:--color-text-primary",
+                  "content": "Remind me at",
+                  "fontFamily": "$I:--font-body",
+                  "fontSize": 17,
+                  "fontWeight": "500"
+                },
+                {
+                  "type": "frame",
+                  "id": "XUCcP",
+                  "x": 256,
+                  "y": 10,
+                  "name": "TimePill",
+                  "width": 104,
+                  "height": 36,
+                  "fill": "$I:--color-surface-sunken",
+                  "cornerRadius": 18,
+                  "layout": "none",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "wj8Wu",
+                      "x": 0,
+                      "y": 8,
+                      "name": "Time",
+                      "fill": "$I:--color-text-primary",
+                      "textGrowth": "fixed-width",
+                      "width": 104,
+                      "content": "8:00 AM",
+                      "textAlign": "center",
+                      "fontFamily": "$I:--font-body",
+                      "fontSize": 17,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "id": "ES969",
+              "x": 20,
+              "y": 462,
+              "name": "Hint",
+              "fill": "$I:--color-text-secondary",
+              "textGrowth": "fixed-width",
+              "width": 362,
+              "content": "One quiet nudge a day, at a time you choose. Change it or turn it off in Settings.",
+              "textAlign": "center",
+              "fontFamily": "$I:--font-body",
+              "fontSize": 15,
+              "fontWeight": "normal"
+            },
+            {
+              "id": "mThct",
+              "type": "ref",
+              "ref": "I:iymQ6",
+              "name": "Lamb S1_Sleepy",
+              "x": 64.64,
+              "y": 133.46,
+              "width": 288.73,
+              "height": 190.97,
+              "descendants": {
+                "I:mClYy": {
+                  "width": 288.73,
+                  "height": 190.97
+                },
+                "I:UnQ3m": {
+                  "width": 288.73,
+                  "height": 190.97
+                },
+                "I:eGN5e": {
+                  "width": 288.73,
+                  "height": 190.97
+                },
+                "I:WgzHv": {
+                  "width": 288.73,
+                  "height": 190.97
+                },
+                "I:eaQxc": {
+                  "width": 288.73,
+                  "height": 190.97
+                },
+                "I:BrgpU": {
+                  "width": 288.73,
+                  "height": 190.97
+                },
+                "I:JUIXg": {
+                  "width": 288.73,
+                  "height": 190.97
+                },
+                "I:R6ONkJ": {
+                  "width": 288.73,
+                  "height": 190.97
+                },
+                "I:ewyZD": {
+                  "width": 288.73,
+                  "height": 190.97
+                },
+                "I:gHUy8": {
+                  "width": 288.73,
+                  "height": 190.97
+                },
+                "I:EuaPJ": {
+                  "width": 288.73,
+                  "height": 190.97
+                },
+                "I:HfGvE": {
+                  "width": 288.73,
+                  "height": 190.97
+                },
+                "I:BVGhh": {
+                  "width": 288.73,
+                  "height": 190.97
+                },
+                "I:kYqsR": {
+                  "width": 288.73,
+                  "height": 190.97
+                },
+                "I:MIliB": {
+                  "width": 288.73,
+                  "height": 190.97
+                },
+                "I:vEIne": {
+                  "width": 288.73,
+                  "height": 190.97
+                },
+                "I:kTgPf": {
+                  "width": 288.73,
+                  "height": 190.97
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "Jv2ss",
+          "x": 72,
+          "y": 78,
+          "name": "Toolbar Progress 1",
+          "width": 39.42857142857143,
+          "height": 6,
+          "fill": "$I:--color-accent-fill",
+          "cornerRadius": 3,
+          "layout": "none"
+        },
+        {
+          "type": "frame",
+          "id": "QkBzO",
+          "x": 117.42857142857143,
+          "y": 78,
+          "name": "Toolbar Progress 2",
+          "width": 39.42857142857143,
+          "height": 6,
+          "fill": "$I:--color-accent-fill",
+          "cornerRadius": 3,
+          "layout": "none"
+        },
+        {
+          "type": "frame",
+          "id": "qFeuv",
+          "x": 162.85714285714286,
+          "y": 78,
+          "name": "Toolbar Progress 3",
+          "width": 39.42857142857143,
+          "height": 6,
+          "fill": "$I:--color-accent-fill",
+          "cornerRadius": 3,
+          "layout": "none"
+        },
+        {
+          "type": "frame",
+          "id": "RFMR1",
+          "x": 208.28571428571428,
+          "y": 78,
+          "name": "Toolbar Progress 4",
+          "width": 39.42857142857143,
+          "height": 6,
+          "fill": "$I:--color-accent-fill",
+          "cornerRadius": 3,
+          "layout": "none"
+        },
+        {
+          "type": "frame",
+          "id": "n7Y2Z",
+          "x": 253.71428571428572,
+          "y": 78,
+          "name": "Toolbar Progress 5",
+          "width": 39.42857142857143,
+          "height": 6,
+          "fill": "$I:--color-accent-fill",
+          "cornerRadius": 3,
+          "layout": "none"
+        },
+        {
+          "type": "frame",
+          "id": "OqCNl",
+          "x": 299.14285714285717,
+          "y": 78,
+          "name": "Toolbar Progress 6",
+          "width": 39.42857142857143,
+          "height": 6,
+          "fill": "$I:--color-accent-fill",
+          "cornerRadius": 3,
+          "layout": "none"
+        },
+        {
+          "id": "X7W6f",
+          "type": "ref",
+          "ref": "I:ZBDV1",
+          "name": "Toolbar chevron-left",
+          "x": 16,
+          "y": 58,
+          "descendants": {
+            "I:z4feM4": {
+              "icon": "chevron-left"
+            }
+          }
+        },
+        {
+          "id": "U8HUNU",
+          "type": "ref",
+          "ref": "I:rDKcx",
+          "name": "Toolbar Remind me",
+          "x": 16,
+          "y": 726,
+          "descendants": {
+            "I:HpELt": {
+              "content": "Remind me"
+            }
+          }
+        },
+        {
+          "id": "PAmGR",
+          "type": "ref",
+          "ref": "I:h3gTX",
+          "name": "StatusBar",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "id": "syavn",
+          "type": "ref",
+          "ref": "I:W5z9z",
+          "name": "HomeIndicator",
+          "x": 131,
+          "y": 861
+        },
+        {
+          "type": "frame",
+          "id": "EMDrA",
+          "x": 344.57142857142856,
+          "y": 78,
+          "name": "Toolbar Progress 7",
+          "width": 39.42857142857143,
+          "height": 6,
+          "fill": "$I:--color-surface-sunken",
+          "cornerRadius": 3,
+          "layout": "none"
+        },
+        {
+          "type": "frame",
+          "id": "MPm20",
+          "x": 344.57142857142856,
+          "y": 78,
+          "name": "Toolbar Progress 7",
+          "width": 39.42857142857143,
+          "height": 6,
+          "fill": "$I:--color-surface-sunken",
+          "cornerRadius": 3,
+          "layout": "none"
+        },
+        {
+          "id": "tHsVZ",
+          "type": "ref",
+          "ref": "I:S3aG4",
+          "name": "Not now",
+          "x": 16,
+          "y": 790,
+          "descendants": {
+            "I:M1afec": {
+              "content": "Not now",
+              "fill": "$I:--color-text-secondary",
+              "fontWeight": "500"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "VXghm",
+      "x": 9200,
+      "y": 2960,
+      "name": "Onboarding_Reminder_Dark",
+      "theme": {
+        "I:mode": "dark"
+      },
+      "clip": true,
+      "width": 402,
+      "height": 874,
+      "fill": "$I:--color-canvas-bg",
+      "layout": "none",
+      "children": [
+        {
+          "type": "frame",
+          "id": "u26mt2",
+          "x": 0,
+          "y": 0,
+          "name": "ScrollContent",
+          "width": 402,
+          "height": 874,
+          "layout": "none",
+          "children": [
+            {
+              "type": "frame",
+              "id": "xWrCk",
+              "x": 0,
+              "y": 0,
+              "name": "Backdrop",
+              "width": 402,
+              "height": 460,
+              "fill": {
+                "type": "gradient",
+                "gradientType": "linear",
+                "enabled": true,
+                "rotation": 180,
+                "size": {
+                  "height": 1
+                },
+                "colors": [
+                  {
+                    "color": "$I:--color-meadow-sky",
+                    "position": 0
+                  },
+                  {
+                    "color": "$I:--color-canvas-clear",
+                    "position": 1
+                  }
+                ]
+              },
+              "layout": "none"
+            },
+            {
+              "type": "path",
+              "id": "j2pUB",
+              "x": 41,
+              "y": 300,
+              "name": "HillVignette",
+              "geometry": "M0 70c40-50 110-64 160-64 50 0 120 14 160 64z",
+              "viewBox": [
+                0,
+                0,
+                320,
+                70
+              ],
+              "fill": {
+                "type": "gradient",
+                "gradientType": "linear",
+                "enabled": true,
+                "rotation": 180,
+                "size": {
+                  "height": 1
+                },
+                "colors": [
+                  {
+                    "color": "$I:--color-meadow-hill-near",
+                    "position": 0
+                  },
+                  {
+                    "color": "$I:--color-meadow-hill-mid",
+                    "position": 1
+                  }
+                ]
+              },
+              "width": 320,
+              "height": 70
+            },
+            {
+              "type": "text",
+              "id": "KE4EE",
+              "x": 20,
+              "y": 384,
+              "name": "Title",
+              "fill": "$I:--color-text-primary",
+              "textGrowth": "fixed-width",
+              "width": 362,
+              "content": "Want a gentle daily reminder?",
+              "textAlign": "center",
+              "fontFamily": "$I:--font-display",
+              "fontSize": 28,
+              "fontWeight": "700"
+            },
+            {
+              "type": "frame",
+              "id": "vEYAl",
+              "x": 16,
+              "y": 526,
+              "name": "TimeRow",
+              "width": 370,
+              "height": 56,
+              "fill": "$I:--color-card-surface",
+              "cornerRadius": 16,
+              "stroke": "$I:--color-surface-border",
+              "strokeWidth": 1,
+              "strokeAlignment": "inner",
+              "layout": "none",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "M4gSB",
+                  "x": 18,
+                  "y": 17,
+                  "name": "FieldValue",
+                  "fill": "$I:--color-text-primary",
+                  "content": "Remind me at",
+                  "fontFamily": "$I:--font-body",
+                  "fontSize": 17,
+                  "fontWeight": "500"
+                },
+                {
+                  "type": "frame",
+                  "id": "A9eyup",
+                  "x": 256,
+                  "y": 10,
+                  "name": "TimePill",
+                  "width": 104,
+                  "height": 36,
+                  "fill": "$I:--color-surface-sunken",
+                  "cornerRadius": 18,
+                  "layout": "none",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "nclXJ",
+                      "x": 0,
+                      "y": 8,
+                      "name": "Time",
+                      "fill": "$I:--color-text-primary",
+                      "textGrowth": "fixed-width",
+                      "width": 104,
+                      "content": "8:00 AM",
+                      "textAlign": "center",
+                      "fontFamily": "$I:--font-body",
+                      "fontSize": 17,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "id": "A1QY3",
+              "x": 20,
+              "y": 462,
+              "name": "Hint",
+              "fill": "$I:--color-text-secondary",
+              "textGrowth": "fixed-width",
+              "width": 362,
+              "content": "One quiet nudge a day, at a time you choose. Change it or turn it off in Settings.",
+              "textAlign": "center",
+              "fontFamily": "$I:--font-body",
+              "fontSize": 15,
+              "fontWeight": "normal"
+            },
+            {
+              "id": "z2eFF",
+              "type": "ref",
+              "ref": "I:iymQ6",
+              "name": "Lamb S1_Sleepy",
+              "x": 64.64,
+              "y": 133.46,
+              "width": 288.73,
+              "height": 190.97,
+              "descendants": {
+                "I:mClYy": {
+                  "width": 288.73,
+                  "height": 190.97
+                },
+                "I:UnQ3m": {
+                  "width": 288.73,
+                  "height": 190.97
+                },
+                "I:eGN5e": {
+                  "width": 288.73,
+                  "height": 190.97
+                },
+                "I:WgzHv": {
+                  "width": 288.73,
+                  "height": 190.97
+                },
+                "I:eaQxc": {
+                  "width": 288.73,
+                  "height": 190.97
+                },
+                "I:BrgpU": {
+                  "width": 288.73,
+                  "height": 190.97
+                },
+                "I:JUIXg": {
+                  "width": 288.73,
+                  "height": 190.97
+                },
+                "I:R6ONkJ": {
+                  "width": 288.73,
+                  "height": 190.97
+                },
+                "I:ewyZD": {
+                  "width": 288.73,
+                  "height": 190.97
+                },
+                "I:gHUy8": {
+                  "width": 288.73,
+                  "height": 190.97
+                },
+                "I:EuaPJ": {
+                  "width": 288.73,
+                  "height": 190.97
+                },
+                "I:HfGvE": {
+                  "width": 288.73,
+                  "height": 190.97
+                },
+                "I:BVGhh": {
+                  "width": 288.73,
+                  "height": 190.97
+                },
+                "I:kYqsR": {
+                  "width": 288.73,
+                  "height": 190.97
+                },
+                "I:MIliB": {
+                  "width": 288.73,
+                  "height": 190.97
+                },
+                "I:vEIne": {
+                  "width": 288.73,
+                  "height": 190.97
+                },
+                "I:kTgPf": {
+                  "width": 288.73,
+                  "height": 190.97
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "jt76f",
+          "x": 72,
+          "y": 78,
+          "name": "Toolbar Progress 1",
+          "width": 39.42857142857143,
+          "height": 6,
+          "fill": "$I:--color-accent-fill",
+          "cornerRadius": 3,
+          "layout": "none"
+        },
+        {
+          "type": "frame",
+          "id": "UHHn3",
+          "x": 117.42857142857143,
+          "y": 78,
+          "name": "Toolbar Progress 2",
+          "width": 39.42857142857143,
+          "height": 6,
+          "fill": "$I:--color-accent-fill",
+          "cornerRadius": 3,
+          "layout": "none"
+        },
+        {
+          "type": "frame",
+          "id": "R5G7qL",
+          "x": 162.85714285714286,
+          "y": 78,
+          "name": "Toolbar Progress 3",
+          "width": 39.42857142857143,
+          "height": 6,
+          "fill": "$I:--color-accent-fill",
+          "cornerRadius": 3,
+          "layout": "none"
+        },
+        {
+          "type": "frame",
+          "id": "NyGN2",
+          "x": 208.28571428571428,
+          "y": 78,
+          "name": "Toolbar Progress 4",
+          "width": 39.42857142857143,
+          "height": 6,
+          "fill": "$I:--color-accent-fill",
+          "cornerRadius": 3,
+          "layout": "none"
+        },
+        {
+          "type": "frame",
+          "id": "iVn5p",
+          "x": 253.71428571428572,
+          "y": 78,
+          "name": "Toolbar Progress 5",
+          "width": 39.42857142857143,
+          "height": 6,
+          "fill": "$I:--color-accent-fill",
+          "cornerRadius": 3,
+          "layout": "none"
+        },
+        {
+          "type": "frame",
+          "id": "VVYQT",
+          "x": 299.14285714285717,
+          "y": 78,
+          "name": "Toolbar Progress 6",
+          "width": 39.42857142857143,
+          "height": 6,
+          "fill": "$I:--color-accent-fill",
+          "cornerRadius": 3,
+          "layout": "none"
+        },
+        {
+          "id": "l10M7",
+          "type": "ref",
+          "ref": "I:ZBDV1",
+          "name": "Toolbar chevron-left",
+          "x": 16,
+          "y": 58,
+          "descendants": {
+            "I:z4feM4": {
+              "icon": "chevron-left"
+            }
+          }
+        },
+        {
+          "id": "tUKtv",
+          "type": "ref",
+          "ref": "I:rDKcx",
+          "name": "Toolbar Remind me",
+          "x": 16,
+          "y": 726,
+          "descendants": {
+            "I:HpELt": {
+              "content": "Remind me"
+            }
+          }
+        },
+        {
+          "id": "JkmLB",
+          "type": "ref",
+          "ref": "I:h3gTX",
+          "name": "StatusBar",
+          "x": 0,
+          "y": 0
+        },
+        {
+          "id": "Ce6Mg",
+          "type": "ref",
+          "ref": "I:W5z9z",
+          "name": "HomeIndicator",
+          "x": 131,
+          "y": 861
+        },
+        {
+          "type": "frame",
+          "id": "PCB89",
+          "x": 344.57142857142856,
+          "y": 78,
+          "name": "Toolbar Progress 7",
+          "width": 39.42857142857143,
+          "height": 6,
+          "fill": "$I:--color-surface-sunken",
+          "cornerRadius": 3,
+          "layout": "none"
+        },
+        {
+          "type": "frame",
+          "id": "ieNTi",
+          "x": 344.57142857142856,
+          "y": 78,
+          "name": "Toolbar Progress 7",
+          "width": 39.42857142857143,
+          "height": 6,
+          "fill": "$I:--color-surface-sunken",
+          "cornerRadius": 3,
+          "layout": "none"
+        },
+        {
+          "id": "u1dEn",
+          "type": "ref",
+          "ref": "I:S3aG4",
+          "name": "Not now",
+          "x": 16,
+          "y": 790,
+          "descendants": {
+            "I:M1afec": {
+              "content": "Not now",
+              "fill": "$I:--color-text-secondary",
+              "fontWeight": "500"
+            }
+          }
         }
       ]
     }
