@@ -327,6 +327,10 @@ PAIRS = (
         for bg in ("--color-card-surface", "--color-error-subtle", "--color-canvas-bg")
     ]
     + [("--color-on-accent", "--color-success-fill", TEXT, "correct button label")]
+    + [
+        ("--color-canvas-bg", bg, TEXT, "quiz letter badge")
+        for bg in ("--color-accent", "--color-success", "--color-error")
+    ]
     + [("--color-note", "--color-note-subtle", TEXT, "design note")]
     + [
         (fg, bg, TEXT, "highlighted verse")

@@ -26,7 +26,7 @@ final class RealFlowUITests: XCTestCase {
     }
 
     @MainActor
-    private func passOnboardingIfNeeded(_ app: XCUIApplication, goal: String = "peace", level: String = "Some experience") {
+    private func passOnboardingIfNeeded(_ app: XCUIApplication, goal: String = "peace", level: String = "Some experience", reminderShot: String? = nil) {
         if app.staticTexts["Welcome to Pasture"].waitForExistence(timeout: 3.0) {
             app.buttons["Continue"].tap()
             _ = app.buttons.matching(NSPredicate(format: "label CONTAINS[c] %@", goal)).firstMatch.waitForExistence(timeout: 2.0)
@@ -45,10 +45,27 @@ final class RealFlowUITests: XCTestCase {
             }
             _ = app.buttons["Continue"].waitForExistence(timeout: 2.0)
             app.buttons["Continue"].tap()
+            _ = app.buttons["Not now"].waitForExistence(timeout: 2.0)
+            if let reminderShot {
+                // Both choices must stay reachable at large text sizes (the step scrolls).
+                XCTAssertTrue(app.staticTexts["Want a gentle daily reminder?"].exists)
+                XCTAssertTrue(app.buttons["Remind me"].isHittable, "Remind me is off screen")
+                XCTAssertTrue(app.buttons["Not now"].isHittable, "Not now is off screen")
+                Thread.sleep(forTimeInterval: 0.3)
+                saveScreenshot(reminderShot)
+            }
+            app.buttons["Not now"].tap()
             _ = app.buttons["See my plan"].waitForExistence(timeout: 2.0)
             app.buttons["See my plan"].tap()
-            _ = app.buttons["Continue with free path"].waitForExistence(timeout: 2.0)
-            app.buttons["Continue with free path"].tap()
+            // The paywall's layout shifts when StoreKit prices arrive, which can make a tap land
+            // beside the button; tap again until the paywall is gone.
+            let free = app.buttons["Continue with free path"]
+            _ = free.waitForExistence(timeout: 4.0)
+            for _ in 0..<3 where free.exists {
+                Thread.sleep(forTimeInterval: 0.5)
+                free.tap()
+                _ = app.navigationBars["Today"].waitForExistence(timeout: 3.0)
+            }
         }
     }
 
@@ -168,7 +185,7 @@ final class RealFlowUITests: XCTestCase {
 
         let picks: [(path: String, shortName: String, lessons: [(day: Int, title: String)])] = [
             ("First Steps: 30 Days with God", "FirstSteps", [(10, "The father runs"), (23, "Seventy times seven"), (30, "Looking back, walking on")]),
-            ("Peace & Prayer: 14 Days", "Peace", [(6, "Thirsty"), (8, "Hannah's prayer"), (14, "Go in peace")]),
+            ("Peace & Prayer: 14 Days", "Peace", [(6, "Thirsty"), (8, "Hannah\u{2019}s prayer"), (14, "Go in peace")]),
             ("Meet Jesus: Mark in 30 Days", "Mark", [(5, "Through the roof"), (18, "Help my unbelief"), (30, "He goes before you")]),
         ]
         for pick in picks {
@@ -208,6 +225,41 @@ final class RealFlowUITests: XCTestCase {
             app.navigationBars.buttons.firstMatch.tap() // Today
             XCTAssertTrue(app.navigationBars["Today"].waitForExistence(timeout: 4.0))
         }
+    }
+
+    // MARK: - App Store rating prompt (the real StoreKit sheet: "Enjoying Pasture?")
+
+    /// Days 1-2 seeded; Day 3 played with a perfect quiz. The rating sheet appears on Today, and a
+    /// cold relaunch does not ask again.
+    @MainActor
+    func testReviewPromptAfterPerfectDay3() throws {
+        let app = XCUIApplication()
+        app.launchArguments += ["-uitestReset", "-uitestCompleted", "beginner-30:2"]
+        app.launch()
+        passOnboardingIfNeeded(app, goal: "Grow a daily habit", level: "Brand new")
+        XCTAssertTrue(app.navigationBars["Today"].waitForExistence(timeout: 6.0))
+        completeLesson(app, day: 3, answers: ["Word", "Flesh"])
+        let prompt = app.staticTexts["Enjoying Pasture?"]
+        XCTAssertTrue(prompt.waitForExistence(timeout: 6.0), "no rating prompt after a perfect Day 3")
+        app.buttons["Not Now"].tap()
+
+        app.terminate()
+        app.launchArguments = [] // a plain cold launch, keeping today's progress
+        app.launch()
+        XCTAssertTrue(app.navigationBars["Today"].waitForExistence(timeout: 6.0))
+        XCTAssertFalse(prompt.waitForExistence(timeout: 4.0), "the rating prompt appeared on launch")
+    }
+
+    /// Day 3 with one wrong answer: no rating prompt.
+    @MainActor
+    func testNoReviewPromptAfterAWrongAnswer() throws {
+        let app = XCUIApplication()
+        app.launchArguments += ["-uitestReset", "-uitestCompleted", "beginner-30:2"]
+        app.launch()
+        passOnboardingIfNeeded(app, goal: "Grow a daily habit", level: "Brand new")
+        XCTAssertTrue(app.navigationBars["Today"].waitForExistence(timeout: 6.0))
+        completeLesson(app, day: 3, answers: ["Law", "Flesh"])
+        XCTAssertFalse(app.staticTexts["Enjoying Pasture?"].waitForExistence(timeout: 5.0), "rating prompt after a wrong answer")
     }
 
     @MainActor
@@ -330,7 +382,7 @@ final class RealFlowUITests: XCTestCase {
             }
             Thread.sleep(forTimeInterval: 1.0)
             app.buttons["Check"].tap()
-            XCTAssertTrue(app.staticTexts["Keep going! You're learning."].waitForExistence(timeout: 4.0))
+            XCTAssertTrue(app.staticTexts["Keep going! You’re learning."].waitForExistence(timeout: 4.0))
             Thread.sleep(forTimeInterval: 2.0)
         }
     }
@@ -387,7 +439,17 @@ final class RealFlowUITests: XCTestCase {
         }
         app.buttons["Continue"].tap()
 
-        // 6. Onboarding Step 5: Building Plan
+        // 6. Onboarding Step 5: optional daily reminder. "Not now" skips it without asking iOS
+        // for permission (no system alert may appear here).
+        XCTAssertTrue(app.staticTexts["Want a gentle daily reminder?"].waitForExistence(timeout: 4.0))
+        XCTAssertTrue(app.buttons["Remind me"].exists)
+        Thread.sleep(forTimeInterval: 0.3)
+        saveScreenshot("Onboarding_Reminder")
+        app.buttons["Not now"].tap()
+        XCTAssertFalse(XCUIApplication(bundleIdentifier: "com.apple.springboard").alerts.firstMatch.waitForExistence(timeout: 1.0),
+                       "skipping the reminder asked for notification permission")
+
+        // 7. Onboarding Step 6: Building Plan
         XCTAssertTrue(app.staticTexts["Preparing your path…"].waitForExistence(timeout: 4.0))
         // goal 'peace' -> Peace & Prayer, and the screen says honestly that it is Premium
         XCTAssertTrue(element(app, containing: "Peace & Prayer: 14 Days").exists)
@@ -447,11 +509,18 @@ final class RealFlowUITests: XCTestCase {
         day1Node.tap()
 
         XCTAssertTrue(app.navigationBars["Day 1"].waitForExistence(timeout: 6.0))
+        // One "Reflection" heading; the body's own **Reflection:** label is not shown again.
+        XCTAssertEqual(app.staticTexts.matching(NSPredicate(format: "label == 'Reflection'")).count, 1)
+        XCTAssertFalse(element(app, containing: "Reflection:").exists, "the Reflection label shows twice")
+        // Lesson copy is shown with typographic quotes (the JSON keeps straight ones).
+        XCTAssertFalse(app.staticTexts.matching(NSPredicate(format: "label CONTAINS '\\\"'")).firstMatch.exists, "a straight quote is on screen")
         Thread.sleep(forTimeInterval: 0.4)
         saveScreenshot("Lesson_Reading")
 
-        // Scroll down to "Take the quiz"
+        // Scroll down to "Take the quiz" (past the body and its Reflection heading)
         app.swipeUp()
+        Thread.sleep(forTimeInterval: 0.4)
+        saveScreenshot("Lesson_Body")
         let quizButton = app.buttons["Take the quiz"]
         XCTAssertTrue(quizButton.waitForExistence(timeout: 4.0))
         quizButton.tap()
@@ -470,7 +539,7 @@ final class RealFlowUITests: XCTestCase {
 
         // Check Answer -> Wrong Feedback
         app.buttons["Check"].tap()
-        XCTAssertTrue(app.staticTexts["Keep going! You're learning."].waitForExistence(timeout: 4.0))
+        XCTAssertTrue(app.staticTexts["Keep going! You’re learning."].waitForExistence(timeout: 4.0))
         Thread.sleep(forTimeInterval: 0.4)
         saveScreenshot("Quiz_Wrong")
         app.buttons["Continue"].tap()
@@ -533,6 +602,8 @@ final class RealFlowUITests: XCTestCase {
         ensureTabBarExpanded(app)
         app.tabBars.buttons["Settings"].tap()
         XCTAssertTrue(app.navigationBars["Settings"].waitForExistence(timeout: 4.0))
+        XCTAssertTrue(app.staticTexts["None"].exists)
+        XCTAssertFalse(element(app, containing: "in v1").exists, "Settings still says 'in v1'")
         Thread.sleep(forTimeInterval: 0.3)
         saveScreenshot("Settings")
 
@@ -548,6 +619,20 @@ final class RealFlowUITests: XCTestCase {
             saveScreenshot("Settings_RestoreResult")
         }
 
+        // Daily reminder: off by default; turning it on asks iOS once, then shows the time.
+        let reminderSwitch = app.switches["Daily reminder"]
+        XCTAssertTrue(reminderSwitch.waitForExistence(timeout: 4.0))
+        XCTAssertEqual(reminderSwitch.value as? String, "0", "the reminder is on before the user asked")
+        XCTAssertFalse(app.datePickers.firstMatch.exists)
+        reminderSwitch.switches.firstMatch.tap()
+        let allow = XCUIApplication(bundleIdentifier: "com.apple.springboard").alerts.buttons["Allow"]
+        XCTAssertTrue(allow.waitForExistence(timeout: 5.0), "turning the reminder on did not ask for permission")
+        allow.tap()
+        XCTAssertTrue(app.datePickers.firstMatch.waitForExistence(timeout: 4.0))
+        XCTAssertEqual(reminderSwitch.value as? String, "1")
+        Thread.sleep(forTimeInterval: 0.4)
+        saveScreenshot("Settings_Reminder")
+
         // 19. Terminate and Relaunch to Prove Persistence
         app.terminate()
         app.launch()
@@ -561,7 +646,7 @@ final class RealFlowUITests: XCTestCase {
     private func executeAX3Flow() throws {
         let app = XCUIApplication()
         app.launch()
-        passOnboardingIfNeeded(app)
+        passOnboardingIfNeeded(app, reminderShot: "Accessibility_AX3_Reminder")
 
         let day1Node = app.buttons.matching(NSPredicate(format: "label CONTAINS[c] 'Day 1'")).firstMatch
         if day1Node.waitForExistence(timeout: 4.0) {
@@ -582,7 +667,7 @@ final class RealFlowUITests: XCTestCase {
                 wrongChoice.tap()
             }
             app.buttons["Check"].tap()
-            _ = app.staticTexts["Keep going! You're learning."].waitForExistence(timeout: 4.0)
+            _ = app.staticTexts["Keep going! You’re learning."].waitForExistence(timeout: 4.0)
             Thread.sleep(forTimeInterval: 0.4)
             saveScreenshot("Accessibility_AX3_QuizWrong")
         }
