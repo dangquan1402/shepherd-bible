@@ -44735,7 +44735,8 @@
           "width": 1160,
           "content": "Green Pastures: evergreen for action, sunflower for joy, clay for quiz not-quite, and paper neutrals. Wordmark: Baloo 2 ExtraBold, outlined (SIL OFL 1.1); no font ships.",
           "fontFamily": "$I:--font-body",
-          "fontSize": 17
+          "fontSize": 17,
+          "fontWeight": "normal"
         },
         {
           "type": "text",
@@ -44768,7 +44769,8 @@
           "width": 300,
           "content": "180 px (60 pt @3x); this frame's theme is the icon's appearance",
           "fontFamily": "$I:--font-body",
-          "fontSize": 13
+          "fontSize": 13,
+          "fontWeight": "normal"
         },
         {
           "type": "text",
@@ -44839,7 +44841,8 @@
           "fill": "$I:--color-text-secondary",
           "content": "Onboarding welcome (centred above the lamb)",
           "fontFamily": "$I:--font-body",
-          "fontSize": 13
+          "fontSize": 13,
+          "fontWeight": "normal"
         },
         {
           "id": "X7k7ns",
@@ -44858,7 +44861,8 @@
           "fill": "$I:--color-text-secondary",
           "content": "Paywall header (top left)",
           "fontFamily": "$I:--font-body",
-          "fontSize": 13
+          "fontSize": 13,
+          "fontWeight": "normal"
         },
         {
           "type": "text",
@@ -44869,9 +44873,10 @@
           "fill": "$I:--color-text-secondary",
           "textGrowth": "fixed-width",
           "width": 1160,
-          "content": "iOS 26 appearances: default (light frame), dark (dark frame), tinted and clear are generated from the same face (Shepherd/Resources/Assets.xcassets/AppIcon.appiconset, docs/brand/icon_sheet.png). Sunflower never appears in routine chrome.",
+          "content": "iOS 26 appearances: default (light frame), dark (dark frame), tinted and clear are generated from the same face (Shepherd/Resources/Assets.xcassets/AppIcon.appiconset, docs/brand/icon_board.png). Sunflower never appears in routine chrome.",
           "fontFamily": "$I:--font-body",
-          "fontSize": 15
+          "fontSize": 15,
+          "fontWeight": "normal"
         }
       ]
     },
@@ -44913,7 +44918,8 @@
           "width": 1160,
           "content": "Green Pastures: evergreen for action, sunflower for joy, clay for quiz not-quite, and paper neutrals. Wordmark: Baloo 2 ExtraBold, outlined (SIL OFL 1.1); no font ships.",
           "fontFamily": "$I:--font-body",
-          "fontSize": 17
+          "fontSize": 17,
+          "fontWeight": "normal"
         },
         {
           "type": "text",
@@ -44946,7 +44952,8 @@
           "width": 300,
           "content": "180 px (60 pt @3x); this frame's theme is the icon's appearance",
           "fontFamily": "$I:--font-body",
-          "fontSize": 13
+          "fontSize": 13,
+          "fontWeight": "normal"
         },
         {
           "type": "text",
@@ -45017,7 +45024,8 @@
           "fill": "$I:--color-text-secondary",
           "content": "Onboarding welcome (centred above the lamb)",
           "fontFamily": "$I:--font-body",
-          "fontSize": 13
+          "fontSize": 13,
+          "fontWeight": "normal"
         },
         {
           "id": "M3nAbA",
@@ -45036,7 +45044,8 @@
           "fill": "$I:--color-text-secondary",
           "content": "Paywall header (top left)",
           "fontFamily": "$I:--font-body",
-          "fontSize": 13
+          "fontSize": 13,
+          "fontWeight": "normal"
         },
         {
           "type": "text",
@@ -45047,9 +45056,10 @@
           "fill": "$I:--color-text-secondary",
           "textGrowth": "fixed-width",
           "width": 1160,
-          "content": "iOS 26 appearances: default (light frame), dark (dark frame), tinted and clear are generated from the same face (Shepherd/Resources/Assets.xcassets/AppIcon.appiconset, docs/brand/icon_sheet.png). Sunflower never appears in routine chrome.",
+          "content": "iOS 26 appearances: default (light frame), dark (dark frame), tinted and clear are generated from the same face (Shepherd/Resources/Assets.xcassets/AppIcon.appiconset, docs/brand/icon_board.png). Sunflower never appears in routine chrome.",
           "fontFamily": "$I:--font-body",
-          "fontSize": 15
+          "fontSize": 15,
+          "fontWeight": "normal"
         }
       ]
     }

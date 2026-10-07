@@ -336,7 +336,7 @@ def screens_cmds():
                     480,
                     "iOS 26 appearances: default (light frame), dark (dark frame), tinted and clear are "
                     "generated from the same face (Shepherd/Resources/Assets.xcassets/AppIcon.appiconset, "
-                    "docs/brand/icon_sheet.png). Sunflower never appears in routine chrome.",
+                    "docs/brand/icon_board.png). Sunflower never appears in routine chrome.",
                     15,
                     fill="--color-text-secondary",
                     width=1160,

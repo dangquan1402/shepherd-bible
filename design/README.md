@@ -664,5 +664,5 @@ Run from the repo root; the outputs are pasted in the PR.
 
 - Fonts are render proxies (section 3).
 - Pencil shows glass as blur, tint, rim and specular, without refraction.
-- The tinted and clear app-icon appearances are generated images, so they are not drawn as frames (see `docs/brand/icon_sheet.png`).
+- The tinted and clear app-icon appearances are generated images, so they are not drawn as frames (see `docs/brand/icon_board.png`).
 - The motion frames are still keyframes; the timing lives in section 9.

@@ -20,7 +20,7 @@ RULES = [
     ('R1', re.compile(r'foregroundStyle\(.*(?:brandFill|shepherdBrandFill)'), None),
     ('R2', re.compile(r'(?<![A-Za-z])(?:Color)?\.(?:white|black)\b'), None),
     ('R3', re.compile(r'Color\("[A-Za-z]+"\)'), None),
-    ('R4', re.compile(r'(?:ShepherdTheme\.(?:success|successSubtle|error|errorSubtle|correct|correctSubtle|wrong|wrongSubtle)|Color\.shepherd(?:Correct|Wrong|Success|Error))\b'), QUIZ),
+    ('R4', re.compile(r'(?:ShepherdTheme\.(?:success|successSubtle|error|errorSubtle|correct|correctSubtle|wrong|wrongSubtle)|(?:Color)?\.shepherd(?:Correct|Wrong|Success|Error))\b'), QUIZ),
 ]
 
 def run_lint(root=None):

@@ -19,20 +19,28 @@ batch_size = 10
 total = len(rows)
 print(f"Exporting {total} frames in batches of {batch_size}...")
 
+import tempfile
+
 for i in range(0, total, batch_size):
     chunk = rows[i : i + batch_size]
     ids = [r[0] for r in chunk]
     js = f"Export({json.dumps(ids)}, \"png\", {json.dumps(EXP)}, {{scale: 2}})"
     payload = f"execute({{ input: {json.dumps(js)} }})\nexit()\n"
-    res = subprocess.run(
-        ["pen", "interactive", "--in", PEN, "--out", "/tmp/scratch_screen_export.pen"],
-        input=payload,
-        text=True,
-        capture_output=True,
-    )
-    if res.returncode != 0:
-        print(f"Error on batch {i // batch_size + 1}: {res.stderr}")
-        sys.exit(1)
+    with tempfile.NamedTemporaryFile(suffix=".pen", delete=False) as tmp:
+        tmp_pen = tmp.name
+    try:
+        res = subprocess.run(
+            ["pen", "interactive", "--in", PEN, "--out", tmp_pen],
+            input=payload,
+            text=True,
+            capture_output=True,
+        )
+        if res.returncode != 0:
+            print(f"Error on batch {i // batch_size + 1}: {res.stderr}")
+            sys.exit(1)
+    finally:
+        if os.path.exists(tmp_pen):
+            os.remove(tmp_pen)
     for node_id, filename in chunk:
         raw_path = os.path.join(EXP, f"{node_id}.png")
         target_path = os.path.join(EXP, filename)
