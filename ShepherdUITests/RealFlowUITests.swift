@@ -91,10 +91,17 @@ final class RealFlowUITests: XCTestCase {
     }
 
     /// Tap the choice containing `text`, check it, and continue. A match question takes
-    /// "Ref=verse start|Ref=verse start" and pairs each reference with that verse.
+    /// "Ref=verse start|Ref=verse start" and pairs each reference with that verse; an order
+    /// question takes "order:first|second|..." and taps the tokens in that order.
     @MainActor
     private func answer(_ app: XCUIApplication, _ text: String) {
-        if text.contains("=") {
+        if text.hasPrefix("order:") {
+            for token in text.dropFirst("order:".count).split(separator: "|").map(String.init) {
+                let tokenButton = app.buttons.matching(NSPredicate(format: "label CONTAINS[c] %@", token)).firstMatch
+                XCTAssertTrue(tokenButton.waitForExistence(timeout: 4.0), "no token '\(token)'")
+                tokenButton.tap()
+            }
+        } else if text.contains("=") {
             for pair in text.split(separator: "|") {
                 let parts = pair.split(separator: "=", maxSplits: 1).map(String.init)
                 pairMatch(app, ref: parts[0], verse: parts[1])
@@ -1007,7 +1014,7 @@ final class RealFlowUITests: XCTestCase {
 
         // 2. Day 2: write and save a reflection
         let reflection = "Made in his image, I can rest in how he sees me."
-        finishLessonQuiz(app, day: 2, answers: ["God’s", "Male and female"])
+        finishLessonQuiz(app, day: 2, answers: ["God’s", "order:In God’s image|he created him;|male and female|he created them."])
         XCTAssertTrue(app.staticTexts["Reflect & Pray"].waitForExistence(timeout: 6.0))
         let editor = app.textViews["ReflectionTextEditor"]
         XCTAssertTrue(editor.waitForExistence(timeout: 4.0))
