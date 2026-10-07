@@ -302,8 +302,8 @@ def screens_cmds():
                 t(
                     40,
                     82,
-                    "Flock: ultramarine for action, sunflower for reward only, a black-faced lamb with a "
-                    "fleece cap. Wordmark: Baloo 2 ExtraBold, outlined (SIL OFL 1.1); no font ships.",
+                    "Green Pastures: evergreen for action, sunflower for joy, clay for quiz not-quite, and "
+                    "paper neutrals. Wordmark: Baloo 2 ExtraBold, outlined (SIL OFL 1.1); no font ships.",
                     17,
                     fill="--color-text-secondary",
                     width=1160,

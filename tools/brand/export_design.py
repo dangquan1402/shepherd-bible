@@ -22,10 +22,10 @@ print(f"Exporting {total} frames in batches of {batch_size}...")
 for i in range(0, total, batch_size):
     chunk = rows[i : i + batch_size]
     ids = [r[0] for r in chunk]
-    js = f"Export({json.dumps(ids)}, \"png\", {json.dumps(EXP)}, {{scale: 1}})"
+    js = f"Export({json.dumps(ids)}, \"png\", {json.dumps(EXP)}, {{scale: 2}})"
     payload = f"execute({{ input: {json.dumps(js)} }})\nexit()\n"
     res = subprocess.run(
-        ["pen", "interactive", "--in", PEN, "--out", PEN],
+        ["pen", "interactive", "--in", PEN, "--out", "/tmp/scratch_screen_export.pen"],
         input=payload,
         text=True,
         capture_output=True,

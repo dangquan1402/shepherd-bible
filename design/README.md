@@ -105,15 +105,15 @@ Bundled Bible: World English Bible, 66 books, 1189 chapters.
 Direction **Green Pastures** (captain's chosen direction, 2026-10-07, option A): an evergreen pastoral identity that makes Pasture ownable, calming, and deeply devotional.
 
 - **Canvas:** warm paper (`#F9F8F3`) by day, **deep forest** (`#0F1D16`, card `#18271E`, sunken `#13221A`) by night. The dark is an atmospheric forest night that preserves the meadow into dark mode; Liquid Glass reads cleanly off it.
-- **Brand / Accent: evergreen.** Text `#036E4E` / `#56DEAB`, fill `#037A57` / `#36B386`. It is for actions, the current node, progress, links, selected tab, and quiz correct.
+- **Brand / Accent: evergreen.** Text `#046B51` / `#82DDBB`, fill `#046B51` / `#0E8061`. It is for actions, the current node, progress, links, selected tab, and quiz correct.
 - **Sunflower (`--color-gold*` / `Joy`) is for joy only:** streak flame, XP, sparkles, the bell, the crown's centres, and the premium glyph. It never colours routine chrome; its text form is amber joy.
 - **Quiz correctness:** evergreen for correct; warm clay (`--color-error*`, `#9E4A1F` / `#F2AA8B`) for "not quite" encouraging feedback. Alarming red is never used in the quiz.
 - **Destructive:** red (`--color-destructive`, `#BE2F2C` / `#F7857D`) is reserved strictly for delete actions and purchase failures.
 - **Selection:** neutral ink (`--color-surface-sunken` fill, `--color-text-primary` border/badge) before check, so unsubmitted answers never look "right".
 - **Premium:** ink by day, sunflower by night (`--color-premium-surface` `#16231C` / `#FFC21A`, with `--color-on-premium` and `--color-premium-glyph`).
 - **Logo.** A lowercase wordmark `pasture` outlined from **Baloo 2 ExtraBold** (SIL Open Font License 1.1, Ek Type), so no font ships. The mark is the lamb's front face on an evergreen chip. `Brand/Lockup` is used centred above the lamb on Onboarding_Welcome; `Brand/Lockup/Compact` is used at the top left of the paywall.
-- **App icon.** The front face filling an evergreen gradient tile (`--color-icon-top` `#036E4E` / `#162C20`, `--color-icon-bottom` `#024C36` / `#0C140F`). Tinted and clear appearances adapt gracefully.
-- **The lamb:** black-faced Suffolk lamb with fleece cap and white-sclera eyes. In dark mode, a 25% white moonlight rim (`--color-mascot-outline`) ensures the silhouette separates cleanly from deep forest hills.
+- **App icon.** The front face filling an evergreen gradient tile (`--color-icon-top` `#439458` / `#162C20`, `--color-icon-bottom` `#035C41` / `#0C140F`). Tinted and clear appearances adapt gracefully.
+- **The lamb:** black-faced Suffolk lamb with fleece cap and white-sclera eyes. In dark mode, a 25% white moonlight rim (`--color-mascot-outline`) ensures the silhouette separates cleanly from deep forest hills. The mascot lamb is deliberately absent from Lesson reading and the Bible reader.
 - **Devotional, not a kids' app:** New York stays for titles, verses and prayer, scripture screens stay lamb-free, and motion stays calm (section 9).
 - **Type.** SF Pro for UI and New York (`.fontDesign(.serif)`) for titles, verses and prayer. *Render proxies:* Pencil's renderer has no Apple system fonts, so the `--font-body` / `--font-sans` tokens hold **Inter** and `--font-display` / `--font-serif` hold **Newsreader**. Ship SF Pro and New York; sizes and weights carry over.
 
