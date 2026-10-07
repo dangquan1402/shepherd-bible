@@ -83,16 +83,16 @@
             },
             {
               "id": "day2-q2",
-              "prompt": "Genesis says God created them…",
-              "choices": [
-                "Male and female",
-                "Only male",
-                "Only spirits",
-                "As gods"
-              ],
-              "correctIndex": 0,
+              "prompt": "Put the words of this verse in order:",
               "answerRef": "GEN.1.27",
-              "explain": "Genesis 1:27. Both the man and the woman are made in God’s image."
+              "explain": "Genesis 1:27: \"In God’s image he created him; male and female he created them.\"",
+              "type": "order",
+              "orderTokens": [
+                "In God’s image",
+                "he created him;",
+                "male and female",
+                "he created them."
+              ]
             }
           ]
         },
@@ -122,16 +122,20 @@
             },
             {
               "id": "day3-q2",
-              "prompt": "The Word became…",
-              "choices": [
-                "Stone",
-                "Flesh",
-                "Wind",
-                "A book"
-              ],
-              "correctIndex": 1,
+              "prompt": "Match each reference to its statement about the Word:",
               "answerRef": "JHN.1.14",
-              "explain": "John 1:14: \"The Word became flesh and lived among us.\""
+              "explain": "John 1:1 and John 1:14 declare that the Word was in the beginning and became flesh.",
+              "type": "match",
+              "pairs": [
+                {
+                  "ref": "JHN.1.1",
+                  "text": "In the beginning was the Word"
+                },
+                {
+                  "ref": "JHN.1.14",
+                  "text": "The Word became flesh and lived among us."
+                }
+              ]
             }
           ]
         },
@@ -161,16 +165,15 @@
             },
             {
               "id": "day4-q2",
-              "prompt": "God sent his Son so the world would be…",
+              "prompt": "God sent his Son into the world to judge the world.",
               "choices": [
-                "Saved",
-                "Condemned",
-                "Ignored",
-                "Destroyed"
+                "True",
+                "False"
               ],
-              "correctIndex": 0,
+              "correctIndex": 1,
               "answerRef": "JHN.3.17",
-              "explain": "John 3:17: God didn’t send his Son \"to judge the world, but that the world should be saved through him.\""
+              "explain": "John 3:17: \"For God didn’t send his Son into the world to judge the world, but that the world should be saved through him.\"",
+              "type": "true_false"
             }
           ]
         },
@@ -200,16 +203,16 @@
             },
             {
               "id": "day5-q2",
-              "prompt": "In the valley, the writer says…",
-              "choices": [
-                "I am abandoned",
-                "I run away",
-                "I will fear no evil",
-                "I fight alone"
-              ],
-              "correctIndex": 2,
+              "prompt": "Put the words of Psalm 23:4 in order:",
               "answerRef": "PSA.23.4",
-              "explain": "Psalm 23:4: \"I will fear no evil, for you are with me.\""
+              "explain": "Psalm 23:4: \"Even though I walk through the valley of the shadow of death, I will fear no evil, for you are with me.\"",
+              "type": "order",
+              "orderTokens": [
+                "Even though I walk through",
+                "the valley of the shadow of death,",
+                "I will fear no evil,",
+                "for you are with me."
+              ]
             }
           ]
         },
@@ -280,16 +283,20 @@
             },
             {
               "id": "day7-q2",
-              "prompt": "Paul says: in nothing be…",
-              "choices": [
-                "Thankful",
-                "Anxious",
-                "Silent",
-                "Busy"
-              ],
-              "correctIndex": 1,
-              "answerRef": "PHP.4.6",
-              "explain": "Philippians 4:6: \"In nothing be anxious, but in everything, by prayer and petition with thanksgiving, let your requests be made known to God.\""
+              "prompt": "Match each reference to its teaching on prayer:",
+              "answerRef": "MAT.6.9",
+              "explain": "Matthew 6:9 teaches addressing God in heaven, while Philippians 4:6 urges prayer in everything.",
+              "type": "match",
+              "pairs": [
+                {
+                  "ref": "MAT.6.9",
+                  "text": "Our Father in heaven, may your name be kept holy."
+                },
+                {
+                  "ref": "PHP.4.6",
+                  "text": "In nothing be anxious, but in everything"
+                }
+              ]
             },
             {
               "id": "day7-q3",
@@ -322,14 +329,15 @@
               "id": "beginner-30.d08.q1",
               "prompt": "Fill in the blank: \"I am the good ___.\"",
               "choices": [
-                "gatekeeper",
-                "teacher",
                 "shepherd",
-                "king"
+                "teacher",
+                "physician",
+                "servant"
               ],
-              "correctIndex": 2,
+              "correctIndex": 0,
               "answerRef": "JHN.10.11",
-              "explain": "John 10:11. Jesus takes the shepherd picture from the Psalms and applies it to himself."
+              "explain": "John 10:11: \"I am the good shepherd. The good shepherd lays down his life for the sheep.\"",
+              "type": "fill_blank"
             },
             {
               "id": "beginner-30.d08.q2",
@@ -387,16 +395,15 @@
             },
             {
               "id": "beginner-30.d09.q2",
-              "prompt": "\"When he has found it, he carries it on his ___, rejoicing.\"",
+              "prompt": "When the shepherd finds the lost sheep, he carries it on his shoulders, rejoicing.",
               "choices": [
-                "shoulders",
-                "back",
-                "arms",
-                "donkey"
+                "True",
+                "False"
               ],
               "correctIndex": 0,
               "answerRef": "LUK.15.5",
-              "explain": "Luke 15:5. The shepherd carries the sheep home himself, and he is glad to do it."
+              "explain": "Luke 15:5: \"When he has found it, he carries it on his shoulders, rejoicing.\"",
+              "type": "true_false"
             },
             {
               "id": "beginner-30.d09.q3",
@@ -443,14 +450,15 @@
               "id": "beginner-30.d10.q2",
               "prompt": "Fill in the blank: \"Bring out the best ___ and put it on him.\"",
               "choices": [
-                "crown",
-                "cloak",
                 "robe",
-                "belt"
+                "ring",
+                "crown",
+                "sandals"
               ],
-              "correctIndex": 2,
+              "correctIndex": 0,
               "answerRef": "LUK.15.22",
-              "explain": "Luke 15:22. The father dresses his son as a son, not as a hired servant."
+              "explain": "Luke 15:22: The father tells his servants to bring out the best robe and put it on him.",
+              "type": "fill_blank"
             },
             {
               "id": "beginner-30.d10.q3",
@@ -547,16 +555,20 @@
             },
             {
               "id": "beginner-30.d12.q2",
-              "prompt": "When did Christ die for us, according to Romans 5:8?",
-              "choices": [
-                "when we had stopped doubting",
-                "once we were good enough",
-                "while we were yet sinners",
-                "after we had proved ourselves"
-              ],
-              "correctIndex": 2,
+              "prompt": "Match each reference to its verse:",
               "answerRef": "ROM.5.8",
-              "explain": "Romans 5:8: \"while we were yet sinners, Christ died for us.\""
+              "explain": "Romans 5:7 and Romans 5:8: someone will hardly die even for a righteous man, but \"while we were yet sinners, Christ died for us.\"",
+              "type": "match",
+              "pairs": [
+                {
+                  "ref": "ROM.5.7",
+                  "text": "For one will hardly die for a righteous man."
+                },
+                {
+                  "ref": "ROM.5.8",
+                  "text": "while we were yet sinners, Christ died for us."
+                }
+              ]
             },
             {
               "id": "beginner-30.d12.q3",
@@ -653,16 +665,15 @@
             },
             {
               "id": "beginner-30.d14.q2",
-              "prompt": "According to Philip, who had written about Jesus?",
+              "prompt": "Philip told Nathanael that they had found the one of whom Moses in the law wrote.",
               "choices": [
-                "Moses in the law and also the prophets",
-                "the priests in the temple",
-                "the kings of Israel and Judah",
-                "the teachers in Rome"
+                "True",
+                "False"
               ],
               "correctIndex": 0,
               "answerRef": "JHN.1.45",
-              "explain": "John 1:45. Philip connects Jesus with the Hebrew Scriptures."
+              "explain": "John 1:45: Philip says they found him of whom Moses and the prophets wrote.",
+              "type": "true_false"
             },
             {
               "id": "beginner-30.d14.q3",
@@ -694,16 +705,17 @@
           "quiz": [
             {
               "id": "beginner-30.d15.q1",
-              "prompt": "\"I am the way, the truth, and the ___.\"",
+              "prompt": "Complete Jesus’ words: \"I am the way, the truth, and the ___.\"",
               "choices": [
-                "light",
-                "law",
                 "life",
-                "temple"
+                "light",
+                "door",
+                "resurrection"
               ],
-              "correctIndex": 2,
+              "correctIndex": 0,
               "answerRef": "JHN.14.6",
-              "explain": "John 14:6: \"I am the way, the truth, and the life.\""
+              "explain": "John 14:6: Jesus said, \"I am the way, the truth, and the life.\"",
+              "type": "fill_blank"
             },
             {
               "id": "beginner-30.d15.q2",
@@ -760,16 +772,17 @@
             },
             {
               "id": "beginner-30.d16.q2",
-              "prompt": "Complete Jesus' words in John 15:4: the branch…",
-              "choices": [
-                "chooses its own season",
-                "needs no water",
-                "grows faster on its own",
-                "can’t bear fruit by itself"
-              ],
-              "correctIndex": 3,
-              "answerRef": "JHN.15.4",
-              "explain": "John 15:4: \"the branch can’t bear fruit by itself unless it remains in the vine.\""
+              "prompt": "Put Jesus’ words in order:",
+              "answerRef": "JHN.15.5",
+              "explain": "John 15:5: \"I am the vine. You are the branches. He who remains in me and I in him bears much fruit,\"",
+              "type": "order",
+              "orderTokens": [
+                "I am the vine.",
+                "You are the branches.",
+                "He who remains in me",
+                "and I in him",
+                "bears much fruit,"
+              ]
             },
             {
               "id": "beginner-30.d16.q3",
@@ -800,16 +813,17 @@
           "quiz": [
             {
               "id": "beginner-30.d17.q1",
-              "prompt": "\"Your word is a lamp to my ___, and a light for my path.\"",
+              "prompt": "Complete the verse: \"Your word is a lamp to my ___, and a light for my path.\"",
               "choices": [
+                "feet",
                 "eyes",
-                "heart",
-                "house",
-                "feet"
+                "steps",
+                "heart"
               ],
-              "correctIndex": 3,
+              "correctIndex": 0,
               "answerRef": "PSA.119.105",
-              "explain": "Psalm 119:105. The lamp lights the way one step at a time."
+              "explain": "Psalm 119:105: \"Your word is a lamp to my feet, and a light for my path.\"",
+              "type": "fill_blank"
             },
             {
               "id": "beginner-30.d17.q2",
@@ -975,16 +989,15 @@
             },
             {
               "id": "beginner-30.d20.q2",
-              "prompt": "What does Jesus give as the second commandment?",
+              "prompt": "Jesus said the second greatest commandment is to love your neighbor as yourself.",
               "choices": [
-                "Remember the Sabbath day",
-                "You shall not steal",
-                "Honor your father and mother",
-                "You shall love your neighbor as yourself"
+                "True",
+                "False"
               ],
-              "correctIndex": 3,
+              "correctIndex": 0,
               "answerRef": "MAT.22.39",
-              "explain": "Matthew 22:39. The second command is love for others, quoted from Leviticus 19:18."
+              "explain": "Matthew 22:39: \"A second likewise is this, ‘You shall love your neighbor as yourself.’\"",
+              "type": "true_false"
             },
             {
               "id": "beginner-30.d20.q3",
@@ -1016,16 +1029,17 @@
           "quiz": [
             {
               "id": "beginner-30.d21.q1",
-              "prompt": "\"Love is ___ and is kind.\"",
+              "prompt": "Complete the verse: \"Love is ___ and is kind.\"",
               "choices": [
-                "powerful",
                 "patient",
-                "cautious",
-                "cheerful"
+                "hopeful",
+                "humble",
+                "merciful"
               ],
-              "correctIndex": 1,
+              "correctIndex": 0,
               "answerRef": "1CO.13.4",
-              "explain": "1 Corinthians 13:4. Paul begins with patience and kindness."
+              "explain": "1 Corinthians 13:4: \"Love is patient and is kind. Love doesn’t envy. Love doesn’t brag, is not proud,\"",
+              "type": "fill_blank"
             },
             {
               "id": "beginner-30.d21.q2",
@@ -1137,16 +1151,16 @@
             },
             {
               "id": "beginner-30.d23.q2",
-              "prompt": "Peter asked how often he should forgive. What number did he suggest?",
-              "choices": [
-                "forty times",
-                "three times",
-                "seven times",
-                "twelve times"
-              ],
-              "correctIndex": 2,
+              "prompt": "Put Peter's question to Jesus in order:",
               "answerRef": "MAT.18.21",
-              "explain": "Matthew 18:21: \"Lord, how often shall my brother sin against me, and I forgive him? Until seven times?\""
+              "explain": "Matthew 18:21: Peter asked, \"Lord, how often shall my brother sin against me, and I forgive him? Until seven times?\"",
+              "type": "order",
+              "orderTokens": [
+                "Lord, how often",
+                "shall my brother sin against me,",
+                "and I forgive him?",
+                "Until seven times?"
+              ]
             },
             {
               "id": "beginner-30.d23.q3",
@@ -1404,16 +1418,20 @@
             },
             {
               "id": "beginner-30.d28.q2",
-              "prompt": "\"Why do you seek the living among the ___?\"",
-              "choices": [
-                "tombs",
-                "shadows",
-                "dead",
-                "stones"
-              ],
-              "correctIndex": 2,
+              "prompt": "Match each reference to what happened at the tomb:",
               "answerRef": "LUK.24.5",
-              "explain": "Luke 24:5. The men at the tomb gently question why the women look for Jesus there."
+              "explain": "Luke 24:3 and Luke 24:5: the women did not find the body, and the two men asked, \"Why do you seek the living among the dead?\"",
+              "type": "match",
+              "pairs": [
+                {
+                  "ref": "LUK.24.3",
+                  "text": "They entered in, and didn’t find the Lord Jesus’ body."
+                },
+                {
+                  "ref": "LUK.24.5",
+                  "text": "Why do you seek the living among the dead?"
+                }
+              ]
             },
             {
               "id": "beginner-30.d28.q3",
@@ -1627,14 +1645,15 @@
               "id": "peace-14.d02.q1",
               "prompt": "Fill in the blank: \"Your heavenly Father ___ them.\"",
               "choices": [
-                "counts",
-                "warns",
-                "names",
-                "feeds"
+                "feeds",
+                "creates",
+                "guards",
+                "leads"
               ],
-              "correctIndex": 3,
+              "correctIndex": 0,
               "answerRef": "MAT.6.26",
-              "explain": "Matthew 6:26: \"Your heavenly Father feeds them.\""
+              "explain": "Matthew 6:26: \"Your heavenly Father feeds them.\"",
+              "type": "fill_blank"
             },
             {
               "id": "peace-14.d02.q2",
@@ -1678,16 +1697,17 @@
           "quiz": [
             {
               "id": "peace-14.d03.q1",
-              "prompt": "\"God is our refuge and ___, a very present help in trouble.\"",
+              "prompt": "Complete the verse: \"God is our refuge and ___, a very present help in trouble.\"",
               "choices": [
-                "silence",
                 "strength",
-                "reward",
-                "army"
+                "shield",
+                "peace",
+                "fortress"
               ],
-              "correctIndex": 1,
+              "correctIndex": 0,
               "answerRef": "PSA.46.1",
-              "explain": "Psalm 46:1: \"God is our refuge and strength, a very present help in trouble.\""
+              "explain": "Psalm 46:1: \"God is our refuge and strength, a very present help in trouble.\"",
+              "type": "fill_blank"
             },
             {
               "id": "peace-14.d03.q2",
@@ -1799,16 +1819,16 @@
             },
             {
               "id": "peace-14.d05.q2",
-              "prompt": "In verse 5, what does the writer say he trusts in?",
-              "choices": [
-                "your loving kindness",
-                "the king's army",
-                "my good name",
-                "my own strength"
-              ],
-              "correctIndex": 0,
+              "prompt": "Put the words of this verse in order:",
               "answerRef": "PSA.13.5",
-              "explain": "Psalm 13:5: \"But I trust in your loving kindness.\""
+              "explain": "Psalm 13:5: \"But I trust in your loving kindness. My heart rejoices in your salvation.\"",
+              "type": "order",
+              "orderTokens": [
+                "But I trust in",
+                "your loving kindness.",
+                "My heart rejoices",
+                "in your salvation."
+              ]
             },
             {
               "id": "peace-14.d05.q3",
@@ -1853,16 +1873,16 @@
             },
             {
               "id": "peace-14.d06.q2",
-              "prompt": "What does the writer say his tears have been?",
-              "choices": [
-                "gone by morning",
-                "hidden from everyone",
-                "my food day and night",
-                "few and far between"
-              ],
-              "correctIndex": 2,
-              "answerRef": "PSA.42.3",
-              "explain": "Psalm 42:3: \"My tears have been my food day and night.\""
+              "prompt": "Put the words of this prayer in order:",
+              "answerRef": "PSA.42.5",
+              "explain": "Psalm 42:5: \"Why are you in despair, my soul? Why are you disturbed within me?\"",
+              "type": "order",
+              "orderTokens": [
+                "Why are you in despair,",
+                "my soul?",
+                "Why are you disturbed",
+                "within me?"
+              ]
             },
             {
               "id": "peace-14.d06.q3",
@@ -1961,16 +1981,15 @@
             },
             {
               "id": "peace-14.d08.q2",
-              "prompt": "What did Eli think when he saw Hannah's lips moving?",
+              "prompt": "When Eli saw Hannah's lips moving, he thought she was drunk.",
               "choices": [
-                "she was sick",
-                "she was singing",
-                "she was asleep",
-                "she was drunk"
+                "True",
+                "False"
               ],
-              "correctIndex": 3,
+              "correctIndex": 0,
               "answerRef": "1SA.1.13",
-              "explain": "1 Samuel 1:13. Her voice was not heard, and Eli misunderstood her."
+              "explain": "1 Samuel 1:13: \"Only her lips moved, but her voice was not heard. Therefore Eli thought she was drunk.\"",
+              "type": "true_false"
             },
             {
               "id": "peace-14.d08.q3",
@@ -2068,16 +2087,15 @@
             },
             {
               "id": "peace-14.d10.q2",
-              "prompt": "According to verse 6, what should go with our prayer and petition?",
+              "prompt": "Paul says to make our requests known to God with thanksgiving.",
               "choices": [
-                "sacrifice",
-                "fasting",
-                "thanksgiving",
-                "a vow"
+                "True",
+                "False"
               ],
-              "correctIndex": 2,
+              "correctIndex": 0,
               "answerRef": "PHP.4.6",
-              "explain": "Philippians 4:6: \"by prayer and petition with thanksgiving, let your requests be made known to God.\""
+              "explain": "Philippians 4:6: \"by prayer and petition with thanksgiving, let your requests be made known to God.\"",
+              "type": "true_false"
             },
             {
               "id": "peace-14.d10.q3",
@@ -2173,16 +2191,20 @@
             },
             {
               "id": "peace-14.d12.q2",
-              "prompt": "Why can the writer sleep in peace, according to verse 8?",
-              "choices": [
-                "my doors are locked",
-                "my troubles are solved",
-                "you alone, LORD, make me live in safety",
-                "my enemies are asleep"
-              ],
-              "correctIndex": 2,
+              "prompt": "Match each reference to its verse:",
               "answerRef": "PSA.4.8",
-              "explain": "Psalm 4:8: \"for you alone, LORD, make me live in safety.\""
+              "explain": "Psalm 4:1 asks God for mercy, and Psalm 4:8 trusts him: \"for you alone, LORD, make me live in safety.\"",
+              "type": "match",
+              "pairs": [
+                {
+                  "ref": "PSA.4.1",
+                  "text": "Have mercy on me, and hear my prayer."
+                },
+                {
+                  "ref": "PSA.4.8",
+                  "text": "for you alone, LORD, make me live in safety"
+                }
+              ]
             },
             {
               "id": "peace-14.d12.q3",
@@ -2281,16 +2303,15 @@
             },
             {
               "id": "peace-14.d14.q2",
-              "prompt": "How does Jesus say he gives, in John 14:27?",
-              "choices": [
-                "as much as you ask",
-                "only to the worthy",
-                "once and never again",
-                "not as the world gives"
-              ],
-              "correctIndex": 3,
+              "prompt": "Jesus says he gives his peace in the same way the world gives.",
               "answerRef": "JHN.14.27",
-              "explain": "John 14:27: \"My peace I give to you; not as the world gives, I give to you.\""
+              "explain": "John 14:27: \"My peace I give to you; not as the world gives, I give to you.\"",
+              "type": "true_false",
+              "choices": [
+                "True",
+                "False"
+              ],
+              "correctIndex": 1
             },
             {
               "id": "peace-14.d14.q3",
@@ -2354,16 +2375,15 @@
             },
             {
               "id": "mark-30.d01.q2",
-              "prompt": "Where did Jesus go to preach after John was taken into custody?",
-              "choices": [
-                "Galilee",
-                "Jerusalem",
-                "Egypt",
-                "Rome"
-              ],
-              "correctIndex": 0,
+              "prompt": "Put the words of this verse in order:",
               "answerRef": "MRK.1.14",
-              "explain": "Mark 1:14: \"Jesus came into Galilee, preaching the Good News of God’s Kingdom\""
+              "explain": "Mark 1:14: \"Jesus came into Galilee, preaching the Good News of God’s Kingdom,\"",
+              "type": "order",
+              "orderTokens": [
+                "Jesus came into Galilee,",
+                "preaching the Good News",
+                "of God’s Kingdom,"
+              ]
             },
             {
               "id": "mark-30.d01.q3",
@@ -2407,16 +2427,20 @@
             },
             {
               "id": "mark-30.d02.q2",
-              "prompt": "Jesus said he would make them into…",
-              "choices": [
-                "kings of Israel",
-                "teachers of the law",
-                "fishers for men",
-                "wealthy merchants"
-              ],
-              "correctIndex": 2,
-              "answerRef": "MRK.1.17",
-              "explain": "Mark 1:17. Jesus uses the language of their trade to describe a new purpose."
+              "prompt": "Match each reference to what happened by the Sea of Galilee:",
+              "answerRef": "MRK.1.16",
+              "explain": "Mark 1:16 and Mark 1:17 record Jesus seeing fishermen casting a net and calling them to become fishers for men.",
+              "type": "match",
+              "pairs": [
+                {
+                  "ref": "MRK.1.16",
+                  "text": "casting a net into the sea, for they were fishermen."
+                },
+                {
+                  "ref": "MRK.1.17",
+                  "text": "Come after me, and I will make you into fishers for men."
+                }
+              ]
             },
             {
               "id": "mark-30.d02.q3",
@@ -2461,16 +2485,15 @@
             },
             {
               "id": "mark-30.d03.q2",
-              "prompt": "Where did Jesus go to pray?",
+              "prompt": "Early in the morning, while it was still dark, Jesus went out to a deserted place to pray.",
               "choices": [
-                "A deserted place",
-                "The synagogue",
-                "Simon’s house",
-                "The temple"
+                "True",
+                "False"
               ],
               "correctIndex": 0,
               "answerRef": "MRK.1.35",
-              "explain": "Mark 1:35. He went out alone, away from the crowd."
+              "explain": "Mark 1:35: \"Early in the morning, while it was still dark, he rose up and went out, and departed into a deserted place, and prayed there.\"",
+              "type": "true_false"
             },
             {
               "id": "mark-30.d03.q3",
@@ -2514,16 +2537,17 @@
             },
             {
               "id": "mark-30.d04.q2",
-              "prompt": "What did Jesus do before he spoke the words of healing?",
-              "choices": [
-                "told him to wash",
-                "sent him away",
-                "asked his name",
-                "touched him"
-              ],
-              "correctIndex": 3,
+              "prompt": "Put Jesus’ action and words in order:",
               "answerRef": "MRK.1.41",
-              "explain": "Mark 1:41: \"he stretched out his hand, and touched him.\""
+              "explain": "Mark 1:41: \"he stretched out his hand, and touched him, and said to him, “I want to. Be made clean.”\"",
+              "type": "order",
+              "orderTokens": [
+                "he stretched out his hand,",
+                "and touched him,",
+                "and said to him,",
+                "“I want to.",
+                "Be made clean.”"
+              ]
             },
             {
               "id": "mark-30.d04.q3",
@@ -2568,16 +2592,15 @@
             },
             {
               "id": "mark-30.d05.q2",
-              "prompt": "What did Jesus see, according to Mark 2:5?",
+              "prompt": "Jesus saw their faith before speaking to the paralyzed man.",
               "choices": [
-                "their fear",
-                "their faith",
-                "their impatience",
-                "their wealth"
+                "True",
+                "False"
               ],
-              "correctIndex": 1,
+              "correctIndex": 0,
               "answerRef": "MRK.2.5",
-              "explain": "Mark 2:5: \"Jesus, seeing their faith, said to the paralytic, “Son, your sins are forgiven you.”\""
+              "explain": "Mark 2:5: \"Jesus, seeing their faith, said to the paralytic, “Son, your sins are forgiven you.”\"",
+              "type": "true_false"
             },
             {
               "id": "mark-30.d05.q3",
@@ -2635,16 +2658,17 @@
             },
             {
               "id": "mark-30.d06.q3",
-              "prompt": "\"Those who are healthy have no need for a ___, but those who are sick.\"",
+              "prompt": "Complete Jesus’ words: \"Those who are healthy have no need for a ___, but those who are sick.\"",
               "choices": [
-                "shepherd",
+                "physician",
                 "teacher",
-                "priest",
-                "physician"
+                "ruler",
+                "priest"
               ],
-              "correctIndex": 3,
+              "correctIndex": 0,
               "answerRef": "MRK.2.17",
-              "explain": "Mark 2:17. Jesus compares himself to a doctor who goes to the sick."
+              "explain": "Mark 2:17: \"Those who are healthy have no need for a physician, but those who are sick.\"",
+              "type": "fill_blank"
             }
           ]
         },
@@ -2717,16 +2741,17 @@
           "quiz": [
             {
               "id": "mark-30.d08.q1",
-              "prompt": "\"The farmer sows the ___.\"",
+              "prompt": "Complete the verse: \"The farmer sows the ___.\"",
               "choices": [
-                "field",
-                "law",
                 "word",
-                "harvest"
+                "wheat",
+                "mustard seed",
+                "barley"
               ],
-              "correctIndex": 2,
+              "correctIndex": 0,
               "answerRef": "MRK.4.14",
-              "explain": "Mark 4:14. In Jesus' explanation, the seed is the word."
+              "explain": "Mark 4:14: \"The farmer sows the word.\"",
+              "type": "fill_blank"
             },
             {
               "id": "mark-30.d08.q2",
@@ -2785,16 +2810,17 @@
             },
             {
               "id": "mark-30.d09.q2",
-              "prompt": "\"Peace! Be ___!\"",
+              "prompt": "Complete Jesus’ words to the sea: \"Peace! Be ___!\"",
               "choices": [
-                "silent",
-                "gone",
-                "strong",
-                "still"
+                "still",
+                "calm",
+                "quiet",
+                "obedient"
               ],
-              "correctIndex": 3,
+              "correctIndex": 0,
               "answerRef": "MRK.4.39",
-              "explain": "Mark 4:39: He \"said to the sea, “Peace! Be still!” The wind ceased and there was a great calm.\""
+              "explain": "Mark 4:39: He rebuked the wind, and said to the sea, \"Peace! Be still!\"",
+              "type": "fill_blank"
             },
             {
               "id": "mark-30.d09.q3",
@@ -2839,16 +2865,20 @@
             },
             {
               "id": "mark-30.d10.q2",
-              "prompt": "What did the man ask as Jesus was getting into the boat?",
-              "choices": [
-                "that he would heal his family",
-                "that he might be with him",
-                "that he would stay in the region",
-                "that he would leave the region"
-              ],
-              "correctIndex": 1,
-              "answerRef": "MRK.5.18",
-              "explain": "Mark 5:18: he \"begged him that he might be with him.\""
+              "prompt": "Match each reference to its verse:",
+              "answerRef": "MRK.5.19",
+              "explain": "Mark 5:19 and Mark 5:20 describe Jesus telling the healed man to share what the Lord had done, and his proclamation in Decapolis.",
+              "type": "match",
+              "pairs": [
+                {
+                  "ref": "MRK.5.19",
+                  "text": "tell them what great things the Lord has done for you"
+                },
+                {
+                  "ref": "MRK.5.20",
+                  "text": "began to proclaim in Decapolis how Jesus had done great things for him"
+                }
+              ]
             },
             {
               "id": "mark-30.d10.q3",
@@ -2893,16 +2923,15 @@
             },
             {
               "id": "mark-30.d11.q2",
-              "prompt": "What did Jesus tell Jairus when news came that his daughter had died?",
-              "choices": [
-                "Bring her to the synagogue",
-                "Don’t be afraid, only believe",
-                "It is too late now",
-                "Go home and mourn with your family"
-              ],
-              "correctIndex": 1,
+              "prompt": "Put Jesus’ reassuring words to Jairus in order:",
               "answerRef": "MRK.5.36",
-              "explain": "Mark 5:36: \"Don’t be afraid, only believe.\""
+              "explain": "Mark 5:36: Jesus said to the ruler of the synagogue, \"Don’t be afraid, only believe.\"",
+              "type": "order",
+              "orderTokens": [
+                "Don’t",
+                "be afraid,",
+                "only believe."
+              ]
             },
             {
               "id": "mark-30.d11.q3",
@@ -3001,16 +3030,15 @@
             },
             {
               "id": "mark-30.d13.q2",
-              "prompt": "What did the disciples think when they saw Jesus walking on the sea?",
+              "prompt": "When the disciples saw Jesus walking on the sea, they thought he was an angel.",
               "choices": [
-                "it was a ghost",
-                "it was an angel",
-                "it was a fisherman",
-                "it was Elijah"
+                "True",
+                "False"
               ],
-              "correctIndex": 0,
+              "correctIndex": 1,
               "answerRef": "MRK.6.49",
-              "explain": "Mark 6:49: they \"supposed that it was a ghost, and cried out.\""
+              "explain": "Mark 6:49: they \"supposed that it was a ghost, and cried out.\"",
+              "type": "true_false"
             },
             {
               "id": "mark-30.d13.q3",
@@ -3109,16 +3137,15 @@
             },
             {
               "id": "mark-30.d15.q2",
-              "prompt": "Peter answered, \"You are the ___.\"",
-              "choices": [
-                "Rabbi",
-                "Prophet",
-                "Baptizer",
-                "Christ"
-              ],
-              "correctIndex": 3,
+              "prompt": "Put Peter’s answer in order:",
               "answerRef": "MRK.8.29",
-              "explain": "Mark 8:29: Peter answered, \"You are the Christ.\""
+              "explain": "Mark 8:29: Peter answered, \"You are the Christ.\"",
+              "type": "order",
+              "orderTokens": [
+                "Peter answered,",
+                "“You are",
+                "the Christ.”"
+              ]
             },
             {
               "id": "mark-30.d15.q3",
@@ -3162,16 +3189,17 @@
             },
             {
               "id": "mark-30.d16.q2",
-              "prompt": "\"let him deny himself, and take up his ___, and follow me.\"",
+              "prompt": "Complete the verse: \"let him deny himself, and take up his ___, and follow me.\"",
               "choices": [
-                "sword",
+                "cross",
+                "yoke",
                 "staff",
-                "crown",
-                "cross"
+                "sword"
               ],
-              "correctIndex": 3,
+              "correctIndex": 0,
               "answerRef": "MRK.8.34",
-              "explain": "Mark 8:34. Following Jesus means taking up the cross."
+              "explain": "Mark 8:34: \"Whoever wants to come after me, let him deny himself, and take up his cross, and follow me.\"",
+              "type": "fill_blank"
             },
             {
               "id": "mark-30.d16.q3",
@@ -3270,16 +3298,15 @@
             },
             {
               "id": "mark-30.d18.q2",
-              "prompt": "\"I believe. Help my ___!\"",
+              "prompt": "The father of the child cried out: 'I believe. Help my unbelief!'",
               "choices": [
-                "unbelief",
-                "family",
-                "son",
-                "weakness"
+                "True",
+                "False"
               ],
               "correctIndex": 0,
               "answerRef": "MRK.9.24",
-              "explain": "Mark 9:24. The father brings both his faith and his doubt."
+              "explain": "Mark 9:24: \"Immediately the father of the child cried out with tears, “I believe. Help my unbelief!”\"",
+              "type": "true_false"
             },
             {
               "id": "mark-30.d18.q3",
@@ -3432,16 +3459,20 @@
             },
             {
               "id": "mark-30.d21.q2",
-              "prompt": "In Mark 10:43, whoever wants to become great among you shall be…",
-              "choices": [
-                "your teacher",
-                "your servant",
-                "your judge",
-                "your ruler"
-              ],
-              "correctIndex": 1,
-              "answerRef": "MRK.10.43",
-              "explain": "Mark 10:43: \"whoever wants to become great among you shall be your servant.\""
+              "prompt": "Match each reference to Jesus’ teaching:",
+              "answerRef": "MRK.10.45",
+              "explain": "Mark 10:43 and Mark 10:45 teach that greatness comes through serving, following the Son of Man who came to serve.",
+              "type": "match",
+              "pairs": [
+                {
+                  "ref": "MRK.10.43",
+                  "text": "whoever wants to become great among you shall be your servant."
+                },
+                {
+                  "ref": "MRK.10.45",
+                  "text": "For the Son of Man also came not to be served but to serve"
+                }
+              ]
             },
             {
               "id": "mark-30.d21.q3",
@@ -3553,16 +3584,17 @@
             },
             {
               "id": "mark-30.d23.q3",
-              "prompt": "\"Hosanna! Blessed is he who comes in the name of the ___!\"",
+              "prompt": "Complete the crowd’s cry: \"Hosanna! Blessed is he who comes in the name of the ___!\"",
               "choices": [
+                "Lord",
                 "King",
-                "temple",
-                "people",
-                "Lord"
+                "Prophet",
+                "Father"
               ],
-              "correctIndex": 3,
+              "correctIndex": 0,
               "answerRef": "MRK.11.9",
-              "explain": "Mark 11:9. The crowd welcomes Jesus with words from Psalm 118."
+              "explain": "Mark 11:9: \"Hosanna! Blessed is he who comes in the name of the Lord!\"",
+              "type": "fill_blank"
             }
           ]
         },
@@ -3701,16 +3733,20 @@
             },
             {
               "id": "mark-30.d26.q2",
-              "prompt": "\"This is my blood of the new ___, which is poured out for many.\"",
-              "choices": [
-                "kingdom",
-                "law",
-                "covenant",
-                "temple"
-              ],
-              "correctIndex": 2,
+              "prompt": "Match each reference to its verse:",
               "answerRef": "MRK.14.24",
-              "explain": "Mark 14:24. Jesus speaks of a new covenant."
+              "explain": "Mark 14:23 and Mark 14:24: Jesus gave thanks for the cup and said, \"This is my blood of the new covenant.\"",
+              "type": "match",
+              "pairs": [
+                {
+                  "ref": "MRK.14.23",
+                  "text": "He took the cup, and when he had given thanks"
+                },
+                {
+                  "ref": "MRK.14.24",
+                  "text": "This is my blood of the new covenant"
+                }
+              ]
             },
             {
               "id": "mark-30.d26.q3",
@@ -3755,16 +3791,15 @@
             },
             {
               "id": "mark-30.d27.q2",
-              "prompt": "\"However, not what I desire, but what you ___.\"",
-              "choices": [
-                "command",
-                "desire",
-                "know",
-                "allow"
-              ],
-              "correctIndex": 1,
+              "prompt": "Put Jesus’ prayer in Gethsemane in order:",
               "answerRef": "MRK.14.36",
-              "explain": "Mark 14:36. Jesus asks honestly and trusts his Father."
+              "explain": "Mark 14:36: \"However, not what I desire, but what you desire.\"",
+              "type": "order",
+              "orderTokens": [
+                "However,",
+                "not what I desire,",
+                "but what you desire."
+              ]
             },
             {
               "id": "mark-30.d27.q3",

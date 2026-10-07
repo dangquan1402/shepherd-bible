@@ -44,12 +44,84 @@ Background the text does not show (earlier events, other books) is fine, but cit
 
 - **Test understanding of the passage shown**, not memory of trivia. Good: "Why did the man go away sorrowful?" Weak: "How many denarii…?"
 - **Mix the types:** fill-in-the-blank from a verse (`"Love is ___ and is kind."`), comprehension ("What did Jesus do before he spoke the words of healing?"), and "what did X say/do". Usually no more than one fill-in-the-blank per lesson.
+- **Interactive types:** about 1 in 5 questions per path may use a non-choice type (`fill_blank`, `order`, `true_false`, `match`; shapes below). Never two non-choice questions in a row in a lesson (the validator fails it). Use one where it tests the lesson's own point, never just to fill the quota.
+- **Don't give away a later answer.** A question's visible text (prompt, word bank, tokens, pair texts) must not contain the answer to a later question in the same lesson; the validator warns. Prefer a verse no other question tests.
 - **Every question has an `answerRef`** (one of the lesson's `verseRefs`) whose text contains the correct choice verbatim (case-insensitive), and an `explain` that cites it ("Mark 1:41: …"). The app shows that verse as the proof.
-- **Exactly one defensible answer.** Distractors are plausible but clearly wrong from the passage. Don't use a distractor that is a true statement elsewhere in the same verses (the validator warns), and avoid ones that are true in a parallel passage ("strength" for Matthew 22:37, which Mark 12:30 has).
+- **Quotation marks mean WEB text.** Anything in `"…"` in a prompt or `explain` is checked against the lesson's verses, including a span that nests the verse's own `“…”`. Paraphrase without quotation marks.
+- **Exactly one defensible answer.** Distractors are plausible but clearly wrong from the passage. Don't use a distractor that is a true statement elsewhere in the same verses (the validator warns for `choice`), and avoid ones that are true in a parallel passage ("strength" for Matthew 22:37, which Mark 12:30 has).
 - **Never mock.** No joke choices ("Wallet", "Chance"), nothing that makes a person or group look stupid.
 - **No doctrine in an answer.** Quiz only what the verses say, never a tradition's reading of them.
 - **Answer position.** Write the answer and three wrong choices; the authoring step places the answer so positions are balanced across a path, both as authored (`correctIndex`) and as displayed (`QuizRules.displayOrder` shuffles by question id). Check with `tools/content/content_summary.py`.
 - Keep choices short and parallel in form (all phrases, or all single words).
+
+### Exercise types and JSON shapes
+
+The ids below are made up; real ids are lesson-scoped (`mark-30.d05.q2`). `type` defaults to `choice`.
+
+1. **`choice`**: multiple choice.
+   ```json
+   {
+     "id": "example.q1",
+     "prompt": "What were Simon and Andrew doing when Jesus saw them?",
+     "choices": ["mending their nets", "casting a net into the sea", "selling fish", "praying on the shore"],
+     "correctIndex": 1,
+     "answerRef": "MRK.1.16",
+     "explain": "Mark 1:16: \"casting a net into the sea, for they were fishermen.\""
+   }
+   ```
+
+2. **`fill_blank`**: a short lead-in, then the verse in quotation marks with `___` inside them. The app shows the lead-in as the title and the quoted verse once, in a card. The blank filled with the answer must be verbatim WEB text.
+   ```json
+   {
+     "id": "example.q2",
+     "type": "fill_blank",
+     "prompt": "Complete the verse: \"For my yoke is easy, and my burden is ___.\"",
+     "choices": ["light", "heavy", "small", "removed"],
+     "correctIndex": 0,
+     "answerRef": "MAT.11.30",
+     "explain": "Matthew 11:30: \"For my yoke is easy, and my burden is light.\""
+   }
+   ```
+
+3. **`order`**: `orderTokens` in the correct order; joined with spaces they must be a verbatim substring of the `answerRef` verse. Use at least three tokens (two is a coin flip).
+   ```json
+   {
+     "id": "example.q3",
+     "type": "order",
+     "prompt": "Put Jesus’ words in order:",
+     "orderTokens": ["Come after me,", "and I will make you", "into fishers for men."],
+     "answerRef": "MRK.1.17",
+     "explain": "Mark 1:17: Jesus said, \"Come after me, and I will make you into fishers for men.\""
+   }
+   ```
+
+4. **`true_false`**: a statement about the verses; `choices` is `["True", "False"]`, `correctIndex` 0 for True, 1 for False. A false statement should be a plausible misreading, not a straw man.
+   ```json
+   {
+     "id": "example.q4",
+     "type": "true_false",
+     "prompt": "During the storm, Jesus was awake at the front of the boat.",
+     "choices": ["True", "False"],
+     "correctIndex": 1,
+     "answerRef": "MRK.4.38",
+     "explain": "Mark 4:38: \"He himself was in the stern, asleep on the cushion.\""
+   }
+   ```
+
+5. **`match`**: `pairs` of `{ "ref", "text" }`; each ref is one of the lesson's verses and each text is verbatim from it. The app numbers each reference and shows that number on the verse it is matched to; a wrong answer lists every correct pair.
+   ```json
+   {
+     "id": "example.q5",
+     "type": "match",
+     "prompt": "Match each reference to Jesus’ words:",
+     "pairs": [
+       { "ref": "MRK.1.17", "text": "I will make you into fishers for men." },
+       { "ref": "MRK.1.41", "text": "I want to. Be made clean." }
+     ],
+     "answerRef": "MRK.1.17",
+     "explain": "Mark 1:17 and Mark 1:41: Jesus calls fishermen and heals a man with leprosy."
+   }
+   ```
 
 ## 5. Theology: non-denominational and mainstream
 
