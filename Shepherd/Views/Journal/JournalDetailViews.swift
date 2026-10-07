@@ -69,12 +69,7 @@ public struct JournalEntryDetailView: View {
                             .scrollContentBackground(.hidden)
                             .frame(minHeight: 200)
                             .padding(12)
-                            .background(ShepherdTheme.cardSurface)
-                            .clipShape(RoundedRectangle(cornerRadius: ShepherdTheme.radiusMD))
-                            .overlay(
-                                RoundedRectangle(cornerRadius: ShepherdTheme.radiusMD)
-                                    .stroke(ShepherdTheme.surfaceBorder, lineWidth: 1)
-                            )
+                            .shepherdSurfaceCard()
                     }
 
                     if let updated = entry.updatedAt {
@@ -161,12 +156,7 @@ public struct NewJournalEntrySheet: View {
                     TextField("Title or passage (optional)", text: $title)
                         .font(.body)
                         .padding(12)
-                        .background(ShepherdTheme.cardSurface)
-                        .clipShape(RoundedRectangle(cornerRadius: ShepherdTheme.radiusSM))
-                        .overlay(
-                            RoundedRectangle(cornerRadius: ShepherdTheme.radiusSM)
-                                .stroke(ShepherdTheme.surfaceBorder, lineWidth: 1)
-                        )
+                        .shepherdSurfaceCard(cornerRadius: ShepherdTheme.radiusSM)
 
                     ZStack(alignment: .topLeading) {
                         if text.isEmpty {
@@ -184,12 +174,7 @@ public struct NewJournalEntrySheet: View {
                             .frame(minHeight: 180)
                     }
                     .padding(12)
-                    .background(ShepherdTheme.cardSurface)
-                    .clipShape(RoundedRectangle(cornerRadius: ShepherdTheme.radiusMD))
-                    .overlay(
-                        RoundedRectangle(cornerRadius: ShepherdTheme.radiusMD)
-                            .stroke(ShepherdTheme.surfaceBorder, lineWidth: 1)
-                    )
+                    .shepherdSurfaceCard()
 
                     ProminentGlassButton("Save to Journal", icon: "square.and.pencil") {
                         save()
@@ -249,12 +234,7 @@ public struct NewPrayerSheet: View {
                             .lineLimit(3...6)
                             .font(.body)
                             .padding(12)
-                            .background(ShepherdTheme.cardSurface)
-                            .clipShape(RoundedRectangle(cornerRadius: ShepherdTheme.radiusSM))
-                            .overlay(
-                                RoundedRectangle(cornerRadius: ShepherdTheme.radiusSM)
-                                    .stroke(ShepherdTheme.surfaceBorder, lineWidth: 1)
-                            )
+                            .shepherdSurfaceCard(cornerRadius: ShepherdTheme.radiusSM)
                     }
 
                     VStack(alignment: .leading, spacing: 6) {
@@ -266,12 +246,7 @@ public struct NewPrayerSheet: View {
                             .lineLimit(2...4)
                             .font(.body)
                             .padding(12)
-                            .background(ShepherdTheme.cardSurface)
-                            .clipShape(RoundedRectangle(cornerRadius: ShepherdTheme.radiusSM))
-                            .overlay(
-                                RoundedRectangle(cornerRadius: ShepherdTheme.radiusSM)
-                                    .stroke(ShepherdTheme.surfaceBorder, lineWidth: 1)
-                            )
+                            .shepherdSurfaceCard(cornerRadius: ShepherdTheme.radiusSM)
                     }
 
                     ProminentGlassButton("Add Prayer", icon: "plus") {
@@ -340,12 +315,7 @@ public struct EditPrayerSheet: View {
                     }
                     .tint(ShepherdTheme.accentFill)
                     .padding(14)
-                    .background(ShepherdTheme.cardSurface)
-                    .clipShape(RoundedRectangle(cornerRadius: ShepherdTheme.radiusSM))
-                    .overlay(
-                        RoundedRectangle(cornerRadius: ShepherdTheme.radiusSM)
-                            .stroke(ShepherdTheme.surfaceBorder, lineWidth: 1)
-                    )
+                    .shepherdSurfaceCard(cornerRadius: ShepherdTheme.radiusSM)
 
                     // Prayer Text
                     VStack(alignment: .leading, spacing: 6) {
@@ -357,12 +327,7 @@ public struct EditPrayerSheet: View {
                             .lineLimit(3...6)
                             .font(.body)
                             .padding(12)
-                            .background(ShepherdTheme.cardSurface)
-                            .clipShape(RoundedRectangle(cornerRadius: ShepherdTheme.radiusSM))
-                            .overlay(
-                                RoundedRectangle(cornerRadius: ShepherdTheme.radiusSM)
-                                    .stroke(ShepherdTheme.surfaceBorder, lineWidth: 1)
-                            )
+                            .shepherdSurfaceCard(cornerRadius: ShepherdTheme.radiusSM)
                     }
 
                     // Notes
@@ -375,12 +340,7 @@ public struct EditPrayerSheet: View {
                             .lineLimit(2...4)
                             .font(.body)
                             .padding(12)
-                            .background(ShepherdTheme.cardSurface)
-                            .clipShape(RoundedRectangle(cornerRadius: ShepherdTheme.radiusSM))
-                            .overlay(
-                                RoundedRectangle(cornerRadius: ShepherdTheme.radiusSM)
-                                    .stroke(ShepherdTheme.surfaceBorder, lineWidth: 1)
-                            )
+                            .shepherdSurfaceCard(cornerRadius: ShepherdTheme.radiusSM)
                     }
 
                     // Save & Delete

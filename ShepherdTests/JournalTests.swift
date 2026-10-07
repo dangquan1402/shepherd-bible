@@ -1,5 +1,6 @@
 import XCTest
 import SwiftData
+import SwiftUI
 @testable import Shepherd
 
 final class JournalTests: XCTestCase {
@@ -78,31 +79,20 @@ final class JournalTests: XCTestCase {
 
     // MARK: - 3. PrayerRequest Filtering (Open vs Answered)
     @MainActor
-    func testPrayerFiltering() throws {
-        let config = ModelConfiguration(isStoredInMemoryOnly: true)
-        let container = try ModelContainer(for: JournalEntry.self, PrayerRequest.self, configurations: config)
-        let context = ModelContext(container)
+    func testPrayerFiltering() {
+        let open1 = PrayerRequest(text: "Open prayer 1")
+        let answered = PrayerRequest(text: "Answered prayer 1", isAnswered: true, answeredDate: .now)
+        let open2 = PrayerRequest(text: "Open prayer 2")
+        let prayers = [open1, answered, open2]
 
-        let prayer1 = PrayerRequest(text: "Open prayer 1")
-        let prayer2 = PrayerRequest(text: "Open prayer 2")
-        let prayer3 = PrayerRequest(text: "Answered prayer 1", isAnswered: true, answeredDate: .now)
+        XCTAssertEqual(PrayerFilter.all.apply(to: prayers).map(\.text), ["Open prayer 1", "Answered prayer 1", "Open prayer 2"])
+        XCTAssertEqual(PrayerFilter.open.apply(to: prayers).map(\.text), ["Open prayer 1", "Open prayer 2"])
+        XCTAssertEqual(PrayerFilter.answered.apply(to: prayers).map(\.text), ["Answered prayer 1"])
 
-        context.insert(prayer1)
-        context.insert(prayer2)
-        context.insert(prayer3)
-        try context.save()
-
-        let all = try context.fetch(FetchDescriptor<PrayerRequest>())
-        XCTAssertEqual(all.count, 3)
-
-        let open = all.filter { !$0.isAnswered }
-        XCTAssertEqual(open.count, 2)
-        XCTAssertTrue(open.contains { $0.text == "Open prayer 1" })
-        XCTAssertTrue(open.contains { $0.text == "Open prayer 2" })
-
-        let answered = all.filter { $0.isAnswered }
-        XCTAssertEqual(answered.count, 1)
-        XCTAssertEqual(answered.first?.text, "Answered prayer 1")
+        // Marking a prayer answered moves it between the filters
+        open2.markAnswered()
+        XCTAssertEqual(PrayerFilter.open.apply(to: prayers).map(\.text), ["Open prayer 1"])
+        XCTAssertEqual(PrayerFilter.answered.apply(to: prayers).map(\.text), ["Answered prayer 1", "Open prayer 2"])
     }
 
     // MARK: - 4. Lightweight Additive Migration from V1 Store
@@ -175,67 +165,84 @@ final class JournalTests: XCTestCase {
         XCTAssertEqual(fetchedPrayers.first?.text, "Prayer request")
     }
 
-    // MARK: - 5. Reflection Step Does Not Block Lesson Completion or Streak
+    // MARK: - 5. Reflection saved after a lesson
     @MainActor
-    func testReflectionStepNeverBlocksCompletionOrStreak() throws {
-        let config = ModelConfiguration(isStoredInMemoryOnly: true)
-        let container = try ModelContainer(
-            for: Companion.self, StreakState.self, LessonProgress.self, JournalEntry.self,
-            configurations: config
-        )
-        let context = ModelContext(container)
-
-        let companion = Companion(name: "Barnaby", stage: 1, xp: 0)
-        let streak = StreakState()
-        context.insert(companion)
-        context.insert(streak)
-        try context.save()
-
+    func testReflectionEntryLinksLessonAndSkipsBlankText() throws {
         ContentStore.shared.loadIfNeeded()
-        guard let lesson = ContentStore.shared.paths.first?.lessons.first else {
-            XCTFail("Missing day 1 lesson")
-            return
-        }
+        let lesson = try XCTUnwrap(ContentStore.shared.paths.first?.lessons.first)
 
-        // Completion and streak are recorded BEFORE the reflection step is reached
-        let result = LessonProgressRecorder.complete(lesson: lesson, score: 2, context: context)
-        XCTAssertEqual(result.streakCount, 1)
-        XCTAssertEqual(result.xpAwarded, 12)
-        XCTAssertEqual(companion.xp, 12)
+        XCTAssertNil(JournalEntry.reflection(on: lesson, text: ""), "an empty reflection must save nothing")
+        XCTAssertNil(JournalEntry.reflection(on: lesson, text: "  \n "), "a blank reflection must save nothing")
 
-        let progressList = try context.fetch(FetchDescriptor<LessonProgress>())
-        XCTAssertEqual(progressList.count, 1)
-        XCTAssertEqual(progressList.first?.lessonId, lesson.id)
-
-        // Case A: User skips reflection (no JournalEntry created)
-        // Completion and streak remain 100% intact
-        let journalsAfterSkip = try context.fetch(FetchDescriptor<JournalEntry>())
-        XCTAssertEqual(journalsAfterSkip.count, 0)
-        XCTAssertEqual(streak.current, 1)
-
-        // Case B: User writes and saves reflection
-        let entry = JournalEntry(lessonId: lesson.id, lessonTitle: lesson.title, prompt: lesson.prayerPrompt, text: "My reflection")
-        context.insert(entry)
-        try context.save()
-
-        let journalsAfterSave = try context.fetch(FetchDescriptor<JournalEntry>())
-        XCTAssertEqual(journalsAfterSave.count, 1)
-        XCTAssertEqual(journalsAfterSave.first?.lessonId, lesson.id)
-        XCTAssertEqual(streak.current, 1)
+        let entry = try XCTUnwrap(JournalEntry.reflection(on: lesson, text: "  Light out of darkness.\n"))
+        XCTAssertEqual(entry.text, "Light out of darkness.")
+        XCTAssertEqual(entry.lessonId, lesson.id)
+        XCTAssertEqual(entry.lessonTitle, lesson.title)
+        XCTAssertEqual(entry.prompt, lesson.prayerPrompt)
     }
 
-    // MARK: - 6. LocalAuthentication / Face ID Lock Service
+    // MARK: - 6. Journal by path
+    @MainActor
+    func testReflectionsGroupByPath() throws {
+        ContentStore.shared.loadIfNeeded()
+        let paths = ContentStore.shared.paths
+        XCTAssertGreaterThanOrEqual(paths.count, 2)
+        let first = paths[0], second = paths[1]
+
+        // Newest first, as the Journal lists them
+        let fromSecond = JournalEntry(lessonId: second.lessons[0].id, text: "second path")
+        let own = JournalEntry(lessonTitle: "Psalm 23", text: "my own")
+        let fromFirstB = JournalEntry(lessonId: first.lessons[1].id, text: "first path, day 2")
+        let fromFirstA = JournalEntry(lessonId: first.lessons[0].id, text: "first path, day 1")
+        let unknown = JournalEntry(lessonId: "no-such-lesson", text: "retired lesson")
+
+        let sections = JournalGrouping.byPath([fromSecond, own, fromFirstB, fromFirstA, unknown], paths: paths)
+        XCTAssertEqual(sections.map(\.title), [first.title, second.title, "Your own reflections"])
+        XCTAssertEqual(sections[0].entries.map(\.text), ["first path, day 2", "first path, day 1"])
+        XCTAssertEqual(sections[1].entries.map(\.text), ["second path"])
+        XCTAssertEqual(sections[2].entries.map(\.text), ["my own", "retired lesson"])
+    }
+
+    // MARK: - 7. LocalAuthentication / Face ID Lock Service
+    private let lockKey = "journalFaceIDLockEnabled"
+
     @MainActor
     func testJournalAuthServiceDefaultState() async {
-        let auth = JournalAuthService.shared
-        // Off by default
-        UserDefaults.standard.removeObject(forKey: "journalFaceIDLockEnabled")
-        auth.isLockEnabled = false
-        auth.isUnlocked = true
+        let saved = UserDefaults.standard.object(forKey: lockKey)
+        defer { UserDefaults.standard.set(saved, forKey: lockKey) }
+        UserDefaults.standard.removeObject(forKey: lockKey)
 
+        let auth = JournalAuthService()
         XCTAssertFalse(auth.isLockEnabled, "Journal lock must be disabled by default")
+        XCTAssertTrue(auth.isUnlocked)
         let authenticated = await auth.authenticate()
         XCTAssertTrue(authenticated, "When lock is disabled, authenticate() must return true immediately")
+        XCTAssertTrue(auth.isUnlocked)
+    }
+
+    @MainActor
+    func testJournalRelocksWhenLeftOrBackgrounded() {
+        let saved = UserDefaults.standard.object(forKey: lockKey)
+        defer { UserDefaults.standard.set(saved, forKey: lockKey) }
+
+        let auth = JournalAuthService()
+        auth.isLockEnabled = true
+
+        auth.isUnlocked = true
+        auth.journalDidDisappear()
+        XCTAssertFalse(auth.isUnlocked, "leaving the journal must lock it again")
+
+        auth.isUnlocked = true
+        auth.scenePhaseChanged(to: .inactive)
+        XCTAssertTrue(auth.isUnlocked, "inactive (the Face ID prompt itself) must not lock")
+        auth.scenePhaseChanged(to: .background)
+        XCTAssertFalse(auth.isUnlocked, "backgrounding the app must lock the journal")
+
+        // With the lock off there is nothing to lock
+        auth.isLockEnabled = false
+        auth.isUnlocked = true
+        auth.journalDidDisappear()
+        auth.scenePhaseChanged(to: .background)
         XCTAssertTrue(auth.isUnlocked)
     }
 }

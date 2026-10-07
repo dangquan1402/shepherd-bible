@@ -90,12 +90,7 @@ public struct CompanionView: View {
                             .padding(.top, 4)
                     }
                     .padding(18)
-                    .background(ShepherdTheme.cardSurface)
-                    .clipShape(RoundedRectangle(cornerRadius: ShepherdTheme.radiusMD))
-                    .overlay(
-                        RoundedRectangle(cornerRadius: ShepherdTheme.radiusMD)
-                            .stroke(ShepherdTheme.surfaceBorder, lineWidth: 1)
-                    )
+                    .shepherdSurfaceCard()
                     .padding(.horizontal, 20)
 
                     // Reflection & Prayer Journal Navigation Card
@@ -130,12 +125,7 @@ public struct CompanionView: View {
                                 .foregroundStyle(ShepherdTheme.textTertiary)
                         }
                         .padding(16)
-                        .background(ShepherdTheme.cardSurface)
-                        .clipShape(RoundedRectangle(cornerRadius: ShepherdTheme.radiusMD))
-                        .overlay(
-                            RoundedRectangle(cornerRadius: ShepherdTheme.radiusMD)
-                                .stroke(ShepherdTheme.surfaceBorder, lineWidth: 1)
-                        )
+                        .shepherdSurfaceCard()
                     }
                     .buttonStyle(.plain)
                     .padding(.horizontal, 20)
@@ -191,12 +181,7 @@ public struct CompanionView: View {
                                     }
                                 }
                                 .padding(14)
-                                .background(ShepherdTheme.cardSurface)
-                                .clipShape(RoundedRectangle(cornerRadius: ShepherdTheme.radiusMD))
-                                .overlay(
-                                    RoundedRectangle(cornerRadius: ShepherdTheme.radiusMD)
-                                        .stroke(ShepherdTheme.surfaceBorder, lineWidth: 1)
-                                )
+                                .shepherdSurfaceCard()
                             }
                         }
                         .padding(.horizontal, 20)

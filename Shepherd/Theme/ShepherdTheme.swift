@@ -173,3 +173,15 @@ public extension View {
         modifier(ShepherdGlassCardModifier(cornerRadius: cornerRadius))
     }
 }
+
+public extension View {
+    /// The flat row card used by the Lamb tab and the Journal: card surface with a hairline border.
+    func shepherdSurfaceCard(cornerRadius: CGFloat = ShepherdTheme.radiusMD) -> some View {
+        background(ShepherdTheme.cardSurface)
+            .clipShape(RoundedRectangle(cornerRadius: cornerRadius))
+            .overlay(
+                RoundedRectangle(cornerRadius: cornerRadius)
+                    .stroke(ShepherdTheme.surfaceBorder, lineWidth: 1)
+            )
+    }
+}

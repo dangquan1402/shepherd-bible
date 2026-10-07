@@ -1,22 +1,17 @@
 import SwiftUI
 import SwiftData
 
-public enum PrayerFilter: String, CaseIterable, Identifiable {
-    case all = "All"
-    case open = "Open"
-    case answered = "Answered"
-
-    public var id: String { rawValue }
-}
-
 public struct JournalView: View {
     @ObservedObject private var auth = JournalAuthService.shared
     @Environment(\.modelContext) private var modelContext
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
+    @EnvironmentObject private var content: ContentStore
 
     @Query(sort: \JournalEntry.createdAt, order: .reverse) private var entries: [JournalEntry]
     @Query(sort: \PrayerRequest.createdAt, order: .reverse) private var prayers: [PrayerRequest]
 
     @State private var selectedSegment: Int = 0
+    @State private var grouping: JournalGrouping = .date
     @State private var prayerFilter: PrayerFilter = .all
     @State private var quickPrayerText: String = ""
 
@@ -26,32 +21,17 @@ public struct JournalView: View {
     @State private var selectedEntry: JournalEntry? = nil
     @State private var editingPrayer: PrayerRequest? = nil
     @State private var entryToDelete: JournalEntry? = nil
-    @State private var showDeleteConfirmation: Bool = false
+    @State private var prayerToDelete: PrayerRequest? = nil
 
     public init() {}
 
-    private var openPrayers: [PrayerRequest] {
-        prayers.filter { !$0.isAnswered }
-    }
-
-    private var answeredPrayers: [PrayerRequest] {
-        prayers.filter { $0.isAnswered }
-    }
-
-    private var filteredPrayers: [PrayerRequest] {
-        switch prayerFilter {
-        case .all:
-            return prayers
-        case .open:
-            return openPrayers
-        case .answered:
-            return answeredPrayers
-        }
+    private var isLocked: Bool {
+        auth.isLockEnabled && !auth.isUnlocked
     }
 
     public var body: some View {
         Group {
-            if auth.isLockEnabled && !auth.isUnlocked {
+            if isLocked {
                 JournalLockedView {
                     Task {
                         _ = await auth.authenticate()
@@ -75,25 +55,30 @@ public struct JournalView: View {
                     }
                     .accessibilityLabel("Journal Privacy Settings")
 
-                    Button {
-                        if selectedSegment == 0 {
-                            showNewEntrySheet = true
-                        } else {
-                            showNewPrayerSheet = true
+                    if !isLocked {
+                        Button {
+                            if selectedSegment == 0 {
+                                showNewEntrySheet = true
+                            } else {
+                                showNewPrayerSheet = true
+                            }
+                        } label: {
+                            Image(systemName: "plus")
+                                .font(.system(size: 16, weight: .bold))
+                                .foregroundStyle(ShepherdTheme.accentFill)
                         }
-                    } label: {
-                        Image(systemName: "plus")
-                            .font(.system(size: 16, weight: .bold))
-                            .foregroundStyle(ShepherdTheme.accentFill)
+                        .accessibilityLabel(selectedSegment == 0 ? "New Reflection" : "New Prayer")
                     }
-                    .accessibilityLabel(selectedSegment == 0 ? "New Reflection" : "New Prayer")
                 }
             }
         }
         .task {
-            if auth.isLockEnabled && !auth.isUnlocked {
+            if isLocked {
                 _ = await auth.authenticate()
             }
+        }
+        .onDisappear {
+            auth.journalDidDisappear()
         }
         .sheet(isPresented: $showLockSettingsSheet) {
             JournalLockSettingsSheet()
@@ -110,11 +95,38 @@ public struct JournalView: View {
         .sheet(item: $editingPrayer) { prayer in
             EditPrayerSheet(prayer: prayer)
         }
+        .alert("Delete Reflection?", isPresented: Binding(
+            get: { entryToDelete != nil },
+            set: { if !$0 { entryToDelete = nil } }
+        )) {
+            Button("Cancel", role: .cancel) {}
+            Button("Delete", role: .destructive) {
+                if let entry = entryToDelete {
+                    modelContext.delete(entry)
+                    try? modelContext.save()
+                }
+            }
+        } message: {
+            Text("This action cannot be undone.")
+        }
+        .alert("Delete Prayer?", isPresented: Binding(
+            get: { prayerToDelete != nil },
+            set: { if !$0 { prayerToDelete = nil } }
+        )) {
+            Button("Cancel", role: .cancel) {}
+            Button("Delete", role: .destructive) {
+                if let prayer = prayerToDelete {
+                    modelContext.delete(prayer)
+                    try? modelContext.save()
+                }
+            }
+        } message: {
+            Text("This action cannot be undone.")
+        }
     }
 
     private var journalContent: some View {
         VStack(spacing: 0) {
-            // Segmented Picker
             Picker("Journal Section", selection: $selectedSegment) {
                 Text("Reflections (\(entries.count))").tag(0)
                 Text("Prayers (\(prayers.count))").tag(1)
@@ -123,66 +135,87 @@ public struct JournalView: View {
             .padding(.horizontal, 20)
             .padding(.vertical, 12)
 
-            if selectedSegment == 0 {
-                reflectionsList
-            } else {
-                prayersList
+            ScrollView {
+                LazyVStack(alignment: .leading, spacing: 14) {
+                    if selectedSegment == 0 {
+                        reflectionsContent
+                    } else {
+                        prayersContent
+                    }
+                }
+                .padding(.horizontal, 20)
+                .padding(.top, 4)
+                .padding(.bottom, 40)
             }
+            .scrollEdgeEffectStyle(.soft, for: .top)
         }
         .background(ShepherdTheme.canvasBg.ignoresSafeArea())
     }
 
-    // MARK: - Reflections View
-    private var reflectionsList: some View {
-        Group {
-            if entries.isEmpty {
-                emptyReflectionsView
-            } else {
-                ScrollView {
-                    LazyVStack(spacing: 14) {
-                        ForEach(entries) { entry in
-                            reflectionCard(entry)
-                        }
-                    }
-                    .padding(.horizontal, 20)
-                    .padding(.top, 8)
-                    .padding(.bottom, 40)
+    // MARK: - Reflections
+
+    @ViewBuilder
+    private var reflectionsContent: some View {
+        if entries.isEmpty {
+            emptyState(
+                icon: "book.pages",
+                title: "No reflections yet",
+                message: "After completing a daily lesson, write a reflection to keep here. You can also write a reflection anytime."
+            )
+            ProminentGlassButton("Write a Reflection", icon: "square.and.pencil") {
+                showNewEntrySheet = true
+            }
+            .padding(.horizontal, 12)
+        } else {
+            Picker("Arrange", selection: $grouping) {
+                ForEach(JournalGrouping.allCases) { option in
+                    Text(option.rawValue).tag(option)
                 }
-                .scrollEdgeEffectStyle(.soft, for: .top)
+            }
+            .pickerStyle(.menu)
+            .tint(ShepherdTheme.accent)
+            .accessibilityIdentifier("ReflectionGroupingMenu")
+
+            switch grouping {
+            case .date:
+                ForEach(entries) { entry in
+                    reflectionCard(entry)
+                }
+            case .path:
+                ForEach(JournalGrouping.byPath(entries, paths: content.paths)) { section in
+                    Text(section.title.uppercased())
+                        .font(ShepherdTheme.scriptureEyebrow())
+                        .foregroundStyle(ShepherdTheme.accentFill)
+                        .padding(.top, 6)
+                        .accessibilityAddTraits(.isHeader)
+                    ForEach(section.entries) { entry in
+                        reflectionCard(entry)
+                    }
+                }
             }
         }
     }
 
-    private var emptyReflectionsView: some View {
-        ScrollView {
-            VStack(spacing: 18) {
-                Spacer(minLength: 40)
+    private func emptyState(icon: String, title: String, message: String) -> some View {
+        VStack(spacing: 14) {
+            Image(systemName: icon)
+                .font(.system(size: 52))
+                .foregroundStyle(ShepherdTheme.accentFill)
+                .accessibilityHidden(true)
 
-                Image(systemName: "book.pages")
-                    .font(.system(size: 56))
-                    .foregroundStyle(ShepherdTheme.accentFill)
+            Text(title)
+                .font(ShepherdTheme.title1Serif())
+                .foregroundStyle(ShepherdTheme.textPrimary)
 
-                VStack(spacing: 6) {
-                    Text("No reflections yet")
-                        .font(ShepherdTheme.title1Serif())
-                        .foregroundStyle(ShepherdTheme.textPrimary)
-
-                    Text("After completing a daily lesson, write a reflection to keep here. You can also write a reflection anytime.")
-                        .font(.body)
-                        .foregroundStyle(ShepherdTheme.textSecondary)
-                        .multilineTextAlignment(.center)
-                        .padding(.horizontal, 24)
-                }
-
-                ProminentGlassButton("Write a Reflection", icon: "square.and.pencil") {
-                    showNewEntrySheet = true
-                }
-                .padding(.horizontal, 32)
-                .padding(.top, 8)
-
-                Spacer(minLength: 40)
-            }
+            Text(message)
+                .font(.body)
+                .foregroundStyle(ShepherdTheme.textSecondary)
         }
+        .multilineTextAlignment(.center)
+        .frame(maxWidth: .infinity)
+        .padding(.horizontal, 12)
+        .padding(.top, 32)
+        .padding(.bottom, 8)
     }
 
     private func reflectionCard(_ entry: JournalEntry) -> some View {
@@ -190,26 +223,18 @@ public struct JournalView: View {
             selectedEntry = entry
         } label: {
             VStack(alignment: .leading, spacing: 10) {
-                // Header: Date & Lesson Tag
-                HStack(alignment: .center) {
-                    Text(entry.createdAt.formatted(date: .abbreviated, time: .shortened))
-                        .font(.footnote.weight(.medium))
-                        .foregroundStyle(ShepherdTheme.textSecondary)
-
-                    Spacer()
-
-                    if let lessonTitle = entry.lessonTitle, !lessonTitle.isEmpty {
-                        Text(lessonTitle)
-                            .font(.caption2.weight(.semibold))
-                            .foregroundStyle(ShepherdTheme.accentFill)
-                            .padding(.horizontal, 8)
-                            .padding(.vertical, 4)
-                            .background(ShepherdTheme.accentSubtle)
-                            .clipShape(Capsule())
+                ViewThatFits(in: .horizontal) {
+                    HStack(alignment: .center) {
+                        reflectionDate(entry)
+                        Spacer()
+                        reflectionTag(entry)
+                    }
+                    VStack(alignment: .leading, spacing: 6) {
+                        reflectionDate(entry)
+                        reflectionTag(entry)
                     }
                 }
 
-                // Prompt if available
                 if let prompt = entry.prompt, !prompt.isEmpty {
                     Text("Prompt: \(prompt)")
                         .font(.subheadline.italic())
@@ -217,7 +242,6 @@ public struct JournalView: View {
                         .lineLimit(2)
                 }
 
-                // Reflection Body
                 Text(entry.text)
                     .font(.body)
                     .foregroundStyle(ShepherdTheme.textPrimary)
@@ -232,12 +256,7 @@ public struct JournalView: View {
             }
             .padding(16)
             .frame(maxWidth: .infinity, alignment: .leading)
-            .background(ShepherdTheme.cardSurface)
-            .clipShape(RoundedRectangle(cornerRadius: ShepherdTheme.radiusMD))
-            .overlay(
-                RoundedRectangle(cornerRadius: ShepherdTheme.radiusMD)
-                    .stroke(ShepherdTheme.surfaceBorder, lineWidth: 1)
-            )
+            .shepherdSurfaceCard()
         }
         .buttonStyle(.plain)
         .contextMenu {
@@ -248,35 +267,78 @@ public struct JournalView: View {
             }
 
             Button(role: .destructive) {
-                deleteEntry(entry)
+                entryToDelete = entry
             } label: {
                 Label("Delete", systemImage: "trash")
             }
         }
     }
 
-    private func deleteEntry(_ entry: JournalEntry) {
-        modelContext.delete(entry)
-        try? modelContext.save()
+    private func reflectionDate(_ entry: JournalEntry) -> some View {
+        Text(entry.createdAt.formatted(date: .abbreviated, time: .shortened))
+            .font(.footnote.weight(.medium))
+            .foregroundStyle(ShepherdTheme.textSecondary)
     }
 
-    // MARK: - Prayers View
-    private var prayersList: some View {
-        VStack(spacing: 12) {
-            // Filter Selector
+    @ViewBuilder
+    private func reflectionTag(_ entry: JournalEntry) -> some View {
+        if let lessonTitle = entry.lessonTitle, !lessonTitle.isEmpty {
+            Text(lessonTitle)
+                .font(.caption2.weight(.semibold))
+                .foregroundStyle(ShepherdTheme.accentFill)
+                .padding(.horizontal, 8)
+                .padding(.vertical, 4)
+                .background(ShepherdTheme.accentSubtle)
+                .clipShape(Capsule())
+        }
+    }
+
+    // MARK: - Prayers
+
+    @ViewBuilder
+    private var prayersContent: some View {
+        prayerFilterControl
+        quickAddField
+
+        let shown = prayerFilter.apply(to: prayers)
+        if shown.isEmpty {
+            emptyState(
+                icon: prayerFilter == .answered ? "hands.sparkles" : "heart.text.square",
+                title: prayerFilter == .answered ? "No answered prayers yet" : (prayerFilter == .open ? "No open prayer requests" : "No prayers yet"),
+                message: prayerFilter == .answered ? "When God answers a prayer, tap the circle to mark it answered with the date." : "Add a prayer above to begin your prayer list."
+            )
+        } else {
+            ForEach(shown) { prayer in
+                prayerCard(prayer)
+            }
+        }
+    }
+
+    /// Pills at regular sizes; at accessibility sizes three pills cannot fit a row, so a menu.
+    @ViewBuilder
+    private var prayerFilterControl: some View {
+        if dynamicTypeSize.isAccessibilitySize {
+            Picker("Show", selection: $prayerFilter) {
+                ForEach(PrayerFilter.allCases) { filter in
+                    Text("\(filter.rawValue) (\(filter.apply(to: prayers).count))").tag(filter)
+                }
+            }
+            .pickerStyle(.menu)
+            .tint(ShepherdTheme.accent)
+            .accessibilityIdentifier("PrayerFilterMenu")
+        } else {
             HStack(spacing: 8) {
                 ForEach(PrayerFilter.allCases) { filter in
-                    let count = countForFilter(filter)
                     let isSelected = prayerFilter == filter
-
                     Button {
                         withAnimation {
                             prayerFilter = filter
                         }
                     } label: {
-                        Text("\(filter.rawValue) (\(count))")
+                        Text("\(filter.rawValue) (\(filter.apply(to: prayers).count))")
                             .font(.subheadline.weight(isSelected ? .bold : .medium))
-                            .foregroundStyle(isSelected ? Color.white : ShepherdTheme.textPrimary)
+                            .lineLimit(1)
+                            .foregroundStyle(isSelected ? ShepherdTheme.onAccent : ShepherdTheme.textPrimary)
                             .padding(.horizontal, 14)
                             .padding(.vertical, 6)
                             .background(isSelected ? ShepherdTheme.accentFill : ShepherdTheme.cardSurface)
@@ -287,64 +349,33 @@ public struct JournalView: View {
                             )
                     }
                     .buttonStyle(.plain)
+                    .accessibilityAddTraits(isSelected ? .isSelected : [])
                 }
                 Spacer()
-            }
-            .padding(.horizontal, 20)
-            .padding(.top, 4)
-
-            // Quick Add Input
-            HStack(spacing: 10) {
-                TextField("Add a prayer request…", text: $quickPrayerText)
-                    .font(.body)
-                    .padding(.horizontal, 14)
-                    .padding(.vertical, 10)
-                    .background(ShepherdTheme.cardSurface)
-                    .clipShape(RoundedRectangle(cornerRadius: ShepherdTheme.radiusSM))
-                    .overlay(
-                        RoundedRectangle(cornerRadius: ShepherdTheme.radiusSM)
-                            .stroke(ShepherdTheme.surfaceBorder, lineWidth: 1)
-                    )
-                    .onSubmit {
-                        addQuickPrayer()
-                    }
-
-                Button {
-                    addQuickPrayer()
-                } label: {
-                    Image(systemName: "plus.circle.fill")
-                        .font(.system(size: 28))
-                        .foregroundStyle(quickPrayerText.trimmingCharacters(in: .whitespaces).isEmpty ? ShepherdTheme.textTertiary : ShepherdTheme.accentFill)
-                }
-                .disabled(quickPrayerText.trimmingCharacters(in: .whitespaces).isEmpty)
-                .accessibilityLabel("Add Prayer")
-            }
-            .padding(.horizontal, 20)
-
-            // Prayers list or empty
-            if filteredPrayers.isEmpty {
-                emptyPrayersView
-            } else {
-                ScrollView {
-                    LazyVStack(spacing: 12) {
-                        ForEach(filteredPrayers) { prayer in
-                            prayerCard(prayer)
-                        }
-                    }
-                    .padding(.horizontal, 20)
-                    .padding(.top, 4)
-                    .padding(.bottom, 40)
-                }
-                .scrollEdgeEffectStyle(.soft, for: .top)
             }
         }
     }
 
-    private func countForFilter(_ filter: PrayerFilter) -> Int {
-        switch filter {
-        case .all: return prayers.count
-        case .open: return openPrayers.count
-        case .answered: return answeredPrayers.count
+    private var quickAddField: some View {
+        HStack(spacing: 10) {
+            TextField("Add a prayer request…", text: $quickPrayerText)
+                .font(.body)
+                .padding(.horizontal, 14)
+                .padding(.vertical, 10)
+                .shepherdSurfaceCard(cornerRadius: ShepherdTheme.radiusSM)
+                .onSubmit {
+                    addQuickPrayer()
+                }
+
+            Button {
+                addQuickPrayer()
+            } label: {
+                Image(systemName: "plus.circle.fill")
+                    .font(.system(size: 28))
+                    .foregroundStyle(quickPrayerText.trimmingCharacters(in: .whitespaces).isEmpty ? ShepherdTheme.textTertiary : ShepherdTheme.accentFill)
+            }
+            .disabled(quickPrayerText.trimmingCharacters(in: .whitespaces).isEmpty)
+            .accessibilityLabel("Add Prayer")
         }
     }
 
@@ -355,30 +386,6 @@ public struct JournalView: View {
         modelContext.insert(newPrayer)
         try? modelContext.save()
         quickPrayerText = ""
-    }
-
-    private var emptyPrayersView: some View {
-        ScrollView {
-            VStack(spacing: 14) {
-                Spacer(minLength: 40)
-
-                Image(systemName: prayerFilter == .answered ? "hands.sparkles" : "heart.text.square")
-                    .font(.system(size: 48))
-                    .foregroundStyle(ShepherdTheme.accentFill)
-
-                Text(prayerFilter == .answered ? "No answered prayers yet" : (prayerFilter == .open ? "No open prayer requests" : "No prayers yet"))
-                    .font(ShepherdTheme.title1Serif())
-                    .foregroundStyle(ShepherdTheme.textPrimary)
-
-                Text(prayerFilter == .answered ? "When God answers a prayer, tap the checkmark to mark it answered with the date." : "Add a prayer above to begin your prayer list.")
-                    .font(.body)
-                    .foregroundStyle(ShepherdTheme.textSecondary)
-                    .multilineTextAlignment(.center)
-                    .padding(.horizontal, 24)
-
-                Spacer(minLength: 40)
-            }
-        }
     }
 
     private func prayerCard(_ prayer: PrayerRequest) -> some View {
@@ -406,28 +413,17 @@ public struct JournalView: View {
                         .foregroundStyle(ShepherdTheme.textSecondary)
                 }
 
-                HStack(spacing: 6) {
-                    Text("Added \(prayer.createdAt.formatted(date: .abbreviated, time: .omitted))")
-                        .font(.caption)
-                        .foregroundStyle(ShepherdTheme.textTertiary)
+                Text("Added \(prayer.createdAt.formatted(date: .abbreviated, time: .omitted))")
+                    .font(.caption)
+                    .foregroundStyle(ShepherdTheme.textTertiary)
 
-                    if prayer.isAnswered, let answered = prayer.answeredDate {
-                        Text("•")
-                            .font(.caption)
-                            .foregroundStyle(ShepherdTheme.textTertiary)
-
-                        HStack(spacing: 3) {
-                            Image(systemName: "sparkles")
-                                .font(.caption2)
-                            Text("Answered \(answered.formatted(date: .abbreviated, time: .omitted))")
-                                .font(.caption.weight(.medium))
-                        }
+                if prayer.isAnswered, let answered = prayer.answeredDate {
+                    Label("Answered \(answered.formatted(date: .abbreviated, time: .omitted))", systemImage: "sparkles")
+                        .font(.caption.weight(.medium))
                         .foregroundStyle(ShepherdTheme.accentFill)
-                    }
                 }
             }
-
-            Spacer()
+            .frame(maxWidth: .infinity, alignment: .leading)
 
             Button {
                 editingPrayer = prayer
@@ -438,15 +434,11 @@ public struct JournalView: View {
                     .frame(width: 32, height: 32)
             }
             .buttonStyle(.plain)
+            .accessibilityLabel("Edit prayer")
         }
         .padding(16)
         .frame(maxWidth: .infinity, alignment: .leading)
-        .background(ShepherdTheme.cardSurface)
-        .clipShape(RoundedRectangle(cornerRadius: ShepherdTheme.radiusMD))
-        .overlay(
-            RoundedRectangle(cornerRadius: ShepherdTheme.radiusMD)
-                .stroke(ShepherdTheme.surfaceBorder, lineWidth: 1)
-        )
+        .shepherdSurfaceCard()
         .contextMenu {
             Button {
                 toggleAnswered(prayer)
@@ -461,8 +453,7 @@ public struct JournalView: View {
             }
 
             Button(role: .destructive) {
-                modelContext.delete(prayer)
-                try? modelContext.save()
+                prayerToDelete = prayer
             } label: {
                 Label("Delete", systemImage: "trash")
             }

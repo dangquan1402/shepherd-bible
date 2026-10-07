@@ -3,6 +3,7 @@ import SwiftData
 
 public struct RootView: View {
     @Environment(\.modelContext) private var modelContext
+    @Environment(\.scenePhase) private var scenePhase
     @Query private var profiles: [UserProfile]
     @StateObject private var content = ContentStore.shared
 
@@ -20,6 +21,9 @@ public struct RootView: View {
         }
         .environmentObject(content)
         .preferredColorScheme(colorSchemeOverride)
+        .onChange(of: scenePhase) { _, phase in
+            JournalAuthService.shared.scenePhaseChanged(to: phase)
+        }
         .task {
             #if DEBUG
             handleLaunchArguments()
@@ -39,8 +43,16 @@ public struct RootView: View {
     /// beginner-30 and every lesson of mark-30 complete (a plain lesson id marks that lesson);
     /// `-uitestPremium` is honoured by StoreKitManager.updateCustomerProductStatus. Lets a UI test
     /// reach day 30 or a Premium lesson without playing through every quiz.
+    /// `-uitestResetJournal` deletes every reflection and prayer and turns the journal lock off,
+    /// so a journal test starts from the same state on every run.
     private func applyUITestState() {
         let args = ProcessInfo.processInfo.arguments
+        if args.contains("-uitestResetJournal") {
+            try? modelContext.delete(model: JournalEntry.self)
+            try? modelContext.delete(model: PrayerRequest.self)
+            JournalAuthService.shared.isLockEnabled = false
+            JournalAuthService.shared.isUnlocked = true
+        }
         if let idx = args.firstIndex(of: "-uitestCompleted"), idx + 1 < args.count {
             var ids: [String] = []
             for item in args[idx + 1].split(separator: ",").map(String.init) {
