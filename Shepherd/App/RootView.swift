@@ -74,6 +74,11 @@ public struct RootView: View {
                 modelContext.insert(LessonProgress(lessonId: id, quizScore: 3))
             }
         }
+        if args.contains("-uitestResetBibleUserData") {
+            try? modelContext.delete(model: BibleHighlight.self)
+            try? modelContext.delete(model: BibleBookmark.self)
+            try? modelContext.delete(model: BibleNote.self)
+        }
         try? modelContext.save()
     }
 
@@ -86,6 +91,9 @@ public struct RootView: View {
         try? modelContext.delete(model: Companion.self)
         try? modelContext.delete(model: StreakState.self)
         try? modelContext.delete(model: EntitlementState.self)
+        try? modelContext.delete(model: BibleHighlight.self)
+        try? modelContext.delete(model: BibleBookmark.self)
+        try? modelContext.delete(model: BibleNote.self)
         try? modelContext.save()
         for key in [ReviewPrompter.promptedVersionKey, ReminderSettings.enabledKey, ReminderSettings.hourKey, ReminderSettings.minuteKey] {
             UserDefaults.standard.removeObject(forKey: key)
