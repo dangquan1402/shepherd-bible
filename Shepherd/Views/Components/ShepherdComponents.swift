@@ -471,7 +471,7 @@ public struct RewardStatChip: View {
     public let color: Color
     public var fill: Color = ShepherdTheme.cardSurface
 
-    public init(icon: String, text: String, color: Color = ShepherdTheme.accentFill, fill: Color = ShepherdTheme.cardSurface) {
+    public init(icon: String, text: String, color: Color = ShepherdTheme.accent, fill: Color = ShepherdTheme.cardSurface) {
         self.icon = icon
         self.text = text
         self.color = color

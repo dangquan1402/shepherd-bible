@@ -8,7 +8,9 @@ Fails (exit 1) on:
   R3  an asset looked up by string outside the theme: Color("...")
   R4  quiz correctness colours (success*/error*) outside the quiz views
 """
-import os, re, sys
+import os
+import re
+import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 DEFAULT_ROOT = os.path.dirname(os.path.dirname(HERE))
@@ -22,8 +24,12 @@ RULES = [
 ]
 
 def run_lint(root=None):
-    if root is None:
-        root = sys.argv[1] if len(sys.argv) > 1 else DEFAULT_ROOT
+    root = root or DEFAULT_ROOT
+    shepherd_dir = os.path.join(root, 'Shepherd')
+    widgets_dir = os.path.join(root, 'ShepherdWidgets')
+    if not os.path.isdir(shepherd_dir) and not os.path.isdir(widgets_dir):
+        print(f"error: neither Shepherd/ nor ShepherdWidgets/ found under {root}", file=sys.stderr)
+        sys.exit(2)
     hits = []
     for base in ('Shepherd', 'ShepherdWidgets'):
         base_dir = os.path.join(root, base)
@@ -37,11 +43,12 @@ def run_lint(root=None):
                 rel = os.path.relpath(p, root)
                 if rel.startswith('Shepherd/Theme/'):
                     continue
-                for i, line in enumerate(open(p), 1):
-                    code = line.split('//')[0]
-                    for rid, rx, allowed in RULES:
-                        if rx.search(code) and not (allowed and rel in allowed):
-                            hits.append((rid, rel, i, code.strip()[:110]))
+                with open(p, encoding='utf-8') as f_in:
+                    for i, line in enumerate(f_in, 1):
+                        code = line.split('//')[0]
+                        for rid, rx, allowed in RULES:
+                            if rx.search(code) and not (allowed and rel in allowed):
+                                hits.append((rid, rel, i, code.strip()[:110]))
     counts = {}
     for rid, rel, i, code in hits:
         counts[rid] = counts.get(rid, 0) + 1
@@ -50,6 +57,5 @@ def run_lint(root=None):
     return hits, counts
 
 if __name__ == '__main__':
-    hits, _ = run_lint()
+    hits, _ = run_lint(sys.argv[1] if len(sys.argv) > 1 else None)
     sys.exit(1 if hits else 0)
-
