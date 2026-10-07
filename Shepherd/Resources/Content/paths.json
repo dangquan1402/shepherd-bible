@@ -203,15 +203,15 @@
             },
             {
               "id": "day5-q2",
-              "prompt": "Put the words of Psalm 23 in order:",
-              "answerRef": "PSA.23.1",
-              "explain": "Psalm 23:1: \"The LORD is my shepherd; I shall lack nothing.\"",
+              "prompt": "Put the words of Psalm 23:4 in order:",
+              "answerRef": "PSA.23.4",
+              "explain": "Psalm 23:4: \"Even though I walk through the valley of the shadow of death, I will fear no evil, for you are with me.\"",
               "type": "order",
               "orderTokens": [
-                "The LORD is",
-                "my shepherd;",
-                "I shall",
-                "lack nothing."
+                "Even though I walk through",
+                "the valley of the shadow of death,",
+                "I will fear no evil,",
+                "for you are with me."
               ]
             }
           ]
@@ -557,12 +557,12 @@
               "id": "beginner-30.d12.q2",
               "prompt": "Match each reference to its verse:",
               "answerRef": "ROM.5.8",
-              "explain": "Romans 5:6 and Romans 5:8 describe Christ dying for the ungodly and for sinners.",
+              "explain": "Romans 5:7 and Romans 5:8: someone will hardly die even for a righteous man, but \"while we were yet sinners, Christ died for us.\"",
               "type": "match",
               "pairs": [
                 {
-                  "ref": "ROM.5.6",
-                  "text": "Christ died for the ungodly."
+                  "ref": "ROM.5.7",
+                  "text": "For one will hardly die for a righteous man."
                 },
                 {
                   "ref": "ROM.5.8",
@@ -1151,14 +1151,15 @@
             },
             {
               "id": "beginner-30.d23.q2",
-              "prompt": "Put this petition from the Lord's Prayer in order:",
-              "answerRef": "MAT.6.12",
-              "explain": "Matthew 6:12: \"Forgive us our debts, as we also forgive our debtors.\"",
+              "prompt": "Put Peter's question to Jesus in order:",
+              "answerRef": "MAT.18.21",
+              "explain": "Matthew 18:21: Peter asked, \"Lord, how often shall my brother sin against me, and I forgive him? Until seven times?\"",
               "type": "order",
               "orderTokens": [
-                "Forgive us our debts,",
-                "as we also forgive",
-                "our debtors."
+                "Lord, how often",
+                "shall my brother sin against me,",
+                "and I forgive him?",
+                "Until seven times?"
               ]
             },
             {
@@ -1417,18 +1418,18 @@
             },
             {
               "id": "beginner-30.d28.q2",
-              "prompt": "Match each reference to the angel’s words at the tomb:",
-              "answerRef": "LUK.24.6",
-              "explain": "Luke 24:5 and Luke 24:6 record the angels asking why they seek the living among the dead and announcing he is risen.",
+              "prompt": "Match each reference to what happened at the tomb:",
+              "answerRef": "LUK.24.5",
+              "explain": "Luke 24:3 and Luke 24:5: the women did not find the body, and the two men asked, \"Why do you seek the living among the dead?\"",
               "type": "match",
               "pairs": [
                 {
-                  "ref": "LUK.24.5",
-                  "text": "Why do you seek the living among the dead?"
+                  "ref": "LUK.24.3",
+                  "text": "They entered in, and didn’t find the Lord Jesus’ body."
                 },
                 {
-                  "ref": "LUK.24.6",
-                  "text": "He isn’t here, but is risen."
+                  "ref": "LUK.24.5",
+                  "text": "Why do you seek the living among the dead?"
                 }
               ]
             },
@@ -2086,14 +2087,14 @@
             },
             {
               "id": "peace-14.d10.q2",
-              "prompt": "Paul teaches believers to be anxious in everything.",
+              "prompt": "Paul says to make our requests known to God with thanksgiving.",
               "choices": [
                 "True",
                 "False"
               ],
-              "correctIndex": 1,
+              "correctIndex": 0,
               "answerRef": "PHP.4.6",
-              "explain": "Philippians 4:6: \"In nothing be anxious, but in everything, by prayer and petition with thanksgiving, let your requests be made known to God.\"",
+              "explain": "Philippians 4:6: \"by prayer and petition with thanksgiving, let your requests be made known to God.\"",
               "type": "true_false"
             },
             {
@@ -2192,7 +2193,7 @@
               "id": "peace-14.d12.q2",
               "prompt": "Match each reference to its verse:",
               "answerRef": "PSA.4.8",
-              "explain": "Psalm 4:1 and Psalm 4:8 ask God for mercy and trust him for peaceful rest.",
+              "explain": "Psalm 4:1 asks God for mercy, and Psalm 4:8 trusts him: \"for you alone, LORD, make me live in safety.\"",
               "type": "match",
               "pairs": [
                 {
@@ -2201,7 +2202,7 @@
                 },
                 {
                   "ref": "PSA.4.8",
-                  "text": "In peace I will both lay myself down and sleep"
+                  "text": "for you alone, LORD, make me live in safety"
                 }
               ]
             },
@@ -2302,20 +2303,15 @@
             },
             {
               "id": "peace-14.d14.q2",
-              "prompt": "Match each reference to its promise of peace:",
+              "prompt": "Jesus says he gives his peace in the same way the world gives.",
               "answerRef": "JHN.14.27",
-              "explain": "John 14:27 and Numbers 6:26 offer the gift and blessing of God's peace.",
-              "type": "match",
-              "pairs": [
-                {
-                  "ref": "JHN.14.27",
-                  "text": "Peace I leave with you. My peace I give to you"
-                },
-                {
-                  "ref": "NUM.6.26",
-                  "text": "The LORD lift up his face toward you, and give you peace"
-                }
-              ]
+              "explain": "John 14:27: \"My peace I give to you; not as the world gives, I give to you.\"",
+              "type": "true_false",
+              "choices": [
+                "True",
+                "False"
+              ],
+              "correctIndex": 1
             },
             {
               "id": "peace-14.d14.q3",
@@ -2929,10 +2925,11 @@
               "id": "mark-30.d11.q2",
               "prompt": "Put Jesus’ reassuring words to Jairus in order:",
               "answerRef": "MRK.5.36",
-              "explain": "Mark 5:36: \"Jesus, overhearing the word spoken, said to the ruler of the synagogue, “Don’t be afraid, only believe.”\"",
+              "explain": "Mark 5:36: Jesus said to the ruler of the synagogue, \"Don’t be afraid, only believe.\"",
               "type": "order",
               "orderTokens": [
-                "Don’t be afraid,",
+                "Don’t",
+                "be afraid,",
                 "only believe."
               ]
             },
@@ -3033,14 +3030,14 @@
             },
             {
               "id": "mark-30.d13.q2",
-              "prompt": "Jesus told his frightened disciples on the sea: 'Cheer up! It is I! Don’t be afraid.'",
+              "prompt": "When the disciples saw Jesus walking on the sea, they thought he was an angel.",
               "choices": [
                 "True",
                 "False"
               ],
-              "correctIndex": 0,
-              "answerRef": "MRK.6.50",
-              "explain": "Mark 6:50: \"he immediately spoke with them, and said to them, “Cheer up! It is I! Don’t be afraid.”\"",
+              "correctIndex": 1,
+              "answerRef": "MRK.6.49",
+              "explain": "Mark 6:49: they \"supposed that it was a ghost, and cried out.\"",
               "type": "true_false"
             },
             {
@@ -3140,13 +3137,14 @@
             },
             {
               "id": "mark-30.d15.q2",
-              "prompt": "Put Jesus’ question in order:",
+              "prompt": "Put Peter’s answer in order:",
               "answerRef": "MRK.8.29",
-              "explain": "Mark 8:29: \"He said to them, “But who do you say that I am?”\"",
+              "explain": "Mark 8:29: Peter answered, \"You are the Christ.\"",
               "type": "order",
               "orderTokens": [
-                "But who do you",
-                "say that I am?"
+                "Peter answered,",
+                "“You are",
+                "the Christ.”"
               ]
             },
             {
@@ -3735,18 +3733,18 @@
             },
             {
               "id": "mark-30.d26.q2",
-              "prompt": "Match each reference to Jesus’ words at the meal:",
-              "answerRef": "MRK.14.22",
-              "explain": "Mark 14:22 and Mark 14:24 record Jesus saying \"Take, eat. This is my body\" and giving the cup of the new covenant.",
+              "prompt": "Match each reference to its verse:",
+              "answerRef": "MRK.14.24",
+              "explain": "Mark 14:23 and Mark 14:24: Jesus gave thanks for the cup and said, \"This is my blood of the new covenant.\"",
               "type": "match",
               "pairs": [
                 {
-                  "ref": "MRK.14.22",
-                  "text": "Take, eat. This is my body."
+                  "ref": "MRK.14.23",
+                  "text": "He took the cup, and when he had given thanks"
                 },
                 {
                   "ref": "MRK.14.24",
-                  "text": "This is my blood of the new covenant, which is poured out for many."
+                  "text": "This is my blood of the new covenant"
                 }
               ]
             },
@@ -3798,7 +3796,8 @@
               "explain": "Mark 14:36: \"However, not what I desire, but what you desire.\"",
               "type": "order",
               "orderTokens": [
-                "However, not what I desire,",
+                "However,",
+                "not what I desire,",
                 "but what you desire."
               ]
             },

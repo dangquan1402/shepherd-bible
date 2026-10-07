@@ -53,6 +53,10 @@ class ShippedContent(unittest.TestCase):
             {"beginner-30": 30, "peace-14": 14, "mark-30": 30},
         )
 
+    def test_no_question_gives_away_a_later_answer(self):
+        warns = vc.validate(BIBLE, PATHS)[1]
+        self.assertEqual([w for w in warns if "shows the answer" in w], [])
+
     def test_pinned_source_hash_matches_the_bible_builder(self):
         with open(
             os.path.join(vc.ROOT, "tools", "bible", "build_web.py"), encoding="utf-8"
@@ -317,6 +321,46 @@ class DefectsAreCaught(unittest.TestCase):
             {"ref": "GEN.1.3", "text": "Let there be light."}
         ]
         self.assertCaught(b, r"day1-q1: pair text 'In the beginning, God created the mountains\.' is not in verse GEN\.1\.1")
+
+    def test_nested_quote_misquote_in_explain(self):
+        # A straight-quoted span that nests the verse's own curly quotes is checked whole,
+        # not only on its inner “…” part (this wording is from another edition, not WEB).
+        b = self.mutated()
+        q = question(b, "mark-30.d11.q2")
+        q["explain"] = (
+            'Mark 5:36: "Jesus, overhearing the word spoken, said to the ruler of the'
+            ' synagogue, “Don’t be afraid, only believe.”"'
+        )
+        self.assertCaught(
+            b,
+            r"mark-30\.d11: quotation is not verbatim WEB text from its verses: \"Jesus, overhearing",
+        )
+
+    def test_nested_quote_faithful_quote_passes(self):
+        b = self.mutated()
+        q = question(b, "mark-30.d11.q2")
+        q["explain"] = (
+            'Mark 5:36: "But Jesus, when he heard the message spoken, immediately said to the'
+            ' ruler of the synagogue, “Don’t be afraid, only believe.”"'
+        )
+        self.assertEqual(errors(b), [])
+
+    def test_fill_blank_outside_the_quotation(self):
+        b = self.mutated()
+        q = question(b, "beginner-30.d08.q1")
+        q["prompt"] = "Jesus says he is the good ___."
+        self.assertCaught(b, r"beginner-30\.d08\.q1: fill_blank blank must sit inside the quoted verse text")
+
+    def test_non_choice_question_spoils_a_later_answer(self):
+        # The review found this match pair handing q3 its answer ("for many") word for word.
+        b = self.mutated()
+        q = question(b, "mark-30.d26.q2")
+        q["pairs"][1]["text"] = "This is my blood of the new covenant, which is poured out for many."
+        warns = vc.validate(BIBLE, b)[1]
+        self.assertTrue(
+            any(re.search(r"mark-30\.d26\.q2 shows the answer to the later question mark-30\.d26\.q3 \('for many'\)", w) for w in warns),
+            f"no spoiler warning in {warns}",
+        )
 
     def test_match_valid_passes(self):
         b = self.mutated()

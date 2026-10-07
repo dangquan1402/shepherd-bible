@@ -1,5 +1,12 @@
 #!/usr/bin/env python3
-"""Craft conversions for ~1 in 5 questions per path, strictly using lesson verseRefs."""
+"""Convert ~1 in 5 quiz questions per path to the non-choice exercise types.
+
+    python3 -I tools/content/convert_exercise_types.py
+
+Rewrites the listed questions in paths.json (idempotent: running it again changes nothing) and
+then runs validate_content.py, which checks every blank, order token, match pair and quotation
+against web.json. The literals below were copied from web.json; the validator is the proof.
+"""
 
 import json
 import os
@@ -80,43 +87,48 @@ def main():
         "explain": "1 Samuel 1:15: Hannah says, \"I poured out my soul before the LORD.\""
     }
 
-    # peace-14.d10.q2: PHP.4.6 (verses: PHP.4.4, PHP.4.5, PHP.4.6, PHP.4.7)
-    # PHP.4.6: "In nothing be anxious, but in everything, by prayer and petition with thanksgiving, let your requests be made known to God."
+    # peace-14.d10.q2: PHP.4.6 (reworked after the PR #27 review)
     conversions["peace-14.d10.q2"] = {
         "type": "true_false",
-        "prompt": "Paul teaches believers to be anxious in everything.",
-        "choices": ["True", "False"],
-        "correctIndex": 1,
+        "prompt": "Paul says to make our requests known to God with thanksgiving.",
+        "choices": [
+            "True",
+            "False"
+        ],
+        "correctIndex": 0,
         "answerRef": "PHP.4.6",
-        "explain": "Philippians 4:6: \"In nothing be anxious, but in everything, by prayer and petition with thanksgiving, let your requests be made known to God.\""
+        "explain": "Philippians 4:6: \"by prayer and petition with thanksgiving, let your requests be made known to God.\""
     }
 
-    # peace-14.d12.q2: PSA.4.1 & PSA.4.8 (verses: PSA.4.1, PSA.4.4, PSA.4.8)
-    # PSA.4.1: "Answer me when I call, God of my righteousness. Give me relief from my distress. Have mercy on me, and hear my prayer."
-    # PSA.4.8: "In peace I will both lay myself down and sleep, for you alone, LORD, make me live in safety."
+    # peace-14.d12.q2: PSA.4.1, PSA.4.8 (reworked after the PR #27 review)
     conversions["peace-14.d12.q2"] = {
         "type": "match",
         "prompt": "Match each reference to its verse:",
         "pairs": [
-            {"ref": "PSA.4.1", "text": "Have mercy on me, and hear my prayer."},
-            {"ref": "PSA.4.8", "text": "In peace I will both lay myself down and sleep"}
+            {
+                "ref": "PSA.4.1",
+                "text": "Have mercy on me, and hear my prayer."
+            },
+            {
+                "ref": "PSA.4.8",
+                "text": "for you alone, LORD, make me live in safety"
+            }
         ],
         "answerRef": "PSA.4.8",
-        "explain": "Psalm 4:1 and Psalm 4:8 ask God for mercy and trust him for peaceful rest."
+        "explain": "Psalm 4:1 asks God for mercy, and Psalm 4:8 trusts him: \"for you alone, LORD, make me live in safety.\""
     }
 
-    # peace-14.d14.q2: JHN.14.27 & NUM.6.26 (verses: JHN.14.27, NUM.6.24, NUM.6.25, NUM.6.26)
-    # JHN.14.27: "Peace I leave with you. My peace I give to you; not as the world gives, I give to you. Don’t let your heart be troubled, neither let it be fearful."
-    # NUM.6.26: "The LORD lift up his face toward you, and give you peace.’"
+    # peace-14.d14.q2: JHN.14.27 (reworked after the PR #27 review)
     conversions["peace-14.d14.q2"] = {
-        "type": "match",
-        "prompt": "Match each reference to its promise of peace:",
-        "pairs": [
-            {"ref": "JHN.14.27", "text": "Peace I leave with you. My peace I give to you"},
-            {"ref": "NUM.6.26", "text": "The LORD lift up his face toward you, and give you peace"}
+        "type": "true_false",
+        "prompt": "Jesus says he gives his peace in the same way the world gives.",
+        "choices": [
+            "True",
+            "False"
         ],
+        "correctIndex": 1,
         "answerRef": "JHN.14.27",
-        "explain": "John 14:27 and Numbers 6:26 offer the gift and blessing of God's peace."
+        "explain": "John 14:27: \"My peace I give to you; not as the world gives, I give to you.\""
     }
 
     # =========================================================================
@@ -158,14 +170,18 @@ def main():
         "explain": "John 3:17: \"For God didn’t send his Son into the world to judge the world, but that the world should be saved through him.\""
     }
 
-    # day5-q2: PSA.23.1 (verses: PSA.23.1, PSA.23.4)
-    # PSA.23.1: "The LORD is my shepherd; I shall lack nothing."
+    # day5-q2: PSA.23.4 (reworked after the PR #27 review)
     conversions["day5-q2"] = {
         "type": "order",
-        "prompt": "Put the words of Psalm 23 in order:",
-        "orderTokens": ["The LORD is", "my shepherd;", "I shall", "lack nothing."],
-        "answerRef": "PSA.23.1",
-        "explain": "Psalm 23:1: \"The LORD is my shepherd; I shall lack nothing.\""
+        "prompt": "Put the words of Psalm 23:4 in order:",
+        "orderTokens": [
+            "Even though I walk through",
+            "the valley of the shadow of death,",
+            "I will fear no evil,",
+            "for you are with me."
+        ],
+        "answerRef": "PSA.23.4",
+        "explain": "Psalm 23:4: \"Even though I walk through the valley of the shadow of death, I will fear no evil, for you are with me.\""
     }
 
     # day7-q2: MAT.6.9 & PHP.4.6 (verses: MAT.6.9, MAT.6.11, PHP.4.6, PHP.4.7)
@@ -215,18 +231,22 @@ def main():
         "explain": "Luke 15:22: The father tells his servants to bring out the best robe and put it on him."
     }
 
-    # beginner-30.d12.q2: ROM.5.6 & ROM.5.8 (verses: ROM.5.6, ROM.5.7, ROM.5.8)
-    # ROM.5.6: "For while we were yet weak, at the right time Christ died for the ungodly."
-    # ROM.5.8: "But God commends his own love toward us, in that while we were yet sinners, Christ died for us."
+    # beginner-30.d12.q2: ROM.5.7, ROM.5.8 (reworked after the PR #27 review)
     conversions["beginner-30.d12.q2"] = {
         "type": "match",
         "prompt": "Match each reference to its verse:",
         "pairs": [
-            {"ref": "ROM.5.6", "text": "Christ died for the ungodly."},
-            {"ref": "ROM.5.8", "text": "while we were yet sinners, Christ died for us."}
+            {
+                "ref": "ROM.5.7",
+                "text": "For one will hardly die for a righteous man."
+            },
+            {
+                "ref": "ROM.5.8",
+                "text": "while we were yet sinners, Christ died for us."
+            }
         ],
         "answerRef": "ROM.5.8",
-        "explain": "Romans 5:6 and Romans 5:8 describe Christ dying for the ungodly and for sinners."
+        "explain": "Romans 5:7 and Romans 5:8: someone will hardly die even for a righteous man, but \"while we were yet sinners, Christ died for us.\""
     }
 
     # beginner-30.d14.q2: JHN.1.45 (verses: JHN.1.43, JHN.1.45, JHN.1.46)
@@ -294,28 +314,36 @@ def main():
         "explain": "1 Corinthians 13:4: \"Love is patient and is kind. Love doesn’t envy. Love doesn’t brag, is not proud,\""
     }
 
-    # beginner-30.d23.q2: MAT.6.12 (verses: MAT.6.9, MAT.6.12, MAT.6.14)
-    # MAT.6.12: "Forgive us our debts, as we also forgive our debtors."
+    # beginner-30.d23.q2: MAT.18.21 (reworked after the PR #27 review)
     conversions["beginner-30.d23.q2"] = {
         "type": "order",
-        "prompt": "Put this petition from the Lord's Prayer in order:",
-        "orderTokens": ["Forgive us our debts,", "as we also forgive", "our debtors."],
-        "answerRef": "MAT.6.12",
-        "explain": "Matthew 6:12: \"Forgive us our debts, as we also forgive our debtors.\""
+        "prompt": "Put Peter's question to Jesus in order:",
+        "orderTokens": [
+            "Lord, how often",
+            "shall my brother sin against me,",
+            "and I forgive him?",
+            "Until seven times?"
+        ],
+        "answerRef": "MAT.18.21",
+        "explain": "Matthew 18:21: Peter asked, \"Lord, how often shall my brother sin against me, and I forgive him? Until seven times?\""
     }
 
-    # beginner-30.d28.q2: LUK.24.5 & LUK.24.6 (verses: LUK.24.1, LUK.24.5, LUK.24.6)
-    # LUK.24.5: "As they were frightened, and bowed down their faces to the earth, they said to them, “Why do you seek the living among the dead?"
-    # LUK.24.6: "He isn’t here, but is risen. Remember what he told you when he was still in Galilee,"
+    # beginner-30.d28.q2: LUK.24.3, LUK.24.5 (reworked after the PR #27 review)
     conversions["beginner-30.d28.q2"] = {
         "type": "match",
-        "prompt": "Match each reference to the angel’s words at the tomb:",
+        "prompt": "Match each reference to what happened at the tomb:",
         "pairs": [
-            {"ref": "LUK.24.5", "text": "Why do you seek the living among the dead?"},
-            {"ref": "LUK.24.6", "text": "He isn’t here, but is risen."}
+            {
+                "ref": "LUK.24.3",
+                "text": "They entered in, and didn’t find the Lord Jesus’ body."
+            },
+            {
+                "ref": "LUK.24.5",
+                "text": "Why do you seek the living among the dead?"
+            }
         ],
-        "answerRef": "LUK.24.6",
-        "explain": "Luke 24:5 and Luke 24:6 record the angels asking why they seek the living among the dead and announcing he is risen."
+        "answerRef": "LUK.24.5",
+        "explain": "Luke 24:3 and Luke 24:5: the women did not find the body, and the two men asked, \"Why do you seek the living among the dead?\""
     }
 
     # =========================================================================
@@ -425,36 +453,43 @@ def main():
         "explain": "Mark 5:19 and Mark 5:20 describe Jesus telling the healed man to share what the Lord had done, and his proclamation in Decapolis."
     }
 
-    # mark-30.d11.q2: MRK.5.34 & MRK.5.36 (verses: MRK.5.28, MRK.5.34, MRK.5.36, MRK.5.41)
-    # MRK.5.34: "He said to her, “Daughter, your faith has made you well. Go in peace, and be cured of your disease.”"
-    # MRK.5.36: "But Jesus, overhearing the word spoken, said to the ruler of the synagogue, “Don’t be afraid, only believe.”"
+    # mark-30.d11.q2: MRK.5.36 (reworked after the PR #27 review)
     conversions["mark-30.d11.q2"] = {
         "type": "order",
         "prompt": "Put Jesus’ reassuring words to Jairus in order:",
-        "orderTokens": ["Don’t be afraid,", "only believe."],
+        "orderTokens": [
+            "Don’t",
+            "be afraid,",
+            "only believe."
+        ],
         "answerRef": "MRK.5.36",
-        "explain": "Mark 5:36: \"Jesus, overhearing the word spoken, said to the ruler of the synagogue, “Don’t be afraid, only believe.”\""
+        "explain": "Mark 5:36: Jesus said to the ruler of the synagogue, \"Don’t be afraid, only believe.\""
     }
 
-    # mark-30.d13.q2: MRK.6.50 (verses: MRK.6.48, MRK.6.49, MRK.6.50, MRK.6.51)
-    # MRK.6.50: "for they all saw him, and were troubled. But he immediately spoke with them, and said to them, “Cheer up! It is I! Don’t be afraid.”"
+    # mark-30.d13.q2: MRK.6.49 (reworked after the PR #27 review)
     conversions["mark-30.d13.q2"] = {
         "type": "true_false",
-        "prompt": "Jesus told his frightened disciples on the sea: 'Cheer up! It is I! Don’t be afraid.'",
-        "choices": ["True", "False"],
-        "correctIndex": 0,
-        "answerRef": "MRK.6.50",
-        "explain": "Mark 6:50: \"he immediately spoke with them, and said to them, “Cheer up! It is I! Don’t be afraid.”\""
+        "prompt": "When the disciples saw Jesus walking on the sea, they thought he was an angel.",
+        "choices": [
+            "True",
+            "False"
+        ],
+        "correctIndex": 1,
+        "answerRef": "MRK.6.49",
+        "explain": "Mark 6:49: they \"supposed that it was a ghost, and cried out.\""
     }
 
-    # mark-30.d15.q2: MRK.8.29 (verses: MRK.8.27, MRK.8.29, MRK.8.31)
-    # MRK.8.29: "He said to them, “But who do you say that I am?” Peter answered, “You are the Christ.”"
+    # mark-30.d15.q2: MRK.8.29 (reworked after the PR #27 review)
     conversions["mark-30.d15.q2"] = {
         "type": "order",
-        "prompt": "Put Jesus’ question in order:",
-        "orderTokens": ["But who do you", "say that I am?"],
+        "prompt": "Put Peter’s answer in order:",
+        "orderTokens": [
+            "Peter answered,",
+            "“You are",
+            "the Christ.”"
+        ],
         "answerRef": "MRK.8.29",
-        "explain": "Mark 8:29: \"He said to them, “But who do you say that I am?”\""
+        "explain": "Mark 8:29: Peter answered, \"You are the Christ.\""
     }
 
     # mark-30.d16.q2: MRK.8.34 (verses: MRK.8.34, MRK.8.35, MRK.8.36)
@@ -504,26 +539,33 @@ def main():
         "explain": "Mark 11:9: \"Hosanna! Blessed is he who comes in the name of the Lord!\""
     }
 
-    # mark-30.d26.q2: MRK.14.22 & MRK.14.24 (verses: MRK.14.22, MRK.14.23, MRK.14.24)
-    # MRK.14.22: "As they were eating, Jesus took bread, and when he had blessed it, he broke it, and gave to them, and said, “Take, eat. This is my body.”"
-    # MRK.14.24: "He said to them, “This is my blood of the new covenant, which is poured out for many."
+    # mark-30.d26.q2: MRK.14.23, MRK.14.24 (reworked after the PR #27 review)
     conversions["mark-30.d26.q2"] = {
         "type": "match",
-        "prompt": "Match each reference to Jesus’ words at the meal:",
+        "prompt": "Match each reference to its verse:",
         "pairs": [
-            {"ref": "MRK.14.22", "text": "Take, eat. This is my body."},
-            {"ref": "MRK.14.24", "text": "This is my blood of the new covenant, which is poured out for many."}
+            {
+                "ref": "MRK.14.23",
+                "text": "He took the cup, and when he had given thanks"
+            },
+            {
+                "ref": "MRK.14.24",
+                "text": "This is my blood of the new covenant"
+            }
         ],
-        "answerRef": "MRK.14.22",
-        "explain": "Mark 14:22 and Mark 14:24 record Jesus saying \"Take, eat. This is my body\" and giving the cup of the new covenant."
+        "answerRef": "MRK.14.24",
+        "explain": "Mark 14:23 and Mark 14:24: Jesus gave thanks for the cup and said, \"This is my blood of the new covenant.\""
     }
 
-    # mark-30.d27.q2: MRK.14.36 (verses: MRK.14.34, MRK.14.35, MRK.14.36)
-    # MRK.14.36: "He said, “Abba, Father, all things are possible to you. Please remove this cup from me. However, not what I desire, but what you desire.”"
+    # mark-30.d27.q2: MRK.14.36 (reworked after the PR #27 review)
     conversions["mark-30.d27.q2"] = {
         "type": "order",
         "prompt": "Put Jesus’ prayer in Gethsemane in order:",
-        "orderTokens": ["However, not what I desire,", "but what you desire."],
+        "orderTokens": [
+            "However,",
+            "not what I desire,",
+            "but what you desire."
+        ],
         "answerRef": "MRK.14.36",
         "explain": "Mark 14:36: \"However, not what I desire, but what you desire.\""
     }
@@ -537,11 +579,13 @@ def main():
                 qid = q["id"]
                 if qid in conversions:
                     update = conversions[qid]
+                    # Drop fields of the question's previous type that this one does not use,
+                    # then apply it (existing keys keep their position, so reruns are no-ops).
+                    for k in ("choices", "correctIndex", "orderTokens", "pairs"):
+                        if k not in update:
+                            q.pop(k, None)
                     for k, v in update.items():
                         q[k] = v
-                    if update["type"] in ("order", "match"):
-                        q.pop("choices", None)
-                        q.pop("correctIndex", None)
                     converted_count += 1
 
     print(f"Applying {converted_count} conversions...")

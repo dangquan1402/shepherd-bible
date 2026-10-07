@@ -32,12 +32,33 @@ BIBLE_DIGEST = os.path.join(ROOT, "tools", "bible", "web.json.sha256")
 REF = re.compile(r"^([1-3]?[A-Z]{2,3})\.(\d+)\.(\d+)$")
 # Quotations may be delimited with straight "…" or typographic “…” marks; both are checked.
 QUOTE = re.compile(r'["“]([^"“”]+)["”]')
+# QUOTE stops at an inner typographic quote, so a straight-quoted span that nests one
+# ("he said, “Don’t be afraid.”") is only checked on its inner part. This catches the whole span.
+NESTED_QUOTE = re.compile(r'"([^"]*[“”][^"]*)"')
 BLANK = "___"
 MIN_QUOTE = 12  # shorter quoted strings are single words ("yoke"), not verse text
 QUESTION_TYPES = {"choice", "fill_blank", "order", "true_false", "match"}
 ACCESS = {"free", "premium", "seasonal"}
 GOALS = {"grow_daily", "understand", "peace"}
 LEVELS = {"beginner", "some", "deep"}
+
+
+MIN_SPOILER = 4  # shorter answers ("Lord") are common words, not a give-away
+
+
+def norm(s):
+    return (
+        s.replace("’", "'").replace("‘", "'").replace("“", '"').replace("”", '"').lower()
+    )
+
+
+def shown_text(q):
+    """What a question shows before it is answered."""
+    parts = [q.get("prompt") or ""]
+    parts += q.get("choices") or []
+    parts += q.get("orderTokens") or q.get("tokens") or []
+    parts += [p.get("text") or "" for p in (q.get("pairs") or q.get("matchPairs") or [])]
+    return parts
 
 
 def index(bible):
@@ -192,13 +213,33 @@ def validate(bible, bundle, release=False):
                     else:
                         pool.add(r)
             for t in texts:
-                for quoted in QUOTE.findall(t or ""):
+                for quoted in QUOTE.findall(t or "") + NESTED_QUOTE.findall(t or ""):
                     if BLANK in quoted or len(quoted) < MIN_QUOTE:
                         continue
                     needle = quoted.rstrip(".,;:")
                     if not any(needle in verses[r] for r in pool):
                         errs.append(
                             f'{lid}: quotation is not verbatim WEB text from its verses: "{quoted}"'
+                        )
+
+            # A non-choice question must not show, word for word, the answer to a choice
+            # question after it in the same lesson (prompt, word bank, tokens and pair texts).
+            for i, q in enumerate(quiz):
+                if q.get("type", "choice") == "choice":
+                    continue
+                visible = norm(" ".join(shown_text(q)))
+                for later in quiz[i + 1 :]:
+                    if later.get("type", "choice") not in ("choice", "fill_blank"):
+                        continue
+                    lchoices = later.get("choices") or []
+                    lci = later.get("correctIndex")
+                    if not isinstance(lci, int) or not 0 <= lci < len(lchoices):
+                        continue
+                    answer = norm(lchoices[lci]).rstrip(".,;:!?")
+                    if len(answer) >= MIN_SPOILER and answer in visible:
+                        warns.append(
+                            f"{lid}: {q.get('id')} shows the answer to the later question"
+                            f" {later.get('id')} ({lchoices[lci]!r})"
                         )
 
             # Never two non-choice questions in a row
@@ -279,6 +320,11 @@ def validate(bible, bundle, release=False):
                         if BLANK not in (prompt or ""):
                             errs.append(
                                 f"{qid}: fill_blank prompt must contain blank {BLANK!r}"
+                            )
+                        elif not any(BLANK in quoted for quoted in QUOTE.findall(prompt)):
+                            errs.append(
+                                f"{qid}: fill_blank blank must sit inside the quoted verse text,"
+                                " so it can be checked against the proof verse"
                             )
                         for quoted in QUOTE.findall(prompt or ""):
                             if BLANK in quoted:
