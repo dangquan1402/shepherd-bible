@@ -87,6 +87,10 @@ def main():
     run_test("testPathCompleteLight", "light", "large", uninstall_first=True)
     run_test("testPathCompleteDark", "dark", "large", uninstall_first=True)
 
+    # 2c. Reflection step and Journal (light, dark)
+    run_test("testJournalAndReflectionLight", "light", "large", uninstall_first=True)
+    run_test("testJournalAndReflectionDark", "dark", "large", uninstall_first=True)
+
     # 3. AX3 Light
     run_test("testAccessibilityAX3Light", "light", "accessibility-extra-large", uninstall_first=True)
     
