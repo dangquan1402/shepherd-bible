@@ -330,7 +330,7 @@ private struct SavedItemRow: View {
 
     private var accessibilityTypeDescription: String {
         switch item {
-        case .highlight: return "Highlight"
+        case .highlight(let h): return "Highlight, \(h.highlightColor.displayName)"
         case .bookmark: return "Bookmark"
         case .note: return "Note"
         }

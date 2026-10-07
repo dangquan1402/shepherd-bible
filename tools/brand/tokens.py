@@ -20,6 +20,17 @@ FIXED = {
     "--color-phone-sensor": ("#111111", "#111111"),
     "--color-note": ("#6D28D9", "#C4B5FD"),
     "--color-note-subtle": ("#F1EAFE", "#2A2144"),
+    # Bible reader highlights: the verse fill, and the dot that names the colour on its swatch
+    "--color-highlight-yellow": ("#FFF3B8", "#3B331A"),
+    "--color-highlight-blue": ("#E2EEFD", "#1B2F44"),
+    "--color-highlight-purple": ("#F1E6FC", "#311F42"),
+    "--color-highlight-rose": ("#FCE4EC", "#3D1D2B"),
+    "--color-highlight-amber": ("#FFE8D1", "#3E2A19"),
+    "--color-highlight-yellow-swatch": ("#9A7500", "#FFD23F"),
+    "--color-highlight-blue-swatch": ("#1D5FD6", "#7DB4FF"),
+    "--color-highlight-purple-swatch": ("#7A35E0", "#C9A6FF"),
+    "--color-highlight-rose-swatch": ("#C2255C", "#FF9EBB"),
+    "--color-highlight-amber-swatch": ("#B8500A", "#FFA559"),
     "--color-mascot-catchlight": ("#FFFFFF", "#FFFFFF"),
     "--color-glass-spec-mid": ("#FFFFFF00", "#FFFFFF00"),
 }
@@ -276,6 +287,7 @@ def ratio(a, b):
 TEXT = 4.5
 UI = 3.0
 _SURF = ["--color-canvas-bg", "--color-card-surface", "--color-surface-sunken"]
+_HIGHLIGHTS = [f"--color-highlight-{c}" for c in ("yellow", "blue", "purple", "rose", "amber")]
 PAIRS = (
     [
         (fg, bg, TEXT, "body text")
@@ -316,6 +328,12 @@ PAIRS = (
     ]
     + [("--color-on-accent", "--color-success-fill", TEXT, "correct button label")]
     + [("--color-note", "--color-note-subtle", TEXT, "design note")]
+    + [
+        (fg, bg, TEXT, "highlighted verse")
+        for fg in ("--color-text-primary", "--color-text-secondary", "--color-accent")
+        for bg in _HIGHLIGHTS
+    ]
+    + [(bg + "-swatch", bg, UI, "highlight swatch dot (non-text)") for bg in _HIGHLIGHTS]
     + [("--color-accent-fill", bg, UI, "icon tint (non-text)") for bg in ("--color-canvas-bg", "--color-card-surface")]
     + [("NODE", "--color-meadow-hill-near", UI, "current node (fill or ring) on hill (non-text)")]
 )

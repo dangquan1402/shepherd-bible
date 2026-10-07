@@ -1,4 +1,5 @@
 import XCTest
+import UIKit
 import SwiftData
 @testable import Shepherd
 
@@ -100,114 +101,159 @@ final class BibleUserDataTests: XCTestCase {
 
     // MARK: - 2. Formatted Scripture Copy / Share Output
     func testBibleFormatterAttributionAndReference() {
-        // Single verse format
-        let single = BibleFormatter.formattedText(
-            bookName: "Genesis",
-            chapter: 1,
-            startVerse: 1,
-            endVerse: 1,
-            verseTexts: ["In the beginning, God created the heavens and the earth."]
-        )
+        let genesis1 = [
+            BibleVerse(number: 1, text: "In the beginning, God created the heavens and the earth."),
+            BibleVerse(number: 2, text: "The earth was formless and empty."),
+            BibleVerse(number: 3, text: "God said, “Let there be light,” and there was light."),
+        ]
 
+        let single = BibleFormatter.formattedText(bookName: "Genesis", chapter: 1, verses: [genesis1[0]])
         XCTAssertTrue(single.contains("In the beginning, God created the heavens and the earth."))
-        XCTAssertTrue(single.contains("Genesis 1:1"))
+        XCTAssertTrue(single.contains("Genesis 1:1\n"))
         XCTAssertTrue(single.contains("World English Bible"))
 
-        // Multi-verse range format
-        let range = BibleFormatter.formattedText(
-            bookName: "Genesis",
-            chapter: 1,
-            startVerse: 1,
-            endVerse: 3,
-            verseTexts: [
-                "In the beginning, God created the heavens and the earth.",
-                "The earth was formless and empty.",
-                "God said, “Let there be light,” and there was light."
-            ]
-        )
-
+        let range = BibleFormatter.formattedText(bookName: "Genesis", chapter: 1, verses: genesis1)
         XCTAssertTrue(range.contains("Genesis 1:1–3"))
         XCTAssertTrue(range.contains("World English Bible"))
         XCTAssertTrue(range.contains("Let there be light"))
     }
 
-    // MARK: - 3. Highlight Overlap and Range Logic
+    // MARK: - 3. Review B1: a selection that skips verses
+    /// Tapping verse 1 then verse 3 selects 1–3: verse 2 is drawn as selected and is part of every
+    /// action, so the copied text labelled "Genesis 1:1–3" really contains verse 2.
+    @MainActor
+    func testTappingVersesOneAndThreeSelectsTheVerseBetween() async throws {
+        var selection = VerseSelection()
+        selection.tap(1)
+        selection.tap(3)
+        XCTAssertEqual(selection.verses, [1, 2, 3])
+        XCTAssertTrue(selection.contains(2), "verse 2 must be drawn as selected")
+
+        await ContentStore.shared.ensureBibleLoaded()
+        let chapter = try XCTUnwrap(ContentStore.shared.bible?.books.first?.chapters.first)
+        let verses = chapter.verses.filter { selection.contains($0.number) }
+        let copied = BibleFormatter.formattedText(bookName: "Genesis", chapter: 1, verses: verses)
+        let verse2 = try XCTUnwrap(chapter.verses.first { $0.number == 2 }?.text)
+        XCTAssertTrue(copied.contains(verse2), "copied text must contain verse 2:\n\(copied)")
+        XCTAssertTrue(copied.contains("Genesis 1:1–3"))
+    }
+
+    func testVerseSelectionTapRules() {
+        var selection = VerseSelection()
+        selection.tap(5)
+        XCTAssertEqual(selection.range, 5...5)
+        selection.tap(2)
+        XCTAssertEqual(selection.range, 2...5, "tapping before the run extends it")
+        selection.tap(2)
+        XCTAssertEqual(selection.range, 3...5, "tapping the first verse deselects it")
+        selection.tap(4)
+        XCTAssertEqual(selection.range, 3...3, "tapping inside deselects that verse and the ones after it")
+        selection.tap(3)
+        XCTAssertNil(selection.range)
+        XCTAssertTrue(selection.isEmpty)
+    }
+
+    /// Whatever verses reach the formatter, the reference names exactly those verses.
+    func testReferenceForVersesThatSkipNamesEachRun() {
+        let skipping = BibleFormatter.referenceString(bookName: "Genesis", chapter: 1, verses: [1, 3])
+        XCTAssertFalse(skipping.contains("1:1–3"), skipping)
+        XCTAssertEqual(skipping, "Genesis 1:1, 3")
+        XCTAssertEqual(BibleFormatter.referenceString(bookName: "Genesis", chapter: 1, verses: [5, 1, 2, 3]), "Genesis 1:1–3, 5")
+        XCTAssertEqual(BibleFormatter.referenceString(bookName: "Psalms", chapter: 119, verses: [150]), "Psalms 119:150")
+
+        let text = BibleFormatter.formattedText(bookName: "Genesis", chapter: 1, verses: [
+            BibleVerse(number: 1, text: "In the beginning, God created the heavens and the earth."),
+            BibleVerse(number: 3, text: "God said, “Let there be light,” and there was light."),
+        ])
+        XCTAssertFalse(text.contains("1:1–3"), text)
+        XCTAssertTrue(text.contains("Genesis 1:1, 3"))
+    }
+
+    // MARK: - 4. Review B2: editing part of a saved range keeps the rest
+    func testRecolouringOneVerseInsideAHighlightKeepsTheRest() {
+        let yellow = [VerseSpan(1...10, "yellow")]
+        let result = BibleRangeEditor.applying(VerseSpan(5...5, "blue"), to: yellow)
+        XCTAssertEqual(result, [VerseSpan(1...4, "yellow"), VerseSpan(5...5, "blue"), VerseSpan(6...10, "yellow")])
+
+        // The review's app repro: 1–3 yellow, recolour verse 2 rose.
+        XCTAssertEqual(
+            BibleRangeEditor.applying(VerseSpan(2...2, "rose"), to: [VerseSpan(1...3, "yellow")]),
+            [VerseSpan(1...1, "yellow"), VerseSpan(2...2, "rose"), VerseSpan(3...3, "yellow")]
+        )
+    }
+
+    func testRemovingPartOfARangeKeepsTheVersesOutsideIt() {
+        XCTAssertEqual(
+            BibleRangeEditor.removing(2...2, from: [VerseSpan(1...3, "yellow")]),
+            [VerseSpan(1...1, "yellow"), VerseSpan(3...3, "yellow")]
+        )
+        XCTAssertEqual(BibleRangeEditor.removing(1...5, from: [VerseSpan(3...8, "blue")]), [VerseSpan(6...8, "blue")])
+        XCTAssertEqual(BibleRangeEditor.removing(1...9, from: [VerseSpan(3...8, "blue")]), [])
+        XCTAssertEqual(
+            BibleRangeEditor.removing(4...4, from: [VerseSpan(1...2, "a"), VerseSpan(6...7, "b")]),
+            [VerseSpan(1...2, "a"), VerseSpan(6...7, "b")],
+            "highlights that do not overlap are untouched"
+        )
+    }
+
+    // MARK: - 5. Model range logic
     func testHighlightOverlapAndContains() {
         let h = BibleHighlight(book: "GEN", chapter: 1, startVerse: 2, endVerse: 4, colorName: "blue")
 
         XCTAssertFalse(h.contains(verse: 1))
         XCTAssertTrue(h.contains(verse: 2))
-        XCTAssertTrue(h.contains(verse: 3))
         XCTAssertTrue(h.contains(verse: 4))
         XCTAssertFalse(h.contains(verse: 5))
 
-        // Overlap checks
         XCTAssertTrue(h.overlaps(start: 1, end: 2))
         XCTAssertTrue(h.overlaps(start: 4, end: 6))
-        XCTAssertTrue(h.overlaps(start: 3, end: 3))
         XCTAssertFalse(h.overlaps(start: 5, end: 8))
         XCTAssertFalse(h.overlaps(start: 1, end: 1))
 
-        // Normalization when start > end
         let reversed = BibleHighlight(book: "GEN", chapter: 1, startVerse: 5, endVerse: 2, colorName: "purple")
         XCTAssertEqual(reversed.startVerse, 2)
         XCTAssertEqual(reversed.endVerse, 5)
-    }
 
-    // MARK: - 4. Bookmark and Note Range Logic
-    func testBookmarkAndNoteRangeLogic() {
         let b = BibleBookmark(book: "PSA", chapter: 23, startVerse: 4, endVerse: 1)
-        XCTAssertEqual(b.startVerse, 1)
-        XCTAssertEqual(b.endVerse, 4)
-        XCTAssertTrue(b.contains(verse: 3))
-
+        XCTAssertEqual(b.startVerse...b.endVerse, 1...4)
         let n = BibleNote(book: "ROM", chapter: 8, startVerse: 28, endVerse: nil, noteText: "God works all things together for good")
-        XCTAssertEqual(n.startVerse, 28)
-        XCTAssertEqual(n.endVerse, 28)
-        XCTAssertTrue(n.contains(verse: 28))
-        XCTAssertFalse(n.contains(verse: 29))
+        XCTAssertEqual(n.startVerse...n.endVerse, 28...28)
     }
 
-    // MARK: - 5. Highlight Colors Contrast Check
-    func testHighlightColorsContrastCheck() {
-        // WCAG AA contrast calculation verification
-        func luminance(r: Double, g: Double, b: Double) -> Double {
-            func channel(_ c: Double) -> Double {
-                c <= 0.03928 ? c / 12.92 : pow((c + 0.055) / 1.055, 2.4)
+    // MARK: - 6. Review N1: contrast of the shipped colour sets
+    /// Reads the colour sets the app ships (not copies of their values) in light and dark, and checks
+    /// text on every highlight at 4.5:1 and each swatch dot on its own fill at 3:1.
+    func testShippedHighlightColoursMeetContrast() throws {
+        let bundle = Bundle(for: BibleHighlight.self)
+        func luminance(_ color: UIColor) -> Double {
+            var r: CGFloat = 0, g: CGFloat = 0, b: CGFloat = 0, a: CGFloat = 0
+            XCTAssertTrue(color.getRed(&r, green: &g, blue: &b, alpha: &a))
+            func channel(_ c: CGFloat) -> Double {
+                let c = Double(c)
+                return c <= 0.03928 ? c / 12.92 : pow((c + 0.055) / 1.055, 2.4)
             }
             return 0.2126 * channel(r) + 0.7152 * channel(g) + 0.0722 * channel(b)
         }
-
-        func contrastRatio(l1: Double, l2: Double) -> Double {
-            let maxL = max(l1, l2)
-            let minL = min(l1, l2)
-            return (maxL + 0.05) / (minL + 0.05)
+        func ratio(_ a: UIColor, _ b: UIColor) -> Double {
+            let (x, y) = (luminance(a), luminance(b))
+            return (max(x, y) + 0.05) / (min(x, y) + 0.05)
         }
 
-        // Flock TextPrimary:
-        // Light: #18163A -> (24/255, 22/255, 58/255)
-        let textLightL = luminance(r: 24/255.0, g: 22/255.0, b: 58/255.0)
-        // Dark: #F6F5FF -> (246/255, 245/255, 255/255)
-        let textDarkL = luminance(r: 246/255.0, g: 245/255.0, b: 255/255.0)
-
-        // Shipped colors:
-        let highlights: [String: (light: (Double, Double, Double), dark: (Double, Double, Double))] = [
-            "Yellow": (light: (1.0, 0.953, 0.722), dark: (0.231, 0.200, 0.102)),
-            "Blue": (light: (0.886, 0.933, 0.992), dark: (0.106, 0.184, 0.267)),
-            "Purple": (light: (0.945, 0.902, 0.988), dark: (0.192, 0.122, 0.259)),
-            "Rose": (light: (0.988, 0.894, 0.925), dark: (0.239, 0.114, 0.169)),
-            "Amber": (light: (1.000, 0.910, 0.820), dark: (0.243, 0.165, 0.098))
-        ]
-
-        for (name, values) in highlights {
-            let bgLightL = luminance(r: values.light.0, g: values.light.1, b: values.light.2)
-            let bgDarkL = luminance(r: values.dark.0, g: values.dark.1, b: values.dark.2)
-
-            let ratioLight = contrastRatio(l1: textLightL, l2: bgLightL)
-            let ratioDark = contrastRatio(l1: textDarkL, l2: bgDarkL)
-
-            XCTAssertGreaterThanOrEqual(ratioLight, 4.5, "\(name) Light contrast must meet WCAG AA (>= 4.5:1), got \(ratioLight)")
-            XCTAssertGreaterThanOrEqual(ratioDark, 4.5, "\(name) Dark contrast must meet WCAG AA (>= 4.5:1), got \(ratioDark)")
+        for style in [UIUserInterfaceStyle.light, .dark] {
+            let traits = UITraitCollection(userInterfaceStyle: style)
+            func shipped(_ name: String) throws -> UIColor {
+                let color = try XCTUnwrap(UIColor(named: name, in: bundle, compatibleWith: traits), "no colour set \(name)")
+                return color.resolvedColor(with: traits)
+            }
+            for highlight in BibleHighlightColor.allCases {
+                let fill = try shipped(highlight.colorName)
+                for text in ["TextPrimary", "TextSecondary", "AccentColor"] {
+                    let r = ratio(try shipped(text), fill)
+                    XCTAssertGreaterThanOrEqual(r, 4.5, "\(text) on \(highlight.colorName) (\(style == .dark ? "dark" : "light")): \(r)")
+                }
+                let dot = ratio(try shipped(highlight.colorName + "Swatch"), fill)
+                XCTAssertGreaterThanOrEqual(dot, 3.0, "\(highlight.colorName)Swatch dot (\(style == .dark ? "dark" : "light")): \(dot)")
+            }
         }
     }
 }

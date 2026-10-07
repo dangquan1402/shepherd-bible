@@ -4,6 +4,7 @@ import SwiftData
 public struct BibleReaderView: View {
     @EnvironmentObject private var content: ContentStore
     @Environment(\.modelContext) private var modelContext
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
 
     @Query private var allHighlights: [BibleHighlight]
     @Query private var allBookmarks: [BibleBookmark]
@@ -12,10 +13,11 @@ public struct BibleReaderView: View {
     @State private var showPickerSheet: Bool = false
     @State private var editingNoteConfig: NoteEditorConfig? = nil
     @State private var showSavedScreen: Bool = false
-    @State private var selectedVerses: Set<Int> = []
+    @State private var selection = VerseSelection()
     @State private var targetScrollVerse: Int? = nil
     @State private var flashedVerse: Int? = nil
     @State private var showCopiedToast: Bool = false
+    @State private var lastCopiedText: String = ""
 
     @AppStorage("bible.book") private var selectedBookAbbrev: String = "GEN"
     @AppStorage("bible.chapter") private var selectedChapterNum: Int = 1
@@ -80,59 +82,41 @@ public struct BibleReaderView: View {
 
     // MARK: - Selection Helpers
 
-    private var sortedSelectedVerses: [Int] {
-        selectedVerses.sorted()
+    private var bookName: String {
+        currentBook?.name ?? selectedBookAbbrev
     }
 
-    private var selectionStartVerse: Int {
-        sortedSelectedVerses.first ?? 1
+    /// The bundled verses in `range` of the current chapter.
+    private func chapterVerses(_ range: ClosedRange<Int>) -> [BibleVerse] {
+        currentChapter?.verses.filter { range.contains($0.number) } ?? []
     }
 
-    private var selectionEndVerse: Int {
-        sortedSelectedVerses.last ?? selectionStartVerse
+    private func chapterText(_ range: ClosedRange<Int>) -> String {
+        chapterVerses(range).map(\.text).joined(separator: " ")
     }
 
     private var selectionReferenceText: String {
-        BibleFormatter.referenceString(
-            bookName: currentBook?.name ?? selectedBookAbbrev,
-            chapter: selectedChapterNum,
-            startVerse: selectionStartVerse,
-            endVerse: selectionEndVerse
-        )
+        BibleFormatter.referenceString(bookName: bookName, chapter: selectedChapterNum, verses: selection.verses)
     }
 
     private var selectionFormattedText: String {
-        guard let chapter = currentChapter else { return "" }
-        let texts = sortedSelectedVerses.compactMap { v in
-            chapter.verses.first { $0.number == v }?.text
-        }
-        return BibleFormatter.formattedText(
-            bookName: currentBook?.name ?? selectedBookAbbrev,
-            chapter: selectedChapterNum,
-            startVerse: selectionStartVerse,
-            endVerse: selectionEndVerse,
-            verseTexts: texts
-        )
+        guard let range = selection.range else { return "" }
+        return BibleFormatter.formattedText(bookName: bookName, chapter: selectedChapterNum, verses: chapterVerses(range))
     }
 
     private var selectionHasHighlight: Bool {
         let hMap = chapterHighlightsMap
-        return selectedVerses.contains { hMap[$0] != nil }
+        return selection.verses.contains { hMap[$0] != nil }
     }
 
     private var selectionIsBookmarked: Bool {
         let bMap = chapterBookmarksMap
-        return selectedVerses.contains { bMap[$0] != nil }
+        return selection.verses.contains { bMap[$0] != nil }
     }
 
     private var selectionExistingNote: BibleNote? {
         let nMap = chapterNotesMap
-        for v in sortedSelectedVerses {
-            if let note = nMap[v]?.first {
-                return note
-            }
-        }
-        return nil
+        return selection.verses.lazy.compactMap { nMap[$0]?.first }.first
     }
 
     // MARK: - Body
@@ -162,15 +146,24 @@ public struct BibleReaderView: View {
                             }
                         }
                         .padding(.horizontal, 20)
-                        .padding(.bottom, selectedVerses.isEmpty ? 60 : 180)
+                        .padding(.bottom, selection.isEmpty ? 60 : (dynamicTypeSize.isAccessibilitySize ? 520 : 180))
                     }
                     .onChange(of: selectedChapterNum) { _, _ in
-                        selectedVerses.removeAll()
+                        selection.clear()
                         proxy.scrollTo("top", anchor: .top)
                     }
                     .onChange(of: selectedBookAbbrev) { _, _ in
-                        selectedVerses.removeAll()
+                        selection.clear()
                         proxy.scrollTo("top", anchor: .top)
+                    }
+                    .onChange(of: selection) { old, new in
+                        // At accessibility sizes the action menu fills the lower half of the
+                        // screen, so lift a newly selected verse above it.
+                        if dynamicTypeSize.isAccessibilitySize, old.isEmpty, let first = new.range?.lowerBound {
+                            withAnimation(ShepherdTheme.morphSpring) {
+                                proxy.scrollTo("verse-\(first)", anchor: .top)
+                            }
+                        }
                     }
                     .onChange(of: targetScrollVerse) { _, newTarget in
                         if let target = newTarget {
@@ -179,6 +172,8 @@ public struct BibleReaderView: View {
                                     proxy.scrollTo("verse-\(target)", anchor: .center)
                                 }
                                 flashVerse(target)
+                                // Reset, so opening the same Saved item again scrolls again.
+                                targetScrollVerse = nil
                             }
                         }
                     }
@@ -197,6 +192,9 @@ public struct BibleReaderView: View {
                         .padding(.horizontal, 16)
                         .padding(.vertical, 10)
                         .shepherdGlassCard(cornerRadius: ShepherdTheme.radiusPill)
+                        .accessibilityElement(children: .combine)
+                        .accessibilityIdentifier("CopiedToast")
+                        .modifier(CopiedTextEcho(text: lastCopiedText))
                         .transition(.move(edge: .top).combined(with: .opacity))
                         .padding(.top, 12)
                         Spacer()
@@ -205,12 +203,12 @@ public struct BibleReaderView: View {
                 }
 
                 // Floating Action Menu
-                if !selectedVerses.isEmpty {
+                if !selection.isEmpty {
                     actionMenuView
                         .transition(.move(edge: .bottom).combined(with: .opacity))
                 }
             }
-            .animation(ShepherdTheme.morphSpring, value: selectedVerses)
+            .animation(ShepherdTheme.morphSpring, value: selection)
             .animation(ShepherdTheme.morphSpring, value: showCopiedToast)
             .background(ShepherdTheme.canvasBg.ignoresSafeArea())
             .scrollEdgeEffectStyle(.soft, for: .top)
@@ -252,7 +250,7 @@ public struct BibleReaderView: View {
             }
             .sheet(item: $editingNoteConfig, onDismiss: {
                 withAnimation(ShepherdTheme.morphSpring) {
-                    selectedVerses.removeAll()
+                    selection.clear()
                 }
             }) { config in
                 BibleNoteEditorSheet(
@@ -288,7 +286,7 @@ public struct BibleReaderView: View {
 
         LazyVStack(alignment: .leading, spacing: 14) {
             ForEach(chapter.verses) { verse in
-                let isSelected = selectedVerses.contains(verse.number)
+                let isSelected = selection.contains(verse.number)
                 let highlight = hMap[verse.number]
                 let isBookmarked = bMap[verse.number] != nil
                 let hasNote = !(nMap[verse.number]?.isEmpty ?? true)
@@ -296,7 +294,7 @@ public struct BibleReaderView: View {
 
                 VerseRowView(
                     verse: verse,
-                    highlightColor: highlight?.highlightColor.color,
+                    highlight: highlight?.highlightColor,
                     isBookmarked: isBookmarked,
                     hasNote: hasNote,
                     isSelected: isSelected,
@@ -354,12 +352,13 @@ public struct BibleReaderView: View {
                 Text(selectionReferenceText)
                     .font(.headline)
                     .foregroundStyle(ShepherdTheme.textPrimary)
+                    .accessibilityIdentifier("SelectionReference")
 
                 Spacer()
 
                 Button {
                     withAnimation(ShepherdTheme.morphSpring) {
-                        selectedVerses.removeAll()
+                        selection.clear()
                     }
                 } label: {
                     Image(systemName: "xmark.circle.fill")
@@ -408,81 +407,15 @@ public struct BibleReaderView: View {
             Divider()
                 .background(ShepherdTheme.surfaceBorder)
 
-            // Actions Row: Bookmark, Note, Copy, Share
-            HStack(spacing: 18) {
-                // Bookmark Action
-                Button {
-                    toggleBookmark()
-                } label: {
-                    VStack(spacing: 4) {
-                        Image(systemName: selectionIsBookmarked ? "bookmark.fill" : "bookmark")
-                            .font(.system(size: 18, weight: .semibold))
-                            .foregroundStyle(selectionIsBookmarked ? ShepherdTheme.accent : ShepherdTheme.textPrimary)
-                        Text(selectionIsBookmarked ? "Bookmarked" : "Bookmark")
-                            .font(.caption2.weight(.medium))
-                            .foregroundStyle(ShepherdTheme.textSecondary)
-                    }
-                    .frame(maxWidth: .infinity, minHeight: 44)
-                    .contentShape(Rectangle())
+            // Bookmark, Note, Copy, Share: one row while every label fits on one line,
+            // otherwise (large and accessibility text sizes) one action per line.
+            ViewThatFits(in: .horizontal) {
+                HStack(spacing: 18) {
+                    actionButtons(stacked: false)
                 }
-                .buttonStyle(.plain)
-                .accessibilityIdentifier("BookmarkActionButton")
-                .accessibilityLabel(selectionIsBookmarked ? "Remove Bookmark" : "Add Bookmark")
-
-                // Note Action
-                Button {
-                    openNoteEditor()
-                } label: {
-                    VStack(spacing: 4) {
-                        Image(systemName: selectionExistingNote != nil ? "note.text.badge.plus" : "square.and.pencil")
-                            .font(.system(size: 18, weight: .semibold))
-                            .foregroundStyle(selectionExistingNote != nil ? Color("Note") : ShepherdTheme.textPrimary)
-                        Text(selectionExistingNote != nil ? "Edit Note" : "Note")
-                            .font(.caption2.weight(.medium))
-                            .foregroundStyle(ShepherdTheme.textSecondary)
-                    }
-                    .frame(maxWidth: .infinity, minHeight: 44)
-                    .contentShape(Rectangle())
+                VStack(spacing: 4) {
+                    actionButtons(stacked: true)
                 }
-                .buttonStyle(.plain)
-                .accessibilityIdentifier("NoteActionButton")
-                .accessibilityLabel(selectionExistingNote != nil ? "Edit Note" : "Add Note")
-
-                // Copy Action
-                Button {
-                    copySelection()
-                } label: {
-                    VStack(spacing: 4) {
-                        Image(systemName: "doc.on.doc")
-                            .font(.system(size: 18, weight: .semibold))
-                            .foregroundStyle(ShepherdTheme.textPrimary)
-                        Text("Copy")
-                            .font(.caption2.weight(.medium))
-                            .foregroundStyle(ShepherdTheme.textSecondary)
-                    }
-                    .frame(maxWidth: .infinity, minHeight: 44)
-                    .contentShape(Rectangle())
-                }
-                .buttonStyle(.plain)
-                .accessibilityIdentifier("CopyActionButton")
-                .accessibilityLabel("Copy Scripture with attribution")
-
-                // Share Action
-                ShareLink(item: selectionFormattedText) {
-                    VStack(spacing: 4) {
-                        Image(systemName: "square.and.arrow.up")
-                            .font(.system(size: 18, weight: .semibold))
-                            .foregroundStyle(ShepherdTheme.textPrimary)
-                        Text("Share")
-                            .font(.caption2.weight(.medium))
-                            .foregroundStyle(ShepherdTheme.textSecondary)
-                    }
-                    .frame(maxWidth: .infinity, minHeight: 44)
-                    .contentShape(Rectangle())
-                }
-                .buttonStyle(.plain)
-                .accessibilityIdentifier("ShareActionButton")
-                .accessibilityLabel("Share Scripture with attribution")
             }
         }
         .padding(.horizontal, 20)
@@ -492,128 +425,200 @@ public struct BibleReaderView: View {
         .padding(.bottom, 68)
     }
 
+    @ViewBuilder
+    private func actionButtons(stacked: Bool) -> some View {
+        let bookmarked = selectionIsBookmarked
+        let hasNote = selectionExistingNote != nil
+
+        Button {
+            toggleBookmark()
+        } label: {
+            actionLabel(
+                bookmarked ? "Bookmarked" : "Bookmark",
+                icon: bookmarked ? "bookmark.fill" : "bookmark",
+                tint: bookmarked ? ShepherdTheme.accent : ShepherdTheme.textPrimary,
+                stacked: stacked
+            )
+        }
+        .buttonStyle(.plain)
+        .accessibilityIdentifier("BookmarkActionButton")
+        .accessibilityLabel(bookmarked ? "Remove Bookmark" : "Add Bookmark")
+
+        Button {
+            openNoteEditor()
+        } label: {
+            actionLabel(
+                hasNote ? "Edit Note" : "Note",
+                icon: hasNote ? "note.text.badge.plus" : "square.and.pencil",
+                tint: hasNote ? Color("Note") : ShepherdTheme.textPrimary,
+                stacked: stacked
+            )
+        }
+        .buttonStyle(.plain)
+        .accessibilityIdentifier("NoteActionButton")
+        .accessibilityLabel(hasNote ? "Edit Note" : "Add Note")
+
+        Button {
+            copySelection()
+        } label: {
+            actionLabel("Copy", icon: "doc.on.doc", tint: ShepherdTheme.textPrimary, stacked: stacked)
+        }
+        .buttonStyle(.plain)
+        .accessibilityIdentifier("CopyActionButton")
+        .accessibilityLabel("Copy Scripture with attribution")
+
+        ShareLink(item: selectionFormattedText) {
+            actionLabel("Share", icon: "square.and.arrow.up", tint: ShepherdTheme.textPrimary, stacked: stacked)
+        }
+        .buttonStyle(.plain)
+        .accessibilityIdentifier("ShareActionButton")
+        .accessibilityLabel("Share Scripture with attribution")
+    }
+
+    /// Icon over label in the row layout, icon beside label in the stacked one. Labels never wrap:
+    /// the row only fits when every label fits on one line.
+    @ViewBuilder
+    private func actionLabel(_ title: String, icon: String, tint: Color, stacked: Bool) -> some View {
+        let image = Image(systemName: icon)
+            .font(.system(size: 18, weight: .semibold))
+            .foregroundStyle(tint)
+        let label = Text(title)
+            .font(.caption2.weight(.medium))
+            .foregroundStyle(ShepherdTheme.textSecondary)
+            .lineLimit(1)
+            .fixedSize()
+        if stacked {
+            HStack(spacing: 12) {
+                image
+                label
+                Spacer(minLength: 0)
+            }
+            .frame(maxWidth: .infinity, minHeight: 44)
+            .contentShape(Rectangle())
+        } else {
+            VStack(spacing: 4) {
+                image
+                label
+            }
+            .frame(maxWidth: .infinity, minHeight: 44)
+            .contentShape(Rectangle())
+        }
+    }
+
     // MARK: - Actions Logic
 
     private func toggleVerseSelection(_ number: Int) {
         withAnimation(ShepherdTheme.morphSpring) {
-            if selectedVerses.contains(number) {
-                selectedVerses.remove(number)
-            } else {
-                selectedVerses.insert(number)
-            }
+            selection.tap(number)
         }
+    }
+
+    private var chapterHighlights: [BibleHighlight] {
+        allHighlights.filter { $0.book == selectedBookAbbrev && $0.chapter == selectedChapterNum }
+    }
+
+    private var chapterBookmarks: [BibleBookmark] {
+        allBookmarks.filter { $0.book == selectedBookAbbrev && $0.chapter == selectedChapterNum }
+    }
+
+    /// Replaces the chapter's highlights with `spans`, keeping each surviving piece's colour and date.
+    /// Only highlights that overlap `range` are touched; the rest of each one is re-saved as its own record.
+    private func rewriteHighlights(around range: ClosedRange<Int>, _ edit: ([VerseSpan<HighlightValue>]) -> [VerseSpan<HighlightValue>]) {
+        let touched = chapterHighlights.filter { $0.overlaps(start: range.lowerBound, end: range.upperBound) }
+        let spans = touched.map {
+            VerseSpan($0.startVerse...$0.endVerse, HighlightValue(colorName: $0.colorName, createdAt: $0.createdAt))
+        }
+        touched.forEach(modelContext.delete)
+        for span in edit(spans) {
+            modelContext.insert(BibleHighlight(
+                book: selectedBookAbbrev,
+                chapter: selectedChapterNum,
+                startVerse: span.range.lowerBound,
+                endVerse: span.range.upperBound,
+                colorName: span.value.colorName,
+                createdAt: span.value.createdAt,
+                verseText: chapterText(span.range)
+            ))
+        }
+        try? modelContext.save()
     }
 
     private func applyHighlight(_ color: BibleHighlightColor) {
-        guard let chapter = currentChapter, !selectedVerses.isEmpty else { return }
-        let start = selectionStartVerse
-        let end = selectionEndVerse
-
-        // Remove overlapping existing highlights
-        let existing = allHighlights.filter {
-            $0.book == selectedBookAbbrev && $0.chapter == selectedChapterNum && $0.overlaps(start: start, end: end)
-        }
-        for old in existing {
-            modelContext.delete(old)
-        }
-
-        let texts = (start...end).compactMap { v in
-            chapter.verses.first { $0.number == v }?.text
-        }
-        let highlight = BibleHighlight(
-            book: selectedBookAbbrev,
-            chapter: selectedChapterNum,
-            startVerse: start,
-            endVerse: end,
-            colorName: color.rawValue,
-            verseText: texts.joined(separator: " ")
-        )
-        modelContext.insert(highlight)
-        try? modelContext.save()
-
-        withAnimation(ShepherdTheme.morphSpring) {
-            selectedVerses.removeAll()
-        }
+        guard let range = selection.range else { return }
+        let new = VerseSpan(range, HighlightValue(colorName: color.rawValue, createdAt: .now))
+        rewriteHighlights(around: range) { BibleRangeEditor.applying(new, to: $0) }
+        clearSelection()
     }
 
     private func removeHighlight() {
-        let start = selectionStartVerse
-        let end = selectionEndVerse
-        let existing = allHighlights.filter {
-            $0.book == selectedBookAbbrev && $0.chapter == selectedChapterNum && $0.overlaps(start: start, end: end)
-        }
-        for old in existing {
-            modelContext.delete(old)
-        }
-        try? modelContext.save()
-
-        withAnimation(ShepherdTheme.morphSpring) {
-            selectedVerses.removeAll()
-        }
+        guard let range = selection.range else { return }
+        rewriteHighlights(around: range) { BibleRangeEditor.removing(range, from: $0) }
+        clearSelection()
     }
 
+    /// Bookmarks the selection, or, when any selected verse is bookmarked, removes the bookmark from
+    /// the selected verses only (bookmarked verses outside the selection stay bookmarked).
     private func toggleBookmark() {
-        guard let chapter = currentChapter, !selectedVerses.isEmpty else { return }
-        let start = selectionStartVerse
-        let end = selectionEndVerse
-
-        let existing = allBookmarks.filter {
-            $0.book == selectedBookAbbrev && $0.chapter == selectedChapterNum && $0.overlaps(start: start, end: end)
-        }
-
-        if !existing.isEmpty {
-            for old in existing {
-                modelContext.delete(old)
-            }
-        } else {
-            let texts = (start...end).compactMap { v in
-                chapter.verses.first { $0.number == v }?.text
-            }
-            let bookmark = BibleBookmark(
+        guard let range = selection.range else { return }
+        let touched = chapterBookmarks.filter { $0.overlaps(start: range.lowerBound, end: range.upperBound) }
+        if touched.isEmpty {
+            modelContext.insert(BibleBookmark(
                 book: selectedBookAbbrev,
                 chapter: selectedChapterNum,
-                startVerse: start,
-                endVerse: end,
-                verseText: texts.joined(separator: " ")
-            )
-            modelContext.insert(bookmark)
+                startVerse: range.lowerBound,
+                endVerse: range.upperBound,
+                verseText: chapterText(range)
+            ))
+        } else {
+            let spans = touched.map { VerseSpan($0.startVerse...$0.endVerse, $0.createdAt) }
+            touched.forEach(modelContext.delete)
+            for span in BibleRangeEditor.removing(range, from: spans) {
+                modelContext.insert(BibleBookmark(
+                    book: selectedBookAbbrev,
+                    chapter: selectedChapterNum,
+                    startVerse: span.range.lowerBound,
+                    endVerse: span.range.upperBound,
+                    createdAt: span.value,
+                    verseText: chapterText(span.range)
+                ))
+            }
         }
         try? modelContext.save()
-
-        withAnimation(ShepherdTheme.morphSpring) {
-            selectedVerses.removeAll()
-        }
+        clearSelection()
     }
 
+    /// Edits the note on the selection if there is one (showing that note's own verses), else
+    /// starts a note on the selected verses.
     private func openNoteEditor() {
-        guard let chapter = currentChapter, !selectedVerses.isEmpty else { return }
-        let start = selectionStartVerse
-        let end = selectionEndVerse
-        let texts = (start...end).compactMap { v in
-            chapter.verses.first { $0.number == v }?.text
-        }
-        let config = NoteEditorConfig(
-            bookName: currentBook?.name ?? selectedBookAbbrev,
+        guard let range = selection.range else { return }
+        let existing = selectionExistingNote
+        editingNoteConfig = NoteEditorConfig(
+            bookName: bookName,
             bookAbbrev: selectedBookAbbrev,
             chapter: selectedChapterNum,
-            startVerse: start,
-            endVerse: end,
-            verseText: texts.joined(separator: " "),
-            existingNote: selectionExistingNote
+            startVerse: existing?.startVerse ?? range.lowerBound,
+            endVerse: existing?.endVerse ?? range.upperBound,
+            verseText: existing.map { chapterText($0.startVerse...$0.endVerse) } ?? chapterText(range),
+            existingNote: existing
         )
-        editingNoteConfig = config
     }
 
     private func copySelection() {
-        UIPasteboard.general.string = selectionFormattedText
+        let text = selectionFormattedText
+        UIPasteboard.general.string = text
+        lastCopiedText = text
         showCopiedToast = true
-        withAnimation(ShepherdTheme.morphSpring) {
-            selectedVerses.removeAll()
-        }
+        clearSelection()
         DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
             withAnimation(ShepherdTheme.morphSpring) {
                 showCopiedToast = false
             }
+        }
+    }
+
+    private func clearSelection() {
+        withAnimation(ShepherdTheme.morphSpring) {
+            selection.clear()
         }
     }
 
@@ -642,11 +647,35 @@ private struct NoteEditorConfig: Identifiable {
     let existingNote: BibleNote?
 }
 
+/// What a highlight span carries through a range edit.
+private struct HighlightValue: Equatable {
+    let colorName: String
+    let createdAt: Date
+}
+
+/// DEBUG and `-uitestEchoCopy` only: exposes the copied text as the toast's accessibility value, so a
+/// UI test can check what Copy put on the pasteboard without reading the pasteboard itself.
+private struct CopiedTextEcho: ViewModifier {
+    let text: String
+
+    func body(content: Content) -> some View {
+        #if DEBUG
+        if ProcessInfo.processInfo.arguments.contains("-uitestEchoCopy") {
+            content.accessibilityValue(text)
+        } else {
+            content
+        }
+        #else
+        content
+        #endif
+    }
+}
+
 // MARK: - Verse Row View
 
 private struct VerseRowView: View {
     let verse: BibleVerse
-    let highlightColor: Color?
+    let highlight: BibleHighlightColor?
     let isBookmarked: Bool
     let hasNote: Bool
     let isSelected: Bool
@@ -706,13 +735,14 @@ private struct VerseRowView: View {
             }
         )
         .accessibilityElement(children: .combine)
-        .accessibilityLabel("Verse \(verse.number), \(verse.text)\(isBookmarked ? ", Bookmarked" : "")\(hasNote ? ", Has note" : "")\(highlightColor != nil ? ", Highlighted" : "")")
-        .accessibilityHint("Double tap to select this verse")
+        .accessibilityLabel("Verse \(verse.number), \(verse.text)\(isBookmarked ? ", Bookmarked" : "")\(hasNote ? ", Has note" : "")\(highlight.map { ", Highlighted \($0.displayName)" } ?? "")")
+        .accessibilityAddTraits(isSelected ? [.isButton, .isSelected] : .isButton)
+        .accessibilityHint(isSelected ? "Double tap to deselect" : "Double tap to select this verse")
     }
 
     private var rowBackground: Color {
-        if let highlightColor {
-            return highlightColor
+        if let highlight {
+            return highlight.color
         }
         if isFlashed {
             return ShepherdTheme.goldSubtle
