@@ -90,12 +90,20 @@ final class RealFlowUITests: XCTestCase {
         app.descendants(matching: .any).matching(NSPredicate(format: "label CONTAINS %@", text)).firstMatch
     }
 
-    /// Tap the choice containing `text`, check it, and continue.
+    /// Tap the choice containing `text`, check it, and continue. A match question takes
+    /// "Ref=verse start|Ref=verse start" and pairs each reference with that verse.
     @MainActor
     private func answer(_ app: XCUIApplication, _ text: String) {
-        let choice = app.buttons.matching(NSPredicate(format: "label CONTAINS[c] %@", text)).firstMatch
-        XCTAssertTrue(choice.waitForExistence(timeout: 5.0), "no choice '\(text)'")
-        choice.tap()
+        if text.contains("=") {
+            for pair in text.split(separator: "|") {
+                let parts = pair.split(separator: "=", maxSplits: 1).map(String.init)
+                pairMatch(app, ref: parts[0], verse: parts[1])
+            }
+        } else {
+            let choice = app.buttons.matching(NSPredicate(format: "label CONTAINS[c] %@", text)).firstMatch
+            XCTAssertTrue(choice.waitForExistence(timeout: 5.0), "no choice '\(text)'")
+            choice.tap()
+        }
         app.buttons["Check"].tap()
         XCTAssertTrue(app.buttons["Continue"].waitForExistence(timeout: 4.0))
         app.buttons["Continue"].tap()
@@ -138,7 +146,7 @@ final class RealFlowUITests: XCTestCase {
     @MainActor
     private func executePathCompleteFlow() throws {
         let app = XCUIApplication()
-        app.launchArguments += ["-uitestCompleted", "beginner-30:29"]
+        app.launchArguments += ["-uitestReset", "-uitestCompleted", "beginner-30:29"]
         app.launch()
         passOnboardingIfNeeded(app, goal: "Grow a daily habit", level: "Brand new")
         XCTAssertTrue(app.navigationBars["Today"].waitForExistence(timeout: 6.0))
@@ -229,6 +237,9 @@ final class RealFlowUITests: XCTestCase {
 
     // MARK: - App Store rating prompt (the real StoreKit sheet: "Enjoying Pasture?")
 
+    /// Day 3's second question is a match (John 1:1 and 1:14), answered correctly.
+    private let day3Match = "John 1:1=In the beginning was the Word|John 1:14=The Word became flesh"
+
     /// Days 1-2 seeded; Day 3 played with a perfect quiz. The rating sheet appears on Today, and a
     /// cold relaunch does not ask again.
     @MainActor
@@ -238,7 +249,7 @@ final class RealFlowUITests: XCTestCase {
         app.launch()
         passOnboardingIfNeeded(app, goal: "Grow a daily habit", level: "Brand new")
         XCTAssertTrue(app.navigationBars["Today"].waitForExistence(timeout: 6.0))
-        completeLesson(app, day: 3, answers: ["Word", "Flesh"])
+        completeLesson(app, day: 3, answers: ["Word", day3Match])
         let prompt = app.staticTexts["Enjoying Pasture?"]
         XCTAssertTrue(prompt.waitForExistence(timeout: 6.0), "no rating prompt after a perfect Day 3")
         app.buttons["Not Now"].tap()
@@ -258,7 +269,7 @@ final class RealFlowUITests: XCTestCase {
         app.launch()
         passOnboardingIfNeeded(app, goal: "Grow a daily habit", level: "Brand new")
         XCTAssertTrue(app.navigationBars["Today"].waitForExistence(timeout: 6.0))
-        completeLesson(app, day: 3, answers: ["Law", "Flesh"])
+        completeLesson(app, day: 3, answers: ["Law", day3Match])
         XCTAssertFalse(app.staticTexts["Enjoying Pasture?"].waitForExistence(timeout: 5.0), "rating prompt after a wrong answer")
     }
 
@@ -584,6 +595,7 @@ final class RealFlowUITests: XCTestCase {
     @MainActor
     func testRecordCheckMorph() throws {
         let app = XCUIApplication()
+        app.launchArguments += ["-uitestReset"]
         app.launch()
         passOnboardingIfNeeded(app)
 
