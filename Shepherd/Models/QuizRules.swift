@@ -85,6 +85,47 @@ public enum QuizRules {
         return order
     }
 
+    /// The correct answer as the feedback sheet spells it out after a wrong answer. A match
+    /// question lists every pair, one per line ("John 1:1 → In the beginning was the Word").
+    public static func answerText(for question: QuizQuestion) -> String {
+        switch question.type {
+        case .choice, .fillBlank:
+            return question.choices.indices.contains(question.correctIndex)
+                ? question.choices[question.correctIndex]
+                : ""
+        case .trueFalse:
+            return question.correctIndex == 0 ? "True" : "False"
+        case .order:
+            return (question.orderTokens ?? []).joined(separator: " ")
+        case .match:
+            return (question.pairs ?? [])
+                .map { "\(ContentStore.displayRef($0.ref)) → \($0.text)" }
+                .joined(separator: "\n")
+        }
+    }
+
+    /// "Answer: …" with one closing full stop at most; a multi-line answer starts on its own line.
+    public static func answerLine(_ answer: String) -> String {
+        if answer.contains("\n") {
+            return "Answer:\n\(answer)"
+        }
+        let core = answer.trimmingCharacters(in: CharacterSet(charactersIn: "\"'\u{2019}\u{201D}"))
+        let ended = core.last.map { ".!?…".contains($0) } ?? false
+        return "Answer: \(answer)\(ended ? "" : ".")"
+    }
+
+    /// A fill-in-the-blank prompt split into its short lead-in ("Complete the verse:") and the
+    /// quoted verse text with the blank, so the verse is shown once, in the card.
+    public static func fillBlankParts(_ prompt: String) -> (title: String, verse: String) {
+        guard let open = prompt.firstIndex(of: "\""),
+              let close = prompt.lastIndex(of: "\""), open < close else {
+            return ("Fill in the missing word", prompt)
+        }
+        let lead = prompt[..<open].trimmingCharacters(in: .whitespaces)
+        let verse = String(prompt[prompt.index(after: open)..<close])
+        return (lead.isEmpty ? "Fill in the missing word" : lead, verse)
+    }
+
     static func fnv1a(_ s: String) -> UInt64 {
         var hash: UInt64 = 0xcbf2_9ce4_8422_2325
         for byte in s.utf8 {

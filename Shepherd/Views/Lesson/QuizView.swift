@@ -22,12 +22,14 @@ public struct QuizView: View {
 
     @Namespace private var morphNamespace
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
 
     public struct QuizFeedbackData: Equatable {
         public let isCorrect: Bool
         public let title: String
         public let explain: String?
-        public let correctChoice: String
+        /// "Answer: …", shown after a wrong answer.
+        public let answerLine: String
         public let verseRef: String?
         public let verseText: String?
     }
@@ -44,6 +46,14 @@ public struct QuizView: View {
     private var quizProgress: Double {
         guard !lesson.quiz.isEmpty else { return 0 }
         return Double(answeredCount) / Double(lesson.quiz.count)
+    }
+
+    /// A fill-in-the-blank shows its verse once, in the card, under a short lead-in.
+    private var questionTitle: String {
+        if currentQuestion.type == .fillBlank {
+            return LessonText.curlyQuotes(QuizRules.fillBlankParts(currentQuestion.prompt).title)
+        }
+        return LessonText.curlyQuotes(currentQuestion.prompt)
     }
 
     private var companionStage: Int {
@@ -77,7 +87,7 @@ public struct QuizView: View {
                             .padding(.top, 12)
 
                         // Question Prompt
-                        Text(LessonText.curlyQuotes(currentQuestion.prompt))
+                        Text(questionTitle)
                             .font(ShepherdTheme.title2Serif())
                             .foregroundStyle(ShepherdTheme.textPrimary)
                             .padding(.top, 4)
@@ -211,24 +221,27 @@ public struct QuizView: View {
     private var fillBlankExerciseView: some View {
         VStack(alignment: .leading, spacing: 16) {
             // Verse card highlighting the fillable slot
-            let parts = currentQuestion.prompt.components(separatedBy: "___")
+            let verse = QuizRules.fillBlankParts(currentQuestion.prompt).verse
+            let parts = verse.components(separatedBy: "___")
             VStack(alignment: .leading, spacing: 10) {
                 if parts.count >= 2 {
-                    Text(parts[0])
+                    Text("\u{201C}" + parts[0])
                         .font(ShepherdTheme.title3Serif())
                         .foregroundStyle(ShepherdTheme.textPrimary)
                     + Text(blankLabel)
                         .font(ShepherdTheme.title3Serif().weight(.bold))
                         .foregroundColor(blankTextColor)
-                    + Text(parts[1])
+                    + Text(parts[1] + "\u{201D}")
                         .font(ShepherdTheme.title3Serif())
                         .foregroundStyle(ShepherdTheme.textPrimary)
                 } else {
-                    Text(currentQuestion.prompt)
+                    Text(LessonText.curlyQuotes(verse))
                         .font(ShepherdTheme.title3Serif())
                         .foregroundStyle(ShepherdTheme.textPrimary)
                 }
             }
+            .accessibilityElement(children: .ignore)
+            .accessibilityLabel(verse.replacingOccurrences(of: "___", with: blankSpokenWord))
             .padding(18)
             .frame(maxWidth: .infinity, alignment: .leading)
             .background(blankCardBackground)
@@ -334,7 +347,7 @@ public struct QuizView: View {
                                         .foregroundStyle(ShepherdTheme.textPrimary)
                                     if !isChecked {
                                         Image(systemName: "xmark")
-                                            .font(.system(size: 11, weight: .bold))
+                                            .font(.caption2.weight(.bold))
                                             .foregroundStyle(ShepherdTheme.textTertiary)
                                     }
                                 }
@@ -427,7 +440,7 @@ public struct QuizView: View {
                 } label: {
                     HStack(spacing: 16) {
                         Image(systemName: icon)
-                            .font(.system(size: 26, weight: .semibold))
+                            .font(.title2.weight(.semibold))
                             .foregroundStyle(chipTextColor(state: state))
 
                         Text(label)
@@ -440,13 +453,14 @@ public struct QuizView: View {
                             Circle()
                                 .strokeBorder(ShepherdTheme.accent, lineWidth: 2)
                                 .frame(width: 24, height: 24)
+                                .accessibilityHidden(true)
                         } else if state == .correct || state == .revealed {
                             Image(systemName: "checkmark.circle.fill")
-                                .font(.system(size: 24))
+                                .font(.title2)
                                 .foregroundStyle(ShepherdTheme.success)
                         } else if state == .wrong {
                             Image(systemName: "xmark.circle.fill")
-                                .font(.system(size: 24))
+                                .font(.title2)
                                 .foregroundStyle(ShepherdTheme.error)
                         }
                     }
@@ -474,108 +488,23 @@ public struct QuizView: View {
                 .foregroundStyle(ShepherdTheme.textSecondary)
 
             let pairs = currentQuestion.pairs ?? []
-            let shuffledIndices = QuizRules.matchDisplayOrder(for: currentQuestion)
+            // Side by side normally; at accessibility text sizes the columns stack, so words
+            // are never broken across lines and each card keeps its full width.
+            let layout = dynamicTypeSize.isAccessibilitySize
+                ? AnyLayout(VStackLayout(alignment: .leading, spacing: 18))
+                : AnyLayout(HStackLayout(alignment: .top, spacing: 12))
 
-            HStack(alignment: .top, spacing: 12) {
-                // Left Column: References
+            layout {
                 VStack(spacing: 10) {
-                    ForEach(pairs, id: \.ref) { pair in
-                        let isSelected = selectedMatchRef == pair.ref
-                        let isMatched = matchedPairs[pair.ref] != nil
-                        let isPairCorrect = isChecked && matchedPairs[pair.ref] == pair.ref
-                        let isPairWrong = isChecked && isMatched && matchedPairs[pair.ref] != pair.ref
-
-                        Button {
-                            if !isChecked {
-                                if isMatched {
-                                    matchedPairs.removeValue(forKey: pair.ref)
-                                } else {
-                                    selectedMatchRef = (selectedMatchRef == pair.ref ? nil : pair.ref)
-                                }
-                            }
-                        } label: {
-                            VStack(alignment: .leading, spacing: 4) {
-                                Text(ContentStore.displayRef(pair.ref))
-                                    .font(.callout.weight(.bold))
-                                    .foregroundStyle(ShepherdTheme.textPrimary)
-
-                                if isMatched {
-                                    Text("Matched")
-                                        .font(.caption2.weight(.semibold))
-                                        .foregroundStyle(isPairCorrect ? ShepherdTheme.success : (isPairWrong ? ShepherdTheme.error : ShepherdTheme.accent))
-                                }
-                            }
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .padding(12)
-                            .frame(minHeight: 76)
-                            .background(
-                                isPairCorrect ? ShepherdTheme.successSubtle :
-                                (isPairWrong ? ShepherdTheme.errorSubtle :
-                                (isSelected ? ShepherdTheme.accentSubtle :
-                                (isMatched ? ShepherdTheme.surfaceSunken : ShepherdTheme.cardSurface)))
-                            )
-                            .clipShape(RoundedRectangle(cornerRadius: ShepherdTheme.radiusMD))
-                            .overlay(
-                                RoundedRectangle(cornerRadius: ShepherdTheme.radiusMD)
-                                    .stroke(
-                                        isPairCorrect ? ShepherdTheme.success :
-                                        (isPairWrong ? ShepherdTheme.error :
-                                        (isSelected ? ShepherdTheme.accent :
-                                        (isMatched ? ShepherdTheme.accentFill : ShepherdTheme.surfaceBorder))),
-                                        lineWidth: (isSelected || isMatched || isChecked) ? 2 : 1
-                                    )
-                            )
-                        }
-                        .buttonStyle(.plain)
-                        .accessibilityLabel("Reference \(ContentStore.displayRef(pair.ref)), \(isMatched ? "matched" : isSelected ? "selected" : "tap to select")")
+                    ForEach(Array(pairs.enumerated()), id: \.element.ref) { index, pair in
+                        matchReferenceCard(pair, number: index + 1, pairs: pairs)
                     }
                 }
                 .frame(maxWidth: .infinity)
 
-                // Right Column: Verses
                 VStack(spacing: 10) {
-                    ForEach(shuffledIndices, id: \.self) { idx in
-                        let pair = pairs[idx]
-                        let matchedRef = matchedPairs.first(where: { $0.value == pair.ref })?.key
-                        let isMatched = matchedRef != nil
-                        let isPairCorrect = isChecked && matchedRef == pair.ref
-                        let isPairWrong = isChecked && isMatched && matchedRef != pair.ref
-
-                        Button {
-                            if !isChecked {
-                                if let existing = matchedRef {
-                                    matchedPairs.removeValue(forKey: existing)
-                                } else if let activeRef = selectedMatchRef {
-                                    matchedPairs[activeRef] = pair.ref
-                                    selectedMatchRef = nil
-                                }
-                            }
-                        } label: {
-                            Text(pair.text)
-                                .font(.footnote.weight(.medium))
-                                .foregroundStyle(ShepherdTheme.textPrimary)
-                                .multilineTextAlignment(.leading)
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                                .padding(12)
-                                .frame(minHeight: 76)
-                                .background(
-                                    isPairCorrect ? ShepherdTheme.successSubtle :
-                                    (isPairWrong ? ShepherdTheme.errorSubtle :
-                                    (isMatched ? ShepherdTheme.surfaceSunken : ShepherdTheme.cardSurface))
-                                )
-                                .clipShape(RoundedRectangle(cornerRadius: ShepherdTheme.radiusMD))
-                                .overlay(
-                                    RoundedRectangle(cornerRadius: ShepherdTheme.radiusMD)
-                                        .stroke(
-                                            isPairCorrect ? ShepherdTheme.success :
-                                            (isPairWrong ? ShepherdTheme.error :
-                                            (isMatched ? ShepherdTheme.accentFill : ShepherdTheme.surfaceBorder)),
-                                            lineWidth: (isMatched || isChecked) ? 2 : 1
-                                        )
-                                )
-                        }
-                        .buttonStyle(.plain)
-                        .accessibilityLabel("Verse: \(pair.text), \(isMatched ? "matched" : "tap to match")")
+                    ForEach(QuizRules.matchDisplayOrder(for: currentQuestion), id: \.self) { idx in
+                        matchVerseCard(pairs[idx], pairs: pairs)
                     }
                 }
                 .frame(maxWidth: .infinity)
@@ -583,13 +512,160 @@ public struct QuizView: View {
         }
     }
 
+    /// The state of one card in a match question, before and after Check.
+    private enum MatchCardState { case open, selected, matched, correct, wrong }
+
+    private func matchState(isMatched: Bool, isSelected: Bool, isRight: Bool) -> MatchCardState {
+        if isChecked && isMatched { return isRight ? .correct : .wrong }
+        if isMatched { return .matched }
+        return isSelected ? .selected : .open
+    }
+
+    /// Each reference keeps a number; the verse it is matched to shows the same number, so the
+    /// pairing is visible before Check (and spoken: "matched to …").
+    private func matchReferenceCard(_ pair: MatchPair, number: Int, pairs: [MatchPair]) -> some View {
+        let display = ContentStore.displayRef(pair.ref)
+        let matchedText = matchedPairs[pair.ref].flatMap { target in pairs.first { $0.ref == target }?.text }
+        let state = matchState(isMatched: matchedText != nil, isSelected: selectedMatchRef == pair.ref,
+                               isRight: matchedPairs[pair.ref] == pair.ref)
+        let spokenState: String = {
+            switch state {
+            case .open: return "tap to select"
+            case .selected: return "selected"
+            case .matched: return "matched to: \(matchedText ?? "")"
+            case .correct: return "correctly matched to: \(matchedText ?? "")"
+            case .wrong: return "incorrectly matched to: \(matchedText ?? "")"
+            }
+        }()
+
+        return Button {
+            guard !isChecked else { return }
+            if matchedPairs[pair.ref] != nil {
+                matchedPairs.removeValue(forKey: pair.ref)
+            } else {
+                selectedMatchRef = (selectedMatchRef == pair.ref ? nil : pair.ref)
+            }
+        } label: {
+            HStack(alignment: .firstTextBaseline, spacing: 10) {
+                matchBadge(number, state: state)
+                Text(display)
+                    .font(.callout.weight(.bold))
+                    .foregroundStyle(ShepherdTheme.textPrimary)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(12)
+            .frame(minHeight: 76)
+            .background(matchBackground(state))
+            .clipShape(RoundedRectangle(cornerRadius: ShepherdTheme.radiusMD))
+            .overlay(
+                RoundedRectangle(cornerRadius: ShepherdTheme.radiusMD)
+                    .stroke(matchBorder(state), lineWidth: state == .open ? 1 : 2)
+            )
+        }
+        .buttonStyle(.plain)
+        .accessibilityLabel("Reference \(display), \(spokenState)")
+    }
+
+    private func matchVerseCard(_ pair: MatchPair, pairs: [MatchPair]) -> some View {
+        let matchedRef = matchedPairs.first(where: { $0.value == pair.ref })?.key
+        let number = matchedRef.flatMap { ref in pairs.firstIndex { $0.ref == ref } }.map { $0 + 1 }
+        let state = matchState(isMatched: matchedRef != nil, isSelected: false, isRight: matchedRef == pair.ref)
+        let spokenState: String = {
+            guard let matchedRef else { return "tap to match" }
+            let display = ContentStore.displayRef(matchedRef)
+            switch state {
+            case .correct: return "correctly matched to \(display)"
+            case .wrong: return "incorrectly matched to \(display)"
+            default: return "matched to \(display)"
+            }
+        }()
+
+        return Button {
+            guard !isChecked else { return }
+            if let existing = matchedRef {
+                matchedPairs.removeValue(forKey: existing)
+            } else if let activeRef = selectedMatchRef {
+                matchedPairs[activeRef] = pair.ref
+                selectedMatchRef = nil
+            }
+        } label: {
+            HStack(alignment: .firstTextBaseline, spacing: 10) {
+                if let number {
+                    matchBadge(number, state: state)
+                }
+                Text(pair.text)
+                    .font(.footnote.weight(.medium))
+                    .foregroundStyle(ShepherdTheme.textPrimary)
+                    .multilineTextAlignment(.leading)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(12)
+            .frame(minHeight: 76)
+            .background(matchBackground(state == .selected ? .open : state))
+            .clipShape(RoundedRectangle(cornerRadius: ShepherdTheme.radiusMD))
+            .overlay(
+                RoundedRectangle(cornerRadius: ShepherdTheme.radiusMD)
+                    .stroke(matchBorder(state), lineWidth: state == .open ? 1 : 2)
+            )
+        }
+        .buttonStyle(.plain)
+        .accessibilityLabel("Verse: \(pair.text), \(spokenState)")
+    }
+
+    private func matchBadge(_ number: Int, state: MatchCardState) -> some View {
+        let tint: Color = {
+            switch state {
+            case .correct: return ShepherdTheme.success
+            case .wrong: return ShepherdTheme.error
+            default: return ShepherdTheme.accent
+            }
+        }()
+        return Text("\(number)")
+            .font(.caption.weight(.bold).monospacedDigit())
+            .foregroundStyle(tint)
+            .padding(.horizontal, 7)
+            .padding(.vertical, 2)
+            .overlay(Capsule().stroke(tint, lineWidth: 1.5))
+            .accessibilityHidden(true)
+    }
+
+    private func matchBackground(_ state: MatchCardState) -> Color {
+        switch state {
+        case .open: return ShepherdTheme.cardSurface
+        case .selected: return ShepherdTheme.accentSubtle
+        case .matched: return ShepherdTheme.surfaceSunken
+        case .correct: return ShepherdTheme.successSubtle
+        case .wrong: return ShepherdTheme.errorSubtle
+        }
+    }
+
+    private func matchBorder(_ state: MatchCardState) -> Color {
+        switch state {
+        case .open: return ShepherdTheme.surfaceBorder
+        case .selected: return ShepherdTheme.accent
+        case .matched: return ShepherdTheme.accentFill
+        case .correct: return ShepherdTheme.success
+        case .wrong: return ShepherdTheme.error
+        }
+    }
+
     // MARK: - Style Helpers
 
     private var blankLabel: String {
         if let idx = selectedChoiceIndex, currentQuestion.choices.indices.contains(idx) {
-            return " [\(currentQuestion.choices[idx])] "
+            return "[\(currentQuestion.choices[idx])]"
         }
-        return " [ ___ ] "
+        return "[ ___ ]"
+    }
+
+    /// VoiceOver reads the slot as "blank" (not punctuation) until a word fills it.
+    private var blankSpokenWord: String {
+        if let idx = selectedChoiceIndex, currentQuestion.choices.indices.contains(idx) {
+            return currentQuestion.choices[idx]
+        }
+        return "blank"
     }
 
     private var blankTextColor: Color {
@@ -661,28 +737,15 @@ public struct QuizView: View {
         guard canCheck else { return }
         isChecked = true
         let correct: Bool
-        let correctChoiceText: String
 
         switch currentQuestion.type {
-        case .choice, .fillBlank:
-            let selected = selectedChoiceIndex ?? -1
-            correct = (selected == currentQuestion.correctIndex)
-            correctChoiceText = currentQuestion.choices.indices.contains(currentQuestion.correctIndex)
-                ? currentQuestion.choices[currentQuestion.correctIndex]
-                : ""
-        case .trueFalse:
-            let selected = selectedChoiceIndex ?? -1
-            correct = (selected == currentQuestion.correctIndex)
-            correctChoiceText = currentQuestion.correctIndex == 0 ? "True" : "False"
+        case .choice, .fillBlank, .trueFalse:
+            correct = (selectedChoiceIndex ?? -1) == currentQuestion.correctIndex
         case .order:
             let expected = currentQuestion.orderTokens ?? []
-            let actual = placedTokenIndices.map { expected[$0] }
-            correct = (actual == expected)
-            correctChoiceText = expected.joined(separator: " ")
+            correct = placedTokenIndices.map { expected[$0] } == expected
         case .match:
-            let pairs = currentQuestion.pairs ?? []
-            correct = pairs.allSatisfy { matchedPairs[$0.ref] == $0.ref }
-            correctChoiceText = "All references matched"
+            correct = (currentQuestion.pairs ?? []).allSatisfy { matchedPairs[$0.ref] == $0.ref }
         }
 
         isAnswerCorrect = correct
@@ -697,7 +760,7 @@ public struct QuizView: View {
             isCorrect: correct,
             title: correct ? "Correct!" : "Keep going! You’re learning.",
             explain: currentQuestion.explain.map(LessonText.curlyQuotes),
-            correctChoice: LessonText.curlyQuotes(correctChoiceText),
+            answerLine: QuizRules.answerLine(LessonText.curlyQuotes(QuizRules.answerText(for: currentQuestion))),
             verseRef: verseInfo?.ref,
             verseText: verseInfo?.text
         )
@@ -733,7 +796,7 @@ struct FlowLayout: Layout {
         var lineHeight: CGFloat = 0
 
         for subview in subviews {
-            let size = subview.sizeThatFits(.unspecified)
+            let size = subview.sizeThatFits(ProposedViewSize(width: width.isFinite ? width : nil, height: nil))
             if currentX + size.width > width, currentX > 0 {
                 currentX = 0
                 currentY += lineHeight + spacing
@@ -751,7 +814,7 @@ struct FlowLayout: Layout {
         var lineHeight: CGFloat = 0
 
         for subview in subviews {
-            let size = subview.sizeThatFits(.unspecified)
+            let size = subview.sizeThatFits(ProposedViewSize(width: bounds.width, height: nil))
             if currentX + size.width > bounds.maxX, currentX > bounds.minX {
                 currentX = bounds.minX
                 currentY += lineHeight + spacing
@@ -853,9 +916,10 @@ struct QuizFeedbackSheet: View {
                 .foregroundStyle(result.isCorrect ? ShepherdTheme.success : ShepherdTheme.error)
 
             if !result.isCorrect {
-                Text("Answer: \(result.correctChoice).")
+                Text(result.answerLine)
                     .font(.callout.weight(.medium))
                     .foregroundStyle(ShepherdTheme.textSecondary)
+                    .accessibilityLabel(result.answerLine.replacingOccurrences(of: " → ", with: " matches: "))
             }
         }
     }

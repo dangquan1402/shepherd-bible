@@ -219,6 +219,53 @@ final class ContentTests: XCTestCase {
         XCTAssertEqual(QuizRules.matchDisplayOrder(for: q), order, "Match shuffle should be deterministic")
     }
 
+    /// A wrong match answer must spell out the correct pairing, not a generic line.
+    func testMatchAnswerListsEveryPair() {
+        let q = QuizQuestion(
+            id: "match-answer", type: .match, prompt: "", explain: nil,
+            pairs: [
+                MatchPair(ref: "JHN.1.1", text: "In the beginning was the Word"),
+                MatchPair(ref: "JHN.1.14", text: "The Word became flesh"),
+            ]
+        )
+        XCTAssertEqual(
+            QuizRules.answerLine(QuizRules.answerText(for: q)),
+            "Answer:\nJohn 1:1 → In the beginning was the Word\nJohn 1:14 → The Word became flesh"
+        )
+    }
+
+    func testAnswerLineEndsWithOneFullStop() {
+        XCTAssertEqual(QuizRules.answerLine("In God’s image he created him."), "Answer: In God’s image he created him.")
+        XCTAssertEqual(QuizRules.answerLine("Until seven times?"), "Answer: Until seven times?")
+        XCTAssertEqual(QuizRules.answerLine("the Christ.”"), "Answer: the Christ.”")
+        XCTAssertEqual(QuizRules.answerLine("shepherd"), "Answer: shepherd.")
+        let tf = QuizQuestion(id: "tf", type: .trueFalse, prompt: "", choices: ["True", "False"], correctIndex: 1, explain: nil)
+        XCTAssertEqual(QuizRules.answerLine(QuizRules.answerText(for: tf)), "Answer: False.")
+    }
+
+    /// The fill-in verse is shown once, in the card; the title keeps only the lead-in.
+    func testFillBlankPromptSplitsIntoLeadInAndVerse() {
+        let parts = QuizRules.fillBlankParts("Complete Jesus’ words to the sea: \"Peace! Be ___!\"")
+        XCTAssertEqual(parts.title, "Complete Jesus’ words to the sea:")
+        XCTAssertEqual(parts.verse, "Peace! Be ___!")
+        let bare = QuizRules.fillBlankParts("I am the good ___.")
+        XCTAssertEqual(bare.title, "Fill in the missing word")
+        XCTAssertEqual(bare.verse, "I am the good ___.")
+    }
+
+    /// Every shipped fill-in prompt has a lead-in and a quoted verse holding the blank.
+    func testShippedFillBlankPromptsSplitCleanly() {
+        store.loadIfNeeded()
+        let questions = store.paths.flatMap { $0.lessons.flatMap(\.quiz) }.filter { $0.type == .fillBlank }
+        XCTAssertFalse(questions.isEmpty)
+        for q in questions {
+            let parts = QuizRules.fillBlankParts(q.prompt)
+            XCTAssertNotEqual(parts.title, "Fill in the missing word", q.id)
+            XCTAssertTrue(parts.verse.contains("___"), q.id)
+            XCTAssertFalse(parts.verse.contains("\""), q.id)
+        }
+    }
+
 
     // MARK: - Per-path access
 
