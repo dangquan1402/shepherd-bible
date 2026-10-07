@@ -200,7 +200,7 @@ public struct BibleReaderView: View {
                     VStack {
                         HStack(spacing: 8) {
                             Image(systemName: "checkmark.circle.fill")
-                                .foregroundStyle(ShepherdTheme.success)
+                                .foregroundStyle(ShepherdTheme.accent)
                             Text("Copied to clipboard")
                                 .font(.subheadline.weight(.semibold))
                                 .foregroundStyle(ShepherdTheme.textPrimary)
@@ -495,7 +495,7 @@ public struct BibleReaderView: View {
             actionLabel(
                 hasNote ? "Edit Note" : "Note",
                 icon: hasNote ? "note.text.badge.plus" : "square.and.pencil",
-                tint: hasNote ? Color("Note") : ShepherdTheme.textPrimary,
+                tint: hasNote ? ShepherdTheme.accent : ShepherdTheme.textPrimary,
                 stacked: stacked
             )
         }
@@ -745,7 +745,7 @@ private struct VerseRowView: View {
                 if hasNote {
                     Image(systemName: "square.and.pencil")
                         .font(.system(size: 10, weight: .bold))
-                        .foregroundStyle(Color("Note"))
+                        .foregroundStyle(ShepherdTheme.accent)
                 }
             }
             .frame(minWidth: 28, alignment: .trailing)

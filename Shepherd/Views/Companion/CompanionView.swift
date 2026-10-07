@@ -60,7 +60,7 @@ public struct CompanionView: View {
 
                         Text("Stage \(currentStage) · \(LambStage(rawValue: currentStage)?.name ?? "")")
                             .font(.headline)
-                            .foregroundStyle(ShepherdTheme.accentFill)
+                            .foregroundStyle(ShepherdTheme.accent)
                     }
 
                     // XP Progress Card
@@ -105,7 +105,7 @@ public struct CompanionView: View {
 
                                 Image(systemName: "book.pages")
                                     .font(.system(size: 22))
-                                    .foregroundStyle(ShepherdTheme.accentFill)
+                                    .foregroundStyle(ShepherdTheme.accent)
                             }
 
                             VStack(alignment: .leading, spacing: 4) {
@@ -135,7 +135,7 @@ public struct CompanionView: View {
                     VStack(alignment: .leading, spacing: 14) {
                         Text("GROWTH")
                             .font(ShepherdTheme.scriptureEyebrow())
-                            .foregroundStyle(ShepherdTheme.accentFill)
+                            .foregroundStyle(ShepherdTheme.accent)
                             .padding(.horizontal, 20)
 
                         VStack(spacing: 12) {
@@ -150,11 +150,11 @@ public struct CompanionView: View {
 
                                         if !isUnlocked {
                                             Circle()
-                                                .fill(Color.black.opacity(0.35))
+                                                .fill(ShepherdTheme.scrim)
                                                 .frame(width: 52, height: 52)
                                             Image(systemName: "lock.fill")
                                                 .font(.system(size: 16))
-                                                .foregroundStyle(.white)
+                                                .foregroundStyle(ShepherdTheme.onAccent)
                                         }
                                     }
                                     .overlay(
@@ -177,7 +177,7 @@ public struct CompanionView: View {
                                     if isUnlocked {
                                         Image(systemName: "checkmark")
                                             .font(.body.weight(.bold))
-                                            .foregroundStyle(ShepherdTheme.accentFill)
+                                            .foregroundStyle(ShepherdTheme.accent)
                                     }
                                 }
                                 .padding(14)

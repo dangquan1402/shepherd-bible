@@ -254,7 +254,7 @@ public struct PaywallView: View {
                         if let badge = badge {
                             Text(badge)
                                 .font(.caption.bold())
-                                .foregroundStyle(ShepherdTheme.accentFill)
+                                .foregroundStyle(ShepherdTheme.accent)
                                 .padding(.horizontal, 6)
                                 .padding(.vertical, 2)
                                 .background(ShepherdTheme.accentSubtle)
@@ -271,7 +271,7 @@ public struct PaywallView: View {
 
                 Image(systemName: isSelected ? "checkmark.circle.fill" : "circle")
                     .font(.title3)
-                    .foregroundStyle(isSelected ? ShepherdTheme.accentFill : ShepherdTheme.textTertiary)
+                    .foregroundStyle(isSelected ? ShepherdTheme.accent : ShepherdTheme.textTertiary)
             }
             .padding(16)
             .background(isSelected ? ShepherdTheme.accentSubtle.opacity(0.3) : ShepherdTheme.cardSurface)
@@ -330,7 +330,7 @@ public struct PaywallView: View {
                 case .pending:
                     Image(systemName: "hourglass")
                         .font(.system(size: 32))
-                        .foregroundStyle(ShepherdTheme.accentFill)
+                        .foregroundStyle(ShepherdTheme.accent)
                     Text("Waiting for approval")
                         .font(.headline)
                         .foregroundStyle(ShepherdTheme.textPrimary)
@@ -344,7 +344,7 @@ public struct PaywallView: View {
                 case .failed(let error):
                     Image(systemName: "exclamationmark.circle.fill")
                         .font(.system(size: 32))
-                        .foregroundStyle(ShepherdTheme.error)
+                        .foregroundStyle(ShepherdTheme.destructive)
                     Text("Purchase didn’t go through")
                         .font(.headline)
                         .foregroundStyle(ShepherdTheme.textPrimary)
@@ -365,7 +365,7 @@ public struct PaywallView: View {
                 case .restored:
                     Image(systemName: "checkmark.circle.fill")
                         .font(.system(size: 32))
-                        .foregroundStyle(ShepherdTheme.success)
+                        .foregroundStyle(ShepherdTheme.accent)
                     Text("Purchases Restored")
                         .font(.headline)
                         .foregroundStyle(ShepherdTheme.textPrimary)

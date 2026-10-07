@@ -51,7 +51,7 @@ public struct JournalView: View {
                     } label: {
                         Image(systemName: auth.isLockEnabled ? "lock.fill" : "lock.open")
                             .font(.system(size: 16))
-                            .foregroundStyle(auth.isLockEnabled ? ShepherdTheme.accentFill : ShepherdTheme.textSecondary)
+                            .foregroundStyle(auth.isLockEnabled ? ShepherdTheme.accent : ShepherdTheme.textSecondary)
                     }
                     .accessibilityLabel("Journal Privacy Settings")
 
@@ -65,7 +65,7 @@ public struct JournalView: View {
                         } label: {
                             Image(systemName: "plus")
                                 .font(.system(size: 16, weight: .bold))
-                                .foregroundStyle(ShepherdTheme.accentFill)
+                                .foregroundStyle(ShepherdTheme.accent)
                         }
                         .accessibilityLabel(selectedSegment == 0 ? "New Reflection" : "New Prayer")
                     }
@@ -193,7 +193,7 @@ public struct JournalView: View {
                 ForEach(JournalGrouping.byPath(entries, paths: content.paths)) { section in
                     Text(section.title.uppercased())
                         .font(ShepherdTheme.scriptureEyebrow())
-                        .foregroundStyle(ShepherdTheme.accentFill)
+                        .foregroundStyle(ShepherdTheme.accent)
                         .padding(.top, 6)
                         .accessibilityAddTraits(.isHeader)
                     ForEach(section.entries) { entry in
@@ -208,7 +208,7 @@ public struct JournalView: View {
         VStack(spacing: 14) {
             Image(systemName: icon)
                 .font(.system(size: 52))
-                .foregroundStyle(ShepherdTheme.accentFill)
+                .foregroundStyle(ShepherdTheme.accent)
                 .accessibilityHidden(true)
 
             Text(title)
@@ -293,7 +293,7 @@ public struct JournalView: View {
         if let lessonTitle = entry.lessonTitle, !lessonTitle.isEmpty {
             Text(lessonTitle)
                 .font(.caption2.weight(.semibold))
-                .foregroundStyle(ShepherdTheme.accentFill)
+                .foregroundStyle(ShepherdTheme.accent)
                 .padding(.horizontal, 8)
                 .padding(.vertical, 4)
                 .background(ShepherdTheme.accentSubtle)
@@ -380,7 +380,7 @@ public struct JournalView: View {
             } label: {
                 Image(systemName: "plus.circle.fill")
                     .font(.system(size: 28))
-                    .foregroundStyle(quickPrayerText.trimmingCharacters(in: .whitespaces).isEmpty ? ShepherdTheme.textTertiary : ShepherdTheme.accentFill)
+                    .foregroundStyle(quickPrayerText.trimmingCharacters(in: .whitespaces).isEmpty ? ShepherdTheme.textTertiary : ShepherdTheme.accent)
             }
             .disabled(quickPrayerText.trimmingCharacters(in: .whitespaces).isEmpty)
             .accessibilityLabel("Add Prayer")
@@ -403,7 +403,7 @@ public struct JournalView: View {
             } label: {
                 Image(systemName: prayer.isAnswered ? "checkmark.circle.fill" : "circle")
                     .font(.system(size: 24))
-                    .foregroundStyle(prayer.isAnswered ? ShepherdTheme.accentFill : ShepherdTheme.textTertiary)
+                    .foregroundStyle(prayer.isAnswered ? ShepherdTheme.accent : ShepherdTheme.textTertiary)
             }
             .buttonStyle(.plain)
             .padding(.top, 2)
@@ -428,7 +428,7 @@ public struct JournalView: View {
                 if prayer.isAnswered, let answered = prayer.answeredDate {
                     Label("Answered \(answered.formatted(date: .abbreviated, time: .omitted))", systemImage: "sparkles")
                         .font(.caption.weight(.medium))
-                        .foregroundStyle(ShepherdTheme.accentFill)
+                        .foregroundStyle(ShepherdTheme.accent)
                 }
             }
             .frame(maxWidth: .infinity, alignment: .leading)
@@ -499,7 +499,7 @@ public struct JournalLockedView: View {
 
                 Image(systemName: "lock.fill")
                     .font(.system(size: 38))
-                    .foregroundStyle(ShepherdTheme.accentFill)
+                    .foregroundStyle(ShepherdTheme.accent)
             }
 
             VStack(spacing: 8) {

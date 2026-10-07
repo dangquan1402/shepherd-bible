@@ -439,7 +439,7 @@ public struct OnboardingFlowView: View {
                 Spacer()
                 if isSelected {
                     Image(systemName: "checkmark.circle.fill")
-                        .foregroundStyle(ShepherdTheme.accentFill)
+                        .foregroundStyle(ShepherdTheme.accent)
                 }
             }
             .padding(.horizontal, 16)

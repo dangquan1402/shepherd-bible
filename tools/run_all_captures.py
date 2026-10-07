@@ -7,7 +7,7 @@ import signal
 
 UDID = os.environ["SIM_UDID"]  # your own simulator (e.g. an `xcrun simctl clone`)
 BUNDLE_ID = "com.dangvietquan.shepherd"
-PROJECT_DIR = "/Users/quandang_1/.treehouse/shepherd-bible-c19586/2/shepherd-bible"
+PROJECT_DIR = os.environ.get("PROJECT_DIR", os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 DOCS_DIR = os.path.join(PROJECT_DIR, "docs/screenshots")
 
 def run(cmd, env=None, check=True):

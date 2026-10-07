@@ -113,9 +113,9 @@ struct BibleNoteEditorSheet: View {
                                 Spacer()
                             }
                             .font(.subheadline.weight(.medium))
-                            .foregroundStyle(ShepherdTheme.error)
+                            .foregroundStyle(ShepherdTheme.destructive)
                             .padding(.vertical, 12)
-                            .background(ShepherdTheme.errorSubtle)
+                            .background(ShepherdTheme.surfaceSunken)
                             .clipShape(RoundedRectangle(cornerRadius: ShepherdTheme.radiusMD))
                         }
                         .padding(.top, 8)

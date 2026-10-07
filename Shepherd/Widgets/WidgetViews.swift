@@ -35,7 +35,7 @@ public struct VerseWidgetView: View {
             HStack(spacing: 4) {
                 Image(systemName: "sun.max.fill")
                     .font(.caption2.weight(.semibold))
-                    .foregroundStyle(ShepherdTheme.goldFill)
+                    .foregroundStyle(ShepherdTheme.streak)
                 Text(verse.displayRef)
                     .font(.caption.weight(.bold))
                     .foregroundStyle(ShepherdTheme.accent)
@@ -57,7 +57,7 @@ public struct VerseWidgetView: View {
             HStack(spacing: 5) {
                 Image(systemName: "sun.max.fill")
                     .font(.caption.weight(.semibold))
-                    .foregroundStyle(ShepherdTheme.goldFill)
+                    .foregroundStyle(ShepherdTheme.streak)
                 Text("VERSE OF THE DAY")
                     .font(.caption2.weight(.bold))
                     .foregroundStyle(ShepherdTheme.accent)
@@ -152,7 +152,7 @@ public struct StreakWidgetView: View {
             HStack(alignment: .firstTextBaseline, spacing: 4) {
                 Image(systemName: "flame.fill")
                     .font(.headline)
-                    .foregroundStyle(ShepherdTheme.goldFill)
+                    .foregroundStyle(ShepherdTheme.streak)
                     .widgetAccentable()
                 Text("\(data.streakCount)")
                     .font(.system(.largeTitle, design: .rounded, weight: .heavy))

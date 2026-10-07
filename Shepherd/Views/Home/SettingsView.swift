@@ -42,7 +42,7 @@ public struct SettingsView: View {
                             Spacer()
                             Text(isPremiumActive ? "Active" : "Not active ›")
                                 .font(.subheadline)
-                                .foregroundStyle(isPremiumActive ? ShepherdTheme.success : ShepherdTheme.textSecondary)
+                                .foregroundStyle(isPremiumActive ? ShepherdTheme.accent : ShepherdTheme.textSecondary)
                         }
                     }
                     .buttonStyle(.plain)
@@ -52,7 +52,7 @@ public struct SettingsView: View {
                     } label: {
                         HStack {
                             Text("Restore Purchases")
-                                .foregroundStyle(ShepherdTheme.accentFill)
+                                .foregroundStyle(ShepherdTheme.accent)
                             Spacer()
                             if isRestoring {
                                 ProgressView()
@@ -88,7 +88,7 @@ public struct SettingsView: View {
                                 }
                             }
                             .font(.subheadline.weight(.semibold))
-                            .foregroundStyle(ShepherdTheme.accentFill)
+                            .foregroundStyle(ShepherdTheme.accent)
                         }
                         .padding(.vertical, 4)
                     }
@@ -114,6 +114,7 @@ public struct SettingsView: View {
                     }
                     .accessibilityIdentifier("SettingsJournalButton")
                 }
+                .listRowBackground(ShepherdTheme.cardSurface)
 
                 // Privacy Section
                 Section {
@@ -160,13 +161,13 @@ public struct SettingsView: View {
                     }
 
                     Link("Terms of Service", destination: ShepherdConstants.termsOfServiceURL)
-                        .foregroundStyle(ShepherdTheme.accentFill)
+                        .foregroundStyle(ShepherdTheme.accent)
 
                     Link("Privacy Policy", destination: ShepherdConstants.privacyPolicyURL)
-                        .foregroundStyle(ShepherdTheme.accentFill)
+                        .foregroundStyle(ShepherdTheme.accent)
 
                     Link("Help & Support", destination: ShepherdConstants.supportURL)
-                        .foregroundStyle(ShepherdTheme.accentFill)
+                        .foregroundStyle(ShepherdTheme.accent)
                 } header: {
                     Text("About")
                 } footer: {

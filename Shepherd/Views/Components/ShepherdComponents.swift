@@ -58,7 +58,7 @@ public struct StreakChip: View {
         Button {} label: {
             HStack(spacing: 5) {
                 Image(systemName: "flame.fill")
-                    .foregroundStyle(Color.shepherdAccentFill)
+                    .foregroundStyle(ShepherdTheme.streak)
                     .symbolEffect(.bounce, value: reduceMotion ? 0 : streak)
                 Text("\(streak)")
                     .font(.body.weight(.bold))
@@ -200,11 +200,11 @@ public struct PathNodeView: View {
                     case .current:
                         Image(systemName: "book.fill")
                             .font(.system(size: 30, weight: .bold))
-                            .foregroundStyle(.white)
+                            .foregroundStyle(ShepherdTheme.onAccent)
                     case .done:
                         Image(systemName: "checkmark")
                             .font(.system(size: 28, weight: .bold))
-                            .foregroundStyle(ShepherdTheme.accentFill)
+                            .foregroundStyle(ShepherdTheme.accent)
                     case .locked:
                         EmptyView()
                     case .milestoneLocked:
@@ -214,7 +214,7 @@ public struct PathNodeView: View {
                     case .premiumLocked:
                         Image(systemName: "lock.fill")
                             .font(.system(size: 26, weight: .semibold))
-                            .foregroundStyle(ShepherdTheme.accentFill)
+                            .foregroundStyle(ShepherdTheme.accent)
                     }
 
                     // Lock Icon that animates disappearance on unlock
@@ -418,7 +418,7 @@ public struct VerseCard: View {
         VStack(alignment: .leading, spacing: 10) {
             Text("\(ContentStore.displayRef(reference)) · \(translation)")
                 .font(ShepherdTheme.scriptureEyebrow())
-                .foregroundStyle(ShepherdTheme.accentFill)
+                .foregroundStyle(ShepherdTheme.accent)
 
             Text(text)
                 .font(ShepherdTheme.scriptureBody())
@@ -469,11 +469,13 @@ public struct RewardStatChip: View {
     public let icon: String
     public let text: String
     public let color: Color
+    public var fill: Color = ShepherdTheme.cardSurface
 
-    public init(icon: String, text: String, color: Color = ShepherdTheme.accentFill) {
+    public init(icon: String, text: String, color: Color = ShepherdTheme.accent, fill: Color = ShepherdTheme.cardSurface) {
         self.icon = icon
         self.text = text
         self.color = color
+        self.fill = fill
     }
 
     public var body: some View {
@@ -487,7 +489,7 @@ public struct RewardStatChip: View {
         }
         .padding(.horizontal, 16)
         .frame(minHeight: 48)
-        .background(ShepherdTheme.cardSurface)
+        .background(fill)
         .clipShape(Capsule())
         .overlay(
             Capsule()

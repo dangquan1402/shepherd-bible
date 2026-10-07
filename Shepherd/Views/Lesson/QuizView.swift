@@ -349,6 +349,10 @@ public struct QuizView: View {
                                         Image(systemName: "xmark")
                                             .font(.caption2.weight(.bold))
                                             .foregroundStyle(ShepherdTheme.textTertiary)
+                                    } else {
+                                        Image(systemName: isAnswerCorrect ? "checkmark" : "xmark")
+                                            .font(.caption2.weight(.bold))
+                                            .foregroundStyle(isAnswerCorrect ? ShepherdTheme.success : ShepherdTheme.error)
                                     }
                                 }
                                 .padding(.horizontal, 14)
@@ -622,13 +626,22 @@ public struct QuizView: View {
             default: return ShepherdTheme.accent
             }
         }()
-        return Text("\(number)")
-            .font(.caption.weight(.bold).monospacedDigit())
-            .foregroundStyle(tint)
-            .padding(.horizontal, 7)
-            .padding(.vertical, 2)
-            .overlay(Capsule().stroke(tint, lineWidth: 1.5))
-            .accessibilityHidden(true)
+        return HStack(spacing: 4) {
+            Text("\(number)")
+                .font(.caption.weight(.bold).monospacedDigit())
+            if state == .correct {
+                Image(systemName: "checkmark")
+                    .font(.caption2.weight(.bold))
+            } else if state == .wrong {
+                Image(systemName: "xmark")
+                    .font(.caption2.weight(.bold))
+            }
+        }
+        .foregroundStyle(tint)
+        .padding(.horizontal, 7)
+        .padding(.vertical, 2)
+        .overlay(Capsule().stroke(tint, lineWidth: 1.5))
+        .accessibilityHidden(true)
     }
 
     private func matchBackground(_ state: MatchCardState) -> Color {
@@ -655,7 +668,11 @@ public struct QuizView: View {
 
     private var blankLabel: String {
         if let idx = selectedChoiceIndex, currentQuestion.choices.indices.contains(idx) {
-            return "[\(currentQuestion.choices[idx])]"
+            let choice = currentQuestion.choices[idx]
+            if isChecked {
+                return isAnswerCorrect ? "[\(choice) \u{2713}]" : "[\(choice) \u{2717}]"
+            }
+            return "[\(choice)]"
         }
         return "[ ___ ]"
     }
