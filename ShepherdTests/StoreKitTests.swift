@@ -40,8 +40,13 @@ final class StoreKitTests: XCTestCase {
         // 2. Assert: free trial intro offer of 1 week (7 days)
         let introOffer = try XCTUnwrap(yearly.subscription?.introductoryOffer)
         XCTAssertEqual(introOffer.paymentMode, .freeTrial)
-        XCTAssertEqual(introOffer.period.unit, .week)
-        XCTAssertEqual(introOffer.period.value, 1)
+        // The config says P1W; StoreKit on iOS 26 reports it as 7 days. Same period either way.
+        let trialDays: Int? = switch introOffer.period.unit {
+        case .day: introOffer.period.value
+        case .week: introOffer.period.value * 7
+        default: nil
+        }
+        XCTAssertEqual(trialDays, 7, "free trial must be 7 days (\(introOffer.period))")
 
         // 3. Purchase gives isPremium == true
         let purchaseResult = try await yearly.purchase()

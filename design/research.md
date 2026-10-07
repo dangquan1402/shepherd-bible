@@ -111,7 +111,7 @@ Motion rules: SwiftUI only. Glass morphs use one spring, `.spring(duration: 0.35
 
 | **3D Path Nodes** | Layout / Craft | Refero Duolingo `e3ac954a-8bca-4077-800d-b05302bde64e` | Each node is a face over a deeper "lip" (amber / amber-subtle / wool-white), so the path reads as tappable stepping stones; the current node gets a white ring and an amber glow. |
 | **Lamb Proportions** | Mascot | Refero Mindllama `d36f6e63-ad80-462e-bf8a-70c439892f36` | A big, soft head over a scalloped fleece cloud, two hanging ears and dark legs; built from vector unions so the 2 pt outline wraps only the silhouette. |
-| **Forgiving Wrong-Answer Moment** | Quiz / Mascot | Refero Duolingo `fd63609c-9369-4141-a26e-4063165b243a` | The wrong sheet leads with the Encouraging lamb and "Keep going! You're learning.", then the answer and the verse; no shake, no tears. |
+| **Forgiving Wrong-Answer Moment** | Quiz / Mascot | Refero Duolingo `fd63609c-9369-4141-a26e-4063165b243a` | The wrong sheet leads with the Encouraging lamb and "Keep going! You’re learning.", then the answer and the verse; no shake, no tears. |
 | **Pre-Cut Lamb Avatars** | Craft | Layout gate (no clipped nodes) | 56 pt head-and-shoulders avatars are geometry pre-intersected with the circle, not clip masks, so every node stays inside its parent. |
 | **Render-Proxy Fonts** | Typography | Pencil renderer limits | Inter stands in for SF Pro and Newsreader for New York in the frames; the app ships the system fonts. |
 ---

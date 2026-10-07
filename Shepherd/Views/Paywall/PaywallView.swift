@@ -2,6 +2,9 @@ import SwiftUI
 import StoreKit
 
 public struct PaywallView: View {
+    /// The Day 5 "Cancel anytime before Day 7" row. Not a bell: the app sends no trial reminder.
+    static let day5Icon = "calendar"
+
     public var onContinueFree: () -> Void
     public var onPurchased: () -> Void
 
@@ -71,7 +74,7 @@ public struct PaywallView: View {
                                 subtitle: PremiumOffer(paths: content.paths).unlocksLine
                             )
                             timelineRow(
-                                icon: "bell.fill",
+                                icon: Self.day5Icon,
                                 iconColor: ShepherdTheme.textSecondary,
                                 title: "Day 5",
                                 subtitle: "Cancel anytime before Day 7"
@@ -93,7 +96,7 @@ public struct PaywallView: View {
                         if store.products.isEmpty {
                             VStack(spacing: 12) {
                                 if store.lastErrorMessage != nil {
-                                    Text("Couldn't load prices")
+                                    Text("Couldn’t load prices")
                                         .font(.subheadline)
                                         .foregroundStyle(ShepherdTheme.textSecondary)
                                     SecondaryGlassButton("Retry") {
@@ -342,10 +345,10 @@ public struct PaywallView: View {
                     Image(systemName: "exclamationmark.circle.fill")
                         .font(.system(size: 32))
                         .foregroundStyle(ShepherdTheme.error)
-                    Text("Purchase didn't go through")
+                    Text("Purchase didn’t go through")
                         .font(.headline)
                         .foregroundStyle(ShepherdTheme.textPrimary)
-                    Text("You haven't been charged. \(error)")
+                    Text("You haven’t been charged. \(error)")
                         .font(.subheadline)
                         .foregroundStyle(ShepherdTheme.textSecondary)
                         .multilineTextAlignment(.center)

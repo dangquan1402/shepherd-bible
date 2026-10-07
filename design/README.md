@@ -19,7 +19,7 @@ Sections marked *generated* are written by `python3 design/tools/readme_tables.p
 
 - **D1, deployment target: iOS 26.** The app's minimum target moves from iOS 17 (the repo README) to **iOS 26**. Liquid Glass (`.glassEffect`, `GlassEffectContainer`, `.buttonStyle(.glass)` / `.glassProminent`, `tabViewBottomAccessory`, `.tabBarMinimizeBehavior`, `scrollEdgeEffectStyle`) is iOS 26 only. No `.ultraThinMaterial` fallback is designed. The SwiftUI animators used for the lamb (`phaseAnimator`, `keyframeAnimator`, `sensoryFeedback`) exist from iOS 17.
 - **D2, path catalogue:** the real path (`beginner-7`) plus one honest "More paths are coming" row, with no titles and no counts (`Path_Overview`).
-- **D3, trial reminder:** no reminder promise. The paywall's Day 5 row reads "Cancel anytime before Day 7". Settings has no reminder row.
+- **D3, trial reminder:** no reminder promise. The paywall's Day 5 row reads "Cancel anytime before Day 7". There is no trial-ending reminder anywhere. (The opt-in **daily lesson reminder** in Settings and the skippable onboarding step "Want a gentle daily reminder?", added in the pre-launch polish, are free, local notifications and not part of this decision; they are drawn in `Onboarding_Reminder_*` and the REMINDER section of the `Settings_*` frames.)
 
 ## 2. Design inputs
 
@@ -29,7 +29,7 @@ Sections marked *generated* are written by `python3 design/tools/readme_tables.p
 |---|---|---|
 | `UserProfile` | `goal` (`grow_daily` / `understand` / `peace` / `new`), `experienceLevel` (`beginner` / `some` / `regular`), `dailyMinutes` (5 / 10 / 15) | Onboarding steps 2–4 use the code's labels and values exactly |
 | `Companion` | `name` (default "Lamb", set in onboarding), `xp`, `stage = max(1, min(5, 1 + xp / 50))` | Lamb stage everywhere; Companion screen; XP bars |
-| `StreakState` | `current` (starts at 0; `markCompleted` sets 1), `best`, `freezesLeft` (no logic consumes it) | Streak chip in the Today toolbar; reward chip. No freeze state is drawn: nothing in the code uses `freezesLeft` yet |
+| `StreakState` | `current` (starts at 0; `markCompleted` sets 1), `best`, `freezesLeft` (Premium only: one freeze covers one missed day; one is earned per rolling 7 days, at most 2 banked; `refillFreezes`) | Streak chip in the Today toolbar; reward chip. No freeze state is drawn yet |
 | `LessonProgress` | `lessonId`, `quizScore` | Path node done / current state |
 | `EntitlementState` | `isPremium` | Settings "Pasture Premium" row |
 | `LessonView.complete` | `addXP(10 + score)`, `markCompleted()` | Reward: +12 XP for 2/2 correct on Day 1 (+11 for 1/2, +10 for 0/2) |
@@ -38,7 +38,7 @@ Sections marked *generated* are written by `python3 design/tools/readme_tables.p
 
 ### 2.2 Verbatim copy kept from the scaffold
 
-Onboarding: "Welcome to Pasture", "A few minutes a day. Scripture that sticks. Everything stays on your phone.", "What’s your goal?", "How familiar are you?", "How many minutes a day?", "Name your companion", "Continue", "See my plan". Paywall: "Grow with Shepherd Premium", the four features "Full learning paths", "Streak freezes", "Companion outfits", "Widgets & reminders", "Yearly · 7-day free trial · Best value · Most popular", "Monthly · 7-day free trial", "Start free trial", "Continue with free path". Lesson: "Take the quiz", "Prayer". Settings: "No account. Progress stays on this device.", "No ad trackers in v1." (shown as "Ad trackers · None in v1").
+Onboarding: "Welcome to Pasture", "A few minutes a day. Scripture that sticks. Everything stays on your phone.", "What’s your goal?", "How familiar are you?", "How many minutes a day?", "Name your companion", "Continue", "See my plan". Paywall: "Grow with Shepherd Premium", the four features "Full learning paths", "Streak freezes", "Companion outfits", "Widgets & reminders" (scaffold copy only: the shipped paywall lists just the Premium paths, counted from content, and streak freezes; outfits, widgets and reminders are not Premium), "Yearly · 7-day free trial · Best value · Most popular", "Monthly · 7-day free trial", "Start free trial", "Continue with free path". Lesson: "Take the quiz", "Prayer". Settings: "No account. Progress stays on this device.", "No ad trackers in v1." (shown as "Ad trackers · None"; the "in v1" read as a temporary promise and was dropped).
 
 Copy changed on purpose: the building step reads "Preparing your path…" (one path exists, nothing is personalised) and its rows read "Goal: Grow a daily habit" and "Daily goal: 5 min". The quiz drops "Question 1 of 2" for a progress bar plus "Day 1".
 
@@ -426,17 +426,17 @@ A first-time user names the lamb **Barnaby** in onboarding (sample name only; th
 
 1. **Path unlock (a design addition):** a node is current when it is the first lesson without `LessonProgress` (the code's `nextLesson`), done when it has progress, and locked otherwise. `PathListView` does not gate lessons today; add `isUnlocked = lesson.dayIndex <= nextLesson.dayIndex`.
 2. **Quiz progress:** `progress = answeredCount / quiz.count`. It shows 0% on unanswered and selected, and moves to 50% when Check is tapped on question 1.
-3. **Feedback content:** title ("Correct!" / "Keep going! You're learning."), then `explain` when it is non-null. The wrong sheet also says "Answer: {correct choice}.". Always show one verse: the lesson's first verse whose text contains the correct choice (case-insensitive), else `lesson.verseRefs[0]`. `Quiz_Q2_Wrong` proves the null-`explain` case: `day1-q2` → Genesis 1:3.
+3. **Feedback content:** title ("Correct!" / "Keep going! You’re learning."), then `explain` when it is non-null. The wrong sheet also says "Answer: {correct choice}.". Always show one verse: the lesson's first verse whose text contains the correct choice (case-insensitive), else `lesson.verseRefs[0]`. `Quiz_Q2_Wrong` proves the null-`explain` case: `day1-q2` → Genesis 1:3.
 4. **Feedback sheet:** glass, corner 28, inset 8 pt from the screen edges, a 56 pt lamb avatar (Happy or Encouraging), Continue inside the sheet.
 5. **Reward:** `+{10 + score} XP`, streak from `StreakState.current`, the XP bar to the next multiple of 50, and the "N XP to Stage k" remainder.
 6. **Stages:** 1 Newborn (0–49), 2 Lamb (50–99), 3 Young sheep (100–149), 4 Yearling (150–199), 5 Grown sheep (200+). The same names are used everywhere.
-7. **Paywall:** prices come from `Product.displayPrice`. `$29.99/year` and `$4.99/month` in the frames are placeholders, tagged on screen. The disclosure under the plans: "Free for 7 days, then {price}/year. Auto-renews until cancelled. Cancel anytime in Settings › Apple ID at least 24 hours before the trial ends." Purchasing, pending (Ask to Buy), failed ("You haven't been charged.") and restored are glass dialogs over the dimmed paywall.
+7. **Paywall:** prices come from `Product.displayPrice`. `$29.99/year` and `$4.99/month` in the frames are placeholders, tagged on screen. The disclosure under the plans: "Free for 7 days, then {price}/year. Auto-renews until cancelled. Cancel anytime in Settings › Apple ID at least 24 hours before the trial ends." Purchasing, pending (Ask to Buy), failed ("You haven’t been charged.") and restored are glass dialogs over the dimmed paywall.
 8. **Bible sample gaps:** the bundle has Genesis 1:1–5, 26, 27, 31. After verse 5 the reader shows "Verses 6–25 aren't in this sample", and a quiet footer counts the sample's verses.
 
 ### 7.3 Frames (*generated*)
 
 <!-- gen:frames -->
-86 top-level frames (43 screens × light/dark), 728 library instances in the file.
+88 top-level frames (44 screens × light/dark), 748 library instances in the file.
 
 | Screen | Size | Instances per frame | Exports |
 |---|---|---|---|
@@ -444,7 +444,7 @@ A first-time user names the lamb **Barnaby** in onboarding (sample name only; th
 | `Home_DailyPath` | 402×874 | 13 | [Light](exports/Home_DailyPath_Light.png) · [Dark](exports/Home_DailyPath_Dark.png) |
 | `Home_Scrolled` | 402×874 | 10 | [Light](exports/Home_Scrolled_Light.png) · [Dark](exports/Home_Scrolled_Dark.png) |
 | `Lesson_Reading` | 402×874 | 6 | [Light](exports/Lesson_Reading_Light.png) · [Dark](exports/Lesson_Reading_Dark.png) |
-| `Settings` | 402×874 | 9 | [Light](exports/Settings_Light.png) · [Dark](exports/Settings_Dark.png) |
+| `Settings` | 402×874 | 11 | [Light](exports/Settings_Light.png) · [Dark](exports/Settings_Dark.png) |
 | `Onboarding_BuildingPlan` | 402×874 | 5 | [Light](exports/Onboarding_BuildingPlan_Light.png) · [Dark](exports/Onboarding_BuildingPlan_Dark.png) |
 | `Onboarding_NameLamb` | 402×874 | 5 | [Light](exports/Onboarding_NameLamb_Light.png) · [Dark](exports/Onboarding_NameLamb_Dark.png) |
 | `Quiz_Unanswered` | 402×874 | 10 | [Light](exports/Quiz_Unanswered_Light.png) · [Dark](exports/Quiz_Unanswered_Dark.png) |
@@ -452,7 +452,7 @@ A first-time user names the lamb **Barnaby** in onboarding (sample name only; th
 | `Quiz_Correct` | 402×874 | 9 | [Light](exports/Quiz_Correct_Light.png) · [Dark](exports/Quiz_Correct_Dark.png) |
 | `Quiz_Wrong` | 402×874 | 9 | [Light](exports/Quiz_Wrong_Light.png) · [Dark](exports/Quiz_Wrong_Dark.png) |
 | `Quiz_Q2_Wrong` | 402×874 | 9 | [Light](exports/Quiz_Q2_Wrong_Light.png) · [Dark](exports/Quiz_Q2_Wrong_Dark.png) |
-| `Settings_RestoreResult` | 402×874 | 9 | [Light](exports/Settings_RestoreResult_Light.png) · [Dark](exports/Settings_RestoreResult_Dark.png) |
+| `Settings_RestoreResult` | 402×874 | 11 | [Light](exports/Settings_RestoreResult_Light.png) · [Dark](exports/Settings_RestoreResult_Dark.png) |
 | `Accessibility_AX3` | 402×874 | 5 | [Light](exports/Accessibility_AX3_Light.png) · [Dark](exports/Accessibility_AX3_Dark.png) |
 | `Motion_QuizMorph_Start` | 402×874 | 10 | [Light](exports/Motion_QuizMorph_Start_Light.png) · [Dark](exports/Motion_QuizMorph_Start_Dark.png) |
 | `Motion_QuizMorph_End` | 402×874 | 9 | [Light](exports/Motion_QuizMorph_End_Light.png) · [Dark](exports/Motion_QuizMorph_End_Dark.png) |
@@ -483,6 +483,7 @@ A first-time user names the lamb **Barnaby** in onboarding (sample name only; th
 | `Home_Day1Done` | 402×874 | 13 | [Light](exports/Home_Day1Done_Light.png) · [Dark](exports/Home_Day1Done_Dark.png) |
 | `Path_Lessons` | 402×874 | 4 | [Light](exports/Path_Lessons_Light.png) · [Dark](exports/Path_Lessons_Dark.png) |
 | `Brand_System` | 1240×700 | 5 | [Light](exports/Brand_System_Light.png) · [Dark](exports/Brand_System_Dark.png) |
+| `Onboarding_Reminder` | 402×874 | 6 | [Light](exports/Onboarding_Reminder_Light.png) · [Dark](exports/Onboarding_Reminder_Dark.png) |
 <!-- /gen:frames -->
 
 Notes per screen:
@@ -547,7 +548,7 @@ The lamb is a humble study companion walking the path with you: it cheers small 
 
 1. "Ready for Day 1?" (Home, first launch)
 2. "1 day down!" (Home after Day 1)
-3. "Keep going! You're learning." (wrong answer)
+3. "Keep going! You’re learning." (wrong answer)
 4. "Correct!" (right answer; the verse does the teaching)
 5. "Rest well. Tomorrow's path will be waiting." (Sleepy, evening)
 6. "No rush. Five quiet minutes is enough." (a gentle habit nudge)

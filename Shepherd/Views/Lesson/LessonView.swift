@@ -1,11 +1,13 @@
 import SwiftUI
 import SwiftData
+import StoreKit
 
 public struct LessonView: View {
     public let lesson: Lesson
     @EnvironmentObject private var content: ContentStore
     @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.requestReview) private var requestReview
 
     @Query private var streaks: [StreakState]
     @Query private var companions: [Companion]
@@ -73,7 +75,7 @@ public struct LessonView: View {
                     .padding(.top, 32)
 
                 VStack(spacing: 8) {
-                    Text(lesson.title)
+                    Text(lesson.displayTitle)
                         .font(ShepherdTheme.title1Serif())
                         .foregroundStyle(ShepherdTheme.textPrimary)
                         .multilineTextAlignment(.center)
@@ -108,7 +110,7 @@ public struct LessonView: View {
                     .padding(.top, 8)
 
                 // Title
-                Text(lesson.title)
+                Text(lesson.displayTitle)
                     .font(ShepherdTheme.largeTitleSerif())
                     .foregroundStyle(ShepherdTheme.textPrimary)
 
@@ -123,16 +125,23 @@ public struct LessonView: View {
                     }
                 }
 
-                // Reflection Section Header & Markdown Body
-                VStack(alignment: .leading, spacing: 10) {
-                    Text("Reflection")
-                        .font(.headline)
-                        .foregroundStyle(ShepherdTheme.accent)
-
-                    Text(LocalizedStringKey(lesson.bodyMarkdown))
-                        .font(.body)
-                        .foregroundStyle(ShepherdTheme.textPrimary)
-                        .lineSpacing(6)
+                // Markdown body. Its **Reflection:** paragraph is drawn under a "Reflection"
+                // heading (Lesson_Reading), so the label never shows twice.
+                VStack(alignment: .leading, spacing: 16) {
+                    ForEach(Array(LessonText.blocks(fromBody: lesson.bodyMarkdown).enumerated()), id: \.offset) { _, block in
+                        switch block {
+                        case .paragraph(let text):
+                            bodyText(text)
+                        case .reflection(let question):
+                            VStack(alignment: .leading, spacing: 4) {
+                                Text("Reflection")
+                                    .font(.headline)
+                                    .foregroundStyle(ShepherdTheme.accent)
+                                    .accessibilityAddTraits(.isHeader)
+                                bodyText(question)
+                            }
+                        }
+                    }
                 }
                 .padding(.vertical, 8)
 
@@ -147,7 +156,7 @@ public struct LessonView: View {
                                 .foregroundStyle(ShepherdTheme.accent)
                         }
 
-                        Text(prayer)
+                        Text(LessonText.curlyQuotes(prayer))
                             .font(ShepherdTheme.scriptureBody())
                             .foregroundStyle(ShepherdTheme.textPrimary)
                             .lineSpacing(6)
@@ -182,7 +191,7 @@ public struct LessonView: View {
         .fullScreenCover(isPresented: $showComplete) {
             LessonCompleteView(
                 dayIndex: lesson.dayIndex,
-                lessonTitle: lesson.title,
+                lessonTitle: lesson.displayTitle,
                 score: finishedScore,
                 totalQuestions: lesson.quiz.count,
                 streakCount: completionResult?.streakCount ?? streaks.first?.current ?? 1,
@@ -192,9 +201,34 @@ public struct LessonView: View {
                 companionName: companions.first?.name ?? "Lamb"
             ) {
                 showComplete = false
+                let askForReview = completionResult.map { result in
+                    ReviewPrompter.shouldRequest(.lessonCompleted(
+                        dayIndex: lesson.dayIndex,
+                        score: finishedScore,
+                        totalQuestions: lesson.quiz.count,
+                        oldXP: result.oldXP,
+                        newXP: result.newXP,
+                        wasAlreadyCompleted: result.wasAlreadyCompleted
+                    ))
+                } ?? false
                 dismiss()
+                if askForReview {
+                    // After the reward (and any stage-up) has closed, back on Today.
+                    Task {
+                        try? await Task.sleep(for: .seconds(0.8))
+                        requestReview()
+                    }
+                }
             }
         }
+    }
+
+    private func bodyText(_ markdown: String) -> some View {
+        Text(LocalizedStringKey(LessonText.curlyQuotes(markdown)))
+            .font(.body)
+            .foregroundStyle(ShepherdTheme.textPrimary)
+            .lineSpacing(6)
+            .frame(maxWidth: .infinity, alignment: .leading)
     }
 
     private func recordCompletion(score: Int) {
@@ -207,6 +241,8 @@ public struct LessonView: View {
         )
         completionResult = result
         finishedScore = score
+        // Today's lesson is done: skip today's reminder.
+        Task { await DailyReminder.shared.refresh(context: modelContext) }
         pendingComplete = true
         showQuiz = false
     }

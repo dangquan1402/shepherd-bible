@@ -61,7 +61,7 @@ public struct QuizView: View {
                             .padding(.top, 12)
 
                         // Question Prompt
-                        Text(currentQuestion.prompt)
+                        Text(LessonText.curlyQuotes(currentQuestion.prompt))
                             .font(ShepherdTheme.title2Serif())
                             .foregroundStyle(ShepherdTheme.textPrimary)
                             .padding(.top, 4)
@@ -87,7 +87,7 @@ public struct QuizView: View {
                                     return .neutral
                                 }()
 
-                                ChoiceRow(letter: letter, text: choice, state: state) {
+                                ChoiceRow(letter: letter, text: LessonText.curlyQuotes(choice), state: state) {
                                     if !isChecked {
                                         selectedChoiceIndex = i
                                     }
@@ -190,9 +190,9 @@ public struct QuizView: View {
 
         feedbackResult = QuizFeedbackData(
             isCorrect: correct,
-            title: correct ? "Correct!" : "Keep going! You're learning.",
-            explain: currentQuestion.explain,
-            correctChoice: correctChoiceText,
+            title: correct ? "Correct!" : "Keep going! You’re learning.",
+            explain: currentQuestion.explain.map(LessonText.curlyQuotes),
+            correctChoice: LessonText.curlyQuotes(correctChoiceText),
             verseRef: verseInfo?.ref,
             verseText: verseInfo?.text
         )
