@@ -342,7 +342,7 @@ final class ShepherdTests: XCTestCase {
         }
     }
 
-    func testLegalAndSupportURLsPointAtPastureSite() {
+    func testLegalAndSupportURLsPointAtPastureBibleSite() {
         XCTAssertEqual(ShepherdConstants.legalAndSupportURLs.count, 4)
         for url in ShepherdConstants.legalAndSupportURLs {
             XCTAssertEqual(url.scheme, "https", url.absoluteString)
