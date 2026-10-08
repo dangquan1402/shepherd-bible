@@ -1,0 +1,83 @@
+import os, re, sys
+out = sys.argv[1]
+NAME = "Pasture: Daily Bible Path"
+SUBTITLE = "Learn Scripture: Study & Quiz"
+KEYWORDS = "lesson,beginner,habit,streak,widget,verse,journal,prayer,devotional,jesus,gospel,christian,faith,god"
+PROMO = ("New: widgets, verse of the day and a private prayer journal. 74 Bible lessons, "
+         "quizzes that show the verse behind each answer, and a lamb that grows. No ads, no tracking.")
+DESC = """Learn the Bible a few minutes a day. Pasture walks you through short, beginner-friendly lessons, asks a quick quiz that shows the verse behind every answer, and grows a lamb you name as you go.
+
+No account. No ads. No tracking. Your progress stays on your iPhone, and the whole app works offline.
+
+HOW A LESSON WORKS
+Each lesson takes a few minutes:
+• A short Scripture passage from the World English Bible
+• A brief, plain-language explanation and reflection
+• A prayer prompt
+• A 2- or 3-question quiz: multiple choice, fill in the blank, true or false, put in order, or match. After each answer, Pasture shows the verse that holds it.
+• An optional reflection, saved to your private journal
+
+THREE GUIDED PATHS, 74 LESSONS
+• First Steps: 30 Days with God (free): the essentials of the faith, one passage a day.
+• Peace & Prayer: 14 Days (Premium): worry, rest and trust, and learning to pray honestly.
+• Meet Jesus: Mark in 30 Days (Premium): read the shortest Gospel as one story.
+The first 3 lessons of each Premium path are free, so you can try them before you subscribe.
+
+A LAMB THAT GROWS WITH YOU
+Name your lamb when you start. Every finished lesson earns XP, and your lamb grows through five stages, from Newborn to Grown sheep. A day streak keeps track of your rhythm.
+
+A DAILY HABIT THAT FITS YOUR DAY
+• A verse of the day on your Today screen
+• Home Screen widgets for your streak and the verse of the day
+• Lock Screen widgets that show your streak at a glance
+• An optional daily reminder, set and kept on your iPhone
+
+THE WHOLE BIBLE, OFFLINE
+All 66 books of the World English Bible are built in. Read any book and chapter with no internet connection, highlight verses, add notes, and save the verses you want to come back to.
+
+A PRIVATE JOURNAL FOR REFLECTION AND PRAYER
+Keep your lesson reflections and a prayer list in one place, and mark prayers as answered. Lock the journal with Face ID or your passcode if you like. Entries never leave your device.
+
+PRIVATE BY DESIGN
+• No sign-up or login
+• No ads, no analytics, no tracking
+• Your lessons, streak, lamb, notes and journal are stored only on your device
+• Light and dark mode
+
+Start First Steps today. It is free, and your lamb is waiting.
+
+PASTURE PREMIUM
+Pasture is free to download. The First Steps path, the Bible reader, the lamb, the widgets, the verse of the day, the journal and the daily reminder are all free. Pasture Premium unlocks:
+• Every lesson in Peace & Prayer and Meet Jesus (38 Premium lessons)
+• Streak freezes: earn one every 7 days, bank up to 2, and keep your streak if you miss a day
+
+SUBSCRIPTION DETAILS
+Pasture Premium is an auto-renewing subscription: $4.99 per month or $29.99 per year in the US. Prices may vary by country and are shown in the app before you buy. Each plan starts with a 7-day free trial for eligible new subscribers. Payment is charged to your Apple Account when you confirm the purchase, or when the free trial ends. The subscription renews automatically at the same price and period unless you cancel at least 24 hours before the end of the current period, and your account is charged for renewal within 24 hours before that period ends. Manage or cancel anytime in Settings > [your name] > Subscriptions. Deleting the app does not cancel a subscription.
+
+Terms of Use: https://dangquan1402.github.io/pasture/terms.html
+Privacy Policy: https://dangquan1402.github.io/pasture/privacy.html
+Apple Standard EULA: https://www.apple.com/legal/internet-services/itunes/dev/stdeula/
+
+Scripture quotations are from the World English Bible (public domain), unchanged from eBible.org."""
+
+errs = []
+def lim(n, s, L, b=False):
+    v = len(s.encode()) if b else len(s)
+    print(f"{n}: {v}/{L}")
+    if v > L: errs.append(f"{n} {v}>{L}")
+lim("subtitle", SUBTITLE, 30); lim("keywords(bytes)", KEYWORDS, 100, True); lim("promo", PROMO, 170); lim("description", DESC, 4000)
+words = lambda s: set(re.findall(r"[a-z]+", s.lower()))
+kw = KEYWORDS.split(",")
+if " " in KEYWORDS: errs.append("space in keywords")
+if len(kw) != len(set(kw)): errs.append("dup keyword")
+dup = (set(kw) & (words(NAME) | words(SUBTITLE))) | (words(NAME) & words(SUBTITLE))
+if dup: errs.append(f"repeated across name/subtitle/keywords: {dup}")
+banned_kw = {"kjv","niv","esv","ai","audio","shepherd","youversion","manna","hallow","glorify","dwell","abide","duolingo","lamb"} - {"lamb"}
+if set(kw) & banned_kw: errs.append(f"banned keyword {set(kw)&banned_kw}")
+allt = " ".join([SUBTITLE, KEYWORDS, PROMO, DESC]).lower()
+for p in ["shepherd","kjv","niv","esv"," ai ","artificial","community","audio","outfit","every two weeks","new paths","chat","100%"]:
+    if p in allt: errs.append(f"banned phrase {p!r}")
+for f, s in [("subtitle", SUBTITLE), ("keywords", KEYWORDS), ("promotional", PROMO), ("description", DESC)]:
+    open(os.path.join(out, f + ".txt"), "w").write(s)
+if errs: print("FAIL:", *errs, sep="\n  "); sys.exit(1)
+print("OK: all limits and listing rules pass")
