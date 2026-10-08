@@ -16,6 +16,9 @@ canvas `#F9F8F3` into accent-subtle `#DCF5EB`, ink `#16231C`, subline `#47534C`;
 | 7 | `07-bible.png` | `Bible_Reader_Dark` | The whole Bible, offline | All 66 books of the World English Bible |
 | 8 | `08-widgets.png` | `testWidgetsOnHomeScreenUpdateAfterLesson`, then the Home Screen via `simctl io screenshot` | Your verse on the Home Screen | Widgets for your daily verse and streak |
 
+The product page header and search results creative assets (uploaded by hand in App Store Connect) live in `header/`;
+see `header/README.md`.
+
 `review/paywall-review.png` (`Paywall_Trial_Light`, raw) is the App Store review screenshot of both subscriptions
 (monthly and yearly).
 
