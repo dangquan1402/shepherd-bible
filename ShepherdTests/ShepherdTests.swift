@@ -343,13 +343,33 @@ final class ShepherdTests: XCTestCase {
     }
 
     func testLegalAndSupportURLsPointAtPastureSite() {
-        XCTAssertEqual(ShepherdConstants.legalAndSupportURLs.count, 3)
+        XCTAssertEqual(ShepherdConstants.legalAndSupportURLs.count, 4)
         for url in ShepherdConstants.legalAndSupportURLs {
             XCTAssertEqual(url.scheme, "https", url.absoluteString)
-            XCTAssertEqual(url.host, "dangquan1402.github.io", url.absoluteString)
-            XCTAssertTrue(url.path.hasPrefix("/pasture/"), url.absoluteString)
+            XCTAssertEqual(url.host, "pasturebible.com", url.absoluteString)
+            XCTAssertFalse(url.absoluteString.contains("dangquan1402.github.io"), url.absoluteString)
             XCTAssertFalse(url.absoluteString.contains("shepherd.bible"), url.absoluteString)
         }
+        XCTAssertEqual(ShepherdConstants.websiteURL.absoluteString, "https://pasturebible.com/")
+        XCTAssertEqual(ShepherdConstants.termsOfServiceURL.absoluteString, "https://pasturebible.com/terms/")
+        XCTAssertEqual(ShepherdConstants.privacyPolicyURL.absoluteString, "https://pasturebible.com/privacy/")
+        XCTAssertEqual(ShepherdConstants.supportURL.absoluteString, "https://pasturebible.com/support/")
+
+        // Contact email & mailto URL
+        XCTAssertEqual(ShepherdConstants.contactEmail, "founder@pasturebible.com")
+        XCTAssertEqual(ShepherdConstants.contactURL.scheme, "mailto")
+        XCTAssertEqual(ShepherdConstants.contactURL.path, "founder@pasturebible.com")
+        XCTAssertEqual(ShepherdConstants.contactURL.absoluteString, "mailto:founder@pasturebible.com")
+        XCTAssertEqual(ShepherdConstants.contactEmailURL, ShepherdConstants.contactURL)
+
+        guard let components = URLComponents(url: ShepherdConstants.contactURL, resolvingAgainstBaseURL: false) else {
+            XCTFail("contactURL should be parseable by URLComponents")
+            return
+        }
+        XCTAssertEqual(components.scheme, "mailto")
+        XCTAssertEqual(components.path, "founder@pasturebible.com")
+        XCTAssertTrue(components.path.contains("@"))
+        XCTAssertTrue(components.path.hasSuffix("@pasturebible.com"))
     }
 
     // MARK: - Contrast: quiz letter badge (WCAG AA, 4.5:1 for 16 pt bold text)
