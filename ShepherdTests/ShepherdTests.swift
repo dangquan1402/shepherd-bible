@@ -342,14 +342,16 @@ final class ShepherdTests: XCTestCase {
         }
     }
 
-    func testLegalAndSupportURLsPointAtPastureSite() {
+    func testLegalAndSupportURLsPointAtPastureBibleSite() {
         XCTAssertEqual(ShepherdConstants.legalAndSupportURLs.count, 3)
         for url in ShepherdConstants.legalAndSupportURLs {
             XCTAssertEqual(url.scheme, "https", url.absoluteString)
-            XCTAssertEqual(url.host, "dangquan1402.github.io", url.absoluteString)
-            XCTAssertTrue(url.path.hasPrefix("/pasture/"), url.absoluteString)
+            XCTAssertEqual(url.host, "pasturebible.com", url.absoluteString)
             XCTAssertFalse(url.absoluteString.contains("shepherd.bible"), url.absoluteString)
         }
+        XCTAssertEqual(ShepherdConstants.termsOfServiceURL.absoluteString, "https://pasturebible.com/terms/")
+        XCTAssertEqual(ShepherdConstants.privacyPolicyURL.absoluteString, "https://pasturebible.com/privacy/")
+        XCTAssertEqual(ShepherdConstants.supportURL.absoluteString, "https://pasturebible.com/support/")
     }
 
     // MARK: - Contrast: quiz letter badge (WCAG AA, 4.5:1 for 16 pt bold text)

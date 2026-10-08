@@ -18,4 +18,4 @@ Then apply with `asc --profile LittleRed localizations update` (see AGENTS.md fo
 Every feature the description names must exist in the code: Premium is only what `Shepherd/Services/Entitlements.swift` lists.
 
 URL fields (en-US, set 2026-10-08): privacy policy `https://pasturebible.com/privacy/`, support `https://pasturebible.com/support/`,
-marketing `https://pasturebible.com/`. The description's Terms and Privacy lines and `ShepherdConstants` still use the GitHub Pages URLs.
+marketing `https://pasturebible.com/`. The app links (`ShepherdConstants`) use pasturebible.com too; only the description's Terms and Privacy lines still use the GitHub Pages URLs.
