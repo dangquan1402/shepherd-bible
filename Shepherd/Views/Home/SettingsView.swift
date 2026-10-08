@@ -160,13 +160,19 @@ public struct SettingsView: View {
                             .foregroundStyle(ShepherdTheme.textSecondary)
                     }
 
+                    Link("Website", destination: ShepherdConstants.websiteURL)
+                        .foregroundStyle(ShepherdTheme.brand)
+
+                    Link("Contact Us", destination: ShepherdConstants.contactURL)
+                        .foregroundStyle(ShepherdTheme.brand)
+
+                    Link("Help & Support", destination: ShepherdConstants.supportURL)
+                        .foregroundStyle(ShepherdTheme.brand)
+
                     Link("Terms of Service", destination: ShepherdConstants.termsOfServiceURL)
                         .foregroundStyle(ShepherdTheme.brand)
 
                     Link("Privacy Policy", destination: ShepherdConstants.privacyPolicyURL)
-                        .foregroundStyle(ShepherdTheme.brand)
-
-                    Link("Help & Support", destination: ShepherdConstants.supportURL)
                         .foregroundStyle(ShepherdTheme.brand)
                 } header: {
                     Text("About")

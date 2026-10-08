@@ -17,10 +17,14 @@ public enum ShepherdConstants {
     // MARK: - Bible attribution (eBible.org name-use terms: faithful copies only)
     public static let bibleAttribution = "Scripture quotations are from the World English Bible (public domain), unchanged from eBible.org."
 
-    // MARK: - Legal and support URLs (pasturebible.com)
+    // MARK: - Legal, support, and contact URLs
+    public static let websiteURL = URL(string: "https://pasturebible.com/")!
     public static let termsOfServiceURL = URL(string: "https://pasturebible.com/terms/")!
     public static let privacyPolicyURL = URL(string: "https://pasturebible.com/privacy/")!
     public static let supportURL = URL(string: "https://pasturebible.com/support/")!
+    public static let contactEmail = "founder@pasturebible.com"
+    public static let contactURL = URL(string: "mailto:founder@pasturebible.com")!
+    public static let contactEmailURL = contactURL
 
-    public static let legalAndSupportURLs = [termsOfServiceURL, privacyPolicyURL, supportURL]
+    public static let legalAndSupportURLs = [websiteURL, termsOfServiceURL, privacyPolicyURL, supportURL]
 }

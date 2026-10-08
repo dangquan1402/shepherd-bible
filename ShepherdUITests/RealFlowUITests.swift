@@ -1504,4 +1504,82 @@ final class RealFlowUITests: XCTestCase {
             XCTAssertGreaterThan(button.frame.width, screenWidth * 0.6, "\(button.identifier) should span the menu")
         }
     }
+
+    // MARK: - Legal & Support Links Verification
+    @MainActor
+    func testLegalAndSupportLinks() throws {
+        let app = XCUIApplication()
+        app.launchArguments = ["-uitestReset"]
+        app.launch()
+
+        // 1. Walk through onboarding to reach the paywall
+        if app.staticTexts["Welcome to Pasture"].waitForExistence(timeout: 5.0) {
+            app.buttons["Continue"].tap()
+            _ = app.buttons.matching(NSPredicate(format: "label CONTAINS[c] %@", "peace")).firstMatch.waitForExistence(timeout: 2.0)
+            app.buttons.matching(NSPredicate(format: "label CONTAINS[c] %@", "peace")).firstMatch.tap()
+            app.buttons["Continue"].tap()
+            _ = app.buttons.matching(NSPredicate(format: "label CONTAINS[c] %@", "Some experience")).firstMatch.waitForExistence(timeout: 2.0)
+            app.buttons.matching(NSPredicate(format: "label CONTAINS[c] %@", "Some experience")).firstMatch.tap()
+            app.buttons["Continue"].tap()
+            _ = app.buttons["10 min"].waitForExistence(timeout: 2.0)
+            app.buttons["10 min"].tap()
+            app.buttons["Continue"].tap()
+            let nameField = app.textFields["Lamb’s name"]
+            if nameField.waitForExistence(timeout: 2.0) {
+                nameField.tap()
+                nameField.typeText("Pip\n")
+            }
+            _ = app.buttons["Continue"].waitForExistence(timeout: 2.0)
+            app.buttons["Continue"].tap()
+            _ = app.buttons["Not now"].waitForExistence(timeout: 2.0)
+            app.buttons["Not now"].tap()
+            _ = app.buttons["See my plan"].waitForExistence(timeout: 2.0)
+            app.buttons["See my plan"].tap()
+        }
+
+        // 2. Paywall shows Terms & Privacy links
+        app.swipeUp()
+        let terms = app.descendants(matching: .any)["Terms"]
+        XCTAssertTrue(terms.waitForExistence(timeout: 5.0), "Terms element missing on paywall. Elements: \(app.debugDescription)")
+        let privacy = app.descendants(matching: .any)["Privacy"]
+        XCTAssertTrue(privacy.exists, "Privacy element missing on paywall")
+        Thread.sleep(forTimeInterval: 0.5)
+        saveScreenshot("Paywall_LegalLinks")
+
+        // Dismiss paywall with "Continue with free path"
+        let free = app.buttons["Continue with free path"]
+        if free.waitForExistence(timeout: 3.0) {
+            free.tap()
+        }
+
+        // 3. Navigate to Settings
+        XCTAssertTrue(app.navigationBars["Today"].waitForExistence(timeout: 5.0))
+        ensureTabBarExpanded(app)
+        app.tabBars.buttons["Settings"].tap()
+        XCTAssertTrue(app.navigationBars["Settings"].waitForExistence(timeout: 4.0))
+
+        // Scroll down to About section
+        app.swipeUp()
+
+        let websiteLink = app.descendants(matching: .any)["Website"]
+        XCTAssertTrue(websiteLink.waitForExistence(timeout: 4.0), "Website link missing in Settings. Elements: \(app.debugDescription)")
+        let contactLink = app.descendants(matching: .any)["Contact Us"]
+        XCTAssertTrue(contactLink.exists, "Contact Us link missing in Settings")
+        let supportLink = app.descendants(matching: .any)["Help & Support"]
+        XCTAssertTrue(supportLink.exists, "Help & Support link missing in Settings")
+        let termsOfServiceLink = app.descendants(matching: .any)["Terms of Service"]
+        XCTAssertTrue(termsOfServiceLink.exists, "Terms of Service link missing in Settings")
+        let privacyPolicyLink = app.descendants(matching: .any)["Privacy Policy"]
+        XCTAssertTrue(privacyPolicyLink.exists, "Privacy Policy link missing in Settings")
+        Thread.sleep(forTimeInterval: 0.5)
+        saveScreenshot("Settings_LegalLinks")
+
+        // 4. Tap website link and confirm Safari opens pasturebible.com
+        websiteLink.tap()
+
+        let safari = XCUIApplication(bundleIdentifier: "com.apple.mobilesafari")
+        XCTAssertTrue(safari.wait(for: .runningForeground, timeout: 8.0), "Safari failed to open")
+        Thread.sleep(forTimeInterval: 3.0)
+        saveScreenshot("Safari_PastureWebsite")
+    }
 }
